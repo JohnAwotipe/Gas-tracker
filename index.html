@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Cylinder Tracker - Firebase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
+    <style>
+        /* Same styles as before */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .date-section {
+            margin-bottom: 25px;
+        }
+        
+        .date-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .date-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .date-input-group label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .date-input-group input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .save-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .notification-permission {
+            margin: 20px 0;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .notification-permission button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+        .notification-permission button:hover {
+            background: #1565c0;
+        }
+        
+        .status-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .countdown {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        .countdown-label {
+            font-size: 1rem;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        
+        .status-indicator {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .status-ok {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 5px solid #4CAF50;
+        }
+        
+        .status-warning {
+            background: #fff3e0;
+            color: #ef6c00;
+            border-left: 5px solid #ef6c00;
+        }
+        
+        .status-danger {
+            background: #fce4ec;
+            color: #e91e63;
+            border-left: 5px solid #e91e63;
+            animation: pulse-animation 1.5s infinite;
+        }
+        
+        @keyframes pulse-animation {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .notice-box {
+            background: #fff8e1;
+            border-left: 5px solid #ffb300;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .notice-box h3 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .notice-box p {
+            color: #5d4037;
+        }
+        
+        .notification-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .notification-section h3 {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .notification-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            border-left: 4px solid;
+        }
+        
+        .notification-item.alert-2days {
+            background: #fff3e0;
+            border-color: #ef6c00;
+            color: #ef6c00;
+        }
+        
+        .notification-item.alert-1day {
+            background: #fff3e0;
+            border-color: #f57c00;
+            color: #f57c00;
+        }
+        
+        .notification-item.alert-today {
+            background: #fce4ec;
+            border-color: #e91e63;
+            color: #e91e63;
+            animation: pulse-animation 1.5s infinite;
+        }
+        
+        .notification-item.alert-none {
+            background: #e8f5e9;
+            border-color: #4CAF50;
+            color: #2e7d32;
+        }
+        
+        .notification-item .icon {
+            margin-right: 8px;
+        }
+        
+        .test-alarm-btn {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: 500;
+            width: 100%;
+        }
+        
+        .test-alarm-btn:hover {
+            background: #d81b60;
+        }
+        
+        .last-updated {
+            text-align: center;
+            color: #999;
+            font-size: 0.85rem;
+            margin-top: 15px;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            max-width: 90%;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .toast.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        .push-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .push-info code {
+            background: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⛽ Gas Consumption Tracker</h1>
+            <p>Set your refill and consumption dates to get alerts</p>
+        </div>
+        
+        <div class="main-card">
+            <!-- Notification Permission -->
+            <div class="notification-permission" id="notifPermission">
+                <p>🔔 <strong>Enable notifications</strong> to receive pop-up alerts on your phone.</p>
+                <button onclick="requestPermission()">Enable Notifications</button>
+            </div>
+            
+            <!-- Date Section -->
+            <div class="date-section">
+                <div class="section-title">📅 Set Consumption Dates</div>
+                <div class="date-inputs">
+                    <div class="date-input-group">
+                        <label for="refillDate">Refill Date</label>
+                        <input type="date" id="refillDate">
+                    </div>
+                    <div class="date-input-group">
+                        <label for="consumptionDate">Expected Consumption Date</label>
+                        <input type="date" id="consumptionDate">
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveDates()">💾 Save Dates</button>
+            </div>
+            
+            <!-- Status / Countdown -->
+            <div class="status-section">
+                <div class="countdown" id="countdown">--</div>
+                <div class="countdown-label" id="countdownLabel">days until consumption</div>
+                <div id="statusIndicator" class="status-indicator"></div>
+            </div>
+            
+            <!-- Notice -->
+            <div class="notice-box">
+                <h3>⚠️ NOTICE / CAUTION</h3>
+                <p>
+                    To meet up with the consumption date, you must take note of your cooking time for every meal for gas management. Your food must not exceed the normal timing of a particular food. And remember to cook on medium-low heat unless if preferred. But remember the higher the heat, the more consumption of gas which might affect your expected consumption date. Also take note that how you cook in the first week will be different from how you cook in the second week which also affect the accuracy of your consumption date. We wish you happy cooking.
+                </p>
+            </div>
+            
+            <!-- Notifications -->
+            <div class="notification-section">
+                <h3>🔔 Upcoming Notifications</h3>
+                <div id="notificationList"></div>
+            </div>
+            
+            <!-- Test Alarm -->
+            <button class="test-alarm-btn" onclick="playAlarm()">🔔 Test Alarm</button>
+            
+            <!-- Firebase Setup Info -->
+            <div class="push-info">
+                <p><strong>Firebase Setup:</strong> Replace the placeholder config in the script with your own Firebase project credentials.</p>
+                <p>1. Go to <a href="https://console.firebase.google.com" target="_blank">Firebase Console</a> and create a project.</p>
+                <p>2. Add a web app and copy the config.</p>
+                <p>3. Enable Cloud Messaging and generate a VAPID key.</p>
+                <p>4. Replace the <code>firebaseConfig</code> object and <code>vapidKey</code> below.</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; color: white; opacity: 0.8; margin-top: 20px; font-size: 0.9rem;">
+            <p>You'll receive alerts 2 days before, 1 day before, and on the consumption date.</p>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAjir7zq8PIzXbDZqfvpRvoWqqYd9udnTU",
+  authDomain: "gas-tracker-8e098.firebaseapp.com",
+  projectId: "gas-tracker-8e098",
+  storageBucket: "gas-tracker-8e098.firebasestorage.app",
+  messagingSenderId: "265524187379",
+  appId: "1:265524187379:web:d987da967ae8aadc582786",
+  measurementId: "G-19632T8E3J"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+        const vapidKey = "YOUR_VAPID_KEY"; // Generate from Firebase Console > Cloud Messaging
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const messaging = firebase.messaging();
+        
+        // ====== APP STATE ======
+        let savedDates = null;
+        let audioContext = null;
+        let isFirebaseReady = false;
+        
+        // DOM Elements
+        const countdownEl = document.getElementById('countdown');
+        const countdownLabelEl = document.getElementById('countdownLabel');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const notificationList = document.getElementById('notificationList');
+        const refillDateInput = document.getElementById('refillDate');
+        const consumptionDateInput = document.getElementById('consumptionDate');
+        const notifPermission = document.getElementById('notifPermission');
+        
+        // Request permission and subscribe to push
+        async function requestPermission() {
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    notifPermission.style.display = 'none';
+                    showToast('Notifications enabled!');
+                    
+                    // Subscribe to Firebase push
+                    await subscribeToPush();
+                } else {
+                    showToast('Notifications denied.');
+                }
+            } catch (err) {
+                console.error('Permission error:', err);
+                showToast('Error requesting permission.');
+            }
+        }
+        
+        // Subscribe to Firebase Cloud Messaging
+        async function subscribeToPush() {
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                const token = await messaging.getToken({
+                    vapidKey: vapidKey,
+                    serviceWorkerRegistration: registration
+                });
+                console.log('FCM Token:', token);
+                // Send token to your server if needed
+                showToast('Push notifications subscribed!');
+                isFirebaseReady = true;
+            } catch (err) {
+                console.error('Push subscription failed:', err);
+                showToast('Push subscription failed. Check Firebase config.');
+            }
+        }
+        
+        // Handle incoming messages when app is in foreground
+        messaging.onMessage((payload) => {
+            console.log('Message received:', payload);
+            const { title, body } = payload.notification;
+            // Show notification
+            new Notification(title, { body: body });
+            // Play alarm sound
+            playAlarm();
+        });
+        
+        // Save dates
+        function saveDates() {
+            const refill = refillDateInput.value;
+            const consumption = consumptionDateInput.value;
+            
+            if (!refill || !consumption) {
+                showToast('Please select both dates');
+                return;
+            }
+            
+            savedDates = {
+                refill: new Date(refill),
+                consumption: new Date(consumption)
+            };
+            
+            showToast('Dates saved! Notifications will be set.');
+            updateStatus();
+            checkNotifications();
+        }
+        
+        // Update status based on days left
+        function updateStatus() {
+            if (!savedDates) {
+                countdownEl.textContent = '--';
+                countdownLabelEl.textContent = 'Set dates to see countdown';
+                statusIndicator.className = 'status-indicator';
+                statusIndicator.textContent = 'Please set your consumption date';
+                return;
+            }
+            
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const consumption = savedDates.consumption;
+            consumption.setHours(0,0,0,0);
+            
+            const diffDays = Math.ceil((consumption - today) / (1000 * 60 * 60 * 24));
+            
+            countdownEl.textContent = diffDays >= 0 ? diffDays : 0;
+            countdownLabelEl.textContent = diffDays === 1 ? 'day until consumption' : 'days until consumption';
+            
+            statusIndicator.className = 'status-indicator';
+            
+            if (diffDays < 0) {
+                statusIndicator.classList.add('status-danger');
+                statusIndicator.textContent = '⏰ Consumption date has passed! Refill now.';
+            } else if (diffDays === 0) {
+                statusIndicator.classList.add('status-danger');
+                statusIndicator.textContent = '⚠️ Today is the consumption date! Refill now.';
+            } else if (diffDays <= 2) {
+                statusIndicator.classList.add('status-warning');
+                statusIndicator.textContent = `🔥 Only ${diffDays} day${diffDays === 1 ? '' : 's'} left!`;
+            } else {
+                statusIndicator.classList.add('status-ok');
+                statusIndicator.textContent = '✅ You have enough time';
+            }
+        }
+        
+        // Notification checking
+        function checkNotifications() {
+            if (!savedDates) {
+                notificationList.innerHTML = '<div class="notification-item alert-none"><span class="icon">ℹ️</span> Set your consumption date to see alerts</div>';
+                return;
+            }
+            
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const consumption = savedDates.consumption;
+            consumption.setHours(0,0,0,0);
+            
+            const diffDays = Math.ceil((consumption - today) / (1000 * 60 * 60 * 24));
+            
+            let html = '';
+            
+            if (diffDays < 0) {
+                html = '<div class="notification-item alert-today"><span class="icon">⏰</span> Consumption date has passed! Please refill.</div>';
+            } else if (diffDays === 0) {
+                html = '<div class="notification-item alert-today"><span class="icon">⏰</span> Today is the consumption date! Refill now.</div>';
+                playAlarm();
+                sendNotification('Gas Cylinder Alert', 'Today is the consumption date! Refill now.');
+            } else if (diffDays === 1) {
+                html = '<div class="notification-item alert-1day"><span class="icon">⚠️</span> 1 day left until consumption date!</div>';
+                playAlarm();
+                sendNotification('Gas Cylinder Alert', '1 day left until consumption date!');
+            } else if (diffDays === 2) {
+                html = '<div class="notification-item alert-2days"><span class="icon">📅</span> 2 days left until consumption date!</div>';
+                playAlarm();
+                sendNotification('Gas Cylinder Alert', '2 days left until consumption date!');
+            } else {
+                html = `<div class="notification-item alert-none"><span class="icon">✅</span> ${diffDays} days left until consumption date.</div>`;
+            }
+            
+            const refillDiff = Math.ceil((savedDates.refill - today) / (1000 * 60 * 60 * 24));
+            if (refillDiff >= 0) {
+                html += `<div class="notification-item alert-none"><span class="icon">🔄</span> Refill date is in ${refillDiff} days.</div>`;
+            }
+            
+            notificationList.innerHTML = html;
+        }
+        
+        // Send notification (local fallback)
+        function sendNotification(title, message) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification(title, { body: message });
+            }
+        }
+        
+        // Alarm sound using Web Audio API
+        function playAlarm() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            const now = audioContext.currentTime;
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            for (let i = 0; i < 3; i++) {
+                gainNode.gain.setValueAtTime(0, now + i * 0.3);
+                gainNode.gain.linearRampToValueAtTime(1, now + i * 0.3 + 0.01);
+                gainNode.gain.linearRampToValueAtTime(0, now + i * 0.3 + 0.2);
+            }
+            
+            oscillator.start(now);
+            oscillator.stop(now + 1);
+        }
+        
+        // Toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+        
+        // Initialize
+        // Check if notifications are already granted
+        if ('Notification' in window && Notification.permission === 'granted') {
+            notifPermission.style.display = 'none';
+            // Try to subscribe if Firebase is ready
+            subscribeToPush();
+        }
+        
+        // Register service worker for Firebase (must be served over HTTPS)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/firebase-messaging-sw.js')
+                .then(reg => console.log('SW registered', reg))
+                .catch(err => console.error('SW registration failed', err));
+        }
+        
+        updateStatus();
+        checkNotifications();
+        
+        setInterval(() => {
+            updateStatus();
+            checkNotifications();
+        }, 60000);
+    </script>
+</body>
+</html>
