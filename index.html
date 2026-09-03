@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gas Cylinder Tracker - Firebase</title>
+    <title>Cooking Gas Consumption Tracker</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/IkrGaXF.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -92,6 +93,26 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 1rem;
+        }
+        
+        .kg-input-group {
+            margin-bottom: 15px;
+        }
+        
+        .kg-input-group label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            display: block;
+        }
+        
+        .kg-input-group input[type="number"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            width: 100%;
         }
         
         .save-btn {
@@ -278,6 +299,54 @@
             background: #d81b60;
         }
         
+        .history-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .history-section h3 {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .history-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .history-item .details {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        .history-item .details .kg {
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .history-item .delete-btn {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .history-item .delete-btn:hover {
+            background: #d81b60;
+        }
+        
         .last-updated {
             text-align: center;
             color: #999;
@@ -332,11 +401,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>⛽ Gas Consumption Tracker</h1>
+            <h1><img src="https://i.imgur.com/IkrGaXF.png" alt="Cylinder" style="width: 40px; height: 40px; vertical-align: middle; margin-right: 10px;">Cooking Gas Consumption Tracker</h1>
             <p>Set your refill and consumption dates to get alerts</p>
         </div>
         
         <div class="main-card">
+            <p style="text-align:center; color:#555; margin-bottom:15px;">You'll receive alerts 2 days before, 1 day before, and on the consumption date.</p>
+            
             <!-- Notification Permission -->
             <div class="notification-permission" id="notifPermission">
                 <p>🔔 <strong>Enable notifications</strong> to receive pop-up alerts on your phone.</p>
@@ -356,6 +427,10 @@
                         <input type="date" id="consumptionDate">
                     </div>
                 </div>
+                <div class="kg-input-group">
+                    <label for="kgInput">Gas Amount (KG)</label>
+                    <input type="number" id="kgInput" min="0.5" max="12.5" step="0.5" placeholder="e.g., 3.0">
+                </div>
                 <button class="save-btn" onclick="saveDates()">💾 Save Dates</button>
             </div>
             
@@ -368,9 +443,14 @@
             
             <!-- Notice -->
             <div class="notice-box">
-                <h3>⚠️ NOTICE / CAUTION</h3>
+                <h3>🔥 Gas Usage Tips</h3>
                 <p>
-                    To meet up with the consumption date, you must take note of your cooking time for every meal for gas management. Your food must not exceed the normal timing of a particular food. And remember to cook on medium-low heat unless if preferred. But remember the higher the heat, the more consumption of gas which might affect your expected consumption date. Also take note that how you cook in the first week will be different from how you cook in the second week which also affect the accuracy of your consumption date. We wish you happy cooking.
+                    To help you get the most accurate gas consumption date, please keep track of how long you spend cooking each meal.<br><br>
+                    Try not to cook food for longer than the recommended cooking time.<br><br>
+                    For better gas management, use medium or low heat whenever possible.<br><br>
+                    Keep in mind that higher heat uses more gas, which can make your gas finish earlier than the expected date.<br><br>
+                    Your cooking habits may change from week to week. For example, you may cook more or use more gas in the second week than in the first week. This can affect the accuracy of your estimated gas consumption date.<br><br>
+                    Cook smart, save gas, and enjoy your meals! 🍳🔥
                 </p>
             </div>
             
@@ -380,17 +460,15 @@
                 <div id="notificationList"></div>
             </div>
             
+            <!-- History Section -->
+            <div class="history-section">
+                <h3>📊 Refill History</h3>
+                <div id="historyList"></div>
+            </div>
+            
             <!-- Test Alarm -->
             <button class="test-alarm-btn" onclick="playAlarm()">🔔 Test Alarm</button>
             
-            <!-- Firebase Setup Info -->
-            <div class="push-info">
-                <p><strong>Firebase Setup:</strong> Replace the placeholder config in the script with your own Firebase project credentials.</p>
-                <p>1. Go to <a href="https://console.firebase.google.com" target="_blank">Firebase Console</a> and create a project.</p>
-                <p>2. Add a web app and copy the config.</p>
-                <p>3. Enable Cloud Messaging and generate a VAPID key.</p>
-                <p>4. Replace the <code>firebaseConfig</code> object and <code>vapidKey</code> below.</p>
-            </div>
         </div>
         
         <div style="text-align: center; color: white; opacity: 0.8; margin-top: 20px; font-size: 0.9rem;">
@@ -401,7 +479,7 @@
     <div class="toast" id="toast"></div>
     
     <script>
-        // ====== FIREBASE CONFIGURATION - REPLACE WITH YOUR OWN ======
+        // ====== FIREBASE CONFIGURATION ======
         const firebaseConfig = {
             apiKey: "AIzaSyAjir7zq8PIzXbDZqfvpRvoWqqYd9udnTU",
             authDomain: "gas-tracker-8e098.firebaseapp.com",
@@ -411,16 +489,16 @@
             appId: "1:265524187379:web:d987da967ae8aadc582786"
         };
         const vapidKey = "BJC2ztNWs-SjxdEbdmy9_6XRhjhSW6JDlLhQu77vkgAMwWfyIGZTwWo-DewsBmmITfNRvj5Mek1MpkJd0I7Bioo";
-        
+
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const messaging = firebase.messaging();
-        
+
         // ====== APP STATE ======
         let savedDates = null;
         let audioContext = null;
         let isFirebaseReady = false;
-        
+
         // DOM Elements
         const countdownEl = document.getElementById('countdown');
         const countdownLabelEl = document.getElementById('countdownLabel');
@@ -428,8 +506,47 @@
         const notificationList = document.getElementById('notificationList');
         const refillDateInput = document.getElementById('refillDate');
         const consumptionDateInput = document.getElementById('consumptionDate');
+        const kgInput = document.getElementById('kgInput');
         const notifPermission = document.getElementById('notifPermission');
-        
+        const historyList = document.getElementById('historyList');
+
+        // Load saved data from localStorage
+        function loadSavedData() {
+            const saved = localStorage.getItem('gasTrackerData');
+            if (saved) {
+                const data = JSON.parse(saved);
+                if (data.dates) {
+                    savedDates = {
+                        refill: new Date(data.dates.refill),
+                        consumption: new Date(data.dates.consumption),
+                        kg: data.dates.kg || 0
+                    };
+                    refillDateInput.value = data.dates.refill;
+                    consumptionDateInput.value = data.dates.consumption;
+                    kgInput.value = data.dates.kg || '';
+                }
+                if (data.history) {
+                    history = data.history;
+                }
+            }
+        }
+
+        // Save data to localStorage
+        function saveToLocalStorage() {
+            const data = {
+                dates: savedDates ? {
+                    refill: savedDates.refill.toISOString().split('T')[0],
+                    consumption: savedDates.consumption.toISOString().split('T')[0],
+                    kg: savedDates.kg
+                } : null,
+                history: history
+            };
+            localStorage.setItem('gasTrackerData', JSON.stringify(data));
+        }
+
+        // History array
+        let history = [];
+
         // Request permission and subscribe to push
         async function requestPermission() {
             try {
@@ -437,8 +554,6 @@
                 if (permission === 'granted') {
                     notifPermission.style.display = 'none';
                     showToast('Notifications enabled!');
-                    
-                    // Subscribe to Firebase push
                     await subscribeToPush();
                 } else {
                     showToast('Notifications denied.');
@@ -448,7 +563,7 @@
                 showToast('Error requesting permission.');
             }
         }
-        
+
         // Subscribe to Firebase Cloud Messaging
         async function subscribeToPush() {
             try {
@@ -458,7 +573,6 @@
                     serviceWorkerRegistration: registration
                 });
                 console.log('FCM Token:', token);
-                // Send token to your server if needed
                 showToast('Push notifications subscribed!');
                 isFirebaseReady = true;
             } catch (err) {
@@ -466,37 +580,81 @@
                 showToast('Push subscription failed. Check Firebase config.');
             }
         }
-        
+
         // Handle incoming messages when app is in foreground
         messaging.onMessage((payload) => {
             console.log('Message received:', payload);
             const { title, body } = payload.notification;
-            // Show notification
             new Notification(title, { body: body });
-            // Play alarm sound
             playAlarm();
         });
-        
-        // Save dates
+
+        // Save dates and add to history
         function saveDates() {
             const refill = refillDateInput.value;
             const consumption = consumptionDateInput.value;
-            
-            if (!refill || !consumption) {
-                showToast('Please select both dates');
+            const kg = parseFloat(kgInput.value);
+
+            if (!refill || !consumption || !kg || kg < 0.5 || kg > 12.5) {
+                showToast('Please fill all fields correctly (KG 0.5-12.5)');
                 return;
             }
-            
+
             savedDates = {
                 refill: new Date(refill),
-                consumption: new Date(consumption)
+                consumption: new Date(consumption),
+                kg: kg
             };
-            
+
+            // Add to history
+            const today = new Date();
+            const daysUsed = Math.max(1, Math.round((savedDates.consumption - savedDates.refill) / (1000 * 60 * 60 * 24)));
+            history.unshift({
+                kg: kg,
+                refillDate: refill,
+                consumptionDate: consumption,
+                daysUsed: daysUsed,
+                addedAt: today.toISOString()
+            });
+
+            saveToLocalStorage();
+            renderHistory();
             showToast('Dates saved! Notifications will be set.');
             updateStatus();
             checkNotifications();
         }
-        
+
+        // Delete history item
+        function deleteHistory(index) {
+            history.splice(index, 1);
+            saveToLocalStorage();
+            renderHistory();
+            showToast('History entry deleted.');
+        }
+
+        // Render history list
+        function renderHistory() {
+            if (history.length === 0) {
+                historyList.innerHTML = '<p style="color:#999; font-size:0.9rem;">No refill history yet.</p>';
+                return;
+            }
+            let html = '';
+            history.forEach((item, index) => {
+                html += `
+                    <div class="history-item">
+                        <div class="details">
+                            <span class="kg">${item.kg} KG</span> | 
+                            Refill: ${item.refillDate} | 
+                            Consumption: ${item.consumptionDate} | 
+                            Days used: ${item.daysUsed}
+                        </div>
+                        <button class="delete-btn" onclick="deleteHistory(${index})">Delete</button>
+                    </div>
+                `;
+            });
+            historyList.innerHTML = html;
+        }
+
         // Update status based on days left
         function updateStatus() {
             if (!savedDates) {
@@ -506,19 +664,19 @@
                 statusIndicator.textContent = 'Please set your consumption date';
                 return;
             }
-            
+
             const today = new Date();
             today.setHours(0,0,0,0);
             const consumption = savedDates.consumption;
             consumption.setHours(0,0,0,0);
-            
+
             const diffDays = Math.ceil((consumption - today) / (1000 * 60 * 60 * 24));
-            
+
             countdownEl.textContent = diffDays >= 0 ? diffDays : 0;
             countdownLabelEl.textContent = diffDays === 1 ? 'day until consumption' : 'days until consumption';
-            
+
             statusIndicator.className = 'status-indicator';
-            
+
             if (diffDays < 0) {
                 statusIndicator.classList.add('status-danger');
                 statusIndicator.textContent = '⏰ Consumption date has passed! Refill now.';
@@ -533,23 +691,23 @@
                 statusIndicator.textContent = '✅ You have enough time';
             }
         }
-        
+
         // Notification checking
         function checkNotifications() {
             if (!savedDates) {
                 notificationList.innerHTML = '<div class="notification-item alert-none"><span class="icon">ℹ️</span> Set your consumption date to see alerts</div>';
                 return;
             }
-            
+
             const today = new Date();
             today.setHours(0,0,0,0);
             const consumption = savedDates.consumption;
             consumption.setHours(0,0,0,0);
-            
+
             const diffDays = Math.ceil((consumption - today) / (1000 * 60 * 60 * 24));
-            
+
             let html = '';
-            
+
             if (diffDays < 0) {
                 html = '<div class="notification-item alert-today"><span class="icon">⏰</span> Consumption date has passed! Please refill.</div>';
             } else if (diffDays === 0) {
@@ -567,48 +725,48 @@
             } else {
                 html = `<div class="notification-item alert-none"><span class="icon">✅</span> ${diffDays} days left until consumption date.</div>`;
             }
-            
+
             const refillDiff = Math.ceil((savedDates.refill - today) / (1000 * 60 * 60 * 24));
             if (refillDiff >= 0) {
                 html += `<div class="notification-item alert-none"><span class="icon">🔄</span> Refill date is in ${refillDiff} days.</div>`;
             }
-            
+
             notificationList.innerHTML = html;
         }
-        
+
         // Send notification (local fallback)
         function sendNotification(title, message) {
             if ('Notification' in window && Notification.permission === 'granted') {
                 new Notification(title, { body: message });
             }
         }
-        
+
         // Alarm sound using Web Audio API
         function playAlarm() {
             if (!audioContext) {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
             }
-            
+
             const now = audioContext.currentTime;
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
-            
+
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
-            
+
             oscillator.frequency.value = 800;
             oscillator.type = 'sine';
-            
+
             for (let i = 0; i < 3; i++) {
                 gainNode.gain.setValueAtTime(0, now + i * 0.3);
                 gainNode.gain.linearRampToValueAtTime(1, now + i * 0.3 + 0.01);
                 gainNode.gain.linearRampToValueAtTime(0, now + i * 0.3 + 0.2);
             }
-            
+
             oscillator.start(now);
             oscillator.stop(now + 1);
         }
-        
+
         // Toast
         function showToast(message) {
             const toast = document.getElementById('toast');
@@ -616,25 +774,25 @@
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
-        
+
         // Initialize
-        // Check if notifications are already granted
+        loadSavedData();
+        renderHistory();
+
         if ('Notification' in window && Notification.permission === 'granted') {
             notifPermission.style.display = 'none';
-            // Try to subscribe if Firebase is ready
             subscribeToPush();
         }
-        
-        // Register service worker for Firebase (must be served over HTTPS)
+
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/firebase-messaging-sw.js')
                 .then(reg => console.log('SW registered', reg))
                 .catch(err => console.error('SW registration failed', err));
         }
-        
+
         updateStatus();
         checkNotifications();
-        
+
         setInterval(() => {
             updateStatus();
             checkNotifications();
