@@ -10,6 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
     <style>
+        /* Same styles as before */
         * {
             margin: 0;
             padding: 0;
@@ -37,10 +38,20 @@
         }
         
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .header h1 img {
+            width: 40px;
+            height: 40px;
+            vertical-align: middle;
         }
         
         .header p {
@@ -401,7 +412,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1><img src="https://i.imgur.com/IkrGaXF.png" alt="Cylinder" style="width: 40px; height: 40px; vertical-align: middle; margin-right: 10px;">Cooking Gas Consumption Tracker</h1>
+            <h1><img src="https://i.imgur.com/IkrGaXF.png" alt="Cylinder">Cooking Gas Consumption Tracker</h1>
             <p>Set your refill and consumption dates to get alerts</p>
         </div>
         
@@ -469,10 +480,14 @@
             <!-- Test Alarm -->
             <button class="test-alarm-btn" onclick="playAlarm()">🔔 Test Alarm</button>
             
+            <!-- Setup Info -->
+            <div class="push-info">
+                <p><strong>Server-Side Notifications:</strong> To receive notifications when the app is closed, the app sends your data to a Cloudflare Worker which schedules alerts.</p>
+            </div>
         </div>
         
         <div style="text-align: center; color: white; opacity: 0.8; margin-top: 20px; font-size: 0.9rem;">
-            <p>You'll receive alerts 2 days before, 1 day before, and on the consumption date.</p>
+            <p>You'll receive alerts at 00:00, 06:00, 12:00, and 18:00 on the 2 days before, 1 day before, and on the consumption date.</p>
         </div>
     </div>
     
@@ -489,6 +504,9 @@
             appId: "1:265524187379:web:d987da967ae8aadc582786"
         };
         const vapidKey = "BJC2ztNWs-SjxdEbdmy9_6XRhjhSW6JDlLhQu77vkgAMwWfyIGZTwWo-DewsBmmITfNRvj5Mek1MpkJd0I7Bioo";
+
+        // Cloudflare Worker URL - replace with your actual Worker URL
+        const WORKER_URL = 'https://gas-notifier.topeawotipe.workers.dev/';
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -575,9 +593,37 @@
                 console.log('FCM Token:', token);
                 showToast('Push notifications subscribed!');
                 isFirebaseReady = true;
+                // If dates are already set, send to Worker
+                if (savedDates) {
+                    await sendToWorker(token);
+                }
             } catch (err) {
                 console.error('Push subscription failed:', err);
                 showToast('Push subscription failed. Check Firebase config.');
+            }
+        }
+
+        // Send user data to Cloudflare Worker
+        async function sendToWorker(fcmToken) {
+            if (!savedDates) return;
+            try {
+                const userId = fcmToken; // Using token as identifier
+                const response = await fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId,
+                        fcmToken,
+                        consumptionDate: savedDates.consumption.toISOString()
+                    })
+                });
+                if (response.ok) {
+                    console.log('Data sent to Worker');
+                } else {
+                    console.error('Worker response error:', response.status);
+                }
+            } catch (err) {
+                console.error('Error sending to Worker:', err);
             }
         }
 
@@ -590,7 +636,7 @@
         });
 
         // Save dates and add to history
-        function saveDates() {
+        async function saveDates() {
             const refill = refillDateInput.value;
             const consumption = consumptionDateInput.value;
             const kg = parseFloat(kgInput.value);
@@ -622,6 +668,18 @@
             showToast('Dates saved! Notifications will be set.');
             updateStatus();
             checkNotifications();
+            scheduleNotifications();
+
+            // Send to Worker if token is available
+            if (isFirebaseReady) {
+                const token = await messaging.getToken({ vapidKey: vapidKey });
+                if (token) {
+                    await sendToWorker(token);
+                }
+            } else {
+                // If not ready, try to get token later (maybe user hasn't enabled notifications yet)
+                // We'll just store dates locally; when they enable notifications, it will send.
+            }
         }
 
         // Delete history item
@@ -692,7 +750,7 @@
             }
         }
 
-        // Notification checking
+        // Notification checking (for display)
         function checkNotifications() {
             if (!savedDates) {
                 notificationList.innerHTML = '<div class="notification-item alert-none"><span class="icon">ℹ️</span> Set your consumption date to see alerts</div>';
@@ -712,16 +770,10 @@
                 html = '<div class="notification-item alert-today"><span class="icon">⏰</span> Consumption date has passed! Please refill.</div>';
             } else if (diffDays === 0) {
                 html = '<div class="notification-item alert-today"><span class="icon">⏰</span> Today is the consumption date! Refill now.</div>';
-                playAlarm();
-                sendNotification('Gas Cylinder Alert', 'Today is the consumption date! Refill now.');
             } else if (diffDays === 1) {
                 html = '<div class="notification-item alert-1day"><span class="icon">⚠️</span> 1 day left until consumption date!</div>';
-                playAlarm();
-                sendNotification('Gas Cylinder Alert', '1 day left until consumption date!');
             } else if (diffDays === 2) {
                 html = '<div class="notification-item alert-2days"><span class="icon">📅</span> 2 days left until consumption date!</div>';
-                playAlarm();
-                sendNotification('Gas Cylinder Alert', '2 days left until consumption date!');
             } else {
                 html = `<div class="notification-item alert-none"><span class="icon">✅</span> ${diffDays} days left until consumption date.</div>`;
             }
@@ -734,6 +786,47 @@
             notificationList.innerHTML = html;
         }
 
+        // Local scheduling (works when app is open/background)
+        function scheduleNotifications() {
+            if (!savedDates) return;
+            
+            if (window.notificationTimers) {
+                window.notificationTimers.forEach(timer => clearTimeout(timer));
+            }
+            window.notificationTimers = [];
+
+            const times = [0, 6, 12, 18];
+            const daysBefore = [2, 1, 0];
+
+            daysBefore.forEach(days => {
+                const targetDate = new Date(savedDates.consumption);
+                targetDate.setDate(targetDate.getDate() - days);
+                targetDate.setHours(0,0,0,0);
+
+                times.forEach(hour => {
+                    const notificationTime = new Date(targetDate);
+                    notificationTime.setHours(hour, 0, 0, 0);
+                    const now = new Date();
+                    const delay = notificationTime.getTime() - now.getTime();
+                    if (delay > 0) {
+                        const timer = setTimeout(() => {
+                            let message;
+                            if (days === 0) {
+                                message = "It's time to refill your cooking gas";
+                            } else {
+                                message = "Prepare to refill your cooking gas";
+                            }
+                            if ('Notification' in window && Notification.permission === 'granted') {
+                                new Notification('Cooking Gas Alert', { body: message });
+                                playAlarm();
+                            }
+                        }, delay);
+                        window.notificationTimers.push(timer);
+                    }
+                });
+            });
+        }
+
         // Send notification (local fallback)
         function sendNotification(title, message) {
             if ('Notification' in window && Notification.permission === 'granted') {
@@ -741,7 +834,7 @@
             }
         }
 
-        // Alarm sound using Web Audio API
+        // Alarm sound
         function playAlarm() {
             if (!audioContext) {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -792,6 +885,7 @@
 
         updateStatus();
         checkNotifications();
+        scheduleNotifications();
 
         setInterval(() => {
             updateStatus();
