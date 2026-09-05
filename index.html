@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cooking Gas Consumption Tracker</title>
-    <link rel="icon" type="image/png" href="https://i.imgur.com/IkrGaXF.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
     <style>
-        /* Same styles as before */
         * {
             margin: 0;
             padding: 0;
@@ -42,16 +40,6 @@
             font-weight: 800;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .header h1 img {
-            width: 40px;
-            height: 40px;
-            vertical-align: middle;
         }
         
         .header p {
@@ -392,27 +380,86 @@
             to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
         
-        .push-info {
-            margin-top: 15px;
-            padding: 10px;
-            background: #f5f5f5;
-            border-radius: 5px;
-            font-size: 0.85rem;
-            color: #666;
-            line-height: 1.5;
+        /* Modal styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
         
-        .push-info code {
-            background: #eee;
-            padding: 2px 5px;
-            border-radius: 3px;
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #333;
+        }
+        
+        .modal-close:hover {
+            color: #e91e63;
+        }
+        
+        .modal-content h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .modal-content p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        /* Legal links */
+        .legal-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .legal-links button {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            margin: 5px 10px;
+        }
+        
+        .legal-links button:hover {
+            color: #764ba2;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1><img src="https://i.imgur.com/IkrGaXF.png" alt="Cylinder">Cooking Gas Consumption Tracker</h1>
+            <h1>⛽ Cooking Gas Consumption Tracker</h1>
             <p>Set your refill and consumption dates to get alerts</p>
         </div>
         
@@ -480,14 +527,24 @@
             <!-- Test Alarm -->
             <button class="test-alarm-btn" onclick="playAlarm()">🔔 Test Alarm</button>
             
-            <!-- Setup Info -->
-            <div class="push-info">
-                <p><strong>Server-Side Notifications:</strong> To receive notifications when the app is closed, the app sends your data to a Cloudflare Worker which schedules alerts.</p>
+            <!-- Legal Links -->
+            <div class="legal-links">
+                <button onclick="openModal('privacy')">Privacy Policy</button>
+                <button onclick="openModal('about')">About Us</button>
+                <button onclick="openModal('terms')">Terms & Conditions</button>
             </div>
         </div>
         
         <div style="text-align: center; color: white; opacity: 0.8; margin-top: 20px; font-size: 0.9rem;">
             <p>You'll receive alerts at 00:00, 06:00, 12:00, and 18:00 on the 2 days before, 1 day before, and on the consumption date.</p>
+        </div>
+    </div>
+    
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalBody"></div>
         </div>
     </div>
     
@@ -505,7 +562,7 @@
         };
         const vapidKey = "BJC2ztNWs-SjxdEbdmy9_6XRhjhSW6JDlLhQu77vkgAMwWfyIGZTwWo-DewsBmmITfNRvj5Mek1MpkJd0I7Bioo";
 
-        // Cloudflare Worker URL - updated to new account
+        // Cloudflare Worker URL
         const WORKER_URL = 'https://gas-notifier.johnawotipe9.workers.dev/';
 
         // Initialize Firebase
@@ -593,7 +650,6 @@
                 console.log('FCM Token:', token);
                 showToast('Push notifications subscribed!');
                 isFirebaseReady = true;
-                // If dates are already set, send to Worker
                 if (savedDates) {
                     await sendToWorker(token);
                 }
@@ -607,7 +663,7 @@
         async function sendToWorker(fcmToken) {
             if (!savedDates) return;
             try {
-                const userId = fcmToken; // Using token as identifier
+                const userId = fcmToken;
                 const response = await fetch(WORKER_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -652,7 +708,6 @@
                 kg: kg
             };
 
-            // Add to history
             const today = new Date();
             const daysUsed = Math.max(1, Math.round((savedDates.consumption - savedDates.refill) / (1000 * 60 * 60 * 24)));
             history.unshift({
@@ -670,15 +725,11 @@
             checkNotifications();
             scheduleNotifications();
 
-            // Send to Worker if token is available
             if (isFirebaseReady) {
                 const token = await messaging.getToken({ vapidKey: vapidKey });
                 if (token) {
                     await sendToWorker(token);
                 }
-            } else {
-                // If not ready, try to get token later (maybe user hasn't enabled notifications yet)
-                // We'll just store dates locally; when they enable notifications, it will send.
             }
         }
 
@@ -867,6 +918,49 @@
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
+
+        // Modal functions
+        function openModal(type) {
+            const modalBody = document.getElementById('modalBody');
+            let content = '';
+            if (type === 'privacy') {
+                content = `
+                    <h2>Privacy Policy</h2>
+                    <p>Your privacy is important to us. This app collects only the necessary data to function: your refill dates, consumption dates, gas amount (KG), and your device's notification token for sending alerts.</p>
+                    <p>We do not sell, rent, or share your personal information with third parties except as required to provide the service (e.g., Firebase Cloud Messaging for push notifications).</p>
+                    <p>You can delete all locally stored data at any time by clearing your browser storage. For server-side data, contact us to request deletion.</p>
+                `;
+            } else if (type === 'about') {
+                content = `
+                    <h2>About Us</h2>
+                    <p>Welcome to Cooking Gas Consumption Tracker! Our mission is to help households manage their cooking gas usage efficiently and avoid running out unexpectedly.</p>
+                    <p>By setting your refill and expected consumption dates, our app sends timely reminders to ensure you always have gas when you need it.</p>
+                    <p>We are committed to providing a simple, reliable, and user-friendly experience.</p>
+                `;
+            } else if (type === 'terms') {
+                content = `
+                    <h2>Terms & Conditions</h2>
+                    <p>By using this app, you agree to the following terms:</p>
+                    <p>1. The app provides estimates and reminders based on the dates you provide. Actual gas consumption may vary.</p>
+                    <p>2. We are not liable for any loss or inconvenience caused by missed notifications or inaccurate predictions.</p>
+                    <p>3. You are responsible for the accuracy of the information you enter.</p>
+                    <p>4. We may update these terms at any time. Continued use of the app constitutes acceptance of the new terms.</p>
+                `;
+            }
+            modalBody.innerHTML = content;
+            document.getElementById('modalOverlay').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
 
         // Initialize
         loadSavedData();
