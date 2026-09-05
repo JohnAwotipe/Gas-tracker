@@ -687,7 +687,22 @@
         messaging.onMessage((payload) => {
             console.log('Message received:', payload);
             const { title, body } = payload.notification;
-            new Notification(title, { body: body });
+            // Use service worker registration to show notification (works on mobile)
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.ready.then(reg => {
+                    reg.showNotification(title, { body: body });
+                }).catch(err => {
+                    console.error('SW not ready, falling back:', err);
+                    if (Notification.permission === 'granted') {
+                        new Notification(title, { body: body });
+                    }
+                });
+            } else {
+                // Fallback for browsers without SW
+                if (Notification.permission === 'granted') {
+                    new Notification(title, { body: body });
+                }
+            }
             playAlarm();
         });
 
