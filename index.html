@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cooking Gas Consumption Tracker</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/IkrGaXF.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
     <style>
+        /* Same styles as before */
         * {
             margin: 0;
             padding: 0;
@@ -622,14 +624,21 @@
         // History array
         let history = [];
 
-        // Request permission and subscribe to push
+        // Request permission and subscribe to push (Capacitor version)
         async function requestPermission() {
             try {
-                const permission = await Notification.requestPermission();
-                if (permission === 'granted') {
-                    notifPermission.style.display = 'none';
+                const { FirebaseMessaging } = window.Capacitor.Plugins;
+                const permission = await FirebaseMessaging.requestPermissions();
+                if (permission.receive === 'granted') {
+                    const token = await FirebaseMessaging.getToken();
+                    console.log('FCM Token:', token);
+                    // Send token to Worker if dates are set
+                    if (savedDates) {
+                        await sendToWorker(token);
+                    }
+                    // Hide the button
+                    document.getElementById('notifPermission').style.display = 'none';
                     showToast('Notifications enabled!');
-                    await subscribeToPush();
                 } else {
                     showToast('Notifications denied.');
                 }
@@ -639,24 +648,55 @@
             }
         }
 
-        // Subscribe to Firebase Cloud Messaging
-        async function subscribeToPush() {
-            try {
-                const registration = await navigator.serviceWorker.ready;
-                const token = await messaging.getToken({
-                    vapidKey: vapidKey,
-                    serviceWorkerRegistration: registration
+        // Listen for incoming messages (foreground) - Capacitor
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
+            window.Capacitor.Plugins.FirebaseMessaging.addListener('messageReceived', (data) => {
+                console.log('Message received:', data);
+                const title = data.title || 'Cooking Gas Alert';
+                const body = data.body || 'You have a new notification';
+                
+                // Show a local notification using the Capacitor plugin
+                window.Capacitor.Plugins.FirebaseMessaging.showNotification({
+                    title: title,
+                    body: body
+                }).catch(err => {
+                    console.error('Error showing notification:', err);
+                    showToast(body);
                 });
-                console.log('FCM Token:', token);
-                showToast('Push notifications subscribed!');
-                isFirebaseReady = true;
-                if (savedDates) {
-                    await sendToWorker(token);
+                playAlarm();
+            });
+        } else {
+            // Fallback for web (if not running in Capacitor)
+            messaging.onMessage((payload) => {
+                console.log('Message received:', payload);
+                // Handle both notification and data messages
+                let title = 'Cooking Gas Alert';
+                let body = 'You have a new notification';
+                
+                if (payload.notification) {
+                    title = payload.notification.title || title;
+                    body = payload.notification.body || body;
+                } else if (payload.data) {
+                    title = payload.data.title || title;
+                    body = payload.data.body || body;
                 }
-            } catch (err) {
-                console.error('Push subscription failed:', err);
-                showToast('Push subscription failed. Check Firebase config.');
-            }
+                
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(reg => {
+                        reg.showNotification(title, { body: body });
+                    }).catch(err => {
+                        console.error('SW not ready, falling back:', err);
+                        if (Notification.permission === 'granted') {
+                            new Notification(title, { body: body });
+                        }
+                    });
+                } else {
+                    if (Notification.permission === 'granted') {
+                        new Notification(title, { body: body });
+                    }
+                }
+                playAlarm();
+            });
         }
 
         // Send user data to Cloudflare Worker
@@ -682,29 +722,6 @@
                 console.error('Error sending to Worker:', err);
             }
         }
-
-        // Handle incoming messages when app is in foreground
-        messaging.onMessage((payload) => {
-            console.log('Message received:', payload);
-            const { title, body } = payload.notification;
-            // Use service worker registration to show notification (works on mobile)
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.ready.then(reg => {
-                    reg.showNotification(title, { body: body });
-                }).catch(err => {
-                    console.error('SW not ready, falling back:', err);
-                    if (Notification.permission === 'granted') {
-                        new Notification(title, { body: body });
-                    }
-                });
-            } else {
-                // Fallback for browsers without SW
-                if (Notification.permission === 'granted') {
-                    new Notification(title, { body: body });
-                }
-            }
-            playAlarm();
-        });
 
         // Save dates and add to history
         async function saveDates() {
@@ -740,10 +757,19 @@
             checkNotifications();
             scheduleNotifications();
 
-            if (isFirebaseReady) {
-                const token = await messaging.getToken({ vapidKey: vapidKey });
+            // Send to Worker if token is available
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
+                const token = await window.Capacitor.Plugins.FirebaseMessaging.getToken();
                 if (token) {
                     await sendToWorker(token);
+                }
+            } else {
+                // Web fallback
+                if (isFirebaseReady) {
+                    const token = await messaging.getToken({ vapidKey: vapidKey });
+                    if (token) {
+                        await sendToWorker(token);
+                    }
                 }
             }
         }
@@ -882,9 +908,15 @@
                             } else {
                                 message = "Prepare to refill your cooking gas";
                             }
-                            if ('Notification' in window && Notification.permission === 'granted') {
-                                new Notification('Cooking Gas Alert', { body: message });
+                            // Show local notification (works in web and native via Capacitor)
+                            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
+                                showToast(message);
                                 playAlarm();
+                            } else {
+                                if ('Notification' in window && Notification.permission === 'granted') {
+                                    new Notification('Cooking Gas Alert', { body: message });
+                                    playAlarm();
+                                }
                             }
                         }, delay);
                         window.notificationTimers.push(timer);
@@ -981,12 +1013,37 @@
         loadSavedData();
         renderHistory();
 
-        if ('Notification' in window && Notification.permission === 'granted') {
-            notifPermission.style.display = 'none';
-            subscribeToPush();
+        // If running in Capacitor, request permission on load if not already granted
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
+            // Check if permission already granted
+            window.Capacitor.Plugins.FirebaseMessaging.requestPermissions().then(perm => {
+                if (perm.receive === 'granted') {
+                    document.getElementById('notifPermission').style.display = 'none';
+                    window.Capacitor.Plugins.FirebaseMessaging.getToken().then(token => {
+                        console.log('FCM Token:', token);
+                        if (savedDates) {
+                            sendToWorker(token);
+                        }
+                    });
+                }
+            }).catch(err => console.error('Permission check error:', err));
+        } else {
+            // Web fallback
+            if ('Notification' in window && Notification.permission === 'granted') {
+                notifPermission.style.display = 'none';
+                // Get token and subscribe
+                messaging.getToken({ vapidKey: vapidKey }).then(token => {
+                    console.log('FCM Token:', token);
+                    isFirebaseReady = true;
+                    if (savedDates) {
+                        sendToWorker(token);
+                    }
+                }).catch(err => console.error('Token error:', err));
+            }
         }
 
-        if ('serviceWorker' in navigator) {
+        // Web service worker registration (optional, only for web)
+        if ('serviceWorker' in navigator && !(window.Capacitor && window.Capacitor.isNativePlatform)) {
             navigator.serviceWorker.register('/firebase-messaging-sw.js')
                 .then(reg => console.log('SW registered', reg))
                 .catch(err => console.error('SW registration failed', err));
