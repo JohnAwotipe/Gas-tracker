@@ -10,7 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
     <style>
-        /* Same styles as before */
+        /* Same styles as before - I'll keep them all */
         * {
             margin: 0;
             padding: 0;
@@ -114,6 +114,46 @@
             border-radius: 5px;
             font-size: 1rem;
             width: 100%;
+        }
+        
+        .price-input-group {
+            margin-bottom: 15px;
+        }
+        
+        .price-input-group label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            display: block;
+        }
+        
+        .price-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .price-row input[type="number"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .price-row select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            background: white;
+            width: 110px;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            padding-right: 28px;
         }
         
         .save-btn {
@@ -491,6 +531,139 @@
                     <label for="kgInput">Gas Amount (KG)</label>
                     <input type="number" id="kgInput" min="0.5" max="12.5" step="0.5" placeholder="e.g., 3.0">
                 </div>
+                <div class="price-input-group">
+                    <label for="priceInput">Price</label>
+                    <div class="price-row">
+                        <input type="number" id="priceInput" min="0" step="0.01" placeholder="e.g., 5000">
+                        <select id="currencySelect">
+                            <!-- All currency options -->
+                            <option value="NGN">₦ NGN</option>
+                            <option value="USD">$ USD</option>
+                            <option value="GHS">₵ GHS</option>
+                            <option value="KES">KSh KES</option>
+                            <option value="ZAR">R ZAR</option>
+                            <option value="EGP">£ EGP</option>
+                            <option value="GBP">£ GBP</option>
+                            <option value="EUR">€ EUR</option>
+                            <option value="CAD">$ CAD</option>
+                            <option value="AUD">$ AUD</option>
+                            <option value="JPY">¥ JPY</option>
+                            <option value="CNY">¥ CNY</option>
+                            <option value="INR">₹ INR</option>
+                            <option value="BRL">R$ BRL</option>
+                            <option value="MXN">$ MXN</option>
+                            <option value="RUB">₽ RUB</option>
+                            <option value="SAR">﷼ SAR</option>
+                            <option value="AED">د.إ AED</option>
+                            <option value="TRY">₺ TRY</option>
+                            <option value="CHF">Fr CHF</option>
+                            <option value="SEK">kr SEK</option>
+                            <option value="NOK">kr NOK</option>
+                            <option value="DKK">kr DKK</option>
+                            <option value="PLN">zł PLN</option>
+                            <option value="CZK">Kč CZK</option>
+                            <option value="HUF">Ft HUF</option>
+                            <option value="RON">lei RON</option>
+                            <option value="BGN">лв BGN</option>
+                            <option value="THB">฿ THB</option>
+                            <option value="VND">₫ VND</option>
+                            <option value="IDR">Rp IDR</option>
+                            <option value="MYR">RM MYR</option>
+                            <option value="PHP">₱ PHP</option>
+                            <option value="SGD">$ SGD</option>
+                            <option value="HKD">$ HKD</option>
+                            <option value="TWD">$ TWD</option>
+                            <option value="KRW">₩ KRW</option>
+                            <option value="PKR">₨ PKR</option>
+                            <option value="BDT">৳ BDT</option>
+                            <option value="LKR">₨ LKR</option>
+                            <option value="NPR">₨ NPR</option>
+                            <option value="TZS">TSh TZS</option>
+                            <option value="UGX">USh UGX</option>
+                            <option value="RWF">FRw RWF</option>
+                            <option value="ETB">Br ETB</option>
+                            <option value="MAD">د.م. MAD</option>
+                            <option value="DZD">دج DZD</option>
+                            <option value="TND">د.ت TND</option>
+                            <option value="LYD">ل.د LYD</option>
+                            <option value="SDG">ج.س SDG</option>
+                            <option value="GNF">FG GNF</option>
+                            <option value="XOF">CFA XOF</option>
+                            <option value="XAF">CFA XAF</option>
+                            <option value="CDF">FC CDF</option>
+                            <option value="ZMW">ZK ZMW</option>
+                            <option value="MWK">MK MWK</option>
+                            <option value="BWP">P BWP</option>
+                            <option value="NAD">$ NAD</option>
+                            <option value="MUR">₨ MUR</option>
+                            <option value="SCR">₨ SCR</option>
+                            <option value="MZN">MT MZN</option>
+                            <option value="AOA">Kz AOA</option>
+                            <option value="GMD">D GMD</option>
+                            <option value="SLL">Le SLL</option>
+                            <option value="LRD">$ LRD</option>
+                            <option value="MRU">UM MRU</option>
+                            <option value="ERN">Nfk ERN</option>
+                            <option value="DJF">Fdj DJF</option>
+                            <option value="SOS">Sh SOS</option>
+                            <option value="BIF">FBu BIF</option>
+                            <option value="MGA">Ar MGA</option>
+                            <option value="KMF">CF KMF</option>
+                            <option value="STN">Db STN</option>
+                            <option value="CVE">$ CVE</option>
+                            <option value="XCD">$ XCD</option>
+                            <option value="JMD">$ JMD</option>
+                            <option value="TTD">$ TTD</option>
+                            <option value="BBD">$ BBD</option>
+                            <option value="BSD">$ BSD</option>
+                            <option value="BZD">$ BZD</option>
+                            <option value="GYD">$ GYD</option>
+                            <option value="HTG">G HTG</option>
+                            <option value="CUP">$ CUP</option>
+                            <option value="DOP">RD$ DOP</option>
+                            <option value="GTQ">Q GTQ</option>
+                            <option value="HNL">L HNL</option>
+                            <option value="NIO">C$ NIO</option>
+                            <option value="CRC">₡ CRC</option>
+                            <option value="PAB">B/. PAB</option>
+                            <option value="BOB">Bs BOB</option>
+                            <option value="PEN">S/ PEN</option>
+                            <option value="UYU">$U UYU</option>
+                            <option value="PYG">₲ PYG</option>
+                            <option value="ARS">$ ARS</option>
+                            <option value="CLP">$ CLP</option>
+                            <option value="COP">$ COP</option>
+                            <option value="VES">Bs VES</option>
+                            <option value="KZT">₸ KZT</option>
+                            <option value="UZS">so'm UZS</option>
+                            <option value="TMT">m TMT</option>
+                            <option value="KGS">som KGS</option>
+                            <option value="TJS">SM TJS</option>
+                            <option value="AZN">₼ AZN</option>
+                            <option value="GEL">₾ GEL</option>
+                            <option value="AMD">֏ AMD</option>
+                            <option value="BYN">Br BYN</option>
+                            <option value="MDL">L MDL</option>
+                            <option value="UAH">₴ UAH</option>
+                            <option value="RSD">дин RSD</option>
+                            <option value="MKD">ден MKD</option>
+                            <option value="ALL">L ALL</option>
+                            <option value="BAM">KM BAM</option>
+                            <option value="MNT">₮ MNT</option>
+                            <option value="KHR">៛ KHR</option>
+                            <option value="LAK">₭ LAK</option>
+                            <option value="MMK">K MMK</option>
+                            <option value="NZD">$ NZD</option>
+                            <option value="FJD">$ FJD</option>
+                            <option value="PGK">K PGK</option>
+                            <option value="SBD">$ SBD</option>
+                            <option value="WST">T WST</option>
+                            <option value="TOP">T$ TOP</option>
+                            <option value="VUV">VT VUV</option>
+                            <option value="ISK">kr ISK</option>
+                        </select>
+                    </div>
+                </div>
                 <button class="save-btn" onclick="saveDates()">💾 Save Dates</button>
             </div>
             
@@ -584,45 +757,108 @@
         const refillDateInput = document.getElementById('refillDate');
         const consumptionDateInput = document.getElementById('consumptionDate');
         const kgInput = document.getElementById('kgInput');
+        const priceInput = document.getElementById('priceInput');
+        const currencySelect = document.getElementById('currencySelect');
         const notifPermission = document.getElementById('notifPermission');
         const historyList = document.getElementById('historyList');
 
-        // Load saved data from localStorage
-        function loadSavedData() {
-            const saved = localStorage.getItem('gasTrackerData');
+        // Map of country codes to currency codes
+        const countryCurrencyMap = {
+            'NG': 'NGN', 'US': 'USD', 'GH': 'GHS', 'KE': 'KES', 'ZA': 'ZAR', 'EG': 'EGP',
+            'GB': 'GBP', 'DE': 'EUR', 'FR': 'EUR', 'IT': 'EUR', 'ES': 'EUR', 'NL': 'EUR',
+            'BE': 'EUR', 'AT': 'EUR', 'IE': 'EUR', 'FI': 'EUR', 'PT': 'EUR', 'GR': 'EUR',
+            'CA': 'CAD', 'AU': 'AUD', 'NZ': 'NZD', 'JP': 'JPY', 'CN': 'CNY', 'IN': 'INR',
+            'BR': 'BRL', 'MX': 'MXN', 'RU': 'RUB', 'SA': 'SAR', 'AE': 'AED', 'TR': 'TRY',
+            'CH': 'CHF', 'SE': 'SEK', 'NO': 'NOK', 'DK': 'DKK', 'PL': 'PLN', 'CZ': 'CZK',
+            'HU': 'HUF', 'RO': 'RON', 'BG': 'BGN', 'TH': 'THB', 'VN': 'VND', 'ID': 'IDR',
+            'MY': 'MYR', 'PH': 'PHP', 'SG': 'SGD', 'HK': 'HKD', 'TW': 'TWD', 'KR': 'KRW',
+            'PK': 'PKR', 'BD': 'BDT', 'LK': 'LKR', 'NP': 'NPR', 'TZ': 'TZS', 'UG': 'UGX',
+            'RW': 'RWF', 'ET': 'ETB', 'MA': 'MAD', 'DZ': 'DZD', 'TN': 'TND', 'LY': 'LYD',
+            'SD': 'SDG', 'GN': 'GNF', 'CI': 'XOF', 'SN': 'XOF', 'ML': 'XOF', 'BF': 'XOF',
+            'NE': 'XOF', 'TG': 'XOF', 'BJ': 'XOF', 'CM': 'XAF', 'GA': 'XAF', 'CG': 'XAF',
+            'TD': 'XAF', 'CF': 'XAF', 'GQ': 'XAF', 'CD': 'CDF', 'ZM': 'ZMW', 'MW': 'MWK',
+            'BW': 'BWP', 'NA': 'NAD', 'MU': 'MUR', 'SC': 'SCR', 'MZ': 'MZN', 'AO': 'AOA',
+            'GM': 'GMD', 'SL': 'SLL', 'LR': 'LRD', 'MR': 'MRU', 'ER': 'ERN', 'DJ': 'DJF',
+            'SO': 'SOS', 'BI': 'BIF', 'MG': 'MGA', 'KM': 'KMF', 'ST': 'STN', 'CV': 'CVE',
+            'JM': 'JMD', 'TT': 'TTD', 'BB': 'BBD', 'BS': 'BSD', 'BZ': 'BZD', 'GY': 'GYD',
+            'HT': 'HTG', 'CU': 'CUP', 'DO': 'DOP', 'GT': 'GTQ', 'HN': 'HNL', 'NI': 'NIO',
+            'CR': 'CRC', 'PA': 'PAB', 'BO': 'BOB', 'PE': 'PEN', 'UY': 'UYU', 'PY': 'PYG',
+            'AR': 'ARS', 'CL': 'CLP', 'CO': 'COP', 'VE': 'VES', 'KZ': 'KZT', 'UZ': 'UZS',
+            'TM': 'TMT', 'KG': 'KGS', 'TJ': 'TJS', 'AZ': 'AZN', 'GE': 'GEL', 'AM': 'AMD',
+            'BY': 'BYN', 'MD': 'MDL', 'UA': 'UAH', 'RS': 'RSD', 'MK': 'MKD', 'AL': 'ALL',
+            'BA': 'BAM', 'MN': 'MNT', 'KH': 'KHR', 'LA': 'LAK', 'MM': 'MMK', 'FJ': 'FJD',
+            'PG': 'PGK', 'SB': 'SBD', 'WS': 'WST', 'TO': 'TOP', 'VU': 'VUV', 'IS': 'ISK'
+        };
+
+        // Auto-detect currency based on user's locale
+        function detectCurrency() {
+            const lang = navigator.language || navigator.userLanguage || 'en-US';
+            const country = (lang.split('-')[1] || lang.split('_')[1] || '').toUpperCase();
+            const detected = countryCurrencyMap[country] || 'USD';
+            currencySelect.value = detected;
+        }
+
+        // Load saved data (using Capacitor Preferences for native, localStorage for web)
+        async function loadSavedData() {
+            let saved = null;
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences) {
+                const result = await window.Capacitor.Plugins.Preferences.get({ key: 'gasTrackerData' });
+                saved = result.value ? JSON.parse(result.value) : null;
+                console.log('Loaded from Preferences:', saved);
+            } else {
+                saved = localStorage.getItem('gasTrackerData');
+                saved = saved ? JSON.parse(saved) : null;
+                console.log('Loaded from localStorage:', saved);
+            }
+            
             if (saved) {
-                const data = JSON.parse(saved);
-                if (data.dates) {
+                if (saved.dates) {
                     savedDates = {
-                        refill: new Date(data.dates.refill),
-                        consumption: new Date(data.dates.consumption),
-                        kg: data.dates.kg || 0
+                        refill: new Date(saved.dates.refill),
+                        consumption: new Date(saved.dates.consumption),
+                        kg: saved.dates.kg || 0,
+                        price: saved.dates.price || 0,
+                        currency: saved.dates.currency || 'USD'
                     };
-                    refillDateInput.value = data.dates.refill;
-                    consumptionDateInput.value = data.dates.consumption;
-                    kgInput.value = data.dates.kg || '';
+                    refillDateInput.value = saved.dates.refill;
+                    consumptionDateInput.value = saved.dates.consumption;
+                    kgInput.value = saved.dates.kg || '';
+                    priceInput.value = saved.dates.price || '';
+                    currencySelect.value = saved.dates.currency || 'USD';
                 }
-                if (data.history) {
-                    history = data.history;
+                if (saved.history) {
+                    history = saved.history;
                 }
             }
         }
 
-        // Save data to localStorage
-        function saveToLocalStorage() {
+        // Save data (using Capacitor Preferences for native, localStorage for web)
+        async function saveToLocalStorage() {
             const data = {
                 dates: savedDates ? {
                     refill: savedDates.refill.toISOString().split('T')[0],
                     consumption: savedDates.consumption.toISOString().split('T')[0],
-                    kg: savedDates.kg
+                    kg: savedDates.kg,
+                    price: savedDates.price,
+                    currency: savedDates.currency
                 } : null,
                 history: history
             };
-            localStorage.setItem('gasTrackerData', JSON.stringify(data));
+            
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences) {
+                await window.Capacitor.Plugins.Preferences.set({ key: 'gasTrackerData', value: JSON.stringify(data) });
+                console.log('Saved to Preferences:', data);
+            } else {
+                localStorage.setItem('gasTrackerData', JSON.stringify(data));
+                console.log('Saved to localStorage:', data);
+            }
         }
 
         // History array
         let history = [];
+
+        // Notification ID counter (must be 32-bit integer)
+        let notificationId = 1;
 
         // Request permission and subscribe to push (Capacitor version)
         async function requestPermission() {
@@ -655,14 +891,24 @@
                 const title = data.title || 'Cooking Gas Alert';
                 const body = data.body || 'You have a new notification';
                 
-                // Show a local notification using the Capacitor plugin
-                window.Capacitor.Plugins.FirebaseMessaging.showNotification({
-                    title: title,
-                    body: body
-                }).catch(err => {
-                    console.error('Error showing notification:', err);
+                // Use Local Notifications to show a notification
+                if (window.Capacitor.Plugins.LocalNotifications) {
+                    window.Capacitor.Plugins.LocalNotifications.schedule({
+                        notifications: [
+                            {
+                                title: title,
+                                body: body,
+                                id: notificationId++,
+                                schedule: { at: new Date() }
+                            }
+                        ]
+                    }).catch(err => {
+                        console.error('Error scheduling local notification:', err);
+                        showToast(body);
+                    });
+                } else {
                     showToast(body);
-                });
+                }
                 playAlarm();
             });
         } else {
@@ -723,11 +969,42 @@
             }
         }
 
+        // Function to show a local notification (works for both web and native)
+        async function showLocalNotification(title, body) {
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
+                // Request permission first
+                const permission = await window.Capacitor.Plugins.LocalNotifications.requestPermissions();
+                if (permission.display === 'granted') {
+                    await window.Capacitor.Plugins.LocalNotifications.schedule({
+                        notifications: [
+                            {
+                                title: title,
+                                body: body,
+                                id: notificationId++,
+                                schedule: { at: new Date() }
+                            }
+                        ]
+                    });
+                } else {
+                    showToast('Local notification permission denied');
+                }
+            } else {
+                // Web fallback
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification(title, { body: body });
+                } else {
+                    showToast(body);
+                }
+            }
+        }
+
         // Save dates and add to history
         async function saveDates() {
             const refill = refillDateInput.value;
             const consumption = consumptionDateInput.value;
             const kg = parseFloat(kgInput.value);
+            const price = parseFloat(priceInput.value) || 0;
+            const currency = currencySelect.value;
 
             if (!refill || !consumption || !kg || kg < 0.5 || kg > 12.5) {
                 showToast('Please fill all fields correctly (KG 0.5-12.5)');
@@ -737,7 +1014,9 @@
             savedDates = {
                 refill: new Date(refill),
                 consumption: new Date(consumption),
-                kg: kg
+                kg: kg,
+                price: price,
+                currency: currency
             };
 
             const today = new Date();
@@ -747,17 +1026,21 @@
                 refillDate: refill,
                 consumptionDate: consumption,
                 daysUsed: daysUsed,
+                price: price,
+                currency: currency,
                 addedAt: today.toISOString()
             });
 
-            saveToLocalStorage();
+            await saveToLocalStorage();
             renderHistory();
             showToast('Dates saved! Notifications will be set.');
             updateStatus();
             checkNotifications();
             scheduleNotifications();
 
-            // Send to Worker if token is available
+            // REMOVED: No instant pop-up notification after saving
+
+            // Send to Worker if token is available (for scheduled notifications when app is closed)
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
                 const token = await window.Capacitor.Plugins.FirebaseMessaging.getToken();
                 if (token) {
@@ -775,9 +1058,9 @@
         }
 
         // Delete history item
-        function deleteHistory(index) {
+        async function deleteHistory(index) {
             history.splice(index, 1);
-            saveToLocalStorage();
+            await saveToLocalStorage();
             renderHistory();
             showToast('History entry deleted.');
         }
@@ -790,10 +1073,12 @@
             }
             let html = '';
             history.forEach((item, index) => {
+                const currencySymbol = getCurrencySymbol(item.currency);
                 html += `
                     <div class="history-item">
                         <div class="details">
                             <span class="kg">${item.kg} KG</span> | 
+                            Price: ${currencySymbol}${item.price} | 
                             Refill: ${item.refillDate} | 
                             Consumption: ${item.consumptionDate} | 
                             Days used: ${item.daysUsed}
@@ -803,6 +1088,34 @@
                 `;
             });
             historyList.innerHTML = html;
+        }
+
+        // Get currency symbol
+        function getCurrencySymbol(currency) {
+            const symbols = {
+                'NGN': '₦', 'USD': '$', 'GHS': '₵', 'KES': 'KSh', 'ZAR': 'R', 'EGP': '£',
+                'GBP': '£', 'EUR': '€', 'CAD': '$', 'AUD': '$', 'JPY': '¥', 'CNY': '¥',
+                'INR': '₹', 'BRL': 'R$', 'MXN': '$', 'RUB': '₽', 'SAR': '﷼', 'AED': 'د.إ',
+                'TRY': '₺', 'CHF': 'Fr', 'SEK': 'kr', 'NOK': 'kr', 'DKK': 'kr', 'PLN': 'zł',
+                'CZK': 'Kč', 'HUF': 'Ft', 'RON': 'lei', 'BGN': 'лв', 'THB': '฿', 'VND': '₫',
+                'IDR': 'Rp', 'MYR': 'RM', 'PHP': '₱', 'SGD': '$', 'HKD': '$', 'TWD': '$',
+                'KRW': '₩', 'PKR': '₨', 'BDT': '৳', 'LKR': '₨', 'NPR': '₨', 'TZS': 'TSh',
+                'UGX': 'USh', 'RWF': 'FRw', 'ETB': 'Br', 'MAD': 'د.م.', 'DZD': 'دج',
+                'TND': 'د.ت', 'LYD': 'ل.د', 'SDG': 'ج.س', 'GNF': 'FG', 'XOF': 'CFA',
+                'XAF': 'CFA', 'CDF': 'FC', 'ZMW': 'ZK', 'MWK': 'MK', 'BWP': 'P', 'NAD': '$',
+                'MUR': '₨', 'SCR': '₨', 'MZN': 'MT', 'AOA': 'Kz', 'GMD': 'D', 'SLL': 'Le',
+                'LRD': '$', 'MRU': 'UM', 'ERN': 'Nfk', 'DJF': 'Fdj', 'SOS': 'Sh', 'BIF': 'FBu',
+                'MGA': 'Ar', 'KMF': 'CF', 'STN': 'Db', 'CVE': '$', 'XCD': '$', 'JMD': '$',
+                'TTD': '$', 'BBD': '$', 'BSD': '$', 'BZD': '$', 'GYD': '$', 'HTG': 'G',
+                'CUP': '$', 'DOP': 'RD$', 'GTQ': 'Q', 'HNL': 'L', 'NIO': 'C$', 'CRC': '₡',
+                'PAB': 'B/.', 'BOB': 'Bs', 'PEN': 'S/', 'UYU': '$U', 'PYG': '₲', 'ARS': '$',
+                'CLP': '$', 'COP': '$', 'VES': 'Bs', 'KZT': '₸', 'UZS': 'so\'m', 'TMT': 'm',
+                'KGS': 'som', 'TJS': 'SM', 'AZN': '₼', 'GEL': '₾', 'AMD': '֏', 'BYN': 'Br',
+                'MDL': 'L', 'UAH': '₴', 'RSD': 'дин', 'MKD': 'ден', 'ALL': 'L', 'BAM': 'KM',
+                'MNT': '₮', 'KHR': '៛', 'LAK': '₭', 'MMK': 'K', 'NZD': '$', 'FJD': '$',
+                'PGK': 'K', 'SBD': '$', 'WST': 'T', 'TOP': 'T$', 'VUV': 'VT', 'ISK': 'kr'
+            };
+            return symbols[currency] || currency;
         }
 
         // Update status based on days left
@@ -842,7 +1155,7 @@
             }
         }
 
-        // Notification checking (for display)
+        // Notification checking (for display) - only show the primary alert
         function checkNotifications() {
             if (!savedDates) {
                 notificationList.innerHTML = '<div class="notification-item alert-none"><span class="icon">ℹ️</span> Set your consumption date to see alerts</div>';
@@ -870,10 +1183,7 @@
                 html = `<div class="notification-item alert-none"><span class="icon">✅</span> ${diffDays} days left until consumption date.</div>`;
             }
 
-            const refillDiff = Math.ceil((savedDates.refill - today) / (1000 * 60 * 60 * 24));
-            if (refillDiff >= 0) {
-                html += `<div class="notification-item alert-none"><span class="icon">🔄</span> Refill date is in ${refillDiff} days.</div>`;
-            }
+            // Removed the refill date line - only showing the primary alert
 
             notificationList.innerHTML = html;
         }
@@ -900,6 +1210,7 @@
                     notificationTime.setHours(hour, 0, 0, 0);
                     const now = new Date();
                     const delay = notificationTime.getTime() - now.getTime();
+                    console.log('Scheduling notification at', notificationTime, 'delay', delay); // DEBUG
                     if (delay > 0) {
                         const timer = setTimeout(() => {
                             let message;
@@ -908,16 +1219,9 @@
                             } else {
                                 message = "Prepare to refill your cooking gas";
                             }
-                            // Show local notification (works in web and native via Capacitor)
-                            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
-                                showToast(message);
-                                playAlarm();
-                            } else {
-                                if ('Notification' in window && Notification.permission === 'granted') {
-                                    new Notification('Cooking Gas Alert', { body: message });
-                                    playAlarm();
-                                }
-                            }
+                            // Show local notification
+                            showLocalNotification('Cooking Gas Alert', message);
+                            playAlarm();
                         }, delay);
                         window.notificationTimers.push(timer);
                     }
@@ -973,7 +1277,7 @@
             if (type === 'privacy') {
                 content = `
                     <h2>Privacy Policy</h2>
-                    <p>Your privacy is important to us. This app collects only the necessary data to function: your refill dates, consumption dates, gas amount (KG), and your device's notification token for sending alerts.</p>
+                    <p>Your privacy is important to us. This app collects only the necessary data to function: your refill dates, consumption dates, gas amount (KG), price, currency, and your device's notification token for sending alerts.</p>
                     <p>We do not sell, rent, or share your personal information with third parties except as required to provide the service (e.g., Firebase Cloud Messaging for push notifications).</p>
                     <p>You can delete all locally stored data at any time by clearing your browser storage. For server-side data, contact us to request deletion.</p>
                 `;
@@ -983,6 +1287,34 @@
                     <p>Welcome to Cooking Gas Consumption Tracker! Our mission is to help households manage their cooking gas usage efficiently and avoid running out unexpectedly.</p>
                     <p>By setting your refill and expected consumption dates, our app sends timely reminders to ensure you always have gas when you need it.</p>
                     <p>We are committed to providing a simple, reliable, and user-friendly experience.</p>
+                    <hr>
+                    <h3>HOW WILL NOTIFICATIONS BE SENT?</h3>
+                    <p>When you are 2 days or 1 day away from your expected gas consumption date, you will receive a reminder 4 times a day:</p>
+                    <ul>
+                        <li>12:00 AM</li>
+                        <li>6:00 AM</li>
+                        <li>12:00 PM</li>
+                        <li>6:00 PM</li>
+                    </ul>
+                    <p>The notification will say:</p>
+                    <p><em>"Prepare to refill your cooking gas."</em></p>
+                    <p>Don't panic when you receive this notification. It is only a reminder to prepare for a refill.</p>
+                    <h3>On Your Consumption Date</h3>
+                    <p>On the day you expect to run out of gas, you will also receive the notification 4 times at the same times:</p>
+                    <ul>
+                        <li>12:00 AM</li>
+                        <li>6:00 AM</li>
+                        <li>12:00 PM</li>
+                        <li>6:00 PM</li>
+                    </ul>
+                    <p>This notification will say:</p>
+                    <p><em>"It's time to refill your cooking gas."</em></p>
+                    <h3>Important Note</h3>
+                    <p>When you receive this notification, you may still have gas left in your cylinder.</p>
+                    <p>The estimated consumption date may not always be 100% accurate because your gas usage can change depending on how much you cook and how long you use your gas.</p>
+                    <p>The app is designed to remind you before you unexpectedly run out of gas.</p>
+                    <p>Please understand that we are not responsible for incorrect consumption estimates, because you set your expected consumption date based on your own gas usage.</p>
+                    <p>Thank you for using our app!</p>
                 `;
             } else if (type === 'terms') {
                 content = `
@@ -1010,8 +1342,13 @@
         });
 
         // Initialize
-        loadSavedData();
-        renderHistory();
+        detectCurrency();
+        loadSavedData().then(() => {
+            renderHistory();
+            updateStatus();
+            checkNotifications();
+            scheduleNotifications();
+        });
 
         // If running in Capacitor, request permission on load if not already granted
         if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
@@ -1048,10 +1385,6 @@
                 .then(reg => console.log('SW registered', reg))
                 .catch(err => console.error('SW registration failed', err));
         }
-
-        updateStatus();
-        checkNotifications();
-        scheduleNotifications();
 
         setInterval(() => {
             updateStatus();
