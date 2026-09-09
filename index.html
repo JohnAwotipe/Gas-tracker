@@ -10,7 +10,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
     <style>
-        /* Same styles as before - I'll keep them all */
         * {
             margin: 0;
             padding: 0;
@@ -748,6 +747,8 @@
         let savedDates = null;
         let audioContext = null;
         let isFirebaseReady = false;
+        let notificationId = 1;
+        let history = [];
 
         // DOM Elements
         const countdownEl = document.getElementById('countdown');
@@ -790,11 +791,138 @@
             'PG': 'PGK', 'SB': 'SBD', 'WS': 'WST', 'TO': 'TOP', 'VU': 'VUV', 'IS': 'ISK'
         };
 
-        // Auto-detect currency based on user's locale
+        // Map timezone to currency
+        const timezoneToCurrency = {
+            'Africa/Lagos': 'NGN',
+            'Africa/Accra': 'GHS',
+            'Africa/Nairobi': 'KES',
+            'Africa/Johannesburg': 'ZAR',
+            'Africa/Cairo': 'EGP',
+            'Africa/Casablanca': 'MAD',
+            'Africa/Algiers': 'DZD',
+            'Africa/Tunis': 'TND',
+            'Africa/Tripoli': 'LYD',
+            'Africa/Khartoum': 'SDG',
+            'Africa/Addis_Ababa': 'ETB',
+            'Africa/Dar_es_Salaam': 'TZS',
+            'Africa/Kampala': 'UGX',
+            'Africa/Kigali': 'RWF',
+            'Africa/Bujumbura': 'BIF',
+            'Africa/Mogadishu': 'SOS',
+            'Africa/Djibouti': 'DJF',
+            'Africa/Asmara': 'ERN',
+            'Africa/Nouakchott': 'MRU',
+            'Africa/Bamako': 'XOF',
+            'Africa/Ouagadougou': 'XOF',
+            'Africa/Abidjan': 'XOF',
+            'Africa/Dakar': 'XOF',
+            'Africa/Banjul': 'GMD',
+            'Africa/Conakry': 'GNF',
+            'Africa/Freetown': 'SLL',
+            'Africa/Monrovia': 'LRD',
+            'Africa/Niamey': 'XOF',
+            'Africa/Lome': 'XOF',
+            'Africa/Porto-Novo': 'XOF',
+            'Africa/Bangui': 'XAF',
+            'Africa/Brazzaville': 'XAF',
+            'Africa/Douala': 'XAF',
+            'Africa/Libreville': 'XAF',
+            'Africa/Malabo': 'XAF',
+            'Africa/Ndjamena': 'XAF',
+            'Africa/Kinshasa': 'CDF',
+            'Africa/Lubumbashi': 'CDF',
+            'Africa/Luanda': 'AOA',
+            'Africa/Maputo': 'MZN',
+            'Africa/Harare': 'ZWL',
+            'Africa/Lusaka': 'ZMW',
+            'Africa/Blantyre': 'MWK',
+            'Africa/Gaborone': 'BWP',
+            'Africa/Windhoek': 'NAD',
+            'Africa/Maseru': 'LSL',
+            'Africa/Mbabane': 'SZL',
+            'Africa/Port_Louis': 'MUR',
+            'Africa/Victoria': 'SCR',
+            'Africa/Comoro': 'KMF',
+            'Africa/Antananarivo': 'MGA',
+            'Africa/Sao_Tome': 'STN',
+            'Africa/Cape_Verde': 'CVE',
+            'America/New_York': 'USD',
+            'America/Chicago': 'USD',
+            'America/Denver': 'USD',
+            'America/Los_Angeles': 'USD',
+            'America/Toronto': 'CAD',
+            'America/Vancouver': 'CAD',
+            'America/Mexico_City': 'MXN',
+            'America/Sao_Paulo': 'BRL',
+            'America/Buenos_Aires': 'ARS',
+            'America/Lima': 'PEN',
+            'America/Bogota': 'COP',
+            'America/Santiago': 'CLP',
+            'America/Caracas': 'VES',
+            'Europe/London': 'GBP',
+            'Europe/Paris': 'EUR',
+            'Europe/Berlin': 'EUR',
+            'Europe/Madrid': 'EUR',
+            'Europe/Rome': 'EUR',
+            'Europe/Amsterdam': 'EUR',
+            'Europe/Brussels': 'EUR',
+            'Europe/Vienna': 'EUR',
+            'Europe/Lisbon': 'EUR',
+            'Europe/Athens': 'EUR',
+            'Europe/Helsinki': 'EUR',
+            'Europe/Stockholm': 'SEK',
+            'Europe/Oslo': 'NOK',
+            'Europe/Copenhagen': 'DKK',
+            'Europe/Warsaw': 'PLN',
+            'Europe/Prague': 'CZK',
+            'Europe/Budapest': 'HUF',
+            'Europe/Bucharest': 'RON',
+            'Europe/Sofia': 'BGN',
+            'Europe/Zurich': 'CHF',
+            'Europe/Istanbul': 'TRY',
+            'Europe/Moscow': 'RUB',
+            'Europe/Kiev': 'UAH',
+            'Europe/Minsk': 'BYN',
+            'Asia/Tokyo': 'JPY',
+            'Asia/Shanghai': 'CNY',
+            'Asia/Hong_Kong': 'HKD',
+            'Asia/Singapore': 'SGD',
+            'Asia/Seoul': 'KRW',
+            'Asia/Taipei': 'TWD',
+            'Asia/Bangkok': 'THB',
+            'Asia/Jakarta': 'IDR',
+            'Asia/Kuala_Lumpur': 'MYR',
+            'Asia/Manila': 'PHP',
+            'Asia/Ho_Chi_Minh': 'VND',
+            'Asia/Kolkata': 'INR',
+            'Asia/Karachi': 'PKR',
+            'Asia/Dhaka': 'BDT',
+            'Asia/Colombo': 'LKR',
+            'Asia/Kathmandu': 'NPR',
+            'Asia/Riyadh': 'SAR',
+            'Asia/Dubai': 'AED',
+            'Asia/Jerusalem': 'ILS',
+            'Australia/Sydney': 'AUD',
+            'Australia/Perth': 'AUD',
+            'Pacific/Auckland': 'NZD',
+        };
+
+        // Auto-detect currency based on timezone (primary) and language (fallback)
         function detectCurrency() {
-            const lang = navigator.language || navigator.userLanguage || 'en-US';
-            const country = (lang.split('-')[1] || lang.split('_')[1] || '').toUpperCase();
-            const detected = countryCurrencyMap[country] || 'USD';
+            let detected = null;
+            try {
+                const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                if (timeZone && timezoneToCurrency[timeZone]) {
+                    detected = timezoneToCurrency[timeZone];
+                }
+            } catch (e) {}
+
+            if (!detected) {
+                const lang = navigator.language || navigator.userLanguage || 'en-US';
+                const country = (lang.split('-')[1] || lang.split('_')[1] || '').toUpperCase();
+                detected = countryCurrencyMap[country] || 'USD';
+            }
+
             currencySelect.value = detected;
         }
 
@@ -853,12 +981,6 @@
                 console.log('Saved to localStorage:', data);
             }
         }
-
-        // History array
-        let history = [];
-
-        // Notification ID counter (must be 32-bit integer)
-        let notificationId = 1;
 
         // Request permission and subscribe to push (Capacitor version)
         async function requestPermission() {
@@ -1036,9 +1158,7 @@
             showToast('Dates saved! Notifications will be set.');
             updateStatus();
             checkNotifications();
-            scheduleNotifications();
-
-            // REMOVED: No instant pop-up notification after saving
+            // NO scheduleNotifications() here – only on app load
 
             // Send to Worker if token is available (for scheduled notifications when app is closed)
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
@@ -1183,8 +1303,6 @@
                 html = `<div class="notification-item alert-none"><span class="icon">✅</span> ${diffDays} days left until consumption date.</div>`;
             }
 
-            // Removed the refill date line - only showing the primary alert
-
             notificationList.innerHTML = html;
         }
 
@@ -1210,7 +1328,6 @@
                     notificationTime.setHours(hour, 0, 0, 0);
                     const now = new Date();
                     const delay = notificationTime.getTime() - now.getTime();
-                    console.log('Scheduling notification at', notificationTime, 'delay', delay); // DEBUG
                     if (delay > 0) {
                         const timer = setTimeout(() => {
                             let message;
