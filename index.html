@@ -505,7 +505,7 @@
         </div>
         
         <div class="main-card">
-            <p style="text-align:center; color:#555; margin-bottom:15px;">You'll receive alerts 2 days before, 1 day before, and on the consumption date.</p>
+            <p style="text-align:center; color:#555; margin-bottom:15px;">You'll receive alerts every 3 hours on the 2 days before, 1 day before, and on the consumption date.</p>
             
             <!-- Notification Permission -->
             <div class="notification-permission" id="notifPermission">
@@ -535,7 +535,7 @@
                     <div class="price-row">
                         <input type="number" id="priceInput" min="0" step="0.01" placeholder="e.g., 5000">
                         <select id="currencySelect">
-                            <!-- All currency options -->
+                            <!-- All currency options (same as before) -->
                             <option value="NGN">₦ NGN</option>
                             <option value="USD">$ USD</option>
                             <option value="GHS">₵ GHS</option>
@@ -688,7 +688,7 @@
             
             <!-- Notifications -->
             <div class="notification-section">
-                <h3>🔔 Upcoming Notifications</h3>
+                <h3>🔔 Notification Status</h3>
                 <div id="notificationList"></div>
             </div>
             
@@ -710,7 +710,7 @@
         </div>
         
         <div style="text-align: center; color: white; opacity: 0.8; margin-top: 20px; font-size: 0.9rem;">
-            <p>You'll receive alerts at 00:00, 06:00, 12:00, and 18:00 on the 2 days before, 1 day before, and on the consumption date.</p>
+            <p>You'll receive alerts at 12 AM, 3 AM, 6 AM, 9 AM, 12 PM, 3 PM, 6 PM, and 9 PM on the 2 days before, 1 day before, and on the consumption date.</p>
         </div>
     </div>
     
@@ -749,6 +749,8 @@
         let isFirebaseReady = false;
         let notificationId = 1;
         let history = [];
+        let sentNotifications = [];
+        let lastSent = null;
 
         // DOM Elements
         const countdownEl = document.getElementById('countdown');
@@ -957,6 +959,12 @@
                 if (saved.history) {
                     history = saved.history;
                 }
+                if (saved.sentNotifications) {
+                    sentNotifications = saved.sentNotifications;
+                }
+                if (saved.lastSent) {
+                    lastSent = saved.lastSent;
+                }
             }
         }
 
@@ -970,7 +978,9 @@
                     price: savedDates.price,
                     currency: savedDates.currency
                 } : null,
-                history: history
+                history: history,
+                sentNotifications: sentNotifications,
+                lastSent: lastSent
             };
             
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences) {
@@ -980,6 +990,15 @@
                 localStorage.setItem('gasTrackerData', JSON.stringify(data));
                 console.log('Saved to localStorage:', data);
             }
+        }
+
+        // Record a sent notification
+        function recordNotificationSent(message) {
+            const now = Date.now();
+            lastSent = { timestamp: now, message: message };
+            sentNotifications.push(lastSent);
+            if (sentNotifications.length > 10) sentNotifications.shift();
+            saveToLocalStorage();
         }
 
         // Request permission and subscribe to push (Capacitor version)
@@ -1031,6 +1050,7 @@
                 } else {
                     showToast(body);
                 }
+                recordNotificationSent(body);
                 playAlarm();
             });
         } else {
@@ -1063,6 +1083,7 @@
                         new Notification(title, { body: body });
                     }
                 }
+                recordNotificationSent(body);
                 playAlarm();
             });
         }
@@ -1107,6 +1128,7 @@
                             }
                         ]
                     });
+                    recordNotificationSent(body);
                 } else {
                     showToast('Local notification permission denied');
                 }
@@ -1114,6 +1136,7 @@
                 // Web fallback
                 if ('Notification' in window && Notification.permission === 'granted') {
                     new Notification(title, { body: body });
+                    recordNotificationSent(body);
                 } else {
                     showToast(body);
                 }
@@ -1153,12 +1176,16 @@
                 addedAt: today.toISOString()
             });
 
+            // Reset sentNotifications when new dates are saved
+            sentNotifications = [];
+            lastSent = null;
+
             await saveToLocalStorage();
             renderHistory();
             showToast('Dates saved! Notifications will be set.');
             updateStatus();
             checkNotifications();
-            // NO scheduleNotifications() here – only on app load
+            // No scheduleNotifications here – only on app load
 
             // Send to Worker if token is available (for scheduled notifications when app is closed)
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
@@ -1275,35 +1302,83 @@
             }
         }
 
-        // Notification checking (for display) - only show the primary alert
-        function checkNotifications() {
-            if (!savedDates) {
-                notificationList.innerHTML = '<div class="notification-item alert-none"><span class="icon">ℹ️</span> Set your consumption date to see alerts</div>';
-                return;
+        // Times array (every 3 hours)
+        const times = [0, 3, 6, 9, 12, 15, 18, 21];
+
+        // Get next scheduled notification time
+        function getNextNotificationTime() {
+            if (!savedDates) return null;
+            const daysBefore = [2, 1, 0];
+            const now = new Date();
+            let nextTime = null;
+            for (const days of daysBefore) {
+                const targetDate = new Date(savedDates.consumption);
+                targetDate.setDate(targetDate.getDate() - days);
+                targetDate.setHours(0,0,0,0);
+                for (const hour of times) {
+                    const notifyTime = new Date(targetDate);
+                    notifyTime.setHours(hour,0,0,0);
+                    if (notifyTime > now) {
+                        if (!nextTime || notifyTime < nextTime) nextTime = notifyTime;
+                    }
+                }
             }
+            return nextTime;
+        }
 
-            const today = new Date();
-            today.setHours(0,0,0,0);
-            const consumption = savedDates.consumption;
-            consumption.setHours(0,0,0,0);
-
-            const diffDays = Math.ceil((consumption - today) / (1000 * 60 * 60 * 24));
-
+        // Update notification status display
+        function updateNotificationStatus() {
             let html = '';
-
-            if (diffDays < 0) {
-                html = '<div class="notification-item alert-today"><span class="icon">⏰</span> Consumption date has passed! Please refill.</div>';
-            } else if (diffDays === 0) {
-                html = '<div class="notification-item alert-today"><span class="icon">⏰</span> Today is the consumption date! Refill now.</div>';
-            } else if (diffDays === 1) {
-                html = '<div class="notification-item alert-1day"><span class="icon">⚠️</span> 1 day left until consumption date!</div>';
-            } else if (diffDays === 2) {
-                html = '<div class="notification-item alert-2days"><span class="icon">📅</span> 2 days left until consumption date!</div>';
+            if (lastSent) {
+                const timeStr = new Date(lastSent.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const dateStr = new Date(lastSent.timestamp).toLocaleDateString();
+                html += `<div class="notification-item alert-none"><span class="icon">✅</span> Last notification sent at ${timeStr} on ${dateStr} - ${lastSent.message}</div>`;
             } else {
-                html = `<div class="notification-item alert-none"><span class="icon">✅</span> ${diffDays} days left until consumption date.</div>`;
+                html += `<div class="notification-item alert-none"><span class="icon">ℹ️</span> No notifications sent yet</div>`;
             }
 
+            const nextTime = getNextNotificationTime();
+            if (nextTime) {
+                const timeStr = nextTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const dateStr = nextTime.toLocaleDateString();
+                html += `<div class="notification-item alert-none"><span class="icon">📅</span> Next notification at ${timeStr} on ${dateStr}</div>`;
+            } else {
+                html += `<div class="notification-item alert-none"><span class="icon">📅</span> No upcoming notifications</div>`;
+            }
+
+            // Check for missed notifications
+            if (savedDates) {
+                const daysBefore = [2, 1, 0];
+                const now = new Date();
+                let missedCount = 0;
+                for (const days of daysBefore) {
+                    const targetDate = new Date(savedDates.consumption);
+                    targetDate.setDate(targetDate.getDate() - days);
+                    targetDate.setHours(0,0,0,0);
+                    for (const hour of times) {
+                        const notifyTime = new Date(targetDate);
+                        notifyTime.setHours(hour,0,0,0);
+                        if (notifyTime <= now) {
+                            const key = notifyTime.getTime().toString();
+                            if (!sentNotifications.some(n => n.timestamp === notifyTime.getTime())) {
+                                missedCount++;
+                                const timeStr = notifyTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                                const dateStr = notifyTime.toLocaleDateString();
+                                html += `<div class="notification-item alert-1day"><span class="icon">⚠️</span> Missed notification at ${timeStr} on ${dateStr}</div>`;
+                            }
+                        }
+                    }
+                }
+                if (missedCount === 0) {
+                    // No missed
+                }
+            }
             notificationList.innerHTML = html;
+        }
+
+        // Notification checking (for display) - calls updateNotificationStatus
+        function checkNotifications() {
+            updateNotificationStatus();
         }
 
         // Local scheduling (works when app is open/background)
@@ -1315,7 +1390,6 @@
             }
             window.notificationTimers = [];
 
-            const times = [0, 6, 12, 18];
             const daysBefore = [2, 1, 0];
 
             daysBefore.forEach(days => {
@@ -1406,23 +1480,31 @@
                     <p>We are committed to providing a simple, reliable, and user-friendly experience.</p>
                     <hr>
                     <h3>HOW WILL NOTIFICATIONS BE SENT?</h3>
-                    <p>When you are 2 days or 1 day away from your expected gas consumption date, you will receive a reminder 4 times a day:</p>
+                    <p>When you are 2 days or 1 day away from your expected gas consumption date, you will receive a reminder 8 times a day:</p>
                     <ul>
                         <li>12:00 AM</li>
+                        <li>3:00 AM</li>
                         <li>6:00 AM</li>
+                        <li>9:00 AM</li>
                         <li>12:00 PM</li>
+                        <li>3:00 PM</li>
                         <li>6:00 PM</li>
+                        <li>9:00 PM</li>
                     </ul>
                     <p>The notification will say:</p>
                     <p><em>"Prepare to refill your cooking gas."</em></p>
                     <p>Don't panic when you receive this notification. It is only a reminder to prepare for a refill.</p>
                     <h3>On Your Consumption Date</h3>
-                    <p>On the day you expect to run out of gas, you will also receive the notification 4 times at the same times:</p>
+                    <p>On the day you expect to run out of gas, you will also receive the notification 8 times at the same times:</p>
                     <ul>
                         <li>12:00 AM</li>
+                        <li>3:00 AM</li>
                         <li>6:00 AM</li>
+                        <li>9:00 AM</li>
                         <li>12:00 PM</li>
+                        <li>3:00 PM</li>
                         <li>6:00 PM</li>
+                        <li>9:00 PM</li>
                     </ul>
                     <p>This notification will say:</p>
                     <p><em>"It's time to refill your cooking gas."</em></p>
