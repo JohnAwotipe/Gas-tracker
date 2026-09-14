@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cooking Gas Consumption Tracker</title>
+    <title>Cooking Gas Tracker — Know Before Your Gas Runs Out</title>
+    <meta name="description" content="Cooking Gas Tracker helps you estimate your cooking gas consumption date, plan refills, and receive timely reminders before you run out unexpectedly.">
+    <meta name="theme-color" content="#667eea">
+    <meta property="og:title" content="Cooking Gas Tracker — Know Before Your Gas Runs Out">
+    <meta property="og:description" content="Track your cooking gas usage, plan your next refill, and get timely reminders.">
+    <meta property="og:type" content="website">
     <link rel="icon" type="image/png" href="https://i.imgur.com/OkIJfE2.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Firebase SDK -->
@@ -538,18 +543,215 @@
             from { opacity: 0; transform: scale(0.92) translateY(10px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
+
+        /* ===== Professional website redesign ===== */
+        html { scroll-behavior: smooth; }
+        body {
+            background: #f5f7fb;
+            color: #172033;
+        }
+        .container { max-width: 1120px; padding: 0 22px 40px; }
+        .site-header {
+            display: flex; justify-content: space-between; align-items: center; gap: 20px;
+            padding: 18px 0; color: #172033;
+        }
+        .brand-row { display:flex; align-items:center; gap:11px; }
+        .brand-mark { width:46px; height:46px; border-radius:13px; overflow:hidden; box-shadow:0 8px 22px rgba(31,41,91,.18); flex:none; }
+        .brand-mark img { width:100%; height:100%; object-fit:cover; }
+        .brand-name { font-weight:800; font-size:1.05rem; letter-spacing:-.02em; }
+        .brand-tagline { font-size:.76rem; color:#697386; margin-top:2px; }
+        .top-nav { display:flex; gap:22px; align-items:center; flex-wrap:wrap; }
+        .top-nav a { color:#465065; text-decoration:none; font-size:.9rem; font-weight:600; }
+        .top-nav a:hover { color:#667eea; }
+        .hero-section {
+            background: radial-gradient(circle at 85% 15%, rgba(255,255,255,.18), transparent 30%), linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+            border-radius:28px; padding:64px 44px; color:white; box-shadow:0 22px 60px rgba(76,70,160,.24); margin-bottom:26px; position:relative; overflow:hidden;
+        }
+        .hero-section:after { content:""; position:absolute; width:240px; height:240px; border:1px solid rgba(255,255,255,.13); border-radius:50%; right:-90px; bottom:-100px; }
+        .hero-badge { display:inline-block; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22); padding:8px 13px; border-radius:999px; font-size:.78rem; font-weight:700; margin-bottom:18px; }
+        .hero-section h1 { max-width:760px; font-size:clamp(2.15rem,5vw,4rem); line-height:1.03; letter-spacing:-.045em; margin-bottom:18px; }
+        .hero-section h1 span { color:#ffe08a; }
+        .hero-section > p { max-width:680px; font-size:1.05rem; line-height:1.7; opacity:.94; }
+        .hero-actions { display:flex; gap:12px; margin-top:28px; flex-wrap:wrap; }
+        .hero-primary,.hero-secondary { padding:13px 19px; border-radius:12px; text-decoration:none; font-weight:800; font-size:.9rem; }
+        .hero-primary { background:white; color:#5b52b7; box-shadow:0 10px 25px rgba(0,0,0,.14); }
+        .hero-secondary { color:white; border:1px solid rgba(255,255,255,.4); background:rgba(255,255,255,.08); }
+        .hero-trust { margin-top:22px; font-size:.78rem; opacity:.82; }
+        .main-card { background:white; border-radius:24px; padding:34px; box-shadow:0 15px 45px rgba(23,32,51,.08); }
+        .tracker-intro { display:flex; justify-content:space-between; align-items:flex-start; gap:18px; padding-bottom:22px; margin-bottom:24px; border-bottom:1px solid #edf0f5; }
+        .tracker-kicker,.section-eyebrow { color:#667eea; font-size:.72rem; letter-spacing:.14em; font-weight:800; }
+        .tracker-intro h2 { margin:6px 0 7px; font-size:1.65rem; letter-spacing:-.025em; }
+        .tracker-intro p { color:#697386; max-width:650px; line-height:1.6; }
+        .tracker-pill { background:#eef0ff; color:#5b52b7; border-radius:999px; padding:9px 12px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+        .benefit-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:22px 0 28px; }
+        .benefit-card { background:#f8f9fc; border:1px solid #edf0f5; border-radius:15px; padding:17px; display:grid; grid-template-columns:auto 1fr; column-gap:10px; align-items:center; }
+        .benefit-icon { grid-row:span 2; width:40px; height:40px; display:grid; place-items:center; background:white; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,.06); }
+        .benefit-card strong { font-size:.88rem; }
+        .benefit-card span { color:#737d90; font-size:.75rem; line-height:1.4; margin-top:2px; }
+        .content-section { margin:44px 0 0; padding-top:36px; border-top:1px solid #edf0f5; }
+        .content-section h2 { font-size:1.65rem; letter-spacing:-.025em; margin:6px 0 10px; color:#172033; }
+        .section-lead,.content-section > p,.split-section p { color:#697386; line-height:1.7; max-width:780px; }
+        .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:22px; }
+        .step-card { border:1px solid #e9edf4; border-radius:16px; padding:20px; background:#fff; }
+        .step-card > span { display:inline-flex; width:34px; height:34px; align-items:center; justify-content:center; border-radius:10px; background:#eef0ff; color:#5b52b7; font-weight:800; font-size:.75rem; }
+        .step-card h3 { margin:14px 0 7px; font-size:1rem; }
+        .step-card p { color:#737d90; font-size:.88rem; line-height:1.6; }
+        .split-section { display:grid; grid-template-columns:1.45fr .8fr; gap:24px; align-items:stretch; }
+        .insight-card { background:linear-gradient(145deg,#fff9e8,#fff); border:1px solid #f3e5b8; border-radius:18px; padding:24px; }
+        .insight-icon { font-size:1.7rem; margin-bottom:10px; }
+        .insight-card h3 { margin-bottom:8px; }
+        .insight-card p { font-size:.88rem; }
+        .faq-list { display:grid; gap:10px; margin-top:18px; }
+        .faq-list details { border:1px solid #e9edf4; border-radius:14px; padding:0 17px; background:#fff; }
+        .faq-list summary { cursor:pointer; list-style:none; padding:17px 2px; font-weight:700; font-size:.92rem; position:relative; padding-right:28px; }
+        .faq-list summary::-webkit-details-marker { display:none; }
+        .faq-list summary:after { content:"+"; position:absolute; right:2px; font-size:1.2rem; color:#667eea; }
+        .faq-list details[open] summary:after { content:"−"; }
+        .faq-list details p { color:#737d90; line-height:1.65; font-size:.86rem; padding:0 2px 17px; }
+        .site-footer { text-align:center; color:#697386; padding:34px 10px 5px; font-size:.82rem; }
+        .footer-brand { color:#172033; font-weight:800; font-size:1rem; margin-bottom:7px; }
+        .site-footer p { margin-bottom:8px; }
+        .footer-note { font-size:.74rem; color:#8b94a5; }
+        @media (max-width: 760px) {
+            .site-header { align-items:flex-start; flex-direction:column; }
+            .top-nav { gap:12px 17px; }
+            .hero-section { padding:42px 24px; border-radius:22px; }
+            .hero-section h1 { font-size:2.35rem; }
+            .main-card { padding:22px 17px; }
+            .tracker-intro { flex-direction:column; }
+            .benefit-grid,.steps-grid,.split-section { grid-template-columns:1fr; }
+            .tracker-pill { align-self:flex-start; }
+            .date-inputs { grid-template-columns:1fr; }
+        }
+    
+        /* Cylinder dashboard */
+        .cylinder-panel { margin:28px 0 10px; padding:24px; border:1px solid #e7ebf3; border-radius:22px; background:linear-gradient(145deg,#f8faff,#ffffff); }
+        .cylinder-head { display:flex; justify-content:space-between; gap:18px; align-items:flex-start; margin-bottom:18px; }
+        .cylinder-head h3 { margin:0 0 6px; font-size:1.2rem; }
+        .cylinder-head p { margin:0; color:#737d90; font-size:.86rem; line-height:1.5; }
+        .cylinder-settings { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px; }
+        .cylinder-setting { background:#fff; border:1px solid #e6eaf1; border-radius:15px; padding:14px; }
+        .cylinder-setting label { display:block; font-size:.78rem; font-weight:800; color:#4f596b; margin-bottom:8px; }
+        .cylinder-setting select { width:100%; border:1px solid #dfe4ec; border-radius:10px; padding:11px 12px; font:inherit; background:#fff; color:#172033; }
+        .cylinder-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+        .cylinder-card { position:relative; overflow:hidden; min-height:265px; border:1px solid #e6eaf1; border-radius:20px; background:#fff; padding:18px; display:flex; align-items:center; gap:18px; }
+        .cylinder-card.main { border-color:#d9d5ff; background:linear-gradient(145deg,#ffffff,#f8f7ff); }
+        .cylinder-stage { width:125px; min-width:125px; height:190px; display:flex; align-items:center; justify-content:center; perspective:700px; }
+        .cylinder-3d { width:72px; height:145px; position:relative; transform-style:preserve-3d; animation:cylinderSpin 7s linear infinite; } .cylinder-image { width:115px; height:185px; object-fit:contain; display:block; animation:cylinderSpin 7s linear infinite; filter:drop-shadow(0 14px 16px rgba(40,50,70,.18)); } .cylinder-image.hidden { display:none; }
+        .cylinder-body { position:absolute; inset:13px 0 9px; border-radius:17px 17px 12px 12px; background:linear-gradient(90deg,#d8dde7 0%,#ffffff 20%,#c8ceda 48%,#f7f8fb 73%,#b7bfcc 100%); box-shadow:inset 7px 0 8px rgba(255,255,255,.55),inset -8px 0 10px rgba(65,75,95,.12),0 14px 22px rgba(40,50,70,.18); }
+        .cylinder-top { position:absolute; top:3px; left:13px; width:46px; height:25px; border-radius:50% 50% 35% 35%; background:linear-gradient(90deg,#aab2c0,#f4f6f9,#a3acbb); box-shadow:0 3px 4px rgba(0,0,0,.15); }
+        .cylinder-neck { position:absolute; top:0; left:27px; width:18px; height:15px; border-radius:5px 5px 3px 3px; background:#7f8999; }
+        .cylinder-base { position:absolute; bottom:0; left:7px; width:58px; height:14px; border-radius:45%; background:linear-gradient(90deg,#9ba4b3,#eef0f4,#929cab); }
+        .cylinder-label { position:absolute; top:65px; left:5px; right:5px; padding:6px 2px; text-align:center; font-weight:900; font-size:10px; letter-spacing:.5px; color:#4a5363; transform:rotateY(0deg); }
+        .cylinder-info { flex:1; min-width:0; }
+        .cylinder-role { font-size:.72rem; font-weight:900; letter-spacing:.08em; color:#667eea; text-transform:uppercase; }
+        .cylinder-info h4 { margin:5px 0 2px; font-size:1.45rem; }
+        .cylinder-status { display:inline-flex; align-items:center; gap:6px; font-size:.78rem; font-weight:800; margin:5px 0 13px; padding:6px 9px; border-radius:999px; background:#eef8f1; color:#277646; }
+        .cylinder-meter { height:9px; border-radius:999px; background:#edf0f5; overflow:hidden; margin:8px 0 8px; }
+        .cylinder-meter-fill { height:100%; width:0%; border-radius:999px; background:linear-gradient(90deg,#6f63e8,#8d83f2); transition:width .5s ease; }
+        .cylinder-days { font-size:.86rem; color:#596477; }
+        .cylinder-days strong { color:#172033; }
+        .cylinder-note { margin-top:7px; font-size:.7rem; color:#929aaa; line-height:1.4; }
+        .backup-empty { min-height:265px; border:1px dashed #cfd5df; border-radius:20px; display:flex; align-items:center; justify-content:center; text-align:center; padding:20px; color:#7c8595; background:#fafbfc; }
+        .backup-empty strong { display:block; color:#384255; margin-bottom:5px; }
+        @keyframes cylinderSpin { from { transform:rotateY(0deg); } to { transform:rotateY(360deg); } }
+        @media (prefers-reduced-motion: reduce) { .cylinder-3d { animation:none; } }
+        @media (max-width:760px) { .cylinder-settings,.cylinder-grid { grid-template-columns:1fr; } .cylinder-card { min-height:235px; } .cylinder-head { flex-direction:column; } }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>⛽ Cooking Gas Consumption Tracker</h1>
-            <p>Set your refill and consumption dates to get alerts</p>
-        </div>
+        <header class="site-header">
+            <div class="brand-row">
+                <div class="brand-mark"><img src="https://i.imgur.com/OkIJfE2.png" alt="Cooking Gas Tracker logo"></div>
+                <div>
+                    <div class="brand-name">Cooking Gas Tracker</div>
+                    <div class="brand-tagline">Track smarter. Refill on time.</div>
+                </div>
+            </div>
+            <nav class="top-nav" aria-label="Main navigation">
+                <a href="#tracker">Tracker</a>
+                <a href="#how-it-works">How it works</a>
+                <a href="#tips">Gas-saving tips</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+        </header>
+
+        <section class="hero-section">
+            <div class="hero-badge">🔥 A smarter way to manage cooking gas</div>
+            <h1>Know when your cooking gas is <span>about to finish.</span></h1>
+            <p>Stop guessing. Track your gas usage, plan your refill, and receive timely reminders before you run out unexpectedly.</p>
+            <div class="hero-actions">
+                <a class="hero-primary" href="#tracker">Start tracking free</a>
+                <a class="hero-secondary" href="#how-it-works">See how it works ↓</a>
+            </div>
+            <div class="hero-trust">✓ Simple to use &nbsp; • &nbsp; ✓ Works on phone &nbsp; • &nbsp; ✓ Built for everyday cooking</div>
+        </section>
         
         <div class="main-card">
-            <p style="text-align:center; color:#555; margin-bottom:15px;">You'll receive alerts every 3 hours on the 2 days before, 1 day before, and on the consumption date.</p>
+            <div class="tracker-intro" id="tracker">
+                <div>
+                    <div class="tracker-kicker">YOUR GAS PLAN</div>
+                    <h2>Set up your next refill reminder</h2>
+                    <p>Enter your refill date and expected consumption date. We'll help you keep an eye on the countdown and scheduled reminders.</p>
+                </div>
+                <div class="tracker-pill">🔔 Timely reminders</div>
+            </div>
             
+
+            <!-- Cylinder Dashboard -->
+            <section class="cylinder-panel" aria-labelledby="cylinderTitle">
+                <div class="cylinder-head">
+                    <div>
+                        <h3 id="cylinderTitle">🔥 My Cylinders</h3>
+                        <p>Add your main cylinder and, if you have one, a backup cylinder. Your cylinder display updates automatically as your estimated consumption date gets closer.</p>
+                    </div>
+                </div>
+                <div class="cylinder-settings">
+                    <div class="cylinder-setting">
+                        <label for="mainCylinderSize">Main cylinder</label>
+                        <select id="mainCylinderSize" onchange="saveCylinderSetup()">
+                            <option value="3">3 KG</option><option value="4">4 KG</option><option value="5">5 KG</option><option value="6">6 KG</option><option value="10">10 KG</option><option value="12">12 KG</option><option value="50">50 KG</option><option value="60">60 KG</option>
+                        </select>
+                    </div>
+                    <div class="cylinder-setting">
+                        <label for="backupCylinderSize">Backup cylinder</label>
+                        <select id="backupCylinderSize" onchange="saveCylinderSetup()">
+                            <option value="none">No backup cylinder</option><option value="3">3 KG</option><option value="4">4 KG</option><option value="5">5 KG</option><option value="6">6 KG</option><option value="10">10 KG</option><option value="12">12 KG</option><option value="50">50 KG</option><option value="60">60 KG</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="cylinder-grid">
+                    <article class="cylinder-card main">
+                        <div class="cylinder-stage" aria-hidden="true">
+                            <img class="cylinder-image" id="mainCylinderImage" src="https://i.imgur.com/OEWDvrX.png" alt="12 KG cooking gas cylinder"><div class="cylinder-3d"><div class="cylinder-neck"></div><div class="cylinder-top"></div><div class="cylinder-body"></div><div class="cylinder-label" id="mainCylinderVisualLabel">12 KG</div><div class="cylinder-base"></div></div>
+                        </div>
+                        <div class="cylinder-info">
+                            <div class="cylinder-role">Main cylinder</div>
+                            <h4 id="mainCylinderDisplay">12 KG</h4>
+                            <div class="cylinder-status" id="mainCylinderStatus">🟢 On track</div>
+                            <div class="cylinder-meter"><div class="cylinder-meter-fill" id="mainCylinderMeter"></div></div>
+                            <div class="cylinder-days">Estimated remaining: <strong id="mainCylinderDays">Set your dates</strong></div>
+                            <div class="cylinder-note">Estimated from your refill and consumption dates — not a physical gas-level measurement.</div>
+                        </div>
+                    </article>
+                    <article class="cylinder-card" id="backupCylinderCard" style="display:none;">
+                        <div class="cylinder-stage" aria-hidden="true">
+                            <div class="cylinder-3d"><div class="cylinder-neck"></div><div class="cylinder-top"></div><div class="cylinder-body"></div><div class="cylinder-label" id="backupCylinderVisualLabel">6 KG</div><div class="cylinder-base"></div></div>
+                        </div>
+                        <div class="cylinder-info">
+                            <div class="cylinder-role">Backup cylinder</div>
+                            <h4 id="backupCylinderDisplay">6 KG</h4>
+                            <div class="cylinder-status">⚪ Backup ready</div>
+                            <div class="cylinder-days">Keep it available for your next refill.</div>
+                            <div class="cylinder-note">Your backup cylinder is stored as a separate household cylinder.</div>
+                        </div>
+                    </article>
+                    <div class="backup-empty" id="backupEmpty"><div><strong>+ Add a backup cylinder</strong><span>Useful when you want a second cylinder ready before the main one runs out.</span></div></div>
+                </div>
+            </section>
+
             <!-- Notification Permission -->
             <div class="notification-permission" id="notifPermission">
                 <p>🔔 <strong>Enable notifications</strong> to receive pop-up alerts on your phone.</p>
@@ -571,7 +773,7 @@
                 </div>
                 <div class="kg-input-group">
                     <label for="kgInput">Gas Amount (KG)</label>
-                    <input type="number" id="kgInput" min="0.5" max="12.5" step="0.5" placeholder="e.g., 3.0">
+                    <input type="number" id="kgInput" min="0.5" max="60" step="0.5" placeholder="e.g., 3.0">
                 </div>
                 <div class="price-input-group">
                     <label for="priceInput">Price</label>
@@ -716,8 +918,15 @@
                 <div id="statusIndicator" class="status-indicator"></div>
             </div>
             
+            <!-- Quick benefits -->
+            <div class="benefit-grid" aria-label="Tracker benefits">
+                <div class="benefit-card"><div class="benefit-icon">📅</div><strong>Plan ahead</strong><span>Know when to prepare for your next refill.</span></div>
+                <div class="benefit-card"><div class="benefit-icon">🔔</div><strong>Get reminders</strong><span>Receive alerts as your consumption date gets close.</span></div>
+                <div class="benefit-card"><div class="benefit-icon">📊</div><strong>Build a history</strong><span>Keep your previous refill records in one place.</span></div>
+            </div>
+
             <!-- Notice -->
-            <div class="notice-box">
+            <div class="notice-box" id="tips">
                 <h3>🔥 Gas Usage Tips</h3>
                 <p>
                     To help you get the most accurate gas consumption date, please keep track of how long you spend cooking each meal.<br><br>
@@ -744,6 +953,44 @@
             <!-- Test Notification -->
             <button class="test-alarm-btn" onclick="testNotification()">🔔 Test Notification</button>
             
+            <!-- How it works -->
+            <section class="content-section" id="how-it-works">
+                <div class="section-eyebrow">HOW IT WORKS</div>
+                <h2>Simple tracking for a problem you deal with every day.</h2>
+                <p class="section-lead">Cooking Gas Tracker helps you turn your past gas usage into a practical reminder plan. You provide the dates and gas amount; the tracker handles the countdown and reminder schedule.</p>
+                <div class="steps-grid">
+                    <div class="step-card"><span>01</span><h3>Record your refill</h3><p>Enter the date you refilled your cylinder, the gas amount, and the price you paid.</p></div>
+                    <div class="step-card"><span>02</span><h3>Set your expected date</h3><p>Choose the date you expect that gas to be consumed based on your normal cooking routine.</p></div>
+                    <div class="step-card"><span>03</span><h3>Prepare before you run out</h3><p>Use the countdown and notifications to plan your refill before an empty cylinder interrupts your cooking.</p></div>
+                </div>
+            </section>
+
+            <section class="content-section split-section">
+                <div>
+                    <div class="section-eyebrow">WHY ESTIMATES CAN CHANGE</div>
+                    <h2>Your gas usage is personal.</h2>
+                    <p>Two households can use the same cylinder size and finish their gas on different dates. Cooking time, heat level, meal choices, number of meals, and changes in routine can all affect consumption.</p>
+                    <p>That is why this tracker is designed as a <strong>planning tool</strong>, not a physical gas-level sensor. The more consistent your cooking habits are, the more useful your estimate can become.</p>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-icon">💡</div>
+                    <h3>Best practice</h3>
+                    <p>After every refill, keep your cooking routine as consistent as possible and compare your actual refill dates with your previous records.</p>
+                </div>
+            </section>
+
+            <section class="content-section" id="faq">
+                <div class="section-eyebrow">FAQ</div>
+                <h2>Questions people often ask</h2>
+                <div class="faq-list">
+                    <details><summary>Does the tracker physically measure the gas inside my cylinder?</summary><p>No. It estimates your expected consumption date using the dates and gas information you enter. It does not measure the physical gas level inside the cylinder.</p></details>
+                    <details><summary>Can my gas finish earlier than the date shown?</summary><p>Yes. The date is an estimate. Heavy cooking, high heat, longer cooking times, or a change in your routine can make gas finish earlier than expected.</p></details>
+                    <details><summary>What does “Prepare to refill your cooking gas” mean?</summary><p>It is an early reminder. It means your expected consumption date is getting close, so you can plan your refill instead of waiting until the gas runs out.</p></details>
+                    <details><summary>What does “It's time to refill your cooking gas” mean?</summary><p>It means today is the expected consumption date you entered. You should check your cylinder and plan to refill it if necessary.</p></details>
+                    <details><summary>Can I use the tracker again after refilling?</summary><p>Yes. After each refill, enter your new refill date and new expected consumption date. Your previous entry can remain in your refill history for reference.</p></details>
+                </div>
+            </section>
+
             <!-- Legal Links -->
             <div class="legal-links">
                 <a href="https://policies-privacy-8c085d.netlify.app/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
@@ -752,9 +999,11 @@
             </div>
         </div>
         
-        <div style="text-align: center; color: white; opacity: 0.8; margin-top: 20px; font-size: 0.9rem;">
-            <p>You'll receive alerts at 12 AM, 3 AM, 6 AM, 9 AM, 12 PM, 3 PM, 6 PM, and 9 PM on the 2 days before, 1 day before, and on the consumption date.</p>
-        </div>
+        <footer class="site-footer">
+            <div class="footer-brand">⛽ Cooking Gas Tracker</div>
+            <p>Helping everyday cooks plan ahead and avoid unexpected gas shortages.</p>
+            <div class="footer-note">Reminder estimates are based on the information you provide and your cooking habits.</div>
+        </footer>
     </div>
     
     <!-- App Download Promotion Popup -->
@@ -1378,7 +1627,6 @@
             let html = '';
 
             // Show only real notification status. Do not show "No notifications yet"
-            // and do not show missed notifications.
             if (lastSent) {
                 const timeStr = new Date(lastSent.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 const dateStr = new Date(lastSent.timestamp).toLocaleDateString();
@@ -1472,6 +1720,102 @@
             oscillator.stop(now + 1);
         }
 
+
+        // Cylinder dashboard
+        const CYLINDER_STORAGE_KEY = 'cookingGasTrackerCylinderSetup';
+        const CYLINDER_IMAGES = {
+            "3": "https://i.imgur.com/dZzOumd.png",
+            "4": "https://i.imgur.com/AWzW1Oc.png",
+            "5": "https://i.imgur.com/6XnSoH3.png",
+            "6": "https://i.imgur.com/BW6TJ3s.png",
+            "10": "https://i.imgur.com/j0DqhAI.png",
+            "12": "https://i.imgur.com/OEWDvrX.png",
+            "60": "https://i.imgur.com/z2lyJHU.png"
+        };
+
+        function setCylinderImage(id, size) {
+            const img = document.getElementById(id);
+            if (!img) return;
+            const url = CYLINDER_IMAGES[String(size)];
+            if (url) {
+                img.src = url;
+                img.alt = String(size) + ' KG cooking gas cylinder';
+                img.classList.remove('hidden');
+            } else {
+                img.classList.add('hidden');
+            }
+        }
+
+        function loadCylinderSetup() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(CYLINDER_STORAGE_KEY) || '{}');
+                const main = String(saved.main || '12');
+                const backup = String(saved.backup || 'none');
+                document.getElementById('mainCylinderSize').value = main;
+                document.getElementById('backupCylinderSize').value = backup;
+            } catch (e) { console.warn('Cylinder setup could not be loaded:', e); }
+            updateCylinderDashboard();
+        }
+
+        function saveCylinderSetup() {
+            const main = document.getElementById('mainCylinderSize').value;
+            const backup = document.getElementById('backupCylinderSize').value;
+            localStorage.setItem(CYLINDER_STORAGE_KEY, JSON.stringify({main, backup}));
+            updateCylinderDashboard();
+            showToast('Cylinder setup saved');
+        }
+
+        function cylinderRemainingPercent() {
+            const refill = document.getElementById('refillDate')?.value;
+            const consumption = document.getElementById('consumptionDate')?.value;
+            if (!refill || !consumption) return null;
+            const start = new Date(refill + 'T00:00:00');
+            const end = new Date(consumption + 'T23:59:59');
+            const now = new Date();
+            const total = end - start;
+            if (total <= 0) return null;
+            const remaining = Math.max(0, Math.min(total, end - now));
+            return Math.round((remaining / total) * 100);
+        }
+
+        function cylinderDaysText() {
+            const consumption = document.getElementById('consumptionDate')?.value;
+            if (!consumption) return 'Set your dates';
+            const target = new Date(consumption + 'T23:59:59');
+            const diff = Math.ceil((target - new Date()) / 86400000);
+            if (diff < 0) return 'Past consumption date';
+            if (diff === 0) return 'Today';
+            if (diff === 1) return '1 day';
+            return diff + ' days';
+        }
+
+        function updateCylinderDashboard() {
+            const main = document.getElementById('mainCylinderSize')?.value || '12';
+            const backup = document.getElementById('backupCylinderSize')?.value || 'none';
+            const mainText = main + ' KG';
+            setCylinderImage('mainCylinderImage', main);
+            document.getElementById('mainCylinderDisplay').textContent = mainText;
+            document.getElementById('mainCylinderVisualLabel').textContent = mainText;
+            document.getElementById('mainCylinderDays').textContent = cylinderDaysText();
+            const pct = cylinderRemainingPercent();
+            document.getElementById('mainCylinderMeter').style.width = (pct === null ? 0 : pct) + '%';
+            const status = document.getElementById('mainCylinderStatus');
+            if (pct === null) { status.textContent = '⚪ Add your dates'; status.style.background='#f1f3f6'; status.style.color='#657083'; }
+            else if (pct <= 10) { status.textContent = '🔴 Refill now'; status.style.background='#fff0f0'; status.style.color='#b33a3a'; }
+            else if (pct <= 30) { status.textContent = '🟡 Prepare to refill'; status.style.background='#fff8df'; status.style.color='#8a6800'; }
+            else { status.textContent = '🟢 On track'; status.style.background='#eef8f1'; status.style.color='#277646'; }
+
+            const backupCard = document.getElementById('backupCylinderCard');
+            const empty = document.getElementById('backupEmpty');
+            if (backup !== 'none') {
+                backupCard.style.display = 'flex'; empty.style.display = 'none';
+                const text = backup + ' KG';
+                setCylinderImage('backupCylinderImage', backup);
+                document.getElementById('backupCylinderDisplay').textContent = text;
+                document.getElementById('backupCylinderVisualLabel').textContent = text;
+            } else { backupCard.style.display = 'none'; empty.style.display = 'flex'; setCylinderImage('backupCylinderImage', ''); }
+        }
+
         // Toast
         function showToast(message) {
             const toast = document.getElementById('toast');
@@ -1549,6 +1893,7 @@
         setTimeout(showAppPromo, 60000);
 
         // Initialize
+        loadCylinderSetup();
         detectCurrency();
         loadSavedData().then(() => {
             renderHistory();
@@ -1593,6 +1938,8 @@
                 .catch(err => console.error('SW registration failed', err));
         }
 
+        document.getElementById('refillDate')?.addEventListener('change', updateCylinderDashboard);
+        document.getElementById('consumptionDate')?.addEventListener('change', updateCylinderDashboard);
         setInterval(() => {
             updateStatus();
             checkNotifications();
