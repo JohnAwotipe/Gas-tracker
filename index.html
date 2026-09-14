@@ -636,13 +636,10 @@
         .cylinder-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
         .cylinder-card { position:relative; overflow:hidden; min-height:265px; border:1px solid #e6eaf1; border-radius:20px; background:#fff; padding:18px; display:flex; align-items:center; gap:18px; }
         .cylinder-card.main { border-color:#d9d5ff; background:linear-gradient(145deg,#ffffff,#f8f7ff); }
-        .cylinder-stage { width:125px; min-width:125px; height:190px; display:flex; align-items:center; justify-content:center; perspective:700px; }
-        .cylinder-3d { width:72px; height:145px; position:relative; transform-style:preserve-3d; animation:cylinderSpin 7s linear infinite; } .cylinder-image { width:115px; height:185px; object-fit:contain; display:block; animation:cylinderSpin 7s linear infinite; filter:drop-shadow(0 14px 16px rgba(40,50,70,.18)); } .cylinder-image.hidden { display:none; }
-        .cylinder-body { position:absolute; inset:13px 0 9px; border-radius:17px 17px 12px 12px; background:linear-gradient(90deg,#d8dde7 0%,#ffffff 20%,#c8ceda 48%,#f7f8fb 73%,#b7bfcc 100%); box-shadow:inset 7px 0 8px rgba(255,255,255,.55),inset -8px 0 10px rgba(65,75,95,.12),0 14px 22px rgba(40,50,70,.18); }
-        .cylinder-top { position:absolute; top:3px; left:13px; width:46px; height:25px; border-radius:50% 50% 35% 35%; background:linear-gradient(90deg,#aab2c0,#f4f6f9,#a3acbb); box-shadow:0 3px 4px rgba(0,0,0,.15); }
-        .cylinder-neck { position:absolute; top:0; left:27px; width:18px; height:15px; border-radius:5px 5px 3px 3px; background:#7f8999; }
-        .cylinder-base { position:absolute; bottom:0; left:7px; width:58px; height:14px; border-radius:45%; background:linear-gradient(90deg,#9ba4b3,#eef0f4,#929cab); }
-        .cylinder-label { position:absolute; top:65px; left:5px; right:5px; padding:6px 2px; text-align:center; font-weight:900; font-size:10px; letter-spacing:.5px; color:#4a5363; transform:rotateY(0deg); }
+        .cylinder-stage { width:155px; min-width:155px; height:210px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+        .cylinder-image { width:145px; height:200px; object-fit:contain; object-position:center; display:block; animation:cylinderSpin 7s linear infinite; transform-style:preserve-3d; filter:drop-shadow(0 14px 16px rgba(40,50,70,.18)); }
+        .cylinder-image.hidden { display:none; }
+        /* The real cylinder photos are used for both main and backup displays. */
         .cylinder-info { flex:1; min-width:0; }
         .cylinder-role { font-size:.72rem; font-weight:900; letter-spacing:.08em; color:#667eea; text-transform:uppercase; }
         .cylinder-info h4 { margin:5px 0 2px; font-size:1.45rem; }
@@ -655,10 +652,266 @@
         .backup-empty { min-height:265px; border:1px dashed #cfd5df; border-radius:20px; display:flex; align-items:center; justify-content:center; text-align:center; padding:20px; color:#7c8595; background:#fafbfc; }
         .backup-empty strong { display:block; color:#384255; margin-bottom:5px; }
         @keyframes cylinderSpin { from { transform:rotateY(0deg); } to { transform:rotateY(360deg); } }
-        @media (prefers-reduced-motion: reduce) { .cylinder-3d { animation:none; } }
+        @media (prefers-reduced-motion: reduce) { .cylinder-image { animation:none; } }
         @media (max-width:760px) { .cylinder-settings,.cylinder-grid { grid-template-columns:1fr; } .cylinder-card { min-height:235px; } .cylinder-head { flex-direction:column; } }
 
-    </style>
+    
+        /* ===== Headline visibility ===== */
+        .section-title,
+        .tracker-intro h2,
+        .content-section h2,
+        .cylinder-head h3,
+        .date-section h2,
+        .notification-section h3,
+        .history-section h2,
+        .tips-section h2 { color:#655bd6; }
+        .footer-copyright { margin-top:10px; font-size:.74rem; color:#7c8495; }
+
+        /* ===== Light / Dark mode ===== */
+        .theme-toggle { width:42px; height:42px; border:1px solid #dfe4ec; border-radius:12px; background:#fff; color:#172033; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; font-size:1.1rem; box-shadow:0 6px 16px rgba(31,41,91,.08); transition:.2s ease; flex:none; }
+        .theme-toggle:hover { transform:translateY(-1px); border-color:#667eea; }
+        body.dark-mode { background:#0f1220; color:#edf1fb; }
+        body.dark-mode .site-header { color:#edf1fb; }
+        body.dark-mode .brand-tagline, body.dark-mode .top-nav a { color:#aeb7ca; }
+        body.dark-mode .top-nav a:hover { color:#9b92ff; }
+        body.dark-mode .theme-toggle { background:#1a1f31; border-color:#30384d; color:#fff; }
+        body.dark-mode .main-card, body.dark-mode .content-section, body.dark-mode .cylinder-panel, body.dark-mode .cylinder-setting, body.dark-mode .cylinder-card, body.dark-mode .faq-list details, body.dark-mode .step-card, body.dark-mode .benefit-card { background:#171b2b; border-color:#2c3448; color:#edf1fb; }
+        body.dark-mode .cylinder-card.main { background:linear-gradient(145deg,#171b2b,#1d1b35); border-color:#4b4385; }
+        body.dark-mode .cylinder-setting select { background:#101522; color:#edf1fb; border-color:#343d53; }
+        body.dark-mode .cylinder-head p, body.dark-mode .cylinder-days, body.dark-mode .faq-list details p, body.dark-mode .step-card p, body.dark-mode .benefit-card p, body.dark-mode .tracker-intro p { color:#aeb7ca; }
+        body.dark-mode .cylinder-setting label, body.dark-mode .cylinder-role, body.dark-mode .cylinder-info h4, body.dark-mode .cylinder-days strong, body.dark-mode .faq-list summary, body.dark-mode .step-card h3, body.dark-mode .benefit-card h3 { color:#edf1fb; }
+        body.dark-mode .cylinder-note { color:#8791a7; }
+        body.dark-mode .cylinder-meter { background:#2a3041; }
+        body.dark-mode .backup-empty { background:#121724; border-color:#3a4255; color:#9da7bb; }
+        body.dark-mode .backup-empty strong { color:#edf1fb; }
+        body.dark-mode .site-footer, body.dark-mode .footer-brand { color:#aeb7ca; }
+        body.dark-mode .footer-note { color:#7f899e; }
+        /* Keep headlines clearly visible in both themes. */
+        body.dark-mode .section-title,
+        body.dark-mode .tracker-intro h2,
+        body.dark-mode .content-section h2,
+        body.dark-mode .cylinder-head h3,
+        body.dark-mode .date-section h2,
+        body.dark-mode .notification-section h3,
+        body.dark-mode .history-section h2,
+        body.dark-mode .tips-section h2 { color:#a99fff; }
+        body.dark-mode .footer-copyright { color:#9aa4b8; }
+
+        @media (max-width:760px) { .theme-toggle { position:absolute; top:18px; right:0; } .site-header { position:relative; padding-right:54px; } }
+
+
+        /* ===== FINAL TEXT VISIBILITY PASS ===== */
+        /* Light mode: strong, readable default text */
+        body { color:#20283a; }
+        body p, body li, body span, body label, body .section-lead,
+        body .tracker-intro p, body .cylinder-head p, body .cylinder-days,
+        body .cylinder-note, body .benefit-card span, body .step-card p,
+        body .faq-list details p, body .footer-note, body .brand-tagline {
+            color:#4a556b;
+        }
+        body h1, body h2, body h3, body h4, body strong, body summary,
+        body .section-title, body .tracker-intro h2, body .content-section h2,
+        body .cylinder-head h3, body .date-section h2, body .notification-section h3,
+        body .history-section h2, body .history-section h3, body .tips-section h2,
+        body .benefit-card strong, body .step-card h3, body .insight-card h3,
+        body .faq-list summary, body .cylinder-info h4, body .cylinder-role,
+        body .cylinder-days strong {
+            color:#182238;
+        }
+        body .section-eyebrow, body .tracker-kicker { color:#5b52b7; font-weight:800; }
+        body .notice-box h3 { color:#9a4b00; }
+        body .notice-box p { color:#5a4636; }
+        body .insight-card p { color:#4a556b; }
+        body .footer-copyright { color:#4d586c; font-weight:700; }
+
+        /* Dark mode: every content text element gets a high-contrast color. */
+        body.dark-mode { color:#f4f7ff; }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4,
+        body.dark-mode h5, body.dark-mode h6, body.dark-mode strong,
+        body.dark-mode summary, body.dark-mode label,
+        body.dark-mode .section-title, body.dark-mode .tracker-intro h2,
+        body.dark-mode .content-section h2, body.dark-mode .cylinder-head h3,
+        body.dark-mode .date-section h2, body.dark-mode .notification-section h3,
+        body.dark-mode .history-section h2, body.dark-mode .history-section h3,
+        body.dark-mode .tips-section h2, body.dark-mode .benefit-card strong,
+        body.dark-mode .step-card h3, body.dark-mode .insight-card h3,
+        body.dark-mode .faq-list summary, body.dark-mode .cylinder-info h4,
+        body.dark-mode .cylinder-role, body.dark-mode .cylinder-days strong {
+            color:#ffffff !important;
+        }
+        body.dark-mode p, body.dark-mode li, body.dark-mode span,
+        body.dark-mode .section-lead, body.dark-mode .tracker-intro p,
+        body.dark-mode .cylinder-head p, body.dark-mode .cylinder-days,
+        body.dark-mode .cylinder-note, body.dark-mode .benefit-card span,
+        body.dark-mode .step-card p, body.dark-mode .faq-list details p,
+        body.dark-mode .insight-card p, body.dark-mode .footer-note,
+        body.dark-mode .brand-tagline, body.dark-mode .last-updated {
+            color:#dbe2f0 !important;
+        }
+        body.dark-mode .section-eyebrow, body.dark-mode .tracker-kicker {
+            color:#b9b1ff !important; font-weight:800;
+        }
+        body.dark-mode .notice-box {
+            background:#2a2418;
+            border-left-color:#ffb84d;
+        }
+        body.dark-mode .notice-box h3 { color:#ffd27a !important; }
+        body.dark-mode .notice-box p { color:#f0e3c8 !important; }
+        body.dark-mode .insight-card {
+            background:#202638;
+            border-color:#3a4661;
+        }
+        body.dark-mode .insight-card p { color:#dbe2f0 !important; }
+        body.dark-mode .notification-section,
+        body.dark-mode .history-section,
+        body.dark-mode .status-section { color:#f4f7ff; }
+        body.dark-mode .notification-item.alert-2days,
+        body.dark-mode .notification-item.alert-1day {
+            background:#302619; border-color:#ff9f43; color:#ffd28a !important;
+        }
+        body.dark-mode .notification-item.alert-today {
+            background:#321d28; border-color:#ff6f9d; color:#ffb6ce !important;
+        }
+        body.dark-mode .notification-item.alert-none {
+            background:#193025; border-color:#62c98a; color:#a9efc2 !important;
+        }
+        body.dark-mode .countdown { color:#ffffff !important; }
+        body.dark-mode .countdown-label { color:#cbd4e5 !important; }
+        body.dark-mode .history-item { background:#1d2232; color:#dbe2f0; }
+        body.dark-mode .history-item .details { color:#dbe2f0 !important; }
+        body.dark-mode .history-item .details .kg { color:#ffffff !important; }
+        body.dark-mode .notification-permission { background:#172b40; color:#dbe2f0; }
+        body.dark-mode .notification-permission p { color:#dbe2f0 !important; }
+        body.dark-mode .date-input-group label,
+        body.dark-mode .kg-input-group label,
+        body.dark-mode .price-input-group label { color:#f0f4fb !important; }
+        body.dark-mode input,
+        body.dark-mode select,
+        body.dark-mode textarea {
+            background:#101522 !important;
+            color:#f4f7ff !important;
+            border-color:#3d475d !important;
+        }
+        body.dark-mode input::placeholder,
+        body.dark-mode textarea::placeholder { color:#9da8bc !important; }
+        /* Inline color declarations should never make text disappear in dark mode. */
+        body.dark-mode [style*="color"] { color:#dbe2f0 !important; }
+        body.dark-mode button, body.dark-mode .save-btn,
+        body.dark-mode .test-alarm-btn, body.dark-mode .notification-permission button,
+        body.dark-mode .history-item .delete-btn { color:#ffffff !important; }
+        body.dark-mode .status-ok { background:#193326; color:#9fe4b7 !important; }
+        body.dark-mode .status-warning { background:#332817; color:#ffd18a !important; }
+        body.dark-mode .status-danger { background:#351c27; color:#ffb3c9 !important; }
+        body.dark-mode .status-ok *, body.dark-mode .status-warning *, body.dark-mode .status-danger * {
+            color:inherit !important;
+        }
+
+
+        /* ===== FINAL COLOR & DARK/LIGHT VISIBILITY PASS ===== */
+        .status-section {
+            background:linear-gradient(135deg,#eef3ff 0%,#fff8e8 100%);
+            border:1px solid #dfe5f3;
+        }
+        .notification-section, .history-section {
+            background:linear-gradient(135deg,#f5f8ff 0%,#f8fff9 100%);
+            border:1px solid #dfe6f1;
+        }
+        .date-section {
+            background:linear-gradient(135deg,#f7f5ff 0%,#fff9ef 100%);
+            border:1px solid #e2e4f1;
+            border-radius:20px;
+            padding:20px;
+        }
+        .date-input-group {
+            background:#ffffff;
+            border:1px solid #e1e6f0;
+            border-radius:16px;
+            padding:14px;
+            box-shadow:0 5px 14px rgba(31,41,91,.05);
+        }
+        .date-input-group label, .kg-input-group label, .price-input-group label {
+            color:#182238 !important;
+            font-weight:800;
+        }
+        .date-input-group input[type="date"], .kg-input-group input[type="number"], .price-input-group input[type="number"] {
+            background:#ffffff;
+            color:#182238;
+            border:2px solid #dce2ef;
+        }
+        .status-section .countdown-label { color:#4a556b; font-weight:700; }
+        .notification-section h3, .history-section h3 { color:#182238 !important; font-weight:900; }
+        .notification-item, .history-item { font-weight:700; }
+        .history-section #historyList:empty::after { content:"No refill history yet."; display:block; padding:14px; border-radius:12px; background:#eef4ff; color:#46536b; font-weight:700; }
+        .step-card > span {
+            background:linear-gradient(135deg,#eeeaff,#dff7ff);
+            color:#3f36a5 !important;
+            border:2px solid #c9c4ff;
+            box-shadow:0 5px 12px rgba(91,82,183,.12);
+        }
+        .hero-section h1 span {
+            color:#f2b705 !important;
+            font-weight:900;
+            text-transform:uppercase;
+        }
+        .date-input-group::before {
+            content:"📅";
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:34px; height:34px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#667eea,#8d83f2);
+            margin-bottom:8px;
+            font-size:.95rem;
+        }
+        .date-input-group:nth-child(2)::before {
+            content:"⏰";
+            background:linear-gradient(135deg,#f2b705,#ff8a3d);
+        }
+        body.dark-mode .status-section {
+            background:linear-gradient(135deg,#1c2440 0%,#302719 100%);
+            border-color:#3b4663;
+        }
+        body.dark-mode .notification-section, body.dark-mode .history-section {
+            background:linear-gradient(135deg,#19213a 0%,#182b24 100%);
+            border-color:#34405a;
+        }
+        body.dark-mode .date-section {
+            background:linear-gradient(135deg,#1d2340 0%,#30281b 100%);
+            border-color:#3a4560;
+        }
+        body.dark-mode .date-input-group {
+            background:#171d30;
+            border-color:#35405a;
+            box-shadow:0 7px 18px rgba(0,0,0,.18);
+        }
+        body.dark-mode .date-input-group label, body.dark-mode .kg-input-group label, body.dark-mode .price-input-group label { color:#ffffff !important; }
+        body.dark-mode .date-input-group input[type="date"], body.dark-mode .kg-input-group input[type="number"], body.dark-mode .price-input-group input[type="number"] {
+            background:#0f1525 !important; color:#ffffff !important; border-color:#485571 !important;
+        }
+        body.dark-mode .status-section .countdown-label { color:#dce4f5 !important; }
+        body.dark-mode .notification-section h3, body.dark-mode .history-section h3 { color:#ffffff !important; }
+        body.dark-mode .history-section #historyList:empty::after { background:#202b46; color:#e8eefb; }
+        body.dark-mode .step-card > span { background:#29254d; color:#d9d4ff !important; border-color:#635ab0; }
+        body.dark-mode .hero-section h1 span { color:#ffd34f !important; }
+        body.dark-mode .date-input-group::before { box-shadow:0 0 0 4px rgba(102,126,234,.12); }
+        /* Catch text generated dynamically by the tracker. */
+        body.dark-mode #countdown, body.dark-mode #countdownLabel,
+        body.dark-mode #statusIndicator, body.dark-mode #notificationList,
+        body.dark-mode #historyList { color:#f4f7ff; }
+        body.dark-mode #notificationList *, body.dark-mode #historyList * { color:inherit; }
+        body.dark-mode .notification-item.alert-2days, body.dark-mode .notification-item.alert-1day { color:#ffd166 !important; }
+        body.dark-mode .notification-item.alert-today { color:#ffb7cc !important; }
+        body.dark-mode .notification-item.alert-none { color:#a9efc2 !important; }
+        /* Preserve the yellow warning phrase in both themes. */
+        .status-warning { color:#d99a00 !important; }
+        body.dark-mode .status-warning { color:#ffd34f !important; }
+
+
+        .about-finish-label { color:#d99a00 !important; font-weight:900; letter-spacing:.02em; }
+        body.dark-mode .about-finish-label { color:#ffd34f !important; }
+
+</style>
 </head>
 <body>
     <div class="container">
@@ -676,6 +929,7 @@
                 <a href="#tips">Gas-saving tips</a>
                 <a href="#faq">FAQ</a>
             </nav>
+            <button class="theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark mode" title="Switch to dark mode">🌙</button>
         </header>
 
         <section class="hero-section">
@@ -712,20 +966,20 @@
                     <div class="cylinder-setting">
                         <label for="mainCylinderSize">Main cylinder</label>
                         <select id="mainCylinderSize" onchange="saveCylinderSetup()">
-                            <option value="3">3 KG</option><option value="4">4 KG</option><option value="5">5 KG</option><option value="6">6 KG</option><option value="10">10 KG</option><option value="12">12 KG</option><option value="50">50 KG</option><option value="60">60 KG</option>
+                            <option value="3">3 KG</option><option value="4">4 KG</option><option value="5">5 KG</option><option value="6">6 KG</option><option value="10">10 KG</option><option value="12">12 KG</option><option value="60">60 KG</option>
                         </select>
                     </div>
                     <div class="cylinder-setting">
                         <label for="backupCylinderSize">Backup cylinder</label>
                         <select id="backupCylinderSize" onchange="saveCylinderSetup()">
-                            <option value="none">No backup cylinder</option><option value="3">3 KG</option><option value="4">4 KG</option><option value="5">5 KG</option><option value="6">6 KG</option><option value="10">10 KG</option><option value="12">12 KG</option><option value="50">50 KG</option><option value="60">60 KG</option>
+                            <option value="none">No backup cylinder</option><option value="3">3 KG</option><option value="4">4 KG</option><option value="5">5 KG</option><option value="6">6 KG</option><option value="10">10 KG</option><option value="12">12 KG</option><option value="60">60 KG</option>
                         </select>
                     </div>
                 </div>
                 <div class="cylinder-grid">
                     <article class="cylinder-card main">
                         <div class="cylinder-stage" aria-hidden="true">
-                            <img class="cylinder-image" id="mainCylinderImage" src="https://i.imgur.com/OEWDvrX.png" alt="12 KG cooking gas cylinder"><div class="cylinder-3d"><div class="cylinder-neck"></div><div class="cylinder-top"></div><div class="cylinder-body"></div><div class="cylinder-label" id="mainCylinderVisualLabel">12 KG</div><div class="cylinder-base"></div></div>
+                            <img class="cylinder-image" id="mainCylinderImage" src="https://i.imgur.com/UZGV7Qg.png" alt="12 KG cooking gas cylinder">
                         </div>
                         <div class="cylinder-info">
                             <div class="cylinder-role">Main cylinder</div>
@@ -738,7 +992,7 @@
                     </article>
                     <article class="cylinder-card" id="backupCylinderCard" style="display:none;">
                         <div class="cylinder-stage" aria-hidden="true">
-                            <div class="cylinder-3d"><div class="cylinder-neck"></div><div class="cylinder-top"></div><div class="cylinder-body"></div><div class="cylinder-label" id="backupCylinderVisualLabel">6 KG</div><div class="cylinder-base"></div></div>
+                            <img class="cylinder-image" id="backupCylinderImage" src="https://i.imgur.com/UZGV7Qg.png" alt="12 KG backup cooking gas cylinder">
                         </div>
                         <div class="cylinder-info">
                             <div class="cylinder-role">Backup cylinder</div>
@@ -1003,6 +1257,7 @@
             <div class="footer-brand">⛽ Cooking Gas Tracker</div>
             <p>Helping everyday cooks plan ahead and avoid unexpected gas shortages.</p>
             <div class="footer-note">Reminder estimates are based on the information you provide and your cooking habits.</div>
+            <div class="footer-copyright">© 2026 Cooking Gas Tracker. All rights reserved.</div>
         </footer>
     </div>
     
@@ -1591,7 +1846,7 @@
                 statusIndicator.textContent = '⚠️ Today is the consumption date! Refill now.';
             } else if (diffDays <= 2) {
                 statusIndicator.classList.add('status-warning');
-                statusIndicator.textContent = `🔥 Only ${diffDays} day${diffDays === 1 ? '' : 's'} left!`;
+                statusIndicator.innerHTML = `🔥 <strong class="about-finish-label">ABOUT TO FINISH</strong> — ${diffDays} day${diffDays === 1 ? '' : 's'} left!`;
             } else {
                 statusIndicator.classList.add('status-ok');
                 statusIndicator.textContent = '✅ You have enough time';
@@ -1729,8 +1984,8 @@
             "5": "https://i.imgur.com/6XnSoH3.png",
             "6": "https://i.imgur.com/BW6TJ3s.png",
             "10": "https://i.imgur.com/j0DqhAI.png",
-            "12": "https://i.imgur.com/OEWDvrX.png",
-            "60": "https://i.imgur.com/z2lyJHU.png"
+            "12": "https://i.imgur.com/UZGV7Qg.png",
+            "60": "https://i.imgur.com/RmvTIe2.png"
         };
 
         function setCylinderImage(id, size) {
@@ -1749,8 +2004,11 @@
         function loadCylinderSetup() {
             try {
                 const saved = JSON.parse(localStorage.getItem(CYLINDER_STORAGE_KEY) || '{}');
-                const main = String(saved.main || '12');
-                const backup = String(saved.backup || 'none');
+                let main = String(saved.main || '12');
+                let backup = String(saved.backup || 'none');
+                // 50 KG is no longer offered. Migrate any older saved 50 KG choice safely.
+                if (main === '50') main = '12';
+                if (backup === '50') backup = 'none';
                 document.getElementById('mainCylinderSize').value = main;
                 document.getElementById('backupCylinderSize').value = backup;
             } catch (e) { console.warn('Cylinder setup could not be loaded:', e); }
@@ -1795,7 +2053,6 @@
             const mainText = main + ' KG';
             setCylinderImage('mainCylinderImage', main);
             document.getElementById('mainCylinderDisplay').textContent = mainText;
-            document.getElementById('mainCylinderVisualLabel').textContent = mainText;
             document.getElementById('mainCylinderDays').textContent = cylinderDaysText();
             const pct = cylinderRemainingPercent();
             document.getElementById('mainCylinderMeter').style.width = (pct === null ? 0 : pct) + '%';
@@ -1812,7 +2069,6 @@
                 const text = backup + ' KG';
                 setCylinderImage('backupCylinderImage', backup);
                 document.getElementById('backupCylinderDisplay').textContent = text;
-                document.getElementById('backupCylinderVisualLabel').textContent = text;
             } else { backupCard.style.display = 'none'; empty.style.display = 'flex'; setCylinderImage('backupCylinderImage', ''); }
         }
 
@@ -1944,6 +2200,30 @@
             updateStatus();
             checkNotifications();
         }, 60000);
-    </script>
+    
+        // Theme preference
+        function applyTheme(theme) {
+            const dark = theme === 'dark';
+            document.body.classList.toggle('dark-mode', dark);
+            const btn = document.getElementById('themeToggle');
+            if (btn) {
+                btn.textContent = dark ? '☀️' : '🌙';
+                btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+                btn.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+            }
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', dark ? '#0f1220' : '#667eea');
+        }
+        function toggleTheme() {
+            const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+            localStorage.setItem('cookingGasTrackerTheme', next);
+            applyTheme(next);
+        }
+        (function initTheme() {
+            const saved = localStorage.getItem('cookingGasTrackerTheme');
+            const preferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            applyTheme(saved || preferred);
+        })();
+</script>
 </body>
 </html>
