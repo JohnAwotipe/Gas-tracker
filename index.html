@@ -7,6 +7,9 @@
     <meta name="description" content="Cooking Gas Tracker helps you estimate your cooking gas consumption date, plan refills, and receive timely reminders before you run out unexpectedly.">
     <meta name="theme-color" content="#667eea">
     <link rel="canonical" href="https://cookingasleveltracker.com/">
+    <!-- Google AdSense site verification / Auto Ads code -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632931149651372"
+        crossorigin="anonymous"></script>
     <meta property="og:title" content="Cooking Gas Tracker — Know Before Your Gas Runs Out">
     <meta property="og:description" content="Track your cooking gas usage, plan your next refill, and get timely reminders.">
     <meta property="og:type" content="website">
@@ -447,104 +450,6 @@
             color: #764ba2;
         }
 
-        /* App promotion popup */
-        .app-promo-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.65);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .app-promo-overlay.show {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .app-promo {
-            position: relative;
-            width: 100%;
-            max-width: 430px;
-            background: white;
-            border-radius: 22px;
-            padding: 30px 24px 24px;
-            text-align: center;
-            box-shadow: 0 20px 70px rgba(0,0,0,0.35);
-            animation: popIn 0.35s ease;
-        }
-
-        .app-promo-icon {
-            width: 82px;
-            height: 82px;
-            border-radius: 18px;
-            margin: 0 auto 15px;
-            object-fit: cover;
-        }
-
-        .app-promo h2 {
-            color: #333;
-            font-size: 1.45rem;
-            margin-bottom: 10px;
-        }
-
-        .app-promo p {
-            color: #666;
-            line-height: 1.55;
-            margin-bottom: 18px;
-        }
-
-        .app-download-btn, .app-coming-btn {
-            display: block;
-            width: 100%;
-            padding: 13px 18px;
-            border-radius: 12px;
-            font-weight: 700;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-
-        .app-download-btn {
-            background: #111;
-            color: white;
-        }
-
-        .app-coming-btn {
-            background: #f1f1f1;
-            color: #777;
-            cursor: default;
-        }
-
-        .app-promo-close {
-            position: absolute;
-            top: 10px;
-            right: 12px;
-            width: 36px;
-            height: 36px;
-            border: none;
-            border-radius: 50%;
-            background: #f1f1f1;
-            color: #555;
-            font-size: 1.4rem;
-            cursor: pointer;
-        }
-
-        .app-promo-close:hover {
-            background: #e5e5e5;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.92) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
         /* ===== Professional website redesign ===== */
         html { scroll-behavior: smooth; }
         body {
@@ -572,7 +477,32 @@
         .hero-badge { display:inline-block; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22); padding:8px 13px; border-radius:999px; font-size:.78rem; font-weight:700; margin-bottom:18px; }
         .hero-section h1 { max-width:760px; font-size:clamp(2.15rem,5vw,4rem); line-height:1.03; letter-spacing:-.045em; margin-bottom:18px; }
         .hero-section h1 span { color:#ffe08a; }
-        .hero-section > p { max-width:680px; font-size:1.05rem; line-height:1.7; opacity:.94; }
+        .hero-section > p { max-width:680px; font-size:1.05rem; line-height:1.7; opacity:1; color:#ffffff !important; }
+
+        /* Inline app promotion - replaces the old timed popup */
+        .app-promo-section {
+            display:flex; align-items:center; justify-content:space-between; gap:24px;
+            margin:0 0 26px; padding:20px 24px;
+            background:linear-gradient(135deg,#ffffff 0%,#f4f1ff 100%);
+            border:1px solid #e3e0f7; border-radius:20px;
+            box-shadow:0 10px 28px rgba(76,70,160,.10);
+        }
+        .app-promo-content { display:flex; align-items:center; gap:16px; min-width:0; }
+        .app-promo-icon { width:64px; height:64px; border-radius:16px; object-fit:cover; flex:none; box-shadow:0 7px 18px rgba(31,41,91,.14); }
+        .app-promo-section h2 { margin:0 0 5px; color:#182238; font-size:1.05rem; letter-spacing:-.015em; }
+        .app-promo-section p { margin:0; color:#5a6579; font-size:.84rem; line-height:1.55; }
+        .app-promo-actions { display:flex; align-items:center; gap:9px; flex:none; }
+        .app-download-btn { display:inline-flex; align-items:center; justify-content:center; padding:11px 15px; border-radius:11px; background:#111827; color:#fff !important; text-decoration:none; font-weight:800; font-size:.8rem; white-space:nowrap; }
+        .app-coming-btn { display:inline-flex; align-items:center; justify-content:center; padding:11px 15px; border-radius:11px; background:#ececf1; color:#70778a; font-weight:700; font-size:.78rem; white-space:nowrap; }
+        body.dark-mode .app-promo-section { background:linear-gradient(135deg,#171b2b 0%,#211f3a 100%); border-color:#343b55; }
+        body.dark-mode .app-promo-section h2 { color:#ffffff !important; }
+        body.dark-mode .app-promo-section p { color:#dbe2f0 !important; }
+        body.dark-mode .app-coming-btn { background:#2a3041; color:#c4ccdb; }
+        @media (max-width:760px) {
+            .app-promo-section { align-items:flex-start; flex-direction:column; padding:18px; gap:15px; }
+            .app-promo-actions { width:100%; }
+            .app-download-btn, .app-coming-btn { flex:1; }
+        }
         .hero-actions { display:flex; gap:12px; margin-top:28px; flex-wrap:wrap; }
         .hero-primary,.hero-secondary { padding:13px 19px; border-radius:12px; text-decoration:none; font-weight:800; font-size:.9rem; }
         .hero-primary { background:white; color:#5b52b7; box-shadow:0 10px 25px rgba(0,0,0,.14); }
@@ -943,6 +873,21 @@
             </div>
             <div class="hero-trust">✓ Simple to use &nbsp; • &nbsp; ✓ Works on phone &nbsp; • &nbsp; ✓ Built for everyday cooking</div>
         </section>
+
+        <!-- App Download Promotion -->
+        <section class="app-promo-section" aria-label="Cooking Gas Tracker app promotion">
+            <div class="app-promo-content">
+                <img class="app-promo-icon" src="https://i.imgur.com/OkIJfE2.png" alt="Cooking Gas Tracker app icon">
+                <div>
+                    <h2>Get Cooking Gas Tracker on your phone</h2>
+                    <p>Track your gas usage, plan your refill, and receive timely reminders wherever you are.</p>
+                </div>
+            </div>
+            <div class="app-promo-actions">
+                <a class="app-download-btn" href="https://play.google.com/store/apps/details?id=com.john.gastracker" target="_blank" rel="noopener noreferrer">📱 Google Play</a>
+                <div class="app-coming-btn">🍎 iPhone — Coming Soon</div>
+            </div>
+        </section>
         
         <div class="main-card">
             <div class="tracker-intro" id="tracker">
@@ -1261,19 +1206,6 @@
             <div class="footer-copyright">© 2026 Cooking Gas Tracker. All rights reserved.</div>
         </footer>
     </div>
-    
-    <!-- App Download Promotion Popup -->
-    <div class="app-promo-overlay" id="appPromoOverlay" role="dialog" aria-modal="true" aria-labelledby="appPromoTitle">
-        <div class="app-promo">
-            <button class="app-promo-close" onclick="closeAppPromo()" aria-label="Close">&times;</button>
-            <img class="app-promo-icon" src="https://i.imgur.com/OkIJfE2.png" alt="Cooking Gas Tracker">
-            <h2 id="appPromoTitle">Get the Cooking Gas Tracker App</h2>
-            <p>For a better experience, download the Cooking Gas Tracker app and keep track of your gas usage with timely reminders.</p>
-            <a class="app-download-btn" href="https://play.google.com/store/apps/details?id=com.john.gastracker" target="_blank" rel="noopener noreferrer">📱 Download on Google Play</a>
-            <div class="app-coming-btn">🍎 Apple App Store — Coming Soon</div>
-        </div>
-    </div>
-    
     <div class="toast" id="toast"></div>
     
     <script>
@@ -2177,24 +2109,6 @@
                 showToast('Unable to send test notification.');
             }
         }
-
-        // App promotion popup - show after 1 minute of visiting the website.
-        function showAppPromo() {
-            if (sessionStorage.getItem('gasTrackerAppPromoShown') === 'true') return;
-            const overlay = document.getElementById('appPromoOverlay');
-            if (overlay) {
-                overlay.classList.add('show');
-                sessionStorage.setItem('gasTrackerAppPromoShown', 'true');
-            }
-        }
-
-        function closeAppPromo() {
-            const overlay = document.getElementById('appPromoOverlay');
-            if (overlay) overlay.classList.remove('show');
-        }
-
-        // Show the app promotion after 60 seconds on the site.
-        setTimeout(showAppPromo, 60000);
 
         // Initialize
         loadCylinderSetup();
