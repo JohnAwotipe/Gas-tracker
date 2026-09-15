@@ -15,10 +15,27 @@ const messaging = firebase.messaging();
 messaging.onBackgroundMessage((payload) => {
   console.log('Received background message ', payload);
 
-  const notificationTitle = payload.notification.title;
+  const notificationTitle =
+    payload.notification?.title || 'Cooking Gas Alert';
+
+  const notificationBody =
+    payload.notification?.body || 'Check your cooking gas tracker.';
+
   const notificationOptions = {
-    body: payload.notification.body,
+    body: notificationBody,
+
+    // Cooking Gas Tracker icon
+    icon: 'https://i.imgur.com/OkIJfE2.png',
+
+    // Small notification badge
+    badge: 'https://i.imgur.com/OkIJfE2.png',
+
+    // Keep the notification visible
+    requireInteraction: false
   };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  self.registration.showNotification(
+    notificationTitle,
+    notificationOptions
+  );
 });
