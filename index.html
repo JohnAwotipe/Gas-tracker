@@ -6,6 +6,7 @@
     <title>Cooking Gas Tracker — Know Before Your Gas Runs Out</title>
     <meta name="description" content="Cooking Gas Tracker helps you estimate your cooking gas consumption date, plan refills, and receive timely reminders before you run out unexpectedly.">
     <meta name="theme-color" content="#667eea">
+    <link rel="canonical" href="https://cookingasleveltracker.com/">
     <meta property="og:title" content="Cooking Gas Tracker — Know Before Your Gas Runs Out">
     <meta property="og:description" content="Track your cooking gas usage, plan your next refill, and get timely reminders.">
     <meta property="og:type" content="website">
@@ -1552,27 +1553,74 @@
             saveToLocalStorage();
         }
 
-        // Request permission and subscribe to push (Capacitor version)
+        // Request notification permission and subscribe to push.
+        // Uses Capacitor Firebase Messaging inside the native app, and
+        // the browser Notification API + Firebase Messaging on the website.
         async function requestPermission() {
             try {
-                const { FirebaseMessaging } = window.Capacitor.Plugins;
-                const permission = await FirebaseMessaging.requestPermissions();
-                if (permission.receive === 'granted') {
-                    const token = await FirebaseMessaging.getToken();
-                    console.log('FCM Token:', token);
-                    // Send token to Worker if dates are set
-                    if (savedDates) {
-                        await sendToWorker(token);
+                // ===== Native Capacitor app =====
+                if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
+                    const { FirebaseMessaging } = window.Capacitor.Plugins;
+                    const permission = await FirebaseMessaging.requestPermissions();
+
+                    if (permission.receive === 'granted') {
+                        const token = await FirebaseMessaging.getToken();
+                        console.log('FCM Token (native):', token);
+                        if (savedDates && token) await sendToWorker(token);
+                        document.getElementById('notifPermission').style.display = 'none';
+                        showToast('Notifications enabled!');
+                    } else {
+                        showToast('Notifications were not allowed. Please allow them in your device settings.');
                     }
-                    // Hide the button
-                    document.getElementById('notifPermission').style.display = 'none';
-                    showToast('Notifications enabled!');
-                } else {
-                    showToast('Notifications denied.');
+                    return;
                 }
+
+                // ===== Website / browser =====
+                if (!('Notification' in window)) {
+                    showToast('This browser does not support notifications.');
+                    return;
+                }
+
+                // Permission must be requested directly from this button click.
+                let permission = Notification.permission;
+                if (permission === 'default') {
+                    permission = await Notification.requestPermission();
+                }
+
+                if (permission !== 'granted') {
+                    if (permission === 'denied') {
+                        showToast('Notifications are blocked. Please allow notifications for this website in your browser settings.');
+                    } else {
+                        showToast('Notification permission was not granted.');
+                    }
+                    return;
+                }
+
+                // Make sure the Firebase messaging service worker is ready before
+                // asking Firebase for the browser's FCM token.
+                let registration = null;
+                if ('serviceWorker' in navigator) {
+                    registration = await navigator.serviceWorker.ready;
+                }
+
+                const tokenOptions = { vapidKey: vapidKey };
+                if (registration) tokenOptions.serviceWorkerRegistration = registration;
+
+                const token = await messaging.getToken(tokenOptions);
+                if (!token) {
+                    throw new Error('Firebase did not return a web FCM token.');
+                }
+
+                console.log('FCM Token (web):', token);
+                isFirebaseReady = true;
+
+                if (savedDates) await sendToWorker(token);
+
+                document.getElementById('notifPermission').style.display = 'none';
+                showToast('Notifications enabled!');
             } catch (err) {
                 console.error('Permission error:', err);
-                showToast('Error requesting permission.');
+                showToast('Could not enable notifications. Please check your browser notification settings and try again.');
             }
         }
 
