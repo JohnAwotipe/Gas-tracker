@@ -922,7 +922,7 @@
                 </div>
             </div>
             <nav class="top-nav" aria-label="Main navigation">
-                <a href="#tracker">Tracker</a>
+                <a href="#tracker">Tracker</a><a href="#smart-assistant" class="nav-open-chat" id="navOpenChatBtn">💬 Open Chat</a>
                 <a href="#how-it-works">How it works</a>
                 <a href="#tips">Gas-saving tips</a>
                 <a href="#gas-guide">Gas guide</a>
@@ -1301,7 +1301,56 @@
                 </div>
             </section>
 
-            <section class="content-section" id="faq">
+            
+<section id="smart-shopping" class="section-container smart-shopping-section" aria-labelledby="smartShoppingTitle">
+  <div class="section-heading">
+    <span class="section-kicker">SMART SHOPPING</span>
+    <h2 id="smartShoppingTitle">Turn your meal plan into a shopping list</h2>
+    <p>Build a practical shopping list from your meals, keep track of what you already have, and stay aware of your food budget.</p>
+  </div>
+
+  <div class="shopping-card">
+    <div class="shopping-top">
+      <div>
+        <h3>🛒 Smart Shopping Manager</h3>
+        <p id="shoppingSummary">Start with your meal plan or add items you need for the household.</p>
+      </div>
+      <button type="button" class="profile-btn" id="buildShoppingBtn">✨ Build My List</button>
+    </div>
+
+    <div class="shopping-add-row">
+      <input id="shoppingItemInput" type="text" maxlength="100" placeholder="Add an item, e.g. rice, eggs, tomatoes" aria-label="Add shopping item">
+      <button type="button" class="profile-btn" id="addShoppingBtn">＋ Add</button>
+    </div>
+
+    <div class="shopping-grid">
+      <div>
+        <h4>🛍️ Items to Buy</h4>
+        <div id="shoppingList" class="shopping-list">
+          <p class="shopping-empty">Your shopping list will appear here.</p>
+        </div>
+      </div>
+      <div class="shopping-side">
+        <h4>🏠 Already Have</h4>
+        <div id="haveList" class="shopping-list">
+          <p class="shopping-empty">Move items here when you already have them.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="shopping-stats">
+      <div><strong id="shoppingCount">0</strong><span>Items to buy</span></div>
+      <div><strong id="haveCount">0</strong><span>Already have</span></div>
+      <div><strong id="shoppingBudget">—</strong><span>Budget level</span></div>
+    </div>
+
+    <div class="shopping-note">
+      <strong>💡 Smart tip:</strong> Your shopping list is a planning aid. Prices vary by location and time, so confirm current prices before buying.
+    </div>
+  </div>
+</section>
+
+<section class="content-section" id="faq">
                 <div class="section-eyebrow">FAQ</div>
                 <h2>Questions people often ask</h2>
                 <div class="faq-list">
@@ -2927,6 +2976,31 @@ body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mod
 /* Cooking Profile */
 .cooking-profile{margin-top:28px;padding:30px;border-radius:24px;background:linear-gradient(145deg,#f7f8ff,#f5fbff);border:1px solid #e1e6f0;box-shadow:0 12px 35px rgba(20,30,60,.06)}
 .profile-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.profile-head h2{margin:6px 0 10px;font-size:clamp(1.6rem,3vw,2.2rem)}.profile-lead{max-width:850px;color:#5d6878;line-height:1.7}.profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:22px}.profile-field{background:#fff;border:1px solid #e7eaf0;border-radius:16px;padding:15px}.profile-field.full{grid-column:1/-1}.profile-field label{display:block;font-weight:750;margin-bottom:7px}.profile-field input,.profile-field select,.profile-field textarea{width:100%;box-sizing:border-box;border:1px solid #dfe4ec;border-radius:11px;padding:11px 12px;font:inherit;background:#fff;color:#172033}.profile-field small{display:block;margin-top:6px;color:#788292;line-height:1.45}.profile-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.profile-btn{border:0;border-radius:12px;padding:11px 16px;font-weight:750;cursor:pointer;background:#667eea;color:#fff}.profile-btn.secondary{background:#eef1f7;color:#394357}.profile-status{margin-top:12px;color:#35704b;font-weight:700;min-height:20px}.dark-mode .cooking-profile{background:linear-gradient(145deg,#171b28,#111827);border-color:#2b3242}.dark-mode .profile-field{background:#1b2130;border-color:#303849}.dark-mode .profile-field input,.dark-mode .profile-field select,.dark-mode .profile-field textarea{background:#111827;color:#f3f5f8;border-color:#394254}.dark-mode .profile-btn.secondary{background:#2b3242;color:#eef2f7}@media(max-width:760px){.profile-grid{grid-template-columns:1fr}.profile-field.full{grid-column:auto}.profile-head{display:block}}
+
+/* Smart Shopping Manager */
+.nav-open-chat{font-weight:800}
+.shopping-card{border:1px solid var(--border-color,#dbe3ef);border-radius:20px;background:var(--card-bg,#fff);padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+.shopping-top{display:flex;justify-content:space-between;gap:18px;align-items:center}
+.shopping-top h3{margin:0 0 5px}
+.shopping-top p{margin:0;opacity:.72}
+.shopping-add-row{display:flex;gap:10px;margin:18px 0}
+.shopping-add-row input{flex:1;min-width:0;border:1px solid var(--border-color,#dbe3ef);border-radius:12px;padding:12px;background:var(--input-bg,#fff);color:inherit}
+.shopping-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.shopping-grid>div{border:1px solid var(--border-color,#dbe3ef);border-radius:16px;padding:15px}
+.shopping-grid h4{margin:0 0 10px}
+.shopping-list{display:flex;flex-direction:column;gap:8px;min-height:70px}
+.shopping-empty{opacity:.6;font-size:13px;margin:10px 0}
+.shopping-item{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;background:rgba(127,127,127,.07)}
+.shopping-item span{flex:1}
+.shopping-item button{border:0;background:transparent;cursor:pointer;font-size:14px}
+.shopping-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.shopping-stats div{padding:12px;border-radius:12px;background:rgba(127,127,127,.07);text-align:center}
+.shopping-stats strong,.shopping-stats span{display:block}
+.shopping-stats strong{font-size:20px}
+.shopping-stats span{font-size:11px;opacity:.7;margin-top:3px}
+.shopping-note{margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(255,193,7,.12);font-size:13px}
+@media(max-width:650px){.shopping-top{flex-direction:column;align-items:stretch}.shopping-grid{grid-template-columns:1fr}.shopping-add-row{flex-direction:column}.shopping-stats{grid-template-columns:1fr 1fr}.shopping-stats div:last-child{grid-column:1/-1}}
+
 </style>
 <script>
 (function(){
@@ -3047,5 +3121,88 @@ body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mod
 })();
 (function(){const b=document.getElementById('backToTopBtn');if(!b)return;function check(){b.classList.toggle('show',window.scrollY>500)}window.addEventListener('scroll',check,{passive:true});check();b.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));})();
 </script>
+
+<script>
+(function(){
+  const key='cgtShoppingList';
+  let state={buy:[],have:[]};
+  try{state=JSON.parse(localStorage.getItem(key)||'{"buy":[],"have":[]}')}catch(e){}
+  if(!state || !Array.isArray(state.buy) || !Array.isArray(state.have)) state={buy:[],have:[]};
+
+  const buyEl=document.getElementById('shoppingList');
+  const haveEl=document.getElementById('haveList');
+  const input=document.getElementById('shoppingItemInput');
+  const addBtn=document.getElementById('addShoppingBtn');
+  const buildBtn=document.getElementById('buildShoppingBtn');
+  const countEl=document.getElementById('shoppingCount');
+  const haveCountEl=document.getElementById('haveCount');
+  const budgetEl=document.getElementById('shoppingBudget');
+  const summaryEl=document.getElementById('shoppingSummary');
+
+  function save(){localStorage.setItem(key,JSON.stringify(state));render();}
+  function clean(s){return String(s||'').trim().replace(/\s+/g,' ').slice(0,100);}
+  function itemRow(item,from){
+    const d=document.createElement('div');d.className='shopping-item';
+    const s=document.createElement('span');s.textContent=item;
+    const move=document.createElement('button');move.type='button';
+    move.textContent=from==='buy'?'✓':'↩';move.title=from==='buy'?'Already have this':'Move back to shopping';
+    move.onclick=()=>{state[from].splice(state[from].indexOf(item),1);state[from==='buy'?'have':'buy'].push(item);save();};
+    const del=document.createElement('button');del.type='button';del.textContent='✕';del.title='Remove';
+    del.onclick=()=>{state[from]=state[from].filter(x=>x!==item);save();};
+    d.append(s,move,del);return d;
+  }
+  function render(){
+    if(!buyEl||!haveEl)return;
+    buyEl.innerHTML='';haveEl.innerHTML='';
+    if(!state.buy.length)buyEl.innerHTML='<p class="shopping-empty">Nothing to buy yet.</p>';
+    if(!state.have.length)haveEl.innerHTML='<p class="shopping-empty">No items marked as already available.</p>';
+    state.buy.forEach(x=>buyEl.appendChild(itemRow(x,'buy')));
+    state.have.forEach(x=>haveEl.appendChild(itemRow(x,'have')));
+    if(countEl)countEl.textContent=state.buy.length;
+    if(haveCountEl)haveCountEl.textContent=state.have.length;
+    try{
+      const p=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null');
+      if(budgetEl)budgetEl.textContent=p?.budgetLevel||p?.goal||'—';
+    }catch(e){}
+    if(summaryEl)summaryEl.textContent=state.buy.length
+      ? `${state.buy.length} item${state.buy.length===1?'':'s'} ready for your next shop.`
+      : 'Start with your meal plan or add items you need for the household.';
+  }
+  function addItem(){
+    const v=clean(input?.value);
+    if(!v)return;
+    const exists=[...state.buy,...state.have].some(x=>x.toLowerCase()===v.toLowerCase());
+    if(!exists)state.buy.push(v);
+    if(input)input.value='';
+    save();
+  }
+  addBtn?.addEventListener('click',addItem);
+  input?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addItem();}});
+  buildBtn?.addEventListener('click',()=>{
+    let planner=null,profile=null;
+    try{planner=JSON.parse(localStorage.getItem('cgtMealPlanner')||'null')}catch(e){}
+    try{profile=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null')}catch(e){}
+    const foods=[...(planner?.foods||[]),...(planner?.customFoods||[]),...(profile?.commonFoodsText||'').split(',')]
+      .map(clean).filter(Boolean);
+    const unique=[];
+    foods.forEach(x=>{if(!unique.some(y=>y.toLowerCase()===x.toLowerCase()))unique.push(x)});
+    unique.slice(0,25).forEach(x=>{
+      if(![...state.buy,...state.have].some(y=>y.toLowerCase()===x.toLowerCase()))state.buy.push(x);
+    });
+    save();
+  });
+  render();
+})();
+</script>
+
+
+<script>
+(function(){
+  const nav=document.getElementById('navOpenChatBtn');
+  const open=document.getElementById('openChatBtn');
+  if(nav && open) nav.addEventListener('click',function(e){e.preventDefault();open.click();});
+})();
+</script>
+
 </body>
 </html>
