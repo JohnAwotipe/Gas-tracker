@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cooking Gas Tracker — Know Before Your Gas Runs Out</title>
+    <title>Cooking Gas Tracker &amp; Manager — Know Before Your Gas Runs Out</title>
     <meta name="description" content="Cooking Gas Tracker helps you estimate your cooking gas consumption date, plan refills, and receive timely reminders before you run out unexpectedly.">
     <meta name="theme-color" content="#667eea">
     <link rel="canonical" href="https://cookingasleveltracker.com/">
     <!-- Google AdSense site verification / Auto Ads code -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632931149651372"
         crossorigin="anonymous"></script>
-    <meta property="og:title" content="Cooking Gas Tracker — Know Before Your Gas Runs Out">
+    <meta property="og:title" content="Cooking Gas Tracker &amp; Manager — Know Before Your Gas Runs Out">
     <meta property="og:description" content="Track your cooking gas usage, plan your next refill, and get timely reminders.">
     <meta property="og:type" content="website">
     <link rel="icon" type="image/png" href="https://i.imgur.com/OkIJfE2.png">
@@ -915,9 +915,9 @@
     <div class="container">
         <header class="site-header">
             <div class="brand-row">
-                <div class="brand-mark"><img src="https://i.imgur.com/OkIJfE2.png" alt="Cooking Gas Tracker logo"></div>
+                <div class="brand-mark"><img src="https://i.imgur.com/OkIJfE2.png" alt="Cooking Gas Tracker &amp; Manager logo"></div>
                 <div>
-                    <div class="brand-name">Cooking Gas Tracker</div>
+                    <div class="brand-name">Cooking Gas Tracker &amp; Manager</div>
                     <div class="brand-tagline">Track smarter. Refill on time.</div>
                 </div>
             </div>
@@ -926,7 +926,8 @@
                 <a href="#how-it-works">How it works</a>
                 <a href="#tips">Gas-saving tips</a>
                 <a href="#gas-guide">Gas guide</a>
-<a href="#smart-assistant">Ask Assistant</a>
+<a href="#cooking-profile">My Profile</a>
+                <a href="#smart-assistant">Ask Assistant</a>
                 <a href="#meal-planner">Meal planner</a>
                 <a href="#safety-center">Safety</a>
                 <a href="#faq">FAQ</a>
@@ -1197,6 +1198,25 @@
             </div>
 
             <!-- SMART GAS & FOOD ASSISTANT -->
+<!-- My Cooking Profile -->
+<section class="cooking-profile" id="cooking-profile" aria-labelledby="profileTitle">
+  <div class="profile-head"><div><div class="section-eyebrow">MY COOKING PROFILE</div><h2 id="profileTitle">Tell us how you cook</h2><p class="profile-lead">Save your normal cooking habits so Cooking Gas Tracker &amp; Manager can give you more useful gas, food, budget and meal-planning suggestions.</p></div></div>
+  <div class="profile-grid">
+    <div class="profile-field"><label for="profileHighestKg">Highest gas amount you normally fill (KG)</label><input id="profileHighestKg" type="number" min="1" max="100" step="0.1" placeholder="e.g. 12"><small>Your usual maximum refill amount.</small></div>
+    <div class="profile-field"><label for="profileLowestKg">Lowest gas amount you normally fill (KG)</label><input id="profileLowestKg" type="number" min="1" max="100" step="0.1" placeholder="e.g. 5"><small>Your usual minimum refill amount.</small></div>
+    <div class="profile-field"><label for="profileCurrentKg">Current gas amount (KG)</label><input id="profileCurrentKg" type="number" min="0" max="100" step="0.1" placeholder="e.g. 8"><small>How much gas you currently have, if known.</small></div>
+    <div class="profile-field"><label for="profilePeople">How many people do you cook for?</label><input id="profilePeople" type="number" min="1" max="30" placeholder="e.g. 4"><small>Helps estimate practical meal portions.</small></div>
+    <div class="profile-field"><label for="profileMeals">Meals normally cooked each day</label><select id="profileMeals"><option value="1">1 meal</option><option value="2" selected>2 meals</option><option value="3">3 meals</option><option value="4">4+ meals</option></select></div>
+    <div class="profile-field"><label for="profileDuration">Typical cooking time per meal</label><select id="profileDuration"><option value="under30">Under 30 minutes</option><option value="30to60" selected>30–60 minutes</option><option value="60to90">60–90 minutes</option><option value="over90">Over 90 minutes</option></select></div>
+    <div class="profile-field full"><label for="profileFoods">Foods you often eat</label><textarea id="profileFoods" rows="2" placeholder="e.g. rice, beans, yam, eggs, stew, noodles"></textarea><small>Separate foods with commas. You can include foods not in the meal planner list.</small></div>
+    <div class="profile-field"><label for="profileBudget">Typical food budget</label><select id="profileBudget"><option value="low">Limited budget</option><option value="medium" selected>Moderate budget</option><option value="high">Flexible budget</option></select></div>
+    <div class="profile-field"><label for="profileGoal">Main cooking goal</label><select id="profileGoal"><option value="save-gas">Save gas</option><option value="balanced" selected>Balance gas, food and cost</option><option value="save-money">Save money and gas</option><option value="convenience">Convenience and simple cooking</option></select></div>
+    <div class="profile-field full"><label for="profileAvoid">Foods you do not eat or prefer to avoid</label><textarea id="profileAvoid" rows="2" placeholder="e.g. fish, very spicy food, okra"></textarea><small>This helps the assistant avoid suggesting foods you don't want.</small></div>
+  </div>
+  <div class="profile-actions"><button class="profile-btn" type="button" onclick="saveCookingProfile()">💾 Save My Cooking Profile</button><button class="profile-btn secondary" type="button" onclick="clearCookingProfile()">Reset</button></div>
+  <div class="profile-status" id="profileStatus" aria-live="polite"></div>
+</section>
+
 <section id="smart-assistant" class="section-container" aria-labelledby="smartAssistantTitle">
   <div class="section-heading">
     <span class="section-kicker">SMART ASSISTANT</span>
@@ -1478,7 +1498,7 @@
         </div>
         
         <footer class="site-footer">
-            <div class="footer-brand">⛽ Cooking Gas Tracker</div>
+            <div class="footer-brand">⛽ Cooking Gas Tracker &amp; Manager</div>
             <p>Helping everyday cooks plan ahead and avoid unexpected gas shortages.</p>
             <div class="footer-note">Reminder estimates are based on the information you provide and your cooking habits.</div>
             <div class="footer-copyright">© 2026 Cooking Gas Tracker. All rights reserved.</div>
@@ -2743,9 +2763,24 @@ body.dark-mode .assistant-card{background:#111827;border-color:#334155}body.dark
     }
   }
 
+
+  function saveCookingProfile(){
+    const data={highestKg:Number(document.getElementById('profileHighestKg').value)||null,lowestKg:Number(document.getElementById('profileLowestKg').value)||null,currentKg:Number(document.getElementById('profileCurrentKg').value)||null,householdSize:Number(document.getElementById('profilePeople').value)||null,mealsPerDay:document.getElementById('profileMeals').value,cookingDuration:document.getElementById('profileDuration').value,commonFoodsText:document.getElementById('profileFoods').value.trim(),budgetLevel:document.getElementById('profileBudget').value,goal:document.getElementById('profileGoal').value,avoidFoodsText:document.getElementById('profileAvoid').value.trim()};
+    localStorage.setItem('cgtCookingProfile',JSON.stringify(data));
+    const st=document.getElementById('profileStatus'); if(st) st.textContent='✓ Your cooking profile has been saved.';
+  }
+  function loadCookingProfile(){
+    try{const d=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null'); if(!d)return;
+      const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined&&v!==null)el.value=v};
+      set('profileHighestKg',d.highestKg);set('profileLowestKg',d.lowestKg);set('profileCurrentKg',d.currentKg);set('profilePeople',d.householdSize);set('profileMeals',d.mealsPerDay);set('profileDuration',d.cookingDuration);set('profileFoods',d.commonFoodsText);set('profileBudget',d.budgetLevel);set('profileGoal',d.goal);set('profileAvoid',d.avoidFoodsText);
+    }catch(e){console.warn('Cooking profile could not be loaded:',e)}
+  }
+  function clearCookingProfile(){localStorage.removeItem('cgtCookingProfile');['profileHighestKg','profileLowestKg','profileCurrentKg','profilePeople','profileFoods','profileAvoid'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});document.getElementById('profileMeals').value='2';document.getElementById('profileDuration').value='30to60';document.getElementById('profileBudget').value='medium';document.getElementById('profileGoal').value='balanced';document.getElementById('profileStatus').textContent='Cooking profile reset.'}
+
   async function buildProfile(){
     const tracker=await getStoredValue('gasTrackerData');
     const planner=await getStoredValue('cgtMealPlanner');
+    let cookingProfile=null; try{ cookingProfile=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null'); }catch(e){}
     let cylinder=null;
     try{ cylinder=JSON.parse(localStorage.getItem('cgtCylinderSetup')||'null'); }catch(e){}
 
@@ -2762,7 +2797,14 @@ body.dark-mode .assistant-card{background:#111827;border-color:#334155}body.dark
       budgetLevel: planner && planner.budget ? planner.budget : null,
       gasGoal: planner && planner.gas ? planner.gas : null,
       commonFoods: planner && Array.isArray(planner.foods) ? planner.foods : [],
-      customFoods: planner && Array.isArray(planner.customFoods) ? planner.customFoods : []
+      customFoods: planner && Array.isArray(planner.customFoods) ? planner.customFoods : [],
+      highestFillKg: cookingProfile?.highestKg || null,
+      lowestFillKg: cookingProfile?.lowestKg || null,
+      currentGasKg: cookingProfile?.currentKg || null,
+      cookingDuration: cookingProfile?.cookingDuration || null,
+      foodsOftenEaten: cookingProfile?.commonFoodsText || null,
+      foodsToAvoid: cookingProfile?.avoidFoodsText || null,
+      cookingGoal: cookingProfile?.goal || null
     };
   }
 
@@ -2855,6 +2897,10 @@ body.dark-mode .assistant-card{background:#111827;border-color:#334155}body.dark
 .back-to-top{position:fixed;right:20px;bottom:22px;width:48px;height:48px;border:0;border-radius:50%;background:#2563eb;color:#fff;font-size:23px;font-weight:800;display:grid;place-items:center;cursor:pointer;z-index:9000;box-shadow:0 10px 25px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .2s,visibility .2s,transform .2s}.back-to-top.show{opacity:1;visibility:visible;transform:translateY(0)}
 body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mode .chat-quick-actions,body.dark-mode .full-chat-form,body.dark-mode .chat-safety-note{background:#111827;border-color:#334155}body.dark-mode .full-chat-messages{background:#0b1220}body.dark-mode .full-chat-messages .assistant-message.bot{background:#111827;border-color:#334155}body.dark-mode .chat-modal-icon{background:#1e293b}
 @media(max-width:600px){.assistant-header{align-items:flex-start}.open-chat-btn{padding:9px 11px;font-size:13px}.chat-modal{padding:0}.chat-modal.open{align-items:stretch}.chat-modal-panel{height:100%;min-height:100%;border-radius:0;border:0}.chat-title-wrap h2{font-size:17px}.chat-title-wrap span{display:block;max-width:210px}.full-chat-messages .assistant-message{max-width:90%}.back-to-top{right:14px;bottom:16px;width:44px;height:44px}}
+
+/* Cooking Profile */
+.cooking-profile{margin-top:28px;padding:30px;border-radius:24px;background:linear-gradient(145deg,#f7f8ff,#f5fbff);border:1px solid #e1e6f0;box-shadow:0 12px 35px rgba(20,30,60,.06)}
+.profile-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.profile-head h2{margin:6px 0 10px;font-size:clamp(1.6rem,3vw,2.2rem)}.profile-lead{max-width:850px;color:#5d6878;line-height:1.7}.profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:22px}.profile-field{background:#fff;border:1px solid #e7eaf0;border-radius:16px;padding:15px}.profile-field.full{grid-column:1/-1}.profile-field label{display:block;font-weight:750;margin-bottom:7px}.profile-field input,.profile-field select,.profile-field textarea{width:100%;box-sizing:border-box;border:1px solid #dfe4ec;border-radius:11px;padding:11px 12px;font:inherit;background:#fff;color:#172033}.profile-field small{display:block;margin-top:6px;color:#788292;line-height:1.45}.profile-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.profile-btn{border:0;border-radius:12px;padding:11px 16px;font-weight:750;cursor:pointer;background:#667eea;color:#fff}.profile-btn.secondary{background:#eef1f7;color:#394357}.profile-status{margin-top:12px;color:#35704b;font-weight:700;min-height:20px}.dark-mode .cooking-profile{background:linear-gradient(145deg,#171b28,#111827);border-color:#2b3242}.dark-mode .profile-field{background:#1b2130;border-color:#303849}.dark-mode .profile-field input,.dark-mode .profile-field select,.dark-mode .profile-field textarea{background:#111827;color:#f3f5f8;border-color:#394254}.dark-mode .profile-btn.secondary{background:#2b3242;color:#eef2f7}@media(max-width:760px){.profile-grid{grid-template-columns:1fr}.profile-field.full{grid-column:auto}.profile-head{display:block}}
 </style>
 <script>
 (function(){
@@ -2867,7 +2913,7 @@ body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mod
   function fmt(t){return esc(t).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/(^|\n)[•*-]\s+/g,'$1• ').replace(/\n/g,'<br>');}
   function add(text,who='bot'){const d=document.createElement('div');d.className='assistant-message '+who;d.innerHTML=who==='bot'?fmt(text):esc(text).replace(/\n/g,'<br>');messages.appendChild(d);messages.scrollTop=messages.scrollHeight;return d;}
   async function stored(key){try{if(window.Capacitor?.Plugins?.Preferences){const r=await window.Capacitor.Plugins.Preferences.get({key});return r?.value?JSON.parse(r.value):null}}catch(e){}try{const r=localStorage.getItem(key);return r?JSON.parse(r):null}catch(e){return null}}
-  async function profile(){const tracker=await stored('gasTrackerData'), planner=await stored('cgtMealPlanner');let cylinder=null;try{cylinder=JSON.parse(localStorage.getItem('cgtCylinderSetup')||'null')}catch(e){}const dates=tracker?.dates||{};return {cylinderSize:cylinder?.main?String(cylinder.main)+'kg':(dates.kg?String(dates.kg)+'kg':null),refillDate:dates.refill||null,consumptionDate:dates.consumption||null,gasAmountKg:dates.kg||null,refillPrice:dates.price||null,currency:dates.currency||null,householdSize:planner?.people?Number(planner.people):null,mealsPerDay:planner?.meals?Number(planner.meals):null,budgetLevel:planner?.budget||null,gasGoal:planner?.gas||null,commonFoods:Array.isArray(planner?.foods)?planner.foods:[],customFoods:Array.isArray(planner?.customFoods)?planner.customFoods:[]};}
+  async function profile(){const tracker=await stored('gasTrackerData'), planner=await stored('cgtMealPlanner');let cookingProfile=null;try{cookingProfile=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null')}catch(e){}let cylinder=null;try{cylinder=JSON.parse(localStorage.getItem('cgtCylinderSetup')||'null')}catch(e){}const dates=tracker?.dates||{};return {cylinderSize:cylinder?.main?String(cylinder.main)+'kg':(dates.kg?String(dates.kg)+'kg':null),refillDate:dates.refill||null,consumptionDate:dates.consumption||null,gasAmountKg:dates.kg||null,refillPrice:dates.price||null,currency:dates.currency||null,householdSize:cookingProfile?.householdSize||planner?.people||null,mealsPerDay:cookingProfile?.mealsPerDay||planner?.meals||null,budgetLevel:cookingProfile?.budgetLevel||planner?.budget||null,gasGoal:cookingProfile?.goal||planner?.gas||null,commonFoods:Array.isArray(planner?.foods)?planner.foods:[],customFoods:Array.isArray(planner?.customFoods)?planner.customFoods:[],highestFillKg:cookingProfile?.highestKg||null,lowestFillKg:cookingProfile?.lowestKg||null,currentGasKg:cookingProfile?.currentKg||null,cookingDuration:cookingProfile?.cookingDuration||null,foodsOftenEaten:cookingProfile?.commonFoodsText||null,foodsToAvoid:cookingProfile?.avoidFoodsText||null};}
   async function ask(q){q=String(q||'').trim();if(!q||busy)return;add(q,'user');input.value='';busy=true;input.disabled=true;const send=form.querySelector('button');if(send){send.disabled=true;send.textContent='…'}const load=add('Thinking…','bot');try{const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,profile:await profile()})});const data=await res.json().catch(()=>({}));load.remove();if(!res.ok||!data.answer)throw new Error(data.error||'Assistant unavailable');add(String(data.answer),'bot')}catch(e){load.remove();console.error(e);add('Sorry, I could not connect to the Smart Assistant right now. Please check your internet connection and try again.','bot')}finally{busy=false;input.disabled=false;if(send){send.disabled=false;send.textContent='➤'}input.focus()}}
   function openChat(){previousFocus=document.activeElement;modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';setTimeout(()=>input.focus(),50)}
   function closeChat(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';if(previousFocus?.focus)previousFocus.focus()}
