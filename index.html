@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cooking Gas Tracker &amp; Manager — Know Before Your Gas Runs Out</title>
+    <title>Cooking Gas Tracker &amp; Manager &amp; Manager — Know Before Your Gas Runs Out</title>
     <meta name="description" content="Cooking Gas Tracker helps you estimate your cooking gas consumption date, plan refills, and receive timely reminders before you run out unexpectedly.">
     <meta name="theme-color" content="#667eea">
     <link rel="canonical" href="https://cookingasleveltracker.com/">
@@ -1230,7 +1230,7 @@
       <button type="button" id="openChatBtn" class="open-chat-btn" aria-haspopup="dialog">💬 Open Chat</button>
     </div>
     <div id="assistantMessages" class="assistant-messages" aria-live="polite">
-      <div class="assistant-message bot"><strong>Cooking Gas Tracker:</strong><br>Hi! 👋 Ask me anything about managing your gas and food. For example: “How can I make my gas last longer?” or “What can I eat with a small budget?”</div>
+      <div class="assistant-message bot"><strong>Cooking Gas Tracker & Manager:</strong><br>Hi! 👋 Ask me anything about managing your gas and food. For example: “How can I make my gas last longer?” or “What can I eat with a small budget?”</div>
     </div>
     <div class="assistant-suggestions" aria-label="Suggested questions">
       <button type="button" data-q="How can I make my gas last longer?">🔥 Save gas</button>
@@ -2871,7 +2871,24 @@ body.dark-mode .assistant-card{background:#111827;border-color:#334155}body.dark
       <button type="button" id="closeChatBtn" class="chat-close" aria-label="Close chat">×</button>
     </div>
     <div id="fullChatMessages" class="full-chat-messages" aria-live="polite">
-      <div class="assistant-message bot"><strong>Cooking Gas Tracker:</strong><br>Hi! 👋 I’m here to help with gas management, meal planning, food budgeting, cooking efficiency and gas safety. Ask me anything.</div>
+      <div class="assistant-message bot"><strong>Cooking Gas Tracker & Manager:</strong><br>Hi! 👋 I’m here to help with gas management, meal planning, food budgeting, cooking efficiency and gas safety. Ask me anything.</div>
+    </div>
+    <div class="chat-tools">
+      <div class="chat-language">
+        <label for="chatLanguage">🌐 Language</label>
+        <select id="chatLanguage" aria-label="Choose chat response language">
+          <option value="English" data-voice="en-NG">English</option>
+          <option value="Nigerian Pidgin" data-voice="en-NG">Nigerian Pidgin</option>
+          <option value="Yoruba" data-voice="yo-NG">Yoruba</option>
+          <option value="Igbo" data-voice="ig-NG">Igbo</option>
+          <option value="Hausa" data-voice="ha-NG">Hausa</option>
+          <option value="French" data-voice="fr-FR">French</option>
+          <option value="Spanish" data-voice="es-ES">Spanish</option>
+          <option value="Arabic" data-voice="ar-SA">Arabic</option>
+        </select>
+      </div>
+      <button type="button" id="voiceInputBtn" class="chat-voice-btn" aria-label="Speak your question" title="Speak your question">🎤 Speak</button>
+      <span id="voiceStatus" class="voice-status" aria-live="polite"></span>
     </div>
     <div class="chat-quick-actions">
       <button type="button" data-full-q="How can I make my gas last longer?">🔥 Save gas</button>
@@ -2893,10 +2910,19 @@ body.dark-mode .assistant-card{background:#111827;border-color:#334155}body.dark
 /* Open Chat */
 .assistant-header{position:relative}.assistant-header-copy{flex:1}.open-chat-btn{margin-left:auto;white-space:nowrap;border:0;border-radius:12px;padding:11px 15px;font-weight:800;background:#2563eb;color:#fff;cursor:pointer;box-shadow:0 6px 18px rgba(37,99,235,.22)}
 .chat-modal{position:fixed;inset:0;background:rgba(2,6,23,.66);backdrop-filter:blur(5px);z-index:10000;display:none;padding:18px}.chat-modal.open{display:flex;align-items:center;justify-content:center}.chat-modal-panel{width:min(900px,100%);height:min(760px,calc(100vh - 36px));display:flex;flex-direction:column;background:var(--card-bg,#fff);color:inherit;border:1px solid var(--border-color,#dbe3ef);border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.28);overflow:hidden}.chat-modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}.chat-title-wrap{display:flex;gap:12px;align-items:center}.chat-modal-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#eef5ff;font-size:23px}.chat-title-wrap h2{font-size:20px;margin:0}.chat-title-wrap span{font-size:12px;opacity:.68}.chat-close{width:40px;height:40px;border:0;border-radius:12px;background:transparent;font-size:30px;line-height:1;cursor:pointer;color:inherit}.chat-close:hover{background:rgba(127,127,127,.1)}.full-chat-messages{flex:1;overflow:auto;padding:18px;background:rgba(127,127,127,.055)}.full-chat-messages .assistant-message{max-width:78%;font-size:15px}.full-chat-messages .assistant-message.bot{background:var(--card-bg,#fff)}.chat-quick-actions{display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}.chat-quick-actions button{border:1px solid var(--border-color,#dbe3ef);background:transparent;color:inherit;border-radius:999px;padding:8px 11px;cursor:pointer}.full-chat-form{display:flex;gap:10px;padding:12px 16px;border-top:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}.full-chat-form input{flex:1;min-width:0;padding:14px;border:1px solid var(--border-color,#dbe3ef);border-radius:14px;background:var(--input-bg,#fff);color:inherit;font-size:16px;outline:none}.full-chat-form input:focus{box-shadow:0 0 0 3px rgba(37,99,235,.15)}.full-chat-form button{width:52px;border:0;border-radius:14px;background:#2563eb;color:#fff;font-size:22px;font-weight:800;cursor:pointer}.chat-safety-note{font-size:11px;opacity:.62;line-height:1.45;margin:0;padding:0 16px 13px;background:var(--card-bg,#fff)}
+.chat-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}
+.chat-language{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:750}
+.chat-language select{border:1px solid var(--border-color,#dbe3ef);border-radius:10px;padding:8px 10px;background:var(--input-bg,#fff);color:inherit;font:inherit}
+.chat-voice-btn{border:1px solid var(--border-color,#dbe3ef);background:transparent;color:inherit;border-radius:12px;padding:9px 12px;font-weight:750;cursor:pointer}
+.chat-voice-btn.listening{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
+.chat-voice-btn:disabled{opacity:.55;cursor:not-allowed}
+.voice-status{font-size:11px;opacity:.68}
+.message-listen-btn{display:block;margin-top:9px;border:1px solid var(--border-color,#dbe3ef);background:transparent;color:inherit;border-radius:9px;padding:6px 9px;font-size:12px;font-weight:700;cursor:pointer}
+.message-listen-btn:hover{background:rgba(127,127,127,.08)}
 /* Back to top */
 .back-to-top{position:fixed;right:20px;bottom:22px;width:48px;height:48px;border:0;border-radius:50%;background:#2563eb;color:#fff;font-size:23px;font-weight:800;display:grid;place-items:center;cursor:pointer;z-index:9000;box-shadow:0 10px 25px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .2s,visibility .2s,transform .2s}.back-to-top.show{opacity:1;visibility:visible;transform:translateY(0)}
 body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mode .chat-quick-actions,body.dark-mode .full-chat-form,body.dark-mode .chat-safety-note{background:#111827;border-color:#334155}body.dark-mode .full-chat-messages{background:#0b1220}body.dark-mode .full-chat-messages .assistant-message.bot{background:#111827;border-color:#334155}body.dark-mode .chat-modal-icon{background:#1e293b}
-@media(max-width:600px){.assistant-header{align-items:flex-start}.open-chat-btn{padding:9px 11px;font-size:13px}.chat-modal{padding:0}.chat-modal.open{align-items:stretch}.chat-modal-panel{height:100%;min-height:100%;border-radius:0;border:0}.chat-title-wrap h2{font-size:17px}.chat-title-wrap span{display:block;max-width:210px}.full-chat-messages .assistant-message{max-width:90%}.back-to-top{right:14px;bottom:16px;width:44px;height:44px}}
+@media(max-width:600px){.chat-tools{align-items:stretch}.chat-language{width:100%}.chat-language select{flex:1}.voice-status{width:100%}.assistant-header{align-items:flex-start}.open-chat-btn{padding:9px 11px;font-size:13px}.chat-modal{padding:0}.chat-modal.open{align-items:stretch}.chat-modal-panel{height:100%;min-height:100%;border-radius:0;border:0}.chat-title-wrap h2{font-size:17px}.chat-title-wrap span{display:block;max-width:210px}.full-chat-messages .assistant-message{max-width:90%}.back-to-top{right:14px;bottom:16px;width:44px;height:44px}}
 
 /* Cooking Profile */
 .cooking-profile{margin-top:28px;padding:30px;border-radius:24px;background:linear-gradient(145deg,#f7f8ff,#f5fbff);border:1px solid #e1e6f0;box-shadow:0 12px 35px rgba(20,30,60,.06)}
@@ -2911,13 +2937,112 @@ body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mod
   let busy=false, previousFocus=null;
   function esc(t){return String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
   function fmt(t){return esc(t).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/(^|\n)[•*-]\s+/g,'$1• ').replace(/\n/g,'<br>');}
-  function add(text,who='bot'){const d=document.createElement('div');d.className='assistant-message '+who;d.innerHTML=who==='bot'?fmt(text):esc(text).replace(/\n/g,'<br>');messages.appendChild(d);messages.scrollTop=messages.scrollHeight;return d;}
+  function add(text,who='bot'){
+    const d=document.createElement('div');
+    d.className='assistant-message '+who;
+    d.innerHTML=who==='bot'?fmt(text):esc(text).replace(/\n/g,'<br>');
+    if(who==='bot'){
+      const cleanText=String(text||'');
+      const listen=document.createElement('button');
+      listen.type='button';
+      listen.className='message-listen-btn';
+      listen.textContent='🔊 Listen';
+      listen.setAttribute('aria-label','Listen to this answer');
+      listen.addEventListener('click',()=>speakText(cleanText, listen));
+      d.appendChild(listen);
+    }
+    messages.appendChild(d);
+    messages.scrollTop=messages.scrollHeight;
+    return d;
+  }
   async function stored(key){try{if(window.Capacitor?.Plugins?.Preferences){const r=await window.Capacitor.Plugins.Preferences.get({key});return r?.value?JSON.parse(r.value):null}}catch(e){}try{const r=localStorage.getItem(key);return r?JSON.parse(r):null}catch(e){return null}}
   async function profile(){const tracker=await stored('gasTrackerData'), planner=await stored('cgtMealPlanner');let cookingProfile=null;try{cookingProfile=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null')}catch(e){}let cylinder=null;try{cylinder=JSON.parse(localStorage.getItem('cgtCylinderSetup')||'null')}catch(e){}const dates=tracker?.dates||{};return {cylinderSize:cylinder?.main?String(cylinder.main)+'kg':(dates.kg?String(dates.kg)+'kg':null),refillDate:dates.refill||null,consumptionDate:dates.consumption||null,gasAmountKg:dates.kg||null,refillPrice:dates.price||null,currency:dates.currency||null,householdSize:cookingProfile?.householdSize||planner?.people||null,mealsPerDay:cookingProfile?.mealsPerDay||planner?.meals||null,budgetLevel:cookingProfile?.budgetLevel||planner?.budget||null,gasGoal:cookingProfile?.goal||planner?.gas||null,commonFoods:Array.isArray(planner?.foods)?planner.foods:[],customFoods:Array.isArray(planner?.customFoods)?planner.customFoods:[],highestFillKg:cookingProfile?.highestKg||null,lowestFillKg:cookingProfile?.lowestKg||null,currentGasKg:cookingProfile?.currentKg||null,cookingDuration:cookingProfile?.cookingDuration||null,foodsOftenEaten:cookingProfile?.commonFoodsText||null,foodsToAvoid:cookingProfile?.avoidFoodsText||null};}
-  async function ask(q){q=String(q||'').trim();if(!q||busy)return;add(q,'user');input.value='';busy=true;input.disabled=true;const send=form.querySelector('button');if(send){send.disabled=true;send.textContent='…'}const load=add('Thinking…','bot');try{const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,profile:await profile()})});const data=await res.json().catch(()=>({}));load.remove();if(!res.ok||!data.answer)throw new Error(data.error||'Assistant unavailable');add(String(data.answer),'bot')}catch(e){load.remove();console.error(e);add('Sorry, I could not connect to the Smart Assistant right now. Please check your internet connection and try again.','bot')}finally{busy=false;input.disabled=false;if(send){send.disabled=false;send.textContent='➤'}input.focus()}}
+  async function ask(q){
+    q=String(q||'').trim();
+    if(!q||busy)return;
+    const lang=document.getElementById('chatLanguage')?.value||'English';
+    add(q,'user');
+    input.value='';
+    busy=true;input.disabled=true;const send=form.querySelector('button');if(send){send.disabled=true;send.textContent='…'}const load=add('Thinking…','bot');try{const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+          question: lang==='English'
+            ? q
+            : `Answer the user's question in ${lang}. Keep the answer natural, clear and practical for a household in Nigeria. User question: ${q}`,
+          profile:await profile()
+        })});const data=await res.json().catch(()=>({}));load.remove();if(!res.ok||!data.answer)throw new Error(data.error||'Assistant unavailable');add(String(data.answer),'bot')}catch(e){load.remove();console.error(e);add('Sorry, I could not connect to the Smart Assistant right now. Please check your internet connection and try again.','bot')}finally{busy=false;input.disabled=false;if(send){send.disabled=false;send.textContent='➤'}input.focus()}}
   function openChat(){previousFocus=document.activeElement;modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';setTimeout(()=>input.focus(),50)}
   function closeChat(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';if(previousFocus?.focus)previousFocus.focus()}
   openBtn.addEventListener('click',openChat);closeBtn.addEventListener('click',closeChat);modal.addEventListener('click',e=>{if(e.target===modal)closeChat()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeChat()});form.addEventListener('submit',e=>{e.preventDefault();ask(input.value)});document.querySelectorAll('[data-full-q]').forEach(b=>b.addEventListener('click',()=>ask(b.dataset.fullQ)));
+  // Voice input + speech output + language selection
+  const voiceBtn=document.getElementById('voiceInputBtn');
+  const voiceStatus=document.getElementById('voiceStatus');
+  const languageSelect=document.getElementById('chatLanguage');
+  let recognition=null, listening=false;
+
+  function voiceLocale(){
+    return languageSelect?.selectedOptions?.[0]?.dataset?.voice || 'en-NG';
+  }
+
+  function speakText(text,button){
+    if(!('speechSynthesis' in window)){
+      if(voiceStatus)voiceStatus.textContent='Voice playback is not supported on this device.';
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utter=new SpeechSynthesisUtterance(String(text||'').replace(/[*_#]/g,''));
+    utter.lang=voiceLocale();
+    utter.rate=0.96;
+    utter.pitch=1;
+    if(button)button.textContent='⏹ Stop';
+    utter.onend=()=>{if(button)button.textContent='🔊 Listen';};
+    utter.onerror=()=>{if(button)button.textContent='🔊 Listen';};
+    window.speechSynthesis.speak(utter);
+  }
+
+  if(voiceBtn){
+    const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SpeechRecognition){
+      voiceBtn.disabled=true;
+      voiceBtn.title='Voice input is not supported by this browser';
+      if(voiceStatus)voiceStatus.textContent='Voice input unavailable in this browser.';
+    }else{
+      recognition=new SpeechRecognition();
+      recognition.continuous=false;
+      recognition.interimResults=false;
+      recognition.lang=voiceLocale();
+      recognition.onstart=()=>{
+        listening=true;
+        voiceBtn.classList.add('listening');
+        voiceBtn.textContent='🔴 Listening...';
+        if(voiceStatus)voiceStatus.textContent='Speak your question...';
+      };
+      recognition.onresult=(event)=>{
+        const transcript=event.results?.[0]?.[0]?.transcript||'';
+        input.value=transcript;
+        if(voiceStatus)voiceStatus.textContent='Voice captured. Tap Send to ask.';
+      };
+      recognition.onerror=(event)=>{
+        if(voiceStatus)voiceStatus.textContent=event.error==='not-allowed'
+          ? 'Microphone permission was not granted.'
+          : 'I could not hear that. Please try again.';
+      };
+      recognition.onend=()=>{
+        listening=false;
+        voiceBtn.classList.remove('listening');
+        voiceBtn.textContent='🎤 Speak';
+      };
+      voiceBtn.addEventListener('click',()=>{
+        if(listening){recognition.stop();return;}
+        recognition.lang=voiceLocale();
+        try{recognition.start();}catch(e){}
+      });
+    }
+  }
+
+  languageSelect?.addEventListener('change',()=>{
+    if(recognition)recognition.lang=voiceLocale();
+    if(voiceStatus)voiceStatus.textContent=`Responses will use ${languageSelect.value}.`;
+  });
+
   // Keep conversation available while the modal remains open. It is intentionally not sent to the server as history.
 })();
 (function(){const b=document.getElementById('backToTopBtn');if(!b)return;function check(){b.classList.toggle('show',window.scrollY>500)}window.addEventListener('scroll',check,{passive:true});check();b.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));})();
