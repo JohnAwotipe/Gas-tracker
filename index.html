@@ -938,7 +938,7 @@
         <section class="hero-section">
             <div class="hero-badge">🔥 A smarter way to manage cooking gas</div>
             <h1>Know when your cooking gas is <span>about to finish.</span></h1>
-            <p>Stop guessing. Track your gas usage, plan your refill, and receive timely reminders before you run out unexpectedly.</p>
+            <p>Stop guessing and start managing smarter. Track your cooking gas usage, plan your refills, and receive timely reminders before you run out unexpectedly. Plan affordable meals, manage your food budget, build smart shopping lists, track what you already have, save cooking gas, learn essential gas safety tips, and get personalized guidance from our Smart Gas & Food Assistant.</p>
             <div class="hero-actions">
                 <a class="hero-primary" href="#tracker">Start tracking free</a>
                 <a class="hero-secondary" href="#how-it-works">See how it works ↓</a>
@@ -2875,6 +2875,21 @@ body.dark-mode #smart-assistant .section-heading,body.dark-mode #smart-shopping 
   }
 
 
+  function getDetectedProfileCurrency(){
+    try{
+      const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+      const map={'Africa/Lagos':'NGN','Africa/Accra':'GHS','Africa/Nairobi':'KES','Africa/Kampala':'UGX','Africa/Kigali':'RWF','Africa/Johannesburg':'ZAR','Europe/London':'GBP','Europe/Zurich':'CHF','Asia/Kolkata':'INR','Asia/Tokyo':'JPY','Asia/Shanghai':'CNY','America/New_York':'USD','America/Toronto':'CAD'};
+      if(map[tz])return map[tz];
+      const m=(navigator.language||'en-US').match(/[-_]([A-Z]{2})$/i);
+      const region=m?m[1].toUpperCase():'';
+      const map2={'NG':'NGN','US':'USD','GB':'GBP','GH':'GHS','KE':'KES','ZA':'ZAR','EG':'EGP','CA':'CAD','AU':'AUD','JP':'JPY','CN':'CNY','IN':'INR','BR':'BRL','MX':'MXN','SA':'SAR','AE':'AED','TR':'TRY','CH':'CHF','SE':'SEK','NO':'NOK','DK':'DKK','PL':'PLN','CZ':'CZK','HU':'HUF','RO':'RON','TH':'THB','VN':'VND','ID':'IDR','MY':'MYR','PH':'PHP','SG':'SGD','HK':'HKD','TW':'TWD','KR':'KRW','PK':'PKR','BD':'BDT','LK':'LKR','NP':'NPR','TZ':'TZS','RW':'RWF','UG':'UGX','ZM':'ZMW','ZW':'ZWL'};
+      return map2[region]||'USD';
+    }catch(e){return 'USD'}
+  }
+  function formatProfileMoney(amount,currency){
+    try{return new Intl.NumberFormat(navigator.language||'en',{style:'currency',currency:currency||'USD',maximumFractionDigits:2}).format(Math.max(0,Number(amount)||0));}
+    catch(e){return `${currency||'USD'} ${Math.max(0,Number(amount)||0).toFixed(2)}`;}
+  }
   function getCookingProfileData(){
     return {
       highestKg:Number(document.getElementById('profileHighestKg').value)||null,
@@ -2888,13 +2903,14 @@ body.dark-mode #smart-assistant .section-heading,body.dark-mode #smart-shopping 
       budgetAmount:Number(document.getElementById('profileBudgetAmount').value)||null,
       budgetPeriod:document.getElementById('profileBudgetPeriod').value,
       goal:document.getElementById('profileGoal').value,
-      avoidFoodsText:document.getElementById('profileAvoid').value.trim()
+      avoidFoodsText:document.getElementById('profileAvoid').value.trim(),
+      currency:getDetectedProfileCurrency()
     };
   }
   function profileSummary(d){
     const people=d?.householdSize?`${d.householdSize} ${d.householdSize===1?'person':'people'}`:'your household';
     const meals=d?.mealsPerDay?`${d.mealsPerDay} meal${d.mealsPerDay==='1'?'':'s'} per day`:'';
-    const budget=d?.budgetAmount?`₦${Number(d.budgetAmount).toLocaleString('en-NG')} ${d.budgetPeriod==='day'?'per day':d.budgetPeriod==='month'?'per month':'per week'}`:'';
+    const budget=d?.budgetAmount?formatProfileMoney(Number(d.budgetAmount), d?.currency||getDetectedProfileCurrency()) + ` ${d.budgetPeriod==='day'?'per day':d.budgetPeriod==='month'?'per month':'per week'}`:'';
     const goalMap={'save-gas':'save gas','balanced':'balance gas, food and cost','save-money':'save money and gas','convenience':'keep cooking simple'};
     const goal=goalMap[d?.goal]||'manage cooking smarter';
     return `Saved for ${people}${meals?` • ${meals}`:''}. ${budget?`Food budget: ${budget}. `:''}Main goal: ${goal}.`;
@@ -2951,6 +2967,8 @@ body.dark-mode #smart-assistant .section-heading,body.dark-mode #smart-shopping 
   resetProfileBtn?.addEventListener('click',clearCookingProfile);
   createProfileBtn?.addEventListener('click',showProfileEditor);
   cancelProfileBtn?.addEventListener('click',cancelCookingProfileEdit);
+  // Restore the saved cooking profile automatically on every page load. It remains saved until the user presses Reset.
+  loadCookingProfile();
 
   async function buildProfile(){
     const tracker=await getStoredValue('gasTrackerData');
@@ -3278,7 +3296,29 @@ body.dark-mode .shopping-total-box{background:#111827;border-color:#334155}body.
   const summaryEl=document.getElementById('shoppingSummary'),budgetAmountEl=document.getElementById('shoppingBudgetAmount'),totalEl=document.getElementById('shoppingEstimatedTotal'),remainingEl=document.getElementById('shoppingRemaining'),budgetMessageEl=document.getElementById('shoppingBudgetMessage');
   const budgetInput=document.getElementById('shoppingBudgetInput'),budgetPeriodInput=document.getElementById('shoppingBudgetPeriodInput'),saveBudgetBtn=document.getElementById('saveShoppingBudgetBtn');
   const currencyMap={NG:'NGN',US:'USD',GB:'GBP',GH:'GHS',KE:'KES',ZA:'ZAR',EG:'EGP',CA:'CAD',AU:'AUD',JP:'JPY',CN:'CNY',IN:'INR',BR:'BRL',MX:'MXN',SA:'SAR',AE:'AED',TR:'TRY',CH:'CHF',SE:'SEK',NO:'NOK',DK:'DKK',PL:'PLN',CZ:'CZK',HU:'HUF',RO:'RON',TH:'THB',VN:'VND',ID:'IDR',MY:'MYR',PH:'PHP',SG:'SGD',HK:'HKD',TW:'TWD',KR:'KRW',PK:'PKR',BD:'BDT',LK:'LKR',NP:'NPR',TZ:'TZS',RW:'RWF',UG:'UGX',ZM:'ZMW',ZW:'ZWL'};
-  function detectCurrency(){try{const locale=navigator.language||'en-NG';const m=locale.match(/[-_]([A-Z]{2})$/i);const region=m?m[1].toUpperCase():'';if(region&&currencyMap[region])return currencyMap[region];const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';if(/^Africa\/(Lagos|Abidjan|Accra)/.test(tz)){if(tz==='Africa/Lagos')return 'NGN';if(tz==='Africa/Accra')return 'GHS'}if(/^Europe\/London/.test(tz))return 'GBP';if(/^Asia\/Kolkata/.test(tz))return 'INR';if(/^America\/New_York/.test(tz))return 'USD';return 'USD'}catch(e){return 'USD'}}
+  function detectCurrency(){try{
+    // Use the device time zone first because many devices report a generic
+    // language such as en-US even when the user is physically elsewhere.
+    const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+    const tzMap={
+      'Africa/Lagos':'NGN','Africa/Accra':'GHS','Africa/Nairobi':'KES','Africa/Kampala':'UGX','Africa/Dar_es_Salaam':'TZS',
+      'Africa/Kigali':'RWF','Africa/Lusaka':'ZMW','Africa/Harare':'ZWL','Africa/Cairo':'EGP','Africa/Johannesburg':'ZAR',
+      'Europe/London':'GBP','Europe/Zurich':'CHF','Europe/Stockholm':'SEK','Europe/Oslo':'NOK','Europe/Copenhagen':'DKK',
+      'Europe/Warsaw':'PLN','Europe/Prague':'CZK','Europe/Budapest':'HUF','Europe/Bucharest':'RON',
+      'Asia/Kolkata':'INR','Asia/Dhaka':'BDT','Asia/Karachi':'PKR','Asia/Colombo':'LKR','Asia/Kathmandu':'NPR',
+      'Asia/Bangkok':'THB','Asia/Ho_Chi_Minh':'VND','Asia/Jakarta':'IDR','Asia/Kuala_Lumpur':'MYR','Asia/Manila':'PHP',
+      'Asia/Singapore':'SGD','Asia/Hong_Kong':'HKD','Asia/Taipei':'TWD','Asia/Seoul':'KRW','Asia/Tokyo':'JPY','Asia/Shanghai':'CNY',
+      'Asia/Dubai':'AED','Asia/Riyadh':'SAR','Europe/Istanbul':'TRY',
+      'America/New_York':'USD','America/Chicago':'USD','America/Denver':'USD','America/Los_Angeles':'USD',
+      'America/Toronto':'CAD','America/Sao_Paulo':'BRL','America/Mexico_City':'MXN'
+    };
+    if(tzMap[tz])return tzMap[tz];
+    const locale=navigator.language||'en-NG';
+    const m=locale.match(/[-_]([A-Z]{2})$/i);
+    const region=m?m[1].toUpperCase():'';
+    if(region&&currencyMap[region])return currencyMap[region];
+    return 'USD';
+  }catch(e){return 'USD'}}
   const detectedCurrency=detectCurrency();
   const currencyLabel=document.getElementById('shoppingCurrencyLabel');
   function money(n){const value=Math.max(0,Number(n)||0);try{return new Intl.NumberFormat(navigator.language||'en',{style:'currency',currency:detectedCurrency,maximumFractionDigits:2}).format(value)}catch(e){return `${detectedCurrency} ${value.toFixed(2)}`}}
