@@ -938,7 +938,7 @@
         <section class="hero-section">
             <div class="hero-badge">🔥 A smarter way to manage cooking gas</div>
             <h1>Know when your cooking gas is <span>about to finish.</span></h1>
-            <p>Stop guessing and start managing smarter. Track your cooking gas usage, plan your refills, and receive timely reminders before you run out unexpectedly. Plan affordable meals, manage your food budget, build smart shopping lists, track what you already have, discover practical ways to save cooking gas, learn essential gas safety tips, and get personalized guidance from our Smart Gas & Food Assistant.</p>
+            <p>Stop guessing. Track your gas usage, plan your refill, and receive timely reminders before you run out unexpectedly.</p>
             <div class="hero-actions">
                 <a class="hero-primary" href="#tracker">Start tracking free</a>
                 <a class="hero-secondary" href="#how-it-works">See how it works ↓</a>
@@ -1201,6 +1201,7 @@
 <!-- My Cooking Profile -->
 <section class="cooking-profile" id="cooking-profile" aria-labelledby="profileTitle">
   <div class="profile-head"><div><div class="section-eyebrow">MY COOKING PROFILE</div><h2 id="profileTitle">Tell us how you cook</h2><p class="profile-lead">Save your normal cooking habits so Cooking Gas Tracker &amp; Manager can give you more useful gas, food, budget and meal-planning suggestions.</p></div></div>
+  <div class="profile-editor" id="profileEditor">
   <div class="profile-grid">
     <div class="profile-field"><label for="profileHighestKg">Highest gas amount you normally fill (KG)</label><input id="profileHighestKg" type="number" min="1" max="100" step="0.1" placeholder="e.g. 12"><small>Your usual maximum refill amount.</small></div>
     <div class="profile-field"><label for="profileLowestKg">Lowest gas amount you normally fill (KG)</label><input id="profileLowestKg" type="number" min="1" max="100" step="0.1" placeholder="e.g. 5"><small>Your usual minimum refill amount.</small></div>
@@ -1210,13 +1211,24 @@
     <div class="profile-field"><label for="profileDuration">Typical cooking time per meal</label><select id="profileDuration"><option value="under30">Under 30 minutes</option><option value="30to60" selected>30–60 minutes</option><option value="60to90">60–90 minutes</option><option value="over90">Over 90 minutes</option></select></div>
     <div class="profile-field full"><label for="profileFoods">Foods you often eat</label><textarea id="profileFoods" rows="2" placeholder="e.g. rice, beans, yam, eggs, stew, noodles"></textarea><small>Separate foods with commas. You can include foods not in the meal planner list.</small></div>
     <div class="profile-field"><label for="profileBudget">Budget level</label><select id="profileBudget"><option value="low">Limited budget</option><option value="medium" selected>Moderate budget</option><option value="high">Flexible budget</option></select><small>This describes how tightly you want the food plan to manage spending.</small></div>
-    <div class="profile-field"><label for="profileBudgetAmount">Actual food budget (₦)</label><input id="profileBudgetAmount" type="number" min="0" step="100" placeholder="e.g. 15000"><small>Enter the amount you normally want to spend.</small></div>
+    <div class="profile-field"><label for="profileBudgetAmount">Actual food budget <span id="profileCurrencyLabel"></span></label><input id="profileBudgetAmount" type="number" min="0" step="0.01" placeholder="Enter your budget"><small>Your currency is detected from your device region. You can enter the amount you normally want to spend.</small></div>
     <div class="profile-field"><label for="profileBudgetPeriod">Budget period</label><select id="profileBudgetPeriod"><option value="day">Per day</option><option value="week" selected>Per week</option><option value="month">Per month</option></select><small>The period used when comparing your shopping plan with your budget.</small></div>
     <div class="profile-field"><label for="profileGoal">Main cooking goal</label><select id="profileGoal"><option value="save-gas">Save gas</option><option value="balanced" selected>Balance gas, food and cost</option><option value="save-money">Save money and gas</option><option value="convenience">Convenience and simple cooking</option></select></div>
     <div class="profile-field full"><label for="profileAvoid">Foods you do not eat or prefer to avoid</label><textarea id="profileAvoid" rows="2" placeholder="e.g. fish, very spicy food, okra"></textarea><small>This helps the assistant avoid suggesting foods you don't want.</small></div>
   </div>
-  <div class="profile-actions"><button class="profile-btn" type="button" onclick="saveCookingProfile()">💾 Save My Cooking Profile</button><button class="profile-btn secondary" type="button" onclick="clearCookingProfile()">Reset</button></div>
+  </div>
+  <div class="profile-actions"><button class="profile-btn" type="button" id="saveCookingProfileBtn">💾 Save My Cooking Profile</button><button class="profile-btn secondary" type="button" id="resetCookingProfileBtn">Reset</button><button class="profile-btn secondary profile-cancel-btn" type="button" id="cancelCookingProfileBtn" hidden>Cancel</button></div>
   <div class="profile-status" id="profileStatus" aria-live="polite"></div>
+  </div>
+  <div class="profile-saved" id="profileSaved" hidden>
+    <div class="profile-saved-icon">✓</div>
+    <div class="profile-saved-copy">
+      <div class="section-eyebrow">PROFILE SAVED</div>
+      <h3>Your cooking profile is active</h3>
+      <p id="profileSavedSummary">Your saved cooking habits will be used for meal, food budget, shopping and gas-management suggestions.</p>
+    </div>
+    <button class="profile-btn" type="button" id="createNewProfileBtn">✏️ Create New Profile</button>
+  </div>
 </section>
 
 <section id="smart-assistant" class="section-container" aria-labelledby="smartAssistantTitle">
@@ -1320,49 +1332,44 @@
       <button type="button" class="profile-btn" id="buildShoppingBtn">✨ Build My List</button>
     </div>
 
+    <div class="shopping-add-row">
+      <div class="shopping-add-field item-field"><label for="shoppingItemInput">Item</label><input id="shoppingItemInput" type="text" maxlength="100" placeholder="e.g. rice, eggs, tomatoes" aria-label="Add shopping item"></div>
+      <div class="shopping-add-field qty-field"><label for="shoppingQtyInput">Number of items</label><input id="shoppingQtyInput" type="number" min="0.01" step="0.01" value="1" placeholder="e.g. 1.5" aria-label="Number of items"></div>
+      <div class="shopping-add-field price-field"><label for="shoppingPriceInput">Amount per item <span id="shoppingCurrencyLabel">(currency)</span></label><input id="shoppingPriceInput" type="number" min="0" step="0.01" placeholder="e.g. 2000" aria-label="Amount per item"></div>
+      <button type="button" class="profile-btn shopping-add-button" id="addShoppingBtn">＋ Add Item</button>
+    </div>
+    <p class="shopping-helper">You can use decimals such as <strong>0.5</strong> for half an item. The total is calculated automatically as <strong>number of items × amount per item</strong>. Prices are planning estimates until you confirm the actual price.</p>
+    <div class="shopping-list-panel">
+      <h4>🛍️ Items to Buy</h4>
+      <div id="shoppingList" class="shopping-list"><p class="shopping-empty">Your shopping list will appear here.</p></div>
+    </div>
+
+    <div class="shopping-total-box" aria-live="polite">
+      <div><span class="shopping-total-icon">🧮</span><div><strong>Estimated Shopping Total</strong><small>Automatically calculated from the items you plan to buy.</small></div></div>
+      <strong id="shoppingEstimatedTotal" class="shopping-total-value">—</strong>
+    </div>
+
     <div class="shopping-budget-panel">
-      <div class="budget-panel-title"><span>💰</span><div><strong>My Food Budget</strong><small>Set this in My Cooking Profile, then keep your shopping within the amount when possible.</small></div></div>
+      <div class="budget-panel-title"><span>💰</span><div><strong>My Food Budget</strong><small>Enter your budget here or set it in My Cooking Profile.</small></div></div>
+      <div class="shopping-budget-entry">
+        <div class="budget-input-wrap"><label for="shoppingBudgetInput">Budget amount</label><input id="shoppingBudgetInput" type="number" min="0" step="0.01" placeholder="Enter your budget" aria-label="Food budget amount"></div>
+        <div class="budget-input-wrap"><label for="shoppingBudgetPeriodInput">Budget period</label><select id="shoppingBudgetPeriodInput" aria-label="Budget period"><option value="day">Per day</option><option value="week" selected>Per week</option><option value="month">Per month</option></select></div>
+        <button type="button" class="profile-btn" id="saveShoppingBudgetBtn">💾 Save Budget</button>
+      </div>
       <div class="budget-values">
         <div><strong id="shoppingBudgetAmount">—</strong><span>Budget</span></div>
-        <div><strong id="shoppingEstimatedTotal">—</strong><span>Estimated shopping</span></div>
         <div><strong id="shoppingRemaining">—</strong><span>Remaining</span></div>
+        <div><strong id="shoppingBudget">—</strong><span>Budget level</span></div>
       </div>
-      <div id="shoppingBudgetMessage" class="budget-message" aria-live="polite">Add your food budget in My Cooking Profile to track it here.</div>
+      <div id="shoppingBudgetMessage" class="budget-message" aria-live="polite">Enter your food budget to track your planned spending.</div>
     </div>
-
-    <div class="shopping-add-row">
-      <input id="shoppingItemInput" type="text" maxlength="100" placeholder="Add an item, e.g. rice, eggs, tomatoes" aria-label="Add shopping item">
-      <input id="shoppingQtyInput" type="number" min="0.01" step="0.01" value="1" placeholder="Qty" aria-label="Quantity">
-      <input id="shoppingPriceInput" type="number" min="0" step="50" placeholder="Est. price ₦" aria-label="Estimated price in naira">
-      <button type="button" class="profile-btn" id="addShoppingBtn">＋ Add</button>
-    </div>
-    <p class="shopping-helper">Optional: add a quantity and estimated price. You can edit them later. Prices are only planning estimates until you confirm the actual market price.</p>
-
-    <div class="shopping-grid">
-      <div>
-        <h4>🛍️ Items to Buy</h4>
-        <div id="shoppingList" class="shopping-list">
-          <p class="shopping-empty">Your shopping list will appear here.</p>
-        </div>
-      </div>
-      <div class="shopping-side">
-        <h4>🏠 Already Have</h4>
-        <div id="haveList" class="shopping-list">
-          <p class="shopping-empty">Move items here when you already have them. They will stay out of the shopping total.</p>
-        </div>
-      </div>
-    </div>
-
     <div class="shopping-stats">
       <div><strong id="shoppingCount">0</strong><span>Items to buy</span></div>
-      <div><strong id="haveCount">0</strong><span>Already have</span></div>
-      <div><strong id="shoppingBudget">—</strong><span>Budget level</span></div>
       <div><strong id="shoppingPriceCount">0</strong><span>Items with prices</span></div>
+      <div><strong id="shoppingBudget">—</strong><span>Budget level</span></div>
     </div>
 
-    <div class="shopping-note">
-      <strong>💡 Smart tip:</strong> When you mark something as <strong>Already Have</strong>, the item remains in your household inventory but is removed from the planned shopping cost. If your meal plan needs something you already have, the manager can use that information instead of asking you to buy it again.
-    </div>
+    <div class="shopping-note"><strong>💡 Smart tip:</strong> Add the items you plan to buy, enter how many you need and the amount per item. The manager will calculate each item total and your overall estimated shopping cost automatically.</div>
   </div>
 </section>
 
@@ -1381,7 +1388,7 @@
 
             <!-- Smart Gas & Meal Planner -->
             <section class="meal-planner" id="meal-planner" aria-labelledby="mealPlannerTitle">
-                <div class="section-eyebrow">SMART GAS & FOOD MANAGEMENT</div>
+                <div class="section-eyebrow meal-timetable-heading">CREATE MY MEAL TIME TABLE</div>
                 <h2 id="mealPlannerTitle">Plan your meals around your budget and gas</h2>
                 <p class="planner-lead">Tell us about your cooking routine, budget and favourite foods. The planner uses those answers to create practical meal ideas that balance food cost, cooking effort and gas use. It does not diagnose your financial situation; it simply adjusts the plan to the budget you provide.</p>
                 <div class="planner-grid">
@@ -2815,6 +2822,7 @@ body.dark-mode #smart-assistant .section-heading,body.dark-mode #smart-shopping 
   #smart-assistant,#smart-shopping{margin:34px 0;padding:16px;border-radius:22px;}
   #smart-assistant .section-heading,#smart-shopping .section-heading{padding:18px 16px;margin-bottom:18px;border-radius:16px;}
 }
+ .budget-over{color:#dc2626;font-weight:850}body.dark-mode .budget-over{color:#f87171}
 </style>
 <script>
 (function(){
@@ -2867,18 +2875,82 @@ body.dark-mode #smart-assistant .section-heading,body.dark-mode #smart-shopping 
   }
 
 
+  function getCookingProfileData(){
+    return {
+      highestKg:Number(document.getElementById('profileHighestKg').value)||null,
+      lowestKg:Number(document.getElementById('profileLowestKg').value)||null,
+      currentKg:Number(document.getElementById('profileCurrentKg').value)||null,
+      householdSize:Number(document.getElementById('profilePeople').value)||null,
+      mealsPerDay:document.getElementById('profileMeals').value,
+      cookingDuration:document.getElementById('profileDuration').value,
+      commonFoodsText:document.getElementById('profileFoods').value.trim(),
+      budgetLevel:document.getElementById('profileBudget').value,
+      budgetAmount:Number(document.getElementById('profileBudgetAmount').value)||null,
+      budgetPeriod:document.getElementById('profileBudgetPeriod').value,
+      goal:document.getElementById('profileGoal').value,
+      avoidFoodsText:document.getElementById('profileAvoid').value.trim()
+    };
+  }
+  function profileSummary(d){
+    const people=d?.householdSize?`${d.householdSize} ${d.householdSize===1?'person':'people'}`:'your household';
+    const meals=d?.mealsPerDay?`${d.mealsPerDay} meal${d.mealsPerDay==='1'?'':'s'} per day`:'';
+    const budget=d?.budgetAmount?`₦${Number(d.budgetAmount).toLocaleString('en-NG')} ${d.budgetPeriod==='day'?'per day':d.budgetPeriod==='month'?'per month':'per week'}`:'';
+    const goalMap={'save-gas':'save gas','balanced':'balance gas, food and cost','save-money':'save money and gas','convenience':'keep cooking simple'};
+    const goal=goalMap[d?.goal]||'manage cooking smarter';
+    return `Saved for ${people}${meals?` • ${meals}`:''}. ${budget?`Food budget: ${budget}. `:''}Main goal: ${goal}.`;
+  }
+  function showSavedProfile(d){
+    const editor=document.getElementById('profileEditor'),saved=document.getElementById('profileSaved'),cancel=document.getElementById('cancelCookingProfileBtn');
+    if(editor)editor.hidden=true;
+    if(saved)saved.hidden=false;
+    if(cancel)cancel.hidden=true;
+    const st=document.getElementById('profileStatus');if(st)st.textContent='';
+    const summary=document.getElementById('profileSavedSummary');if(summary)summary.textContent=profileSummary(d);
+  }
+  function showProfileEditor(){
+    const editor=document.getElementById('profileEditor'),saved=document.getElementById('profileSaved'),cancel=document.getElementById('cancelCookingProfileBtn');
+    if(editor)editor.hidden=false;
+    if(saved)saved.hidden=true;
+    if(cancel)cancel.hidden=!localStorage.getItem('cgtCookingProfile');
+    const first=document.getElementById('profileHighestKg');if(first)first.focus();
+  }
   function saveCookingProfile(){
-    const data={highestKg:Number(document.getElementById('profileHighestKg').value)||null,lowestKg:Number(document.getElementById('profileLowestKg').value)||null,currentKg:Number(document.getElementById('profileCurrentKg').value)||null,householdSize:Number(document.getElementById('profilePeople').value)||null,mealsPerDay:document.getElementById('profileMeals').value,cookingDuration:document.getElementById('profileDuration').value,commonFoodsText:document.getElementById('profileFoods').value.trim(),budgetLevel:document.getElementById('profileBudget').value,budgetAmount:Number(document.getElementById('profileBudgetAmount').value)||null,budgetPeriod:document.getElementById('profileBudgetPeriod').value,goal:document.getElementById('profileGoal').value,avoidFoodsText:document.getElementById('profileAvoid').value.trim()};
+    const data=getCookingProfileData();
     localStorage.setItem('cgtCookingProfile',JSON.stringify(data));
-    const st=document.getElementById('profileStatus'); if(st) st.textContent='✓ Your cooking profile has been saved.';
+    showSavedProfile(data);
   }
   function loadCookingProfile(){
-    try{const d=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null'); if(!d)return;
+    try{
+      const d=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null');
+      if(!d)return;
       const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined&&v!==null)el.value=v};
       set('profileHighestKg',d.highestKg);set('profileLowestKg',d.lowestKg);set('profileCurrentKg',d.currentKg);set('profilePeople',d.householdSize);set('profileMeals',d.mealsPerDay);set('profileDuration',d.cookingDuration);set('profileFoods',d.commonFoodsText);set('profileBudget',d.budgetLevel);set('profileBudgetAmount',d.budgetAmount);set('profileBudgetPeriod',d.budgetPeriod||'week');set('profileGoal',d.goal);set('profileAvoid',d.avoidFoodsText);
+      showSavedProfile(d);
     }catch(e){console.warn('Cooking profile could not be loaded:',e)}
   }
-  function clearCookingProfile(){localStorage.removeItem('cgtCookingProfile');['profileHighestKg','profileLowestKg','profileCurrentKg','profilePeople','profileFoods','profileAvoid'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});document.getElementById('profileMeals').value='2';document.getElementById('profileDuration').value='30to60';document.getElementById('profileBudget').value='medium';document.getElementById('profileBudgetAmount').value='';document.getElementById('profileBudgetPeriod').value='week';document.getElementById('profileGoal').value='balanced';document.getElementById('profileStatus').textContent='Cooking profile reset.'}
+  function clearCookingProfile(){
+    localStorage.removeItem('cgtCookingProfile');
+    ['profileHighestKg','profileLowestKg','profileCurrentKg','profilePeople','profileFoods','profileAvoid'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
+    document.getElementById('profileMeals').value='2';document.getElementById('profileDuration').value='30to60';document.getElementById('profileBudget').value='medium';document.getElementById('profileBudgetAmount').value='';document.getElementById('profileBudgetPeriod').value='week';document.getElementById('profileGoal').value='balanced';
+    document.getElementById('profileEditor').hidden=false;document.getElementById('profileSaved').hidden=true;document.getElementById('cancelCookingProfileBtn').hidden=true;
+    const st=document.getElementById('profileStatus');if(st)st.textContent='Cooking profile reset. You can create a new profile.';
+  }
+  function cancelCookingProfileEdit(){
+    const d=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null');
+    if(d){
+      const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined&&v!==null)el.value=v};
+      set('profileHighestKg',d.highestKg);set('profileLowestKg',d.lowestKg);set('profileCurrentKg',d.currentKg);set('profilePeople',d.householdSize);set('profileMeals',d.mealsPerDay);set('profileDuration',d.cookingDuration);set('profileFoods',d.commonFoodsText);set('profileBudget',d.budgetLevel);set('profileBudgetAmount',d.budgetAmount);set('profileBudgetPeriod',d.budgetPeriod||'week');set('profileGoal',d.goal);set('profileAvoid',d.avoidFoodsText);showSavedProfile(d);
+    }
+  }
+
+  const saveProfileBtn=document.getElementById('saveCookingProfileBtn');
+  const resetProfileBtn=document.getElementById('resetCookingProfileBtn');
+  const createProfileBtn=document.getElementById('createNewProfileBtn');
+  const cancelProfileBtn=document.getElementById('cancelCookingProfileBtn');
+  saveProfileBtn?.addEventListener('click',saveCookingProfile);
+  resetProfileBtn?.addEventListener('click',clearCookingProfile);
+  createProfileBtn?.addEventListener('click',showProfileEditor);
+  cancelProfileBtn?.addEventListener('click',cancelCookingProfileEdit);
 
   async function buildProfile(){
     const tracker=await getStoredValue('gasTrackerData');
@@ -3029,10 +3101,19 @@ body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mod
 
 /* Cooking Profile */
 .cooking-profile{margin-top:28px;padding:30px;border-radius:24px;background:linear-gradient(145deg,#f7f8ff,#f5fbff);border:1px solid #e1e6f0;box-shadow:0 12px 35px rgba(20,30,60,.06)}
-.profile-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.profile-head h2{margin:6px 0 10px;font-size:clamp(1.6rem,3vw,2.2rem)}.profile-lead{max-width:850px;color:#5d6878;line-height:1.7}.profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:22px}.profile-field{background:#fff;border:1px solid #e7eaf0;border-radius:16px;padding:15px}.profile-field.full{grid-column:1/-1}.profile-field label{display:block;font-weight:750;margin-bottom:7px}.profile-field input,.profile-field select,.profile-field textarea{width:100%;box-sizing:border-box;border:1px solid #dfe4ec;border-radius:11px;padding:11px 12px;font:inherit;background:#fff;color:#172033}.profile-field small{display:block;margin-top:6px;color:#788292;line-height:1.45}.profile-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.profile-btn{border:0;border-radius:12px;padding:11px 16px;font-weight:750;cursor:pointer;background:#667eea;color:#fff}.profile-btn.secondary{background:#eef1f7;color:#394357}.profile-status{margin-top:12px;color:#35704b;font-weight:700;min-height:20px}.dark-mode .cooking-profile{background:linear-gradient(145deg,#171b28,#111827);border-color:#2b3242}.dark-mode .profile-field{background:#1b2130;border-color:#303849}.dark-mode .profile-field input,.dark-mode .profile-field select,.dark-mode .profile-field textarea{background:#111827;color:#f3f5f8;border-color:#394254}.dark-mode .profile-btn.secondary{background:#2b3242;color:#eef2f7}@media(max-width:760px){.profile-grid{grid-template-columns:1fr}.profile-field.full{grid-column:auto}.profile-head{display:block}}
+.profile-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.profile-head h2{margin:6px 0 10px;font-size:clamp(1.6rem,3vw,2.2rem)}.profile-lead{max-width:850px;color:#5d6878;line-height:1.7}.profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:22px}.profile-field{background:#fff;border:1px solid #e7eaf0;border-radius:16px;padding:15px}.profile-field.full{grid-column:1/-1}.profile-field label{display:block;font-weight:750;margin-bottom:7px}.profile-field input,.profile-field select,.profile-field textarea{width:100%;box-sizing:border-box;border:1px solid #dfe4ec;border-radius:11px;padding:11px 12px;font:inherit;background:#fff;color:#172033}.profile-field small{display:block;margin-top:6px;color:#788292;line-height:1.45}.profile-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.profile-btn{border:0;border-radius:12px;padding:11px 16px;font-weight:750;cursor:pointer;background:#667eea;color:#fff}.profile-btn.secondary{background:#eef1f7;color:#394357}.profile-status{margin-top:12px;color:#35704b;font-weight:700;min-height:20px}.profile-editor[hidden],.profile-saved[hidden]{display:none!important}.profile-saved{margin-top:6px;padding:22px;border:1px solid #dfe5ef;border-radius:18px;background:#fff;display:flex;align-items:center;gap:16px}.profile-saved-icon{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#e9f8ef;color:#23834a;font-weight:900;font-size:22px;flex:0 0 auto}.profile-saved-copy{flex:1}.profile-saved-copy h3{margin:4px 0 6px}.profile-saved-copy p{margin:0;color:#667085;line-height:1.55}.profile-cancel-btn[hidden]{display:none!important}.dark-mode .profile-saved{background:#1b2130;border-color:#303849}.dark-mode .profile-saved-copy p{color:#aab4c4}.dark-mode .cooking-profile{background:linear-gradient(145deg,#171b28,#111827);border-color:#2b3242}.dark-mode .profile-field{background:#1b2130;border-color:#303849}.dark-mode .profile-field input,.dark-mode .profile-field select,.dark-mode .profile-field textarea{background:#111827;color:#f3f5f8;border-color:#394254}.dark-mode .profile-btn.secondary{background:#2b3242;color:#eef2f7}@media(max-width:760px){.profile-grid{grid-template-columns:1fr}.profile-field.full{grid-column:auto}.profile-head{display:block}}
 
 /* Smart Shopping Manager */
 .nav-open-chat{font-weight:800}
+.shopping-add-row{display:grid;grid-template-columns:minmax(180px,1.4fr) minmax(150px,1fr) minmax(170px,1fr) auto;gap:12px;margin:22px 0 10px;align-items:end}
+.shopping-add-field{display:flex;flex-direction:column;gap:7px}.shopping-add-field label,.budget-input-wrap label{font-size:13px;font-weight:800;opacity:.82}.shopping-add-field input,.budget-input-wrap input,.budget-input-wrap select{width:100%;box-sizing:border-box;border:1px solid var(--border-color,#dbe3ef);border-radius:14px;padding:14px 15px;background:var(--input-bg,#fff);color:inherit;font:inherit;font-size:16px;min-height:50px}.shopping-add-button{min-height:50px;white-space:nowrap}
+.shopping-total-box{margin:20px 0;padding:20px 22px;border:2px solid #dbe3ef;border-radius:18px;background:linear-gradient(145deg,#f8fbff,#fff);display:flex;justify-content:space-between;align-items:center;gap:18px}.shopping-total-box>div{display:flex;align-items:center;gap:12px}.shopping-total-icon{font-size:28px}.shopping-total-box strong{display:block}.shopping-total-box small{display:block;margin-top:4px;opacity:.7}.shopping-total-value{font-size:26px!important}
+.shopping-budget-entry{display:grid;grid-template-columns:1.3fr 1fr auto;gap:12px;margin:18px 0}.budget-input-wrap{display:flex;flex-direction:column;gap:7px}.shopping-budget-panel{border:1px solid var(--border-color,#dbe3ef);border-radius:18px;padding:20px;margin-top:16px;background:var(--card-bg,#fff)}
+.shopping-item{display:flex;align-items:stretch;gap:16px;padding:20px;border-radius:16px;background:rgba(127,127,127,.07);min-height:108px;border:1px solid rgba(127,127,127,.08)}.shopping-item-main{flex:1;min-width:0}.shopping-item-name{display:block;font-size:18px;font-weight:750;margin-bottom:12px}.shopping-item-meta{display:grid;grid-template-columns:minmax(110px,1fr) minmax(150px,1.25fr) minmax(130px,1fr);gap:10px;align-items:end}.shopping-mini-input{width:100%;box-sizing:border-box;border:1px solid var(--border-color,#dbe3ef);border-radius:11px;padding:11px 12px;background:var(--input-bg,#fff);color:inherit;font:inherit;font-size:16px;min-height:46px}.shopping-mini-input::placeholder{opacity:.55}.shopping-row-total{padding:10px 12px;border-radius:11px;background:rgba(37,99,235,.08);font-weight:800;min-height:46px;display:flex;align-items:center;box-sizing:border-box}.shopping-item-actions{display:flex;flex-direction:column;justify-content:center;gap:8px}.shopping-item-actions button{width:44px;height:44px;border-radius:10px;background:transparent}
+body.dark-mode .shopping-total-box{background:#111827;border-color:#334155}body.dark-mode .shopping-budget-panel{background:#111827;border-color:#334155}body.dark-mode .shopping-list-panel{background:#111827;border-color:#334155}
+@media(max-width:850px){.shopping-add-row{grid-template-columns:1fr 1fr}.shopping-add-field.item-field{grid-column:1/-1}.shopping-add-button{grid-column:1/-1}.shopping-budget-entry{grid-template-columns:1fr 1fr}.shopping-budget-entry button{grid-column:1/-1}.shopping-item-meta{grid-template-columns:1fr 1fr}.shopping-row-total{grid-column:1/-1}}
+@media(max-width:650px){.shopping-add-row{grid-template-columns:1fr}.shopping-add-field.item-field{grid-column:auto}.shopping-add-button{grid-column:auto}.shopping-budget-entry{grid-template-columns:1fr}.shopping-budget-entry button{grid-column:auto}.shopping-total-box{flex-direction:column;align-items:flex-start}.shopping-total-value{font-size:24px!important}.shopping-list-panel{padding:16px}.shopping-item{padding:18px}.shopping-item-meta{grid-template-columns:1fr}.shopping-row-total{grid-column:auto}.shopping-item-actions{flex-direction:row;align-items:center}}
+
 .shopping-card{border:1px solid var(--border-color,#dbe3ef);border-radius:20px;background:var(--card-bg,#fff);padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
 .shopping-top{display:flex;justify-content:space-between;gap:18px;align-items:center}
 .shopping-top h3{margin:0 0 5px}
@@ -3055,6 +3136,9 @@ body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mod
 .shopping-note{margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(255,193,7,.12);font-size:13px}
 @media(max-width:650px){.shopping-top{flex-direction:column;align-items:stretch}.shopping-grid{grid-template-columns:1fr}.shopping-add-row{flex-direction:column}.shopping-stats{grid-template-columns:1fr 1fr}.shopping-stats div:last-child{grid-column:1/-1}}
 
+
+/* Accessible meal timetable heading */
+.meal-timetable-heading{font-weight:900 !important;letter-spacing:.08em;}
 </style>
 <script>
 (function(){
@@ -3188,11 +3272,18 @@ body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mod
   state.buy=state.buy.map(normalizeItem).filter(x=>x.name);
   state.have=state.have.map(normalizeItem).filter(x=>x.name);
 
-  const buyEl=document.getElementById('shoppingList'),haveEl=document.getElementById('haveList'),input=document.getElementById('shoppingItemInput');
+  const buyEl=document.getElementById('shoppingList'),input=document.getElementById('shoppingItemInput');
   const qtyInput=document.getElementById('shoppingQtyInput'),priceInput=document.getElementById('shoppingPriceInput'),addBtn=document.getElementById('addShoppingBtn'),buildBtn=document.getElementById('buildShoppingBtn');
-  const countEl=document.getElementById('shoppingCount'),haveCountEl=document.getElementById('haveCount'),budgetEl=document.getElementById('shoppingBudget'),priceCountEl=document.getElementById('shoppingPriceCount');
+  const countEl=document.getElementById('shoppingCount'),budgetEl=document.getElementById('shoppingBudget'),priceCountEl=document.getElementById('shoppingPriceCount');
   const summaryEl=document.getElementById('shoppingSummary'),budgetAmountEl=document.getElementById('shoppingBudgetAmount'),totalEl=document.getElementById('shoppingEstimatedTotal'),remainingEl=document.getElementById('shoppingRemaining'),budgetMessageEl=document.getElementById('shoppingBudgetMessage');
-  const money=n=>new Intl.NumberFormat('en-NG',{style:'currency',currency:'NGN',maximumFractionDigits:0}).format(Math.max(0,Number(n)||0));
+  const budgetInput=document.getElementById('shoppingBudgetInput'),budgetPeriodInput=document.getElementById('shoppingBudgetPeriodInput'),saveBudgetBtn=document.getElementById('saveShoppingBudgetBtn');
+  const currencyMap={NG:'NGN',US:'USD',GB:'GBP',GH:'GHS',KE:'KES',ZA:'ZAR',EG:'EGP',CA:'CAD',AU:'AUD',JP:'JPY',CN:'CNY',IN:'INR',BR:'BRL',MX:'MXN',SA:'SAR',AE:'AED',TR:'TRY',CH:'CHF',SE:'SEK',NO:'NOK',DK:'DKK',PL:'PLN',CZ:'CZK',HU:'HUF',RO:'RON',TH:'THB',VN:'VND',ID:'IDR',MY:'MYR',PH:'PHP',SG:'SGD',HK:'HKD',TW:'TWD',KR:'KRW',PK:'PKR',BD:'BDT',LK:'LKR',NP:'NPR',TZ:'TZS',RW:'RWF',UG:'UGX',ZM:'ZMW',ZW:'ZWL'};
+  function detectCurrency(){try{const locale=navigator.language||'en-NG';const m=locale.match(/[-_]([A-Z]{2})$/i);const region=m?m[1].toUpperCase():'';if(region&&currencyMap[region])return currencyMap[region];const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';if(/^Africa\/(Lagos|Abidjan|Accra)/.test(tz)){if(tz==='Africa/Lagos')return 'NGN';if(tz==='Africa/Accra')return 'GHS'}if(/^Europe\/London/.test(tz))return 'GBP';if(/^Asia\/Kolkata/.test(tz))return 'INR';if(/^America\/New_York/.test(tz))return 'USD';return 'USD'}catch(e){return 'USD'}}
+  const detectedCurrency=detectCurrency();
+  const currencyLabel=document.getElementById('shoppingCurrencyLabel');
+  function money(n){const value=Math.max(0,Number(n)||0);try{return new Intl.NumberFormat(navigator.language||'en',{style:'currency',currency:detectedCurrency,maximumFractionDigits:2}).format(value)}catch(e){return `${detectedCurrency} ${value.toFixed(2)}`}}
+  function currencySymbol(){try{return new Intl.NumberFormat(navigator.language||'en',{style:'currency',currency:detectedCurrency}).formatToParts(0).find(x=>x.type==='currency')?.value||detectedCurrency}catch(e){return detectedCurrency}}
+  if(currencyLabel)currencyLabel.textContent=`(${detectedCurrency} ${currencySymbol()})`;
   const clean=s=>String(s||'').trim().replace(/\s+/g,' ').slice(0,100);
   const profileData=()=>{try{return JSON.parse(localStorage.getItem('cgtCookingProfile')||'null')}catch(e){return null}};
   const save=()=>{localStorage.setItem(key,JSON.stringify(state));render()};
@@ -3203,32 +3294,29 @@ body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mod
     const main=document.createElement('div');main.className='shopping-item-main';
     const name=document.createElement('span');name.className='shopping-item-name';name.textContent=item.name;
     const meta=document.createElement('div');meta.className='shopping-item-meta';
-    const q=document.createElement('input');q.className='shopping-mini-input';q.type='number';q.min='.01';q.step='.01';q.value=item.qty;q.title='Quantity';q.setAttribute('aria-label',`Quantity for ${item.name}`);
-    const pr=document.createElement('input');pr.className='shopping-mini-input price';pr.type='number';pr.min='0';pr.step='50';pr.value=item.price==null?'':item.price;pr.placeholder='Price ₦';pr.title='Estimated price';pr.setAttribute('aria-label',`Estimated price for ${item.name}`);
-    q.addEventListener('change',()=>{item.qty=Math.max(.01,Number(q.value)||1);save()});
-    pr.addEventListener('change',()=>{item.price=pr.value===''?null:Math.max(0,Number(pr.value)||0);save()});
-    meta.append(q,pr);main.append(name,meta);
+    const q=document.createElement('input');q.className='shopping-mini-input';q.type='number';q.min='.01';q.step='.01';q.value=item.qty;q.title='Number of items';q.setAttribute('aria-label',`Number of items for ${item.name}`);
+    const pr=document.createElement('input');pr.className='shopping-mini-input price';pr.type='number';pr.min='0';pr.step='.01';pr.value=item.price==null?'':item.price;pr.placeholder=`Amount per item ${currencySymbol()}`;pr.title='Amount per item';pr.setAttribute('aria-label',`Amount per item for ${item.name}`);
+    const rowTotal=document.createElement('div');rowTotal.className='shopping-row-total';
+    function updateRowTotal(){const total=(Math.max(.01,Number(q.value)||1))*(Math.max(0,Number(pr.value)||0));rowTotal.textContent=`Total: ${money(total)}`;}
+    q.addEventListener('input',updateRowTotal);q.addEventListener('change',()=>{item.qty=Math.max(.01,Number(q.value)||1);save()});
+    pr.addEventListener('input',updateRowTotal);pr.addEventListener('change',()=>{item.price=pr.value===''?null:Math.max(0,Number(pr.value)||0);save()});
+    meta.append(q,pr,rowTotal);main.append(name,meta);updateRowTotal();
     const actions=document.createElement('div');actions.className='shopping-item-actions';
-    const move=document.createElement('button');move.type='button';move.textContent=from==='buy'?'✓':'↩';move.title=from==='buy'?'Already have this':'Move back to shopping';
-    move.onclick=()=>{state[from].splice(index,1);state[from==='buy'?'have':'buy'].push(item);save()};
-    const del=document.createElement('button');del.type='button';del.textContent='✕';del.title='Remove';del.onclick=()=>{state[from].splice(index,1);save()};
-    actions.append(move,del);d.append(main,actions);return d;
+    const del=document.createElement('button');del.type='button';del.textContent='✕';del.title='Remove';del.setAttribute('aria-label',`Remove ${item.name}`);del.onclick=()=>{state[from].splice(index,1);save()};
+    actions.append(del);d.append(main,actions);return d;
   }
 
   function render(){
-    if(!buyEl||!haveEl)return;
-    buyEl.innerHTML='';haveEl.innerHTML='';
+    if(!buyEl)return;
+    buyEl.innerHTML='';
     if(!state.buy.length)buyEl.innerHTML='<p class="shopping-empty">Nothing to buy yet.</p>';
-    if(!state.have.length)haveEl.innerHTML='<p class="shopping-empty">No items marked as already available.</p>';
     state.buy.forEach((x,i)=>buyEl.appendChild(itemRow(x,'buy',i)));
-    state.have.forEach((x,i)=>haveEl.appendChild(itemRow(x,'have',i)));
     const p=profileData();
     const budget=Number(p?.budgetAmount)||0;
     const total=state.buy.reduce((sum,x)=>sum+(Number(x.price)||0)*(Number(x.qty)||1),0);
     const priced=state.buy.filter(x=>x.price!=null&&Number(x.price)>=0).length;
     const periodLabel={day:'day',week:'week',month:'month'}[p?.budgetPeriod]||'week';
     if(countEl)countEl.textContent=state.buy.length;
-    if(haveCountEl)haveCountEl.textContent=state.have.length;
     if(priceCountEl)priceCountEl.textContent=priced;
     if(budgetEl)budgetEl.textContent=p?.budgetLevel==='low'?'Limited':p?.budgetLevel==='high'?'Flexible':p?.budgetLevel==='medium'?'Moderate':'—';
     if(budgetAmountEl)budgetAmountEl.textContent=budget?`${money(budget)} / ${periodLabel}`:'—';
@@ -3237,7 +3325,7 @@ body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mod
     if(budgetMessageEl){
       if(!budget)budgetMessageEl.textContent='Add your actual food budget in My Cooking Profile to track planned spending.';
       else if(!priced)budgetMessageEl.textContent=`Your ${periodLabel} budget is ${money(budget)}. Add estimated prices to see how much of it your shopping list uses.`;
-      else if(total>budget)budgetMessageEl.textContent=`Your current priced shopping list is ${money(total)} — ${money(total-budget)} above your ${periodLabel} budget. Consider removing, reducing, or replacing some items.`;
+      else if(total>budget)budgetMessageEl.innerHTML=`<strong class="budget-over">⚠️ The prices is above your budget.</strong><br>Your current shopping estimate is ${money(total)} — ${money(total-budget)} above your ${periodLabel} budget. You can adjust the quantities or prices if possible, or continue if you still want to.`;
       else budgetMessageEl.textContent=`Your current priced shopping list is ${money(total)}, leaving ${money(budget-total)} from your ${periodLabel} budget.`;
     }
     if(summaryEl)summaryEl.textContent=state.buy.length?`${state.buy.length} item${state.buy.length===1?'':'s'} ready for your next shop.`:'Start with your meal plan or add items you need for the household.';
@@ -3251,6 +3339,10 @@ body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mod
   }
   addBtn?.addEventListener('click',addItem);
   input?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addItem()}});
+  function syncBudgetInputs(){const p=profileData();if(budgetInput)budgetInput.value=p?.budgetAmount??'';if(budgetPeriodInput)budgetPeriodInput.value=p?.budgetPeriod||'week';}
+  saveBudgetBtn?.addEventListener('click',()=>{const p=profileData()||{};const amount=budgetInput?.value===''?null:Math.max(0,Number(budgetInput.value)||0);p.budgetAmount=amount;p.budgetPeriod=budgetPeriodInput?.value||'week';localStorage.setItem('cgtCookingProfile',JSON.stringify(p));render();if(typeof showToast==='function')showToast('Food budget saved');});
+  syncBudgetInputs();
+  const profileCurrencyLabel=document.getElementById('profileCurrencyLabel');if(profileCurrencyLabel)profileCurrencyLabel.textContent=`(${detectedCurrency} ${currencySymbol()})`;
 
   buildBtn?.addEventListener('click',()=>{
     let planner=null,profile=null;try{planner=JSON.parse(localStorage.getItem('cgtMealPlanner')||'null')}catch(e){}try{profile=profileData()}catch(e){}
