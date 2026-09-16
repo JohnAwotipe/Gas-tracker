@@ -893,6 +893,17 @@
 .planner-field select,.planner-field input{width:100%;padding:12px 13px;border:1px solid #d8dde6;border-radius:12px;background:#fff;font:inherit}
 .food-checks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:10px}
 .food-check{display:flex;align-items:center;gap:7px;padding:9px 10px;border:1px solid #e2e6ed;border-radius:10px;background:#fafbfd;font-size:.92rem}.food-check input{width:auto}
+.custom-food-wrap{margin-top:14px;padding-top:14px;border-top:1px dashed #dce2eb}
+.custom-food-label{display:block;font-weight:800;margin-bottom:7px}
+.custom-food-help{display:block;color:#707b8b;font-size:.86rem;line-height:1.5;margin-bottom:9px}
+.custom-food-form{display:flex;gap:9px}
+.custom-food-form input{flex:1;min-width:0;padding:11px 12px;border:1px solid #d8dde6;border-radius:12px;background:#fff;font:inherit}
+.custom-food-form button{border:0;border-radius:12px;padding:0 16px;font-weight:800;cursor:pointer;background:#eef2ff;color:#3946a3}
+.custom-food-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.custom-food-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;background:#eef5ff;border:1px solid #d8e5ff;font-size:.88rem}
+.custom-food-chip button{border:0;background:transparent;color:#64748b;cursor:pointer;font-size:1rem;line-height:1;padding:0}
+.dark-mode .custom-food-wrap{border-color:#384153}.dark-mode .custom-food-help{color:#b7c0cf}.dark-mode .custom-food-form input{background:#111827;color:#fff;border-color:#384153}.dark-mode .custom-food-form button{background:#242b52;color:#dbe2ff}.dark-mode .custom-food-chip{background:#202b46;border-color:#36486b;color:#e8eefb}
+
 .planner-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}.planner-btn{border:0;border-radius:13px;padding:13px 18px;font-weight:800;cursor:pointer;background:#111827;color:#fff}.planner-btn.secondary{background:#eef2f7;color:#202938}
 .plan-result{display:none;margin-top:24px}.plan-result.show{display:block}.budget-badge{display:inline-block;padding:7px 11px;border-radius:999px;font-size:.82rem;font-weight:800;background:#fff0d6;color:#8a5a00}.meal-days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}.meal-day{background:#fff;border:1px solid #e5e8ee;border-radius:17px;padding:18px}.meal-day h4{margin:0 0 12px}.meal-row{padding:10px 0;border-top:1px solid #edf0f4}.meal-row:first-of-type{border-top:0}.meal-row strong{display:block}.meal-meta{font-size:.82rem;color:#687486;margin-top:3px}.planner-tip{margin-top:15px;padding:15px;border-radius:14px;background:#edf8f1;color:#2d6842;line-height:1.6}
 .safety-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:22px}.safety-card{background:#fff;border:1px solid #e5e8ee;border-radius:18px;padding:20px}.safety-card h3{margin:0 0 9px}.safety-card p,.safety-card li{color:#5d6878;line-height:1.65}.safety-card ul{padding-left:20px;margin-bottom:0}.danger-box{margin-top:18px;padding:17px;border-radius:15px;background:#fff1f1;border:1px solid #ffd3d3;color:#8d2424;font-weight:700;line-height:1.65}
@@ -1195,7 +1206,8 @@
   <div class="assistant-card">
     <div class="assistant-header">
       <div class="assistant-icon">💬</div>
-      <div><h3>Gas & Food Assistant</h3><p>Practical guidance based on the information you provide.</p></div>
+      <div class="assistant-header-copy"><h3>Gas & Food Assistant</h3><p>Practical guidance based on the information you provide.</p></div>
+      <button type="button" id="openChatBtn" class="open-chat-btn" aria-haspopup="dialog">💬 Open Chat</button>
     </div>
     <div id="assistantMessages" class="assistant-messages" aria-live="polite">
       <div class="assistant-message bot"><strong>Cooking Gas Tracker:</strong><br>Hi! 👋 Ask me anything about managing your gas and food. For example: “How can I make my gas last longer?” or “What can I eat with a small budget?”</div>
@@ -1305,6 +1317,15 @@
                         <label class="food-check"><input type="checkbox" value="plantain"> Plantain</label>
                         <label class="food-check"><input type="checkbox" value="soups"> Soups/stew</label>
                         <label class="food-check"><input type="checkbox" value="bread"> Bread</label>
+                    </div>
+                    <div class="custom-food-wrap">
+                        <label class="custom-food-label" for="customFoodInput">Can't find your food?</label>
+                        <span class="custom-food-help">Type a food you commonly eat and add it to your personal list. You can add as many as you need.</span>
+                        <div class="custom-food-form">
+                            <input id="customFoodInput" type="text" maxlength="50" autocomplete="off" placeholder="e.g. spaghetti, akara, moi moi">
+                            <button type="button" onclick="addCustomFood()">+ Add food</button>
+                        </div>
+                        <div id="customFoodList" class="custom-food-list" aria-live="polite"></div>
                     </div>
                 </div>
                 <div class="planner-actions"><button class="planner-btn" type="button" onclick="generateMealPlan()">🍲 Create my 7-day plan</button><button class="planner-btn secondary" type="button" onclick="resetMealPlanner()">Reset</button></div>
@@ -2311,15 +2332,100 @@
 
 
         // Smart Gas & Food Management planner
+        function getCustomFoods() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('cgtCustomFoods') || '[]');
+                return Array.isArray(saved) ? saved.filter(x => typeof x === 'string') : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveCustomFoods(foods) {
+            localStorage.setItem('cgtCustomFoods', JSON.stringify(foods));
+        }
+
+        function escapeFoodText(text) {
+            return String(text).replace(/[&<>"']/g, function(ch) {
+                return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch];
+            });
+        }
+
+        function renderCustomFoods() {
+            const list = document.getElementById('customFoodList');
+            if (!list) return;
+            const foods = getCustomFoods();
+
+            if (!foods.length) {
+                list.innerHTML = '';
+                return;
+            }
+
+            list.innerHTML = foods.map(function(food, index) {
+                return '<span class="custom-food-chip">' +
+                    escapeFoodText(food) +
+                    ' <button type="button" aria-label="Remove ' + escapeFoodText(food) +
+                    '" onclick="removeCustomFood(' + index + ')">×</button></span>';
+            }).join('');
+        }
+
+        function addCustomFood() {
+            const input = document.getElementById('customFoodInput');
+            if (!input) return;
+
+            const food = input.value.trim().replace(/\s+/g, ' ');
+            if (!food) return;
+
+            let foods = getCustomFoods();
+
+            const duplicate = foods.some(function(item) {
+                return item.toLowerCase() === food.toLowerCase();
+            });
+
+            if (duplicate) {
+                showToast('That food is already on your list');
+                input.select();
+                return;
+            }
+
+            if (foods.length >= 20) {
+                showToast('You can add up to 20 custom foods');
+                return;
+            }
+
+            foods.push(food);
+            saveCustomFoods(foods);
+            renderCustomFoods();
+            input.value = '';
+            input.focus();
+            showToast('Food added to your list');
+        }
+
+        function removeCustomFood(index) {
+            const foods = getCustomFoods();
+            if (index < 0 || index >= foods.length) return;
+            foods.splice(index, 1);
+            saveCustomFoods(foods);
+            renderCustomFoods();
+        }
+
+        function getSelectedPlannerFoods() {
+            const standardFoods = [...document.querySelectorAll('.food-check input:checked')].map(function(x) {
+                return x.value;
+            });
+            return standardFoods.concat(getCustomFoods());
+        }
+
         function generateMealPlan() {
             const budget = document.getElementById('plannerBudget').value;
             const people = Math.max(1, Number(document.getElementById('plannerPeople').value) || 1);
             const meals = Number(document.getElementById('plannerMeals').value) || 2;
             const gas = document.getElementById('plannerGas').value;
-            const foods = [...document.querySelectorAll('.food-check input:checked')].map(x => x.value);
+            const foods = getSelectedPlannerFoods();
+            const customFoods = getCustomFoods();
             const has = key => foods.includes(key);
             const low = budget === 'low' || gas === 'high';
-            const medium = budget === 'medium' && gas !== 'high';
+
             const choices = [];
             if (has('oats')) choices.push(['Oats/pap + fruit','Low cost • Very low gas']);
             if (has('bread')) choices.push(['Bread + egg','Low cost • Low gas']);
@@ -2330,7 +2436,17 @@
             if (has('pasta')) choices.push(['Pasta + egg/vegetables','Low/moderate cost • Low gas']);
             if (has('plantain')) choices.push(['Plantain + eggs','Low/moderate cost • Low/medium gas']);
             if (has('soups')) choices.push(['Soup/stew prepared in a batch','Moderate cost • Save gas by using portions later']);
-            if (!choices.length) choices.push(['A simple meal using foods you already have','Choose familiar, affordable ingredients and avoid unnecessary long cooking']);
+
+            // Custom foods are included without guessing their cooking time or gas use.
+            // The AI assistant receives the full list for more personalized planning.
+            customFoods.forEach(function(food) {
+                choices.push([food, 'Your added food • cooking effort depends on preparation']);
+            });
+
+            if (!choices.length) {
+                choices.push(['A simple meal using foods you already have','Choose familiar, affordable ingredients and avoid unnecessary long cooking']);
+            }
+
             const quick = choices.filter(x => /Very low|Low gas/.test(x[1]));
             const cooked = choices.filter(x => !/Very low|Low gas/.test(x[1]));
             const breakfast = quick.length ? quick : choices;
@@ -2338,20 +2454,101 @@
             const dinner = low ? (quick.length ? quick : choices) : choices;
             const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
             const pick = (arr,i) => arr[i % arr.length];
-            let html = '<div class="budget-badge">' + (budget === 'low' ? '💰 Budget-friendly mode' : budget === 'medium' ? '⚖️ Balanced mode' : '🍲 Flexible meal mode') + '</div>';
-            html += '<h3 style="margin:12px 0 4px">Your 7-day starter plan</h3><p class="planner-lead">Designed for ' + people + ' person' + (people===1?'':'s') + ', about ' + meals + ' cooked meal' + (meals===1?'':'s') + ' per day, with your selected gas-saving preference.</p><div class="meal-days">';
-            days.forEach((day,i)=>{
+
+            let html = '<div class="budget-badge">' +
+                (budget === 'low' ? '💰 Budget-friendly mode' : budget === 'medium' ? '⚖️ Balanced mode' : '🍲 Flexible meal mode') +
+                '</div>';
+
+            html += '<h3 style="margin:12px 0 4px">Your 7-day starter plan</h3><p class="planner-lead">Designed for ' +
+                people + ' person' + (people===1?'':'s') + ', about ' + meals + ' cooked meal' +
+                (meals===1?'':'s') + ' per day, with your selected gas-saving preference.</p><div class="meal-days">';
+
+            days.forEach(function(day,i) {
                 const b=pick(breakfast,i), l=pick(lunch,i+1), d=pick(dinner,i+2);
-                html += '<article class="meal-day"><h4>'+day+'</h4><div class="meal-row"><strong>🌅 Breakfast</strong><span>'+b[0]+'</span><div class="meal-meta">'+b[1]+'</div></div><div class="meal-row"><strong>☀️ Lunch</strong><span>'+l[0]+'</span><div class="meal-meta">'+l[1]+'</div></div><div class="meal-row"><strong>🌙 Dinner</strong><span>'+d[0]+'</span><div class="meal-meta">'+d[1]+'</div></div></article>';
+                html += '<article class="meal-day"><h4>'+day+'</h4>' +
+                    '<div class="meal-row"><strong>🌅 Breakfast</strong><span>'+escapeFoodText(b[0])+'</span><div class="meal-meta">'+escapeFoodText(b[1])+'</div></div>' +
+                    '<div class="meal-row"><strong>☀️ Lunch</strong><span>'+escapeFoodText(l[0])+'</span><div class="meal-meta">'+escapeFoodText(l[1])+'</div></div>' +
+                    '<div class="meal-row"><strong>🌙 Dinner</strong><span>'+escapeFoodText(d[0])+'</span><div class="meal-meta">'+escapeFoodText(d[1])+'</div></div></article>';
             });
-            html += '</div><div class="planner-tip">💡 <strong>Smart gas tip:</strong> When practical, cook enough food for more than one meal, store it safely, and reheat only what you need. This can reduce repeated cooking sessions. '+(low?'Because your selected budget is limited, the plan gives extra priority to simpler meals and ingredients that can be used across more than one meal.':'The plan balances variety with cooking effort and gas use.')+'</div>';
-            const result=document.getElementById('planResult'); result.innerHTML=html; result.classList.add('show'); result.scrollIntoView({behavior:'smooth',block:'start'}); localStorage.setItem('cgtMealPlanner',JSON.stringify({budget,people,meals,gas,foods})); showToast('Your meal plan is ready');
+
+            html += '</div><div class="planner-tip">💡 <strong>Smart gas tip:</strong> When practical, cook enough food for more than one meal, store it safely, and reheat only what you need. This can reduce repeated cooking sessions. ' +
+                (low ? 'Because your selected budget is limited, the plan gives extra priority to simpler meals and ingredients that can be used across more than one meal.' : 'The plan balances variety with cooking effort and gas use.') +
+                '</div>';
+
+            const result=document.getElementById('planResult');
+            result.innerHTML=html;
+            result.classList.add('show');
+            result.scrollIntoView({behavior:'smooth',block:'start'});
+
+            localStorage.setItem('cgtMealPlanner', JSON.stringify({
+                budget,
+                people,
+                meals,
+                gas,
+                foods,
+                customFoods
+            }));
+
+            showToast('Your meal plan is ready');
         }
-        function resetMealPlanner(){
-            document.getElementById('plannerBudget').value='medium'; document.getElementById('plannerPeople').value='2'; document.getElementById('plannerMeals').value='2'; document.getElementById('plannerGas').value='medium';
-            document.querySelectorAll('.food-check input').forEach(x=>x.checked=['rice','eggs'].includes(x.value)); document.getElementById('planResult').classList.remove('show'); document.getElementById('planResult').innerHTML=''; localStorage.removeItem('cgtMealPlanner');
+
+        function resetMealPlanner() {
+            document.getElementById('plannerBudget').value='medium';
+            document.getElementById('plannerPeople').value='2';
+            document.getElementById('plannerMeals').value='2';
+            document.getElementById('plannerGas').value='medium';
+            document.querySelectorAll('.food-check input').forEach(function(x) {
+                x.checked=['rice','eggs'].includes(x.value);
+            });
+            document.getElementById('planResult').classList.remove('show');
+            document.getElementById('planResult').innerHTML='';
+            localStorage.removeItem('cgtMealPlanner');
+            localStorage.removeItem('cgtCustomFoods');
+            renderCustomFoods();
         }
-        function loadMealPlanner(){try{const x=JSON.parse(localStorage.getItem('cgtMealPlanner')||'null');if(!x)return;document.getElementById('plannerBudget').value=x.budget||'medium';document.getElementById('plannerPeople').value=x.people||2;document.getElementById('plannerMeals').value=x.meals||2;document.getElementById('plannerGas').value=x.gas||'medium';if(Array.isArray(x.foods))document.querySelectorAll('.food-check input').forEach(c=>c.checked=x.foods.includes(c.value));}catch(e){console.warn('Meal planner data could not be loaded:',e)}}
+
+        function loadMealPlanner() {
+            try {
+                const x=JSON.parse(localStorage.getItem('cgtMealPlanner')||'null');
+
+                if (x) {
+                    document.getElementById('plannerBudget').value=x.budget||'medium';
+                    document.getElementById('plannerPeople').value=x.people||2;
+                    document.getElementById('plannerMeals').value=x.meals||2;
+                    document.getElementById('plannerGas').value=x.gas||'medium';
+
+                    if (Array.isArray(x.foods)) {
+                        document.querySelectorAll('.food-check input').forEach(function(c) {
+                            c.checked=x.foods.includes(c.value);
+                        });
+                    }
+
+                    if (Array.isArray(x.customFoods)) {
+                        const cleaned = x.customFoods
+                            .filter(function(food){ return typeof food === 'string'; })
+                            .map(function(food){ return food.trim().replace(/\s+/g,' '); })
+                            .filter(Boolean)
+                            .slice(0,20);
+                        saveCustomFoods(cleaned);
+                    }
+                }
+
+                renderCustomFoods();
+            } catch(e) {
+                console.warn('Meal planner data could not be loaded:',e);
+                renderCustomFoods();
+            }
+        }
+
+        const customFoodInput = document.getElementById('customFoodInput');
+        if (customFoodInput) {
+            customFoodInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addCustomFood();
+                }
+            });
+        }
 
         // Toast
         function showToast(message) {
@@ -2564,7 +2761,8 @@ body.dark-mode .assistant-card{background:#111827;border-color:#334155}body.dark
       mealsPerDay: planner && planner.meals ? Number(planner.meals) : null,
       budgetLevel: planner && planner.budget ? planner.budget : null,
       gasGoal: planner && planner.gas ? planner.gas : null,
-      commonFoods: planner && Array.isArray(planner.foods) ? planner.foods : []
+      commonFoods: planner && Array.isArray(planner.foods) ? planner.foods : [],
+      customFoods: planner && Array.isArray(planner.customFoods) ? planner.customFoods : []
     };
   }
 
@@ -2619,5 +2817,64 @@ body.dark-mode .assistant-card{background:#111827;border-color:#334155}body.dark
 })();
 </script>
 
+
+<!-- FULL OPEN CHAT -->
+<div id="chatModal" class="chat-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="chatModalTitle">
+  <div class="chat-modal-panel">
+    <div class="chat-modal-header">
+      <div class="chat-title-wrap">
+        <div class="chat-modal-icon">🤖</div>
+        <div><h2 id="chatModalTitle">Gas & Food Assistant</h2><span>Powered by your Cooking Gas Tracker profile</span></div>
+      </div>
+      <button type="button" id="closeChatBtn" class="chat-close" aria-label="Close chat">×</button>
+    </div>
+    <div id="fullChatMessages" class="full-chat-messages" aria-live="polite">
+      <div class="assistant-message bot"><strong>Cooking Gas Tracker:</strong><br>Hi! 👋 I’m here to help with gas management, meal planning, food budgeting, cooking efficiency and gas safety. Ask me anything.</div>
+    </div>
+    <div class="chat-quick-actions">
+      <button type="button" data-full-q="How can I make my gas last longer?">🔥 Save gas</button>
+      <button type="button" data-full-q="What can I cook today?">🍲 Meal ideas</button>
+      <button type="button" data-full-q="How can I save money on food and gas?">💰 Save money</button>
+      <button type="button" data-full-q="My burner flame is low. What should I do?">🛠️ Burner</button>
+    </div>
+    <form id="fullChatForm" class="full-chat-form">
+      <input id="fullChatInput" type="text" maxlength="2000" autocomplete="off" placeholder="Type your question..." aria-label="Type your question" required>
+      <button type="submit" aria-label="Send message">➤</button>
+    </form>
+    <p class="chat-safety-note">For a suspected gas leak, fire, damaged cylinder, or other immediate danger, move to a safe place and contact appropriate emergency or qualified gas professionals. Do not use this chat as a substitute for emergency help.</p>
+  </div>
+</div>
+
+<button type="button" id="backToTopBtn" class="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
+
+<style>
+/* Open Chat */
+.assistant-header{position:relative}.assistant-header-copy{flex:1}.open-chat-btn{margin-left:auto;white-space:nowrap;border:0;border-radius:12px;padding:11px 15px;font-weight:800;background:#2563eb;color:#fff;cursor:pointer;box-shadow:0 6px 18px rgba(37,99,235,.22)}
+.chat-modal{position:fixed;inset:0;background:rgba(2,6,23,.66);backdrop-filter:blur(5px);z-index:10000;display:none;padding:18px}.chat-modal.open{display:flex;align-items:center;justify-content:center}.chat-modal-panel{width:min(900px,100%);height:min(760px,calc(100vh - 36px));display:flex;flex-direction:column;background:var(--card-bg,#fff);color:inherit;border:1px solid var(--border-color,#dbe3ef);border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.28);overflow:hidden}.chat-modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}.chat-title-wrap{display:flex;gap:12px;align-items:center}.chat-modal-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#eef5ff;font-size:23px}.chat-title-wrap h2{font-size:20px;margin:0}.chat-title-wrap span{font-size:12px;opacity:.68}.chat-close{width:40px;height:40px;border:0;border-radius:12px;background:transparent;font-size:30px;line-height:1;cursor:pointer;color:inherit}.chat-close:hover{background:rgba(127,127,127,.1)}.full-chat-messages{flex:1;overflow:auto;padding:18px;background:rgba(127,127,127,.055)}.full-chat-messages .assistant-message{max-width:78%;font-size:15px}.full-chat-messages .assistant-message.bot{background:var(--card-bg,#fff)}.chat-quick-actions{display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}.chat-quick-actions button{border:1px solid var(--border-color,#dbe3ef);background:transparent;color:inherit;border-radius:999px;padding:8px 11px;cursor:pointer}.full-chat-form{display:flex;gap:10px;padding:12px 16px;border-top:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}.full-chat-form input{flex:1;min-width:0;padding:14px;border:1px solid var(--border-color,#dbe3ef);border-radius:14px;background:var(--input-bg,#fff);color:inherit;font-size:16px;outline:none}.full-chat-form input:focus{box-shadow:0 0 0 3px rgba(37,99,235,.15)}.full-chat-form button{width:52px;border:0;border-radius:14px;background:#2563eb;color:#fff;font-size:22px;font-weight:800;cursor:pointer}.chat-safety-note{font-size:11px;opacity:.62;line-height:1.45;margin:0;padding:0 16px 13px;background:var(--card-bg,#fff)}
+/* Back to top */
+.back-to-top{position:fixed;right:20px;bottom:22px;width:48px;height:48px;border:0;border-radius:50%;background:#2563eb;color:#fff;font-size:23px;font-weight:800;display:grid;place-items:center;cursor:pointer;z-index:9000;box-shadow:0 10px 25px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .2s,visibility .2s,transform .2s}.back-to-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mode .chat-quick-actions,body.dark-mode .full-chat-form,body.dark-mode .chat-safety-note{background:#111827;border-color:#334155}body.dark-mode .full-chat-messages{background:#0b1220}body.dark-mode .full-chat-messages .assistant-message.bot{background:#111827;border-color:#334155}body.dark-mode .chat-modal-icon{background:#1e293b}
+@media(max-width:600px){.assistant-header{align-items:flex-start}.open-chat-btn{padding:9px 11px;font-size:13px}.chat-modal{padding:0}.chat-modal.open{align-items:stretch}.chat-modal-panel{height:100%;min-height:100%;border-radius:0;border:0}.chat-title-wrap h2{font-size:17px}.chat-title-wrap span{display:block;max-width:210px}.full-chat-messages .assistant-message{max-width:90%}.back-to-top{right:14px;bottom:16px;width:44px;height:44px}}
+</style>
+<script>
+(function(){
+  const endpoint='https://gas-notifier.johnawotipe9.workers.dev/assistant';
+  const modal=document.getElementById('chatModal'), openBtn=document.getElementById('openChatBtn'), closeBtn=document.getElementById('closeChatBtn');
+  const form=document.getElementById('fullChatForm'), input=document.getElementById('fullChatInput'), messages=document.getElementById('fullChatMessages');
+  if(!modal||!openBtn||!closeBtn||!form||!input||!messages)return;
+  let busy=false, previousFocus=null;
+  function esc(t){return String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+  function fmt(t){return esc(t).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/(^|\n)[•*-]\s+/g,'$1• ').replace(/\n/g,'<br>');}
+  function add(text,who='bot'){const d=document.createElement('div');d.className='assistant-message '+who;d.innerHTML=who==='bot'?fmt(text):esc(text).replace(/\n/g,'<br>');messages.appendChild(d);messages.scrollTop=messages.scrollHeight;return d;}
+  async function stored(key){try{if(window.Capacitor?.Plugins?.Preferences){const r=await window.Capacitor.Plugins.Preferences.get({key});return r?.value?JSON.parse(r.value):null}}catch(e){}try{const r=localStorage.getItem(key);return r?JSON.parse(r):null}catch(e){return null}}
+  async function profile(){const tracker=await stored('gasTrackerData'), planner=await stored('cgtMealPlanner');let cylinder=null;try{cylinder=JSON.parse(localStorage.getItem('cgtCylinderSetup')||'null')}catch(e){}const dates=tracker?.dates||{};return {cylinderSize:cylinder?.main?String(cylinder.main)+'kg':(dates.kg?String(dates.kg)+'kg':null),refillDate:dates.refill||null,consumptionDate:dates.consumption||null,gasAmountKg:dates.kg||null,refillPrice:dates.price||null,currency:dates.currency||null,householdSize:planner?.people?Number(planner.people):null,mealsPerDay:planner?.meals?Number(planner.meals):null,budgetLevel:planner?.budget||null,gasGoal:planner?.gas||null,commonFoods:Array.isArray(planner?.foods)?planner.foods:[],customFoods:Array.isArray(planner?.customFoods)?planner.customFoods:[]};}
+  async function ask(q){q=String(q||'').trim();if(!q||busy)return;add(q,'user');input.value='';busy=true;input.disabled=true;const send=form.querySelector('button');if(send){send.disabled=true;send.textContent='…'}const load=add('Thinking…','bot');try{const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,profile:await profile()})});const data=await res.json().catch(()=>({}));load.remove();if(!res.ok||!data.answer)throw new Error(data.error||'Assistant unavailable');add(String(data.answer),'bot')}catch(e){load.remove();console.error(e);add('Sorry, I could not connect to the Smart Assistant right now. Please check your internet connection and try again.','bot')}finally{busy=false;input.disabled=false;if(send){send.disabled=false;send.textContent='➤'}input.focus()}}
+  function openChat(){previousFocus=document.activeElement;modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';setTimeout(()=>input.focus(),50)}
+  function closeChat(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';if(previousFocus?.focus)previousFocus.focus()}
+  openBtn.addEventListener('click',openChat);closeBtn.addEventListener('click',closeChat);modal.addEventListener('click',e=>{if(e.target===modal)closeChat()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeChat()});form.addEventListener('submit',e=>{e.preventDefault();ask(input.value)});document.querySelectorAll('[data-full-q]').forEach(b=>b.addEventListener('click',()=>ask(b.dataset.fullQ)));
+  // Keep conversation available while the modal remains open. It is intentionally not sent to the server as history.
+})();
+(function(){const b=document.getElementById('backToTopBtn');if(!b)return;function check(){b.classList.toggle('show',window.scrollY>500)}window.addEventListener('scroll',check,{passive:true});check();b.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));})();
+</script>
 </body>
 </html>
