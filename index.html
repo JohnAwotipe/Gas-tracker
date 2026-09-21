@@ -1,24 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cooking Gas Tracker &amp; Manager &amp; Manager — Know Before Your Gas Runs Out</title>
-    <meta name="description" content="Cooking Gas Tracker helps you estimate your cooking gas consumption date, plan refills, and receive timely reminders before you run out unexpectedly.">
-    <meta name="theme-color" content="#667eea">
-    <link rel="canonical" href="https://cookingasleveltracker.com/">
-    <!-- Google AdSense site verification / Auto Ads code -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632931149651372"
-        crossorigin="anonymous"></script>
-    <meta property="og:title" content="Cooking Gas Tracker &amp; Manager — Know Before Your Gas Runs Out">
-    <meta property="og:description" content="Track your cooking gas usage, plan your next refill, and get timely reminders.">
-    <meta property="og:type" content="website">
-    <link rel="icon" type="image/png" href="https://i.imgur.com/OkIJfE2.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
-    <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#667eea">
+<title>Cooking Gas Tracker &amp; Manager | Track Gas Usage &amp; Plan Refills</title>
+<meta name="description" content="Track cooking gas usage, keep refill history, plan your expected consumption date, receive timely reminders, save gas, plan meals and manage household food spending.">
+<link rel="icon" type="image/png" href="https://i.imgur.com/IkrGaXF.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
+<style>
+
         * {
             margin: 0;
             padding: 0;
@@ -459,7 +452,8 @@
         .container { max-width: 1120px; padding: 0 22px 40px; }
         .site-header {
             display: flex; justify-content: space-between; align-items: center; gap: 20px;
-            padding: 18px 0; color: #172033;
+            padding: max(30px, calc(env(safe-area-inset-top, 0px) + 12px)) 0 18px;
+            color: #172033;
         }
         .brand-row { display:flex; align-items:center; gap:11px; }
         .brand-mark { width:46px; height:46px; border-radius:13px; overflow:hidden; box-shadow:0 8px 22px rgba(31,41,91,.18); flex:none; }
@@ -479,30 +473,6 @@
         .hero-section h1 span { color:#ffe08a; }
         .hero-section > p { max-width:680px; font-size:1.05rem; line-height:1.7; opacity:1; color:#ffffff !important; }
 
-        /* Inline app promotion - replaces the old timed popup */
-        .app-promo-section {
-            display:flex; align-items:center; justify-content:space-between; gap:24px;
-            margin:0 0 26px; padding:20px 24px;
-            background:linear-gradient(135deg,#ffffff 0%,#f4f1ff 100%);
-            border:1px solid #e3e0f7; border-radius:20px;
-            box-shadow:0 10px 28px rgba(76,70,160,.10);
-        }
-        .app-promo-content { display:flex; align-items:center; gap:16px; min-width:0; }
-        .app-promo-icon { width:64px; height:64px; border-radius:16px; object-fit:cover; flex:none; box-shadow:0 7px 18px rgba(31,41,91,.14); }
-        .app-promo-section h2 { margin:0 0 5px; color:#182238; font-size:1.05rem; letter-spacing:-.015em; }
-        .app-promo-section p { margin:0; color:#5a6579; font-size:.84rem; line-height:1.55; }
-        .app-promo-actions { display:flex; align-items:center; gap:9px; flex:none; }
-        .app-download-btn { display:inline-flex; align-items:center; justify-content:center; padding:11px 15px; border-radius:11px; background:#111827; color:#fff !important; text-decoration:none; font-weight:800; font-size:.8rem; white-space:nowrap; }
-        .app-coming-btn { display:inline-flex; align-items:center; justify-content:center; padding:11px 15px; border-radius:11px; background:#ececf1; color:#70778a; font-weight:700; font-size:.78rem; white-space:nowrap; }
-        body.dark-mode .app-promo-section { background:linear-gradient(135deg,#171b2b 0%,#211f3a 100%); border-color:#343b55; }
-        body.dark-mode .app-promo-section h2 { color:#ffffff !important; }
-        body.dark-mode .app-promo-section p { color:#dbe2f0 !important; }
-        body.dark-mode .app-coming-btn { background:#2a3041; color:#c4ccdb; }
-        @media (max-width:760px) {
-            .app-promo-section { align-items:flex-start; flex-direction:column; padding:18px; gap:15px; }
-            .app-promo-actions { width:100%; }
-            .app-download-btn, .app-coming-btn { flex:1; }
-        }
         .hero-actions { display:flex; gap:12px; margin-top:28px; flex-wrap:wrap; }
         .hero-primary,.hero-secondary { padding:13px 19px; border-radius:12px; text-decoration:none; font-weight:800; font-size:.9rem; }
         .hero-primary { background:white; color:#5b52b7; box-shadow:0 10px 25px rgba(0,0,0,.14); }
@@ -628,7 +598,14 @@
         body.dark-mode .tips-section h2 { color:#a99fff; }
         body.dark-mode .footer-copyright { color:#9aa4b8; }
 
-        @media (max-width:760px) { .theme-toggle { position:absolute; top:18px; right:0; } .site-header { position:relative; padding-right:54px; } }
+        @media (max-width:760px) {
+  .theme-toggle {
+    position:absolute;
+    top:max(62px, calc(env(safe-area-inset-top, 0px) + 18px));
+    right:0;
+  }
+  .site-header { position:relative; padding-right:54px; }
+}
 
 
         /* ===== FINAL TEXT VISIBILITY PASS ===== */
@@ -909,9 +886,58 @@
 .safety-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:22px}.safety-card{background:#fff;border:1px solid #e5e8ee;border-radius:18px;padding:20px}.safety-card h3{margin:0 0 9px}.safety-card p,.safety-card li{color:#5d6878;line-height:1.65}.safety-card ul{padding-left:20px;margin-bottom:0}.danger-box{margin-top:18px;padding:17px;border-radius:15px;background:#fff1f1;border:1px solid #ffd3d3;color:#8d2424;font-weight:700;line-height:1.65}
 .dark-mode .meal-planner,.dark-mode .safety-center{background:linear-gradient(145deg,#171b28,#111827);border-color:#2b3242}.dark-mode .planner-field,.dark-mode .food-check,.dark-mode .meal-day,.dark-mode .safety-card{background:#1b2130;border-color:#303849}.dark-mode .planner-field select,.dark-mode .planner-field input{background:#111827;color:#fff;border-color:#384153}.dark-mode .planner-lead,.dark-mode .safety-lead,.dark-mode .meal-meta,.dark-mode .safety-card p,.dark-mode .safety-card li{color:#b7c0cf}.dark-mode .planner-btn.secondary{background:#2b3242;color:#fff}.dark-mode .planner-tip{background:#193524;color:#bfe8ca}.dark-mode .danger-box{background:#3a1d22;border-color:#653039;color:#ffb7bd}
 @media(max-width:760px){.planner-grid,.meal-days,.safety-grid{grid-template-columns:1fr}.food-checks{grid-template-columns:repeat(2,minmax(0,1fr))}.meal-planner,.safety-center{padding:22px}}
+
+/* Native-app refinements: keep content clear of Android system bars and the AdMob banner. */
+body { padding-bottom: 0; }
+.container { padding-bottom: 78px; }
+@media (max-width: 760px) {
+  .container { padding-left: 12px; padding-right: 12px; padding-bottom: 78px; }
+  .site-header { padding-top: max(34px, calc(env(safe-area-inset-top, 0px) + 14px)); }
+  .brand-row { width: 100%; }
+  .brand-name { font-size: 1.02rem; }
+  .top-nav { width: 100%; padding-top: 4px; }
+}
+
+/* ===== AdSense/content structure upgrade ===== */
+.top-nav a:nth-child(5){padding:9px 12px;border:1px solid #e3e7f0;border-radius:10px;background:#fff;}
+.guides-section,.more-section{margin:44px 0;padding:34px 0 0;border-top:1px solid #edf0f5;}
+.guides-intro{max-width:820px;color:#697386;line-height:1.75;}
+.guides-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px;}
+.guide-article{background:#fff;border:1px solid #e6eaf1;border-radius:18px;padding:22px;box-shadow:0 8px 25px rgba(20,30,60,.045);}
+.guide-article h3{margin:0 0 10px;font-size:1.08rem;line-height:1.35;}
+.guide-article p{color:#5f6b7c;line-height:1.72;font-size:.9rem;margin:0 0 10px;}
+.guide-article p:last-child{margin-bottom:0;}
+.guide-tag{display:inline-block;margin-bottom:10px;padding:6px 9px;border-radius:999px;background:#eef0ff;color:#5b52b7;font-size:.7rem;font-weight:800;letter-spacing:.04em;}
+.related-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-top:22px;}
+.related-card{border:1px solid #e5e9f0;border-radius:17px;padding:20px;background:#fff;}
+.related-card h3{margin:0 0 7px;}
+.related-card p{color:#667085;line-height:1.65;font-size:.88rem;}
+.related-status{display:inline-block;margin-top:10px;font-size:.72rem;font-weight:800;color:#667eea;background:#eef0ff;border-radius:999px;padding:6px 9px;}
+.mobile-bottom-nav{display:none;}
+.more-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
+.more-links a{display:inline-flex;align-items:center;gap:7px;padding:10px 13px;border:1px solid #e1e6ef;border-radius:12px;text-decoration:none;color:#465065;background:#fff;font-weight:700;font-size:.84rem;}
+body.dark-mode .top-nav a:nth-child(5),body.dark-mode .guide-article,body.dark-mode .related-card,body.dark-mode .more-links a{background:#111827;border-color:#334155;color:#e8edf7;}
+body.dark-mode .guides-intro,body.dark-mode .guide-article p,body.dark-mode .related-card p{color:#b7c0cf;}
+body.dark-mode .guide-tag,body.dark-mode .related-status{background:#25234a;color:#cfd3ff;}
+body.dark-mode .guides-section,body.dark-mode .more-section{border-color:#2b3242;}
+body.dark-mode .toast{background:#f2c94c !important;color:#171717 !important;border-color:#e0b93f !important;box-shadow:0 12px 30px rgba(0,0,0,.35);}
+@media(max-width:760px){
+  .top-nav{display:none;}
+  .guides-grid,.related-grid{grid-template-columns:1fr;}
+  .guides-section,.more-section{padding-top:28px;}
+  .mobile-bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);left:10px;right:10px;bottom:10px;z-index:9998;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border:1px solid #dfe5ee;border-radius:18px;box-shadow:0 14px 40px rgba(20,30,60,.18);padding:7px 5px calc(7px + env(safe-area-inset-bottom,0px));}
+  .mobile-bottom-nav a{min-width:0;text-decoration:none;color:#657084;font-size:.67rem;font-weight:800;text-align:center;display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;padding:6px 2px;border-radius:12px;}
+  .mobile-bottom-nav a strong{font-size:1.05rem;line-height:1;}
+  .mobile-bottom-nav a.active{background:#eef0ff;color:#5b52b7;}
+  body.dark-mode .mobile-bottom-nav{background:rgba(15,23,42,.96);border-color:#334155;}
+  body.dark-mode .mobile-bottom-nav a{color:#aeb8c9;}
+  body.dark-mode .mobile-bottom-nav a.active{background:#25234a;color:#d7d9ff;}
+}
+
 </style>
 </head>
 <body>
+
     <div class="container">
         <header class="site-header">
             <div class="brand-row">
@@ -922,20 +948,16 @@
                 </div>
             </div>
             <nav class="top-nav" aria-label="Main navigation">
-                <a href="#tracker">Tracker</a><a href="#smart-assistant" class="nav-open-chat" id="navOpenChatBtn">💬 Open Chat</a>
-                <a href="#how-it-works">How it works</a>
-                <a href="#tips">Gas-saving tips</a>
-                <a href="#gas-guide">Gas guide</a>
-<a href="#cooking-profile">My Profile</a>
-                <a href="#smart-assistant">Ask Assistant</a>
-                <a href="#meal-planner">Meal planner</a>
-                <a href="#safety-center">Safety</a>
-                <a href="#faq">FAQ</a>
+                <a href="#home">Home</a>
+                <a href="#tracker">Tracker</a>
+                <a href="#smart-assistant" class="nav-open-chat" id="navOpenChatBtn">🤖 Assistant</a>
+                <a href="#guides">Guides</a>
+                <a href="#more">More</a>
             </nav>
             <button class="theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark mode" title="Switch to dark mode">🌙</button>
         </header>
 
-        <section class="hero-section">
+        <section class="hero-section" id="home">
             <div class="hero-badge">🔥 A smarter way to manage cooking gas</div>
             <h1>Know when your cooking gas is <span>about to finish.</span></h1>
             <p>Stop guessing and start managing smarter. Track your cooking gas usage, plan your refills, and receive timely reminders before you run out unexpectedly. Plan affordable meals, manage your food budget, build smart shopping lists, track what you already have, save cooking gas, learn essential gas safety tips, and get personalized guidance from our Smart Gas & Food Assistant.</p>
@@ -946,21 +968,6 @@
             <div class="hero-trust">✓ Simple to use &nbsp; • &nbsp; ✓ Works on phone &nbsp; • &nbsp; ✓ Built for everyday cooking</div>
         </section>
 
-        <!-- App Download Promotion -->
-        <section class="app-promo-section" aria-label="Cooking Gas Tracker app promotion">
-            <div class="app-promo-content">
-                <img class="app-promo-icon" src="https://i.imgur.com/OkIJfE2.png" alt="Cooking Gas Tracker app icon">
-                <div>
-                    <h2>Get Cooking Gas Tracker on your phone</h2>
-                    <p>Track your gas usage, plan your refill, and receive timely reminders wherever you are.</p>
-                </div>
-            </div>
-            <div class="app-promo-actions">
-                <a class="app-download-btn" href="https://play.google.com/store/apps/details?id=com.john.gastracker" target="_blank" rel="noopener noreferrer">📱 Google Play</a>
-                <div class="app-coming-btn">🍎 iPhone — Coming Soon</div>
-            </div>
-        </section>
-        
         <div class="main-card">
             <div class="tracker-intro" id="tracker">
                 <div>
@@ -1287,7 +1294,7 @@
             </div>
             
             <!-- Test Notification -->
-            <button class="test-alarm-btn" onclick="testNotification()">🔔 Test Notification</button>
+            <button class="test-alarm-btn" onclick="testWorkerNotification()">🔔 Test Notification</button>
             
             <!-- How it works -->
             <section class="content-section" id="how-it-works">
@@ -1374,6 +1381,81 @@
 </section>
 
 <section class="content-section" id="faq">
+            <!-- AdSense-focused educational content: useful, original, and closely related to the product -->
+            <section class="guides-section" id="guides" aria-labelledby="guidesTitle">
+                <div class="section-eyebrow">GUIDES &amp; RESOURCES</div>
+                <h2 id="guidesTitle">Practical guides for managing cooking, gas and household spending</h2>
+                <p class="guides-intro">Cooking Gas Tracker is more useful when it helps you understand the habits behind your refill dates. These guides explain practical ways to record usage, plan cooking, reduce avoidable waste and make better household decisions. They are educational resources, not guarantees about how long any particular cylinder will last.</p>
+                <div class="guides-grid">
+                    <article class="guide-article">
+                        <span class="guide-tag">GAS TRACKING</span>
+                        <h3>How to Track Your Cooking Gas Usage at Home</h3>
+                        <p>Start by recording each refill date, the amount of gas purchased and the amount you paid. Then choose an expected consumption date based on your normal cooking routine. The goal is to build a personal record rather than depend on a general statement such as “a cylinder should last this many days.”</p>
+                        <p>After the next refill, compare the actual date with your previous estimate. If your household cooked more meals, hosted visitors or used higher heat, the difference is useful information. Over several refill periods, your history can become a practical reference for planning future purchases.</p>
+                    </article>
+                    <article class="guide-article">
+                        <span class="guide-tag">REFILL PLANNING</span>
+                        <h3>How to Estimate When Your Cooking Gas May Run Out</h3>
+                        <p>A useful estimate begins with your own refill history. Record how many days each refill normally lasts and note major changes in routine. A household that cooks twice a day may have a different pattern from one that cooks several meals every day.</p>
+                        <p>Use the expected date as a planning point, not as proof that the cylinder is empty. Cooking Gas Tracker sends reminders around the date you enter so you have time to prepare. If your actual consumption changes, update the next expected date instead of treating the old estimate as fixed.</p>
+                    </article>
+                    <article class="guide-article">
+                        <span class="guide-tag">SAVE GAS</span>
+                        <h3>Why Cooking Gas Can Finish Faster Than Expected</h3>
+                        <p>Gas consumption can change when cooking time increases, meals require longer boiling or frying, more people are eating at home, or burners are used at higher heat for longer periods. A change in routine can therefore make a previous estimate less accurate.</p>
+                        <p>Simple preparation can help you manage cooking time: have ingredients ready before turning on the burner, use suitable cookware, keep lids on pots when appropriate, and avoid leaving a burner running longer than necessary. These habits are about efficient cooking, not forcing food to cook faster than is safe or appropriate.</p>
+                    </article>
+                    <article class="guide-article">
+                        <span class="guide-tag">HOUSEHOLD RECORDS</span>
+                        <h3>Why You Should Keep a Cooking Gas Refill History</h3>
+                        <p>A refill history turns individual purchases into information you can review later. Keep the refill date, gas quantity, price and expected consumption date together. This can make it easier to notice changes in household usage and spending.</p>
+                        <p>Price history is useful too. If the amount you pay changes over time, your records can show how much your household normally spends and when the change occurred. The history does not predict future prices, but it gives you a personal reference for budgeting and planning the next refill.</p>
+                    </article>
+                    <article class="guide-article">
+                        <span class="guide-tag">MEAL PLANNING</span>
+                        <h3>How Meal Planning Can Help You Manage Gas and Food Costs</h3>
+                        <p>Meal planning can reduce unnecessary cooking decisions during a busy week. When you know what you intend to cook, you can prepare ingredients together, choose meals with different cooking times and make better use of food already in the kitchen.</p>
+                        <p>Batch preparation can sometimes reduce repeated cooking, while simple meals can be useful on days when you want to conserve gas. The right plan depends on your household, budget and food preferences. Our meal planner is designed to turn the information you provide into practical suggestions rather than claim that one menu works for every family.</p>
+                    </article>
+                    <article class="guide-article">
+                        <span class="guide-tag">SAFETY</span>
+                        <h3>Cooking Gas Safety: What to Do If You Suspect a Leak</h3>
+                        <p>If you strongly suspect a gas leak, do not use a match, lighter or other flame to investigate. Avoid creating sparks and do not operate electrical switches near the suspected leak. If it is safe to do so, turn off the gas supply and move to a safe, well-ventilated area.</p>
+                        <p>Do not attempt repairs that require specialist knowledge. Contact an appropriate qualified gas professional, supplier or emergency service according to the situation. Cooking Gas Tracker provides general information only; it is not an emergency service and should never replace professional safety instructions.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="more-section" id="more" aria-labelledby="moreTitle">
+                <div class="section-eyebrow">MORE FROM THE PROJECT</div>
+                <h2 id="moreTitle">Tools we're exploring for everyday household management</h2>
+                <p class="guides-intro">Cooking Gas Tracker is the first product in a broader idea: simple tools that help people remember household purchases, maintenance and recurring needs. The concepts below are clearly marked as being explored; they are not presented as available apps.</p>
+                <div class="related-grid">
+                    <article class="related-card">
+                        <h3>🏠 HomeStock</h3>
+                        <p>A household refill manager for recurring supplies such as water, detergent, toiletries, cooking oil and generator fuel. The idea is to learn a household's usage pattern and help answer a simple question: “When might I need to buy this again?”</p>
+                        <span class="related-status">Concept being explored</span>
+                    </article>
+                    <article class="related-card">
+                        <h3>🛠️ HomeCare</h3>
+                        <p>A maintenance memory for everyday equipment such as generators, cars, motorcycles, air conditioners, refrigerators, pumps and filters. It would keep service dates and reminders in one place.</p>
+                        <span class="related-status">Concept being explored</span>
+                    </article>
+                    <article class="related-card">
+                        <h3>💰 Price Memory</h3>
+                        <p>A personal purchase history that helps users remember what they paid for common household items and compare a new price with their own previous records.</p>
+                        <span class="related-status">Concept being explored</span>
+                    </article>
+                </div>
+                <div class="more-links" aria-label="More website links">
+                    <a href="#cooking-profile">👤 My Cooking Profile</a>
+                    <a href="#smart-shopping">🛒 Smart Shopping</a>
+                    <a href="#meal-planner">🍲 Meal Planner</a>
+                    <a href="#safety-center">🛡️ Safety Center</a>
+                    <a href="#faq">❓ FAQ</a>
+                </div>
+            </section>
+
                 <div class="section-eyebrow">FAQ</div>
                 <h2>Questions people often ask</h2>
                 <div class="faq-list">
@@ -1563,22 +1645,203 @@
             </section>
 
             <div class="legal-links">
-                <a href="https://policies-privacy-8c085d.netlify.app/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-                <a href="https://about-us-a9f8d5.netlify.app/" target="_blank" rel="noopener noreferrer">About Us</a>
-                <a href="https://terms-condition-36816f.netlify.app/" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a>
+                <a href="https://policies-privacy-8c085d.netlify.app/" onclick="openExternalPage('https://policies-privacy-8c085d.netlify.app/'); return false;">Privacy Policy</a>
+                <a href="https://about-us-a9f8d5.netlify.app/" onclick="openExternalPage('https://about-us-a9f8d5.netlify.app/'); return false;">About Us</a>
+                <a href="https://terms-condition-36816f.netlify.app/" onclick="openExternalPage('https://terms-condition-36816f.netlify.app/'); return false;">Terms &amp; Conditions</a>
+                <a href="https://contacts-us-now.netlify.app/" onclick="openExternalPage('https://contacts-us-now.netlify.app/'); return false;">Contact Us</a>
             </div>
         </div>
         
-        <footer class="site-footer">
+        <footer class="site-footer" id="site-footer">
             <div class="footer-brand">⛽ Cooking Gas Tracker &amp; Manager</div>
             <p>Helping everyday cooks plan ahead and avoid unexpected gas shortages.</p>
-            <div class="footer-note">Reminder estimates are based on the information you provide and your cooking habits.</div>
+            <div class="footer-note">Reminder estimates are based on the information you provide and your cooking habits. Notifications follow the scheduled Africa/Lagos times shown in the tracker.</div>
             <div class="footer-copyright">© 2026 Cooking Gas Tracker. All rights reserved.</div>
         </footer>
     </div>
+
+    <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+        <a href="#home" class="active"><strong>⌂</strong><span>Home</span></a>
+        <a href="#tracker"><strong>🔥</strong><span>Tracker</span></a>
+        <a href="#smart-assistant"><strong>🤖</strong><span>Assistant</span></a>
+        <a href="#guides"><strong>📚</strong><span>Guides</span></a>
+        <a href="#more"><strong>☰</strong><span>More</span></a>
+    </nav>
     <div class="toast" id="toast"></div>
     
-    <script>
+    
+
+
+<style>
+#smart-assistant{scroll-margin-top:90px}.assistant-card{max-width:900px;margin:24px auto 0;border:1px solid var(--border-color,#dbe3ef);border-radius:22px;background:var(--card-bg,#fff);padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+.assistant-header{display:flex;gap:14px;align-items:center;margin-bottom:16px}.assistant-icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:#eef5ff;font-size:24px}.assistant-header h3{margin:0}.assistant-header p{margin:4px 0 0;opacity:.72}.assistant-messages{min-height:150px;max-height:380px;overflow:auto;padding:8px;background:rgba(127,127,127,.06);border-radius:16px}.assistant-message{max-width:88%;padding:12px 14px;border-radius:16px;margin:8px 0;line-height:1.55}.assistant-message.bot{background:var(--card-bg,#fff);border:1px solid var(--border-color,#dbe3ef)}.assistant-message.user{margin-left:auto;background:#2563eb;color:#fff}.assistant-suggestions{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.assistant-suggestions button{border:1px solid var(--border-color,#dbe3ef);background:transparent;border-radius:999px;padding:9px 12px;cursor:pointer}.assistant-form{display:flex;gap:10px}.assistant-form input{flex:1;min-width:0;padding:13px 14px;border:1px solid var(--border-color,#dbe3ef);border-radius:12px;font-size:16px;background:var(--input-bg,#fff);color:inherit}.assistant-form button{border:0;border-radius:12px;padding:0 20px;font-weight:700;background:#2563eb;color:#fff;cursor:pointer}.assistant-note{font-size:12px;opacity:.68;margin:12px 2px 0;line-height:1.5}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:600px){.assistant-card{padding:14px}.assistant-form{align-items:stretch}.assistant-form button{padding:0 15px}.assistant-message{max-width:95%}}
+body.dark-mode .assistant-card{background:#111827;border-color:#334155}body.dark-mode .assistant-messages{background:#0b1220}body.dark-mode .assistant-message.bot{background:#111827;border-color:#334155}body.dark-mode .assistant-suggestions button{color:#e5e7eb;border-color:#475569}body.dark-mode .assistant-form input{background:#0f172a;border-color:#475569;color:#fff}
+/* Spacing upgrade for Smart Assistant + Smart Shopping */
+#smart-assistant,#smart-shopping{
+  margin:44px 0;
+  padding:28px;
+  border:1px solid var(--border-color,#dbe3ef);
+  border-radius:26px;
+  background:var(--card-bg,#fff);
+  box-shadow:0 12px 35px rgba(20,30,60,.06);
+}
+#smart-assistant .section-heading,#smart-shopping .section-heading{
+  margin:0 0 24px;
+  padding:22px 24px;
+  border:1px solid #e6ebf3;
+  border-radius:20px;
+  background:linear-gradient(145deg,#f8faff,#f5fbff);
+}
+#smart-assistant .section-heading h2,#smart-shopping .section-heading h2{
+  margin:8px 0 10px;
+  line-height:1.18;
+}
+#smart-assistant .section-heading p,#smart-shopping .section-heading p{
+  margin:0;
+  max-width:850px;
+  line-height:1.7;
+}
+#smart-assistant .assistant-card,#smart-shopping .shopping-card{margin:0 auto;}
+body.dark-mode #smart-assistant,body.dark-mode #smart-shopping{
+  background:#111827;
+  border-color:#334155;
+}
+body.dark-mode #smart-assistant .section-heading,body.dark-mode #smart-shopping .section-heading{
+  background:linear-gradient(145deg,#171d2b,#111827);
+  border-color:#334155;
+}
+@media(max-width:650px){
+  #smart-assistant,#smart-shopping{margin:34px 0;padding:16px;border-radius:22px;}
+  #smart-assistant .section-heading,#smart-shopping .section-heading{padding:18px 16px;margin-bottom:18px;border-radius:16px;}
+}
+ .budget-over{color:#dc2626;font-weight:850}body.dark-mode .budget-over{color:#f87171}
+</style>
+
+
+
+<!-- FULL OPEN CHAT -->
+<div id="chatModal" class="chat-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="chatModalTitle">
+  <div class="chat-modal-panel">
+    <div class="chat-modal-header">
+      <div class="chat-title-wrap">
+        <div class="chat-modal-icon">🤖</div>
+        <div><h2 id="chatModalTitle">Gas & Food Assistant</h2><span>Powered by your Cooking Gas Tracker profile</span></div>
+      </div>
+      <button type="button" id="closeChatBtn" class="chat-close" aria-label="Close chat">×</button>
+    </div>
+    <div id="fullChatMessages" class="full-chat-messages" aria-live="polite">
+      <div class="assistant-message bot"><strong>Cooking Gas Tracker & Manager:</strong><br>Hi! 👋 I’m here to help with gas management, meal planning, food budgeting, cooking efficiency and gas safety. Ask me anything.</div>
+    </div>
+    <div class="chat-tools">
+      <div class="chat-language">
+        <label for="chatLanguage">🌐 Language</label>
+        <select id="chatLanguage" aria-label="Choose chat response language">
+          <option value="English" data-voice="en-NG">English</option>
+          <option value="Nigerian Pidgin" data-voice="en-NG">Nigerian Pidgin</option>
+          <option value="Yoruba" data-voice="yo-NG">Yoruba</option>
+          <option value="Igbo" data-voice="ig-NG">Igbo</option>
+          <option value="Hausa" data-voice="ha-NG">Hausa</option>
+          <option value="French" data-voice="fr-FR">French</option>
+          <option value="Spanish" data-voice="es-ES">Spanish</option>
+          <option value="Arabic" data-voice="ar-SA">Arabic</option>
+        </select>
+      </div>
+      <button type="button" id="voiceInputBtn" class="chat-voice-btn" aria-label="Speak your question" title="Speak your question">🎤 Speak</button>
+      <span id="voiceStatus" class="voice-status" aria-live="polite"></span>
+    </div>
+    <div class="chat-quick-actions">
+      <button type="button" data-full-q="How can I make my gas last longer?">🔥 Save gas</button>
+      <button type="button" data-full-q="What can I cook today?">🍲 Meal ideas</button>
+      <button type="button" data-full-q="How can I save money on food and gas?">💰 Save money</button>
+      <button type="button" data-full-q="My burner flame is low. What should I do?">🛠️ Burner</button>
+    </div>
+    <form id="fullChatForm" class="full-chat-form">
+      <input id="fullChatInput" type="text" maxlength="2000" autocomplete="off" placeholder="Type your question..." aria-label="Type your question" required>
+      <button type="submit" aria-label="Send message">➤</button>
+    </form>
+    <p class="chat-safety-note">For a suspected gas leak, fire, damaged cylinder, or other immediate danger, move to a safe place and contact appropriate emergency or qualified gas professionals. Do not use this chat as a substitute for emergency help.</p>
+  </div>
+</div>
+
+<button type="button" id="backToTopBtn" class="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
+
+<style>
+/* Open Chat */
+.assistant-header{position:relative}.assistant-header-copy{flex:1}.open-chat-btn{margin-left:auto;white-space:nowrap;border:0;border-radius:12px;padding:11px 15px;font-weight:800;background:#2563eb;color:#fff;cursor:pointer;box-shadow:0 6px 18px rgba(37,99,235,.22)}
+.chat-modal{position:fixed;inset:0;background:rgba(2,6,23,.66);backdrop-filter:blur(5px);z-index:10000;display:none;padding:18px}.chat-modal.open{display:flex;align-items:center;justify-content:center}.chat-modal-panel{width:min(900px,100%);height:min(760px,calc(100vh - 36px));display:flex;flex-direction:column;background:var(--card-bg,#fff);color:inherit;border:1px solid var(--border-color,#dbe3ef);border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.28);overflow:hidden}.chat-modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}.chat-title-wrap{display:flex;gap:12px;align-items:center}.chat-modal-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#eef5ff;font-size:23px}.chat-title-wrap h2{font-size:20px;margin:0}.chat-title-wrap span{font-size:12px;opacity:.68}.chat-close{width:40px;height:40px;border:0;border-radius:12px;background:transparent;font-size:30px;line-height:1;cursor:pointer;color:inherit}.chat-close:hover{background:rgba(127,127,127,.1)}.full-chat-messages{flex:1;overflow:auto;padding:18px;background:rgba(127,127,127,.055)}.full-chat-messages .assistant-message{max-width:78%;font-size:15px}.full-chat-messages .assistant-message.bot{background:var(--card-bg,#fff)}.chat-quick-actions{display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}.chat-quick-actions button{border:1px solid var(--border-color,#dbe3ef);background:transparent;color:inherit;border-radius:999px;padding:8px 11px;cursor:pointer}.full-chat-form{display:flex;gap:10px;padding:12px 16px;border-top:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}.full-chat-form input{flex:1;min-width:0;padding:14px;border:1px solid var(--border-color,#dbe3ef);border-radius:14px;background:var(--input-bg,#fff);color:inherit;font-size:16px;outline:none}.full-chat-form input:focus{box-shadow:0 0 0 3px rgba(37,99,235,.15)}.full-chat-form button{width:52px;border:0;border-radius:14px;background:#2563eb;color:#fff;font-size:22px;font-weight:800;cursor:pointer}.chat-safety-note{font-size:11px;opacity:.62;line-height:1.45;margin:0;padding:0 16px 13px;background:var(--card-bg,#fff)}
+.chat-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}
+.chat-language{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:750}
+.chat-language select{border:1px solid var(--border-color,#dbe3ef);border-radius:10px;padding:8px 10px;background:var(--input-bg,#fff);color:inherit;font:inherit}
+.chat-voice-btn{border:1px solid var(--border-color,#dbe3ef);background:transparent;color:inherit;border-radius:12px;padding:9px 12px;font-weight:750;cursor:pointer}
+.chat-voice-btn.listening{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
+.chat-voice-btn:disabled{opacity:.55;cursor:not-allowed}
+.voice-status{font-size:11px;opacity:.68}
+.message-listen-btn{display:block;margin-top:9px;border:1px solid var(--border-color,#dbe3ef);background:transparent;color:inherit;border-radius:9px;padding:6px 9px;font-size:12px;font-weight:700;cursor:pointer}
+.message-listen-btn:hover{background:rgba(127,127,127,.08)}
+/* Back to top */
+.back-to-top{position:fixed;right:20px;bottom:22px;width:48px;height:48px;border:0;border-radius:50%;background:#2563eb;color:#fff;font-size:23px;font-weight:800;display:grid;place-items:center;cursor:pointer;z-index:9000;box-shadow:0 10px 25px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .2s,visibility .2s,transform .2s}.back-to-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mode .chat-quick-actions,body.dark-mode .full-chat-form,body.dark-mode .chat-safety-note{background:#111827;border-color:#334155}body.dark-mode .full-chat-messages{background:#0b1220}body.dark-mode .full-chat-messages .assistant-message.bot{background:#111827;border-color:#334155}body.dark-mode .chat-modal-icon{background:#1e293b}
+@media(max-width:600px){.chat-tools{align-items:stretch}.chat-language{width:100%}.chat-language select{flex:1}.voice-status{width:100%}.assistant-header{align-items:flex-start}.open-chat-btn{padding:9px 11px;font-size:13px}.chat-modal{padding:0}.chat-modal.open{align-items:stretch}.chat-modal-panel{height:100%;min-height:100%;border-radius:0;border:0}
+.chat-modal-header{padding-top:64px}
+.chat-title-wrap h2{font-size:17px}.chat-title-wrap span{display:block;max-width:210px}.full-chat-messages .assistant-message{max-width:90%}.back-to-top{right:14px;bottom:16px;width:44px;height:44px}}
+
+/* Cooking Profile */
+.cooking-profile{margin-top:28px;padding:30px;border-radius:24px;background:linear-gradient(145deg,#f7f8ff,#f5fbff);border:1px solid #e1e6f0;box-shadow:0 12px 35px rgba(20,30,60,.06)}
+.profile-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.profile-head h2{margin:6px 0 10px;font-size:clamp(1.6rem,3vw,2.2rem)}.profile-lead{max-width:850px;color:#5d6878;line-height:1.7}.profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:22px}.profile-field{background:#fff;border:1px solid #e7eaf0;border-radius:16px;padding:15px}.profile-field.full{grid-column:1/-1}.profile-field label{display:block;font-weight:750;margin-bottom:7px}.profile-field input,.profile-field select,.profile-field textarea{width:100%;box-sizing:border-box;border:1px solid #dfe4ec;border-radius:11px;padding:11px 12px;font:inherit;background:#fff;color:#172033}.profile-field small{display:block;margin-top:6px;color:#788292;line-height:1.45}.profile-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.profile-btn{border:0;border-radius:12px;padding:11px 16px;font-weight:750;cursor:pointer;background:#667eea;color:#fff}.profile-btn.secondary{background:#eef1f7;color:#394357}.profile-status{margin-top:12px;color:#35704b;font-weight:700;min-height:20px}.profile-editor[hidden],.profile-saved[hidden]{display:none!important}.profile-saved{margin-top:6px;padding:22px;border:1px solid #dfe5ef;border-radius:18px;background:#fff;display:flex;align-items:center;gap:16px}.profile-saved-icon{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#e9f8ef;color:#23834a;font-weight:900;font-size:22px;flex:0 0 auto}.profile-saved-copy{flex:1}.profile-saved-copy h3{margin:4px 0 6px}.profile-saved-copy p{margin:0;color:#667085;line-height:1.55}.profile-cancel-btn[hidden]{display:none!important}.dark-mode .profile-saved{background:#1b2130;border-color:#303849}.dark-mode .profile-saved-copy p{color:#aab4c4}.dark-mode .cooking-profile{background:linear-gradient(145deg,#171b28,#111827);border-color:#2b3242}.dark-mode .profile-field{background:#1b2130;border-color:#303849}.dark-mode .profile-field input,.dark-mode .profile-field select,.dark-mode .profile-field textarea{background:#111827;color:#f3f5f8;border-color:#394254}.dark-mode .profile-btn.secondary{background:#2b3242;color:#eef2f7}@media(max-width:760px){.profile-grid{grid-template-columns:1fr}.profile-field.full{grid-column:auto}.profile-head{display:block}}
+
+/* Smart Shopping Manager */
+.nav-open-chat{font-weight:800}
+.shopping-add-row{display:grid;grid-template-columns:minmax(180px,1.4fr) minmax(150px,1fr) minmax(170px,1fr) auto;gap:12px;margin:22px 0 10px;align-items:end}
+.shopping-add-field{display:flex;flex-direction:column;gap:7px}.shopping-add-field label,.budget-input-wrap label{font-size:13px;font-weight:800;opacity:.82}.shopping-add-field input,.budget-input-wrap input,.budget-input-wrap select{width:100%;box-sizing:border-box;border:1px solid var(--border-color,#dbe3ef);border-radius:14px;padding:14px 15px;background:var(--input-bg,#fff);color:inherit;font:inherit;font-size:16px;min-height:50px}.shopping-add-button{min-height:50px;white-space:nowrap}
+.shopping-total-box{margin:20px 0;padding:20px 22px;border:2px solid #dbe3ef;border-radius:18px;background:linear-gradient(145deg,#f8fbff,#fff);display:flex;justify-content:space-between;align-items:center;gap:18px}.shopping-total-box>div{display:flex;align-items:center;gap:12px}.shopping-total-icon{font-size:28px}.shopping-total-box strong{display:block}.shopping-total-box small{display:block;margin-top:4px;opacity:.7}.shopping-total-value{font-size:26px!important}
+.shopping-budget-entry{display:grid;grid-template-columns:1.3fr 1fr auto;gap:12px;margin:18px 0}.budget-input-wrap{display:flex;flex-direction:column;gap:7px}.shopping-budget-panel{border:1px solid var(--border-color,#dbe3ef);border-radius:18px;padding:20px;margin-top:16px;background:var(--card-bg,#fff)}
+.shopping-item{display:flex;align-items:stretch;gap:16px;padding:20px;border-radius:16px;background:rgba(127,127,127,.07);min-height:108px;border:1px solid rgba(127,127,127,.08)}.shopping-item-main{flex:1;min-width:0}.shopping-item-name{display:block;font-size:18px;font-weight:750;margin-bottom:12px}.shopping-item-meta{display:grid;grid-template-columns:minmax(110px,1fr) minmax(150px,1.25fr) minmax(130px,1fr);gap:10px;align-items:end}.shopping-mini-input{width:100%;box-sizing:border-box;border:1px solid var(--border-color,#dbe3ef);border-radius:11px;padding:11px 12px;background:var(--input-bg,#fff);color:inherit;font:inherit;font-size:16px;min-height:46px}.shopping-mini-input::placeholder{opacity:.55}.shopping-row-total{padding:10px 12px;border-radius:11px;background:rgba(37,99,235,.08);font-weight:800;min-height:46px;display:flex;align-items:center;box-sizing:border-box}.shopping-item-actions{display:flex;flex-direction:column;justify-content:center;gap:8px}.shopping-item-actions button{width:44px;height:44px;border-radius:10px;background:transparent}
+body.dark-mode .shopping-total-box{background:#111827;border-color:#334155}body.dark-mode .shopping-budget-panel{background:#111827;border-color:#334155}body.dark-mode .shopping-list-panel{background:#111827;border-color:#334155}
+@media(max-width:850px){.shopping-add-row{grid-template-columns:1fr 1fr}.shopping-add-field.item-field{grid-column:1/-1}.shopping-add-button{grid-column:1/-1}.shopping-budget-entry{grid-template-columns:1fr 1fr}.shopping-budget-entry button{grid-column:1/-1}.shopping-item-meta{grid-template-columns:1fr 1fr}.shopping-row-total{grid-column:1/-1}}
+@media(max-width:650px){.shopping-add-row{grid-template-columns:1fr}.shopping-add-field.item-field{grid-column:auto}.shopping-add-button{grid-column:auto}.shopping-budget-entry{grid-template-columns:1fr}.shopping-budget-entry button{grid-column:auto}.shopping-total-box{flex-direction:column;align-items:flex-start}.shopping-total-value{font-size:24px!important}.shopping-list-panel{padding:16px}.shopping-item{padding:18px}.shopping-item-meta{grid-template-columns:1fr}.shopping-row-total{grid-column:auto}.shopping-item-actions{flex-direction:row;align-items:center}}
+
+.shopping-card{border:1px solid var(--border-color,#dbe3ef);border-radius:20px;background:var(--card-bg,#fff);padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+.shopping-top{display:flex;justify-content:space-between;gap:18px;align-items:center}
+.shopping-top h3{margin:0 0 5px}
+.shopping-top p{margin:0;opacity:.72}
+.shopping-add-row{display:flex;gap:10px;margin:18px 0}
+.shopping-add-row input{flex:1;min-width:0;border:1px solid var(--border-color,#dbe3ef);border-radius:12px;padding:12px;background:var(--input-bg,#fff);color:inherit}
+.shopping-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.shopping-grid>div{border:1px solid var(--border-color,#dbe3ef);border-radius:16px;padding:15px}
+.shopping-grid h4{margin:0 0 10px}
+.shopping-list{display:flex;flex-direction:column;gap:8px;min-height:70px}
+.shopping-empty{opacity:.6;font-size:13px;margin:10px 0}
+.shopping-item{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;background:rgba(127,127,127,.07)}
+.shopping-item span{flex:1}
+.shopping-item button{border:0;background:transparent;cursor:pointer;font-size:14px}
+.shopping-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.shopping-stats div{padding:12px;border-radius:12px;background:rgba(127,127,127,.07);text-align:center}
+.shopping-stats strong,.shopping-stats span{display:block}
+.shopping-stats strong{font-size:20px}
+.shopping-stats span{font-size:11px;opacity:.7;margin-top:3px}
+.shopping-note{margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(255,193,7,.12);font-size:13px}
+@media(max-width:650px){.shopping-top{flex-direction:column;align-items:stretch}.shopping-grid{grid-template-columns:1fr}.shopping-add-row{flex-direction:column}.shopping-stats{grid-template-columns:1fr 1fr}.shopping-stats div:last-child{grid-column:1/-1}}
+
+
+/* Accessible meal timetable heading */
+.meal-timetable-heading{font-weight:900 !important;letter-spacing:.08em;}
+</style>
+
+
+
+
+
+
+
+
+<div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+  <div class="modal-content">
+    <button class="modal-close" type="button" onclick="closeModal()" aria-label="Close">&times;</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+<script>
+
         // ====== FIREBASE CONFIGURATION ======
         const firebaseConfig = {
             apiKey: "AIzaSyAjir7zq8PIzXbDZqfvpRvoWqqYd9udnTU",
@@ -1597,6 +1860,37 @@
         firebase.initializeApp(firebaseConfig);
         const messaging = firebase.messaging();
 
+        // ====== TOAST FUNCTION ======
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Open legal/store pages safely inside the native app when the InAppBrowser plugin is available.
+        async function openExternalPage(url) {
+            try {
+                const InAppBrowser = window.Capacitor?.Plugins?.InAppBrowser;
+                if (InAppBrowser && typeof InAppBrowser.openInWebView === 'function') {
+                    await InAppBrowser.openInWebView({
+                        url,
+                        options: {
+                            showURL: false,
+                            showToolbar: true,
+                            closeButtonText: 'Close',
+                            showNavigationButtons: false,
+                            android: { hardwareBack: true }
+                        }
+                    });
+                    return;
+                }
+            } catch (e) {
+                console.warn('In-app browser could not open the page:', e);
+            }
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+
         // ====== APP STATE ======
         let savedDates = null;
         let audioContext = null;
@@ -1605,6 +1899,229 @@
         let history = [];
         let sentNotifications = [];
         let lastSent = null;
+
+        // ====== ADMOB PRODUCTION CONFIGURATION ======
+        // Live AdMob unit IDs already used by the published app.
+        // Keep these IDs unchanged for production.
+        const ADMOB_BANNER_ID = 'ca-app-pub-6632931149651372/3837395500';
+        const ADMOB_INTERSTITIAL_ID = 'ca-app-pub-6632931149651372/1782077803';
+        let admobReady = false;
+        let interstitialReady = false;
+
+        // Initialize AdMob and prepare the production ads.
+        let bannerReady = false;
+        let bannerLoadAttempts = 0;
+        let bannerRetryTimer = null;
+
+        async function setupAdMobListeners(AdMob) {
+            if (window.__cgtAdMobListenersReady) return;
+            window.__cgtAdMobListenersReady = true;
+
+            try {
+                await AdMob.addListener('bannerAdLoaded', () => {
+                    bannerReady = true;
+                    bannerLoadAttempts = 0;
+                    console.log('AdMob banner loaded successfully.');
+                });
+            } catch (e) {
+                console.warn('Could not register banner loaded listener:', e);
+            }
+
+            try {
+                await AdMob.addListener('bannerAdFailedToLoad', (error) => {
+                    bannerReady = false;
+                    console.error('AdMob banner failed to load:', error);
+                    scheduleBannerRetry();
+                });
+            } catch (e) {
+                console.warn('Could not register banner failed listener:', e);
+            }
+
+            try {
+                await AdMob.addListener('bannerAdSizeChanged', (size) => {
+                    if (size && size.height) {
+                        document.documentElement.style.setProperty('--native-banner-height', `${size.height}px`);
+                    }
+                    console.log('AdMob banner size:', size);
+                });
+            } catch (e) {
+                console.warn('Could not register banner size listener:', e);
+            }
+        }
+
+        function scheduleBannerRetry() {
+            if (bannerRetryTimer || bannerLoadAttempts >= 4) return;
+            bannerRetryTimer = setTimeout(async () => {
+                bannerRetryTimer = null;
+                await showProductionBanner();
+            }, 5000);
+        }
+
+        async function hideProductionBannerForChat() {
+            try {
+                const AdMob = window.Capacitor?.Plugins?.AdMob;
+                if (AdMob && typeof AdMob.hideBanner === 'function') {
+                    await AdMob.hideBanner();
+                    console.log('AdMob banner hidden while Gas & Food Assistant is open.');
+                }
+            } catch (error) {
+                console.warn('Could not hide AdMob banner for chat:', error);
+            }
+        }
+
+        async function resumeProductionBannerAfterChat() {
+            try {
+                const AdMob = window.Capacitor?.Plugins?.AdMob;
+                if (!admobReady || !AdMob) return;
+                if (typeof AdMob.resumeBanner === 'function') {
+                    await AdMob.resumeBanner();
+                    console.log('AdMob banner resumed after Gas & Food Assistant closed.');
+                } else {
+                    await showProductionBanner();
+                }
+            } catch (error) {
+                console.warn('Could not resume AdMob banner after chat:', error);
+                try { await showProductionBanner(); } catch (_) {}
+            }
+        }
+
+        async function showProductionBanner() {
+            try {
+                if (!admobReady || !window.Capacitor?.Plugins?.AdMob) return;
+
+                const AdMob = window.Capacitor.Plugins.AdMob;
+                bannerLoadAttempts++;
+
+                try {
+                    if (bannerLoadAttempts > 1 && typeof AdMob.removeBanner === 'function') {
+                        await AdMob.removeBanner();
+                    }
+                } catch (removeError) {
+                    console.warn('AdMob banner cleanup warning:', removeError);
+                }
+
+                await AdMob.showBanner({
+                    adId: ADMOB_BANNER_ID,
+                    adSize: 'ADAPTIVE_BANNER',
+                    position: 'BOTTOM_CENTER',
+                    margin: 0,
+                    isTesting: false
+                });
+
+                console.log('AdMob production banner request sent.');
+            } catch (error) {
+                bannerReady = false;
+                console.error('AdMob banner show error:', error);
+                scheduleBannerRetry();
+            }
+        }
+
+        async function initializeAdMob() {
+            try {
+                if (!window.Capacitor?.Plugins?.AdMob) {
+                    console.log('AdMob plugin not available. Running as web app.');
+                    return;
+                }
+
+                const AdMob = window.Capacitor.Plugins.AdMob;
+                await AdMob.initialize();
+                await setupAdMobListeners(AdMob);
+
+                try {
+                    if (typeof AdMob.requestConsentInfo === 'function') {
+                        let consentInfo = await AdMob.requestConsentInfo();
+
+                        if (consentInfo?.isConsentFormAvailable && consentInfo.status === 'REQUIRED') {
+                            consentInfo = await AdMob.showConsentForm();
+                        }
+
+                        if (consentInfo && consentInfo.canRequestAds === false) {
+                            console.log('AdMob: ads cannot be requested yet because consent is not ready.');
+                            return;
+                        }
+                    }
+                } catch (consentError) {
+                    console.warn('AdMob consent check failed; continuing:', consentError);
+                }
+
+                admobReady = true;
+
+                // Let the Android WebView finish attaching before placing the
+                // native banner over the bottom of the WebView.
+                setTimeout(() => {
+                    showProductionBanner();
+                }, 1200);
+
+                await prepareInterstitialAd();
+            } catch (error) {
+                console.error('AdMob initialization error:', error);
+            }
+        }
+
+        async function prepareInterstitialAd() {
+            try {
+                if (!admobReady || !window.Capacitor?.Plugins?.AdMob) return;
+
+                const AdMob = window.Capacitor.Plugins.AdMob;
+                await AdMob.prepareInterstitial({
+                    adId: ADMOB_INTERSTITIAL_ID,
+                    isTesting: false
+                });
+
+                interstitialReady = true;
+                console.log('AdMob production interstitial prepared.');
+            } catch (error) {
+                interstitialReady = false;
+                console.error('AdMob interstitial preparation error:', error);
+            }
+        }
+
+        async function showInterstitialAd() {
+            try {
+                if (!admobReady || !window.Capacitor?.Plugins?.AdMob) {
+                    console.log('Interstitial is not available.');
+                    return false;
+                }
+
+                if (!interstitialReady) {
+                    await prepareInterstitialAd();
+                }
+                if (!interstitialReady) {
+                    console.log('Interstitial is not ready.');
+                    return false;
+                }
+
+                const AdMob = window.Capacitor.Plugins.AdMob;
+                interstitialReady = false;
+                await AdMob.showInterstitial();
+                await prepareInterstitialAd();
+                return true;
+            } catch (error) {
+                interstitialReady = false;
+                console.error('AdMob interstitial show error:', error);
+                await prepareInterstitialAd();
+                return false;
+            }
+        }
+
+        // Interstitials are shown at natural completion points.
+        // After an interstitial is shown, the next one is not eligible until
+        // five minutes have passed. We do not auto-pop an ad every five minutes
+        // while a user is reading or filling a form.
+        const INTERSTITIAL_COOLDOWN_MS = 5 * 60 * 1000;
+        let lastInterstitialAt = Number(localStorage.getItem('cgtLastInterstitialAt') || 0);
+
+        async function maybeShowInterstitialAtNaturalBreak() {
+            const now = Date.now();
+            if (now - lastInterstitialAt < INTERSTITIAL_COOLDOWN_MS) return false;
+
+            const shown = await showInterstitialAd();
+            if (shown) {
+                lastInterstitialAt = Date.now();
+                localStorage.setItem('cgtLastInterstitialAt', String(lastInterstitialAt));
+            }
+            return shown;
+        }
 
         // DOM Elements
         const countdownEl = document.getElementById('countdown');
@@ -1776,13 +2293,14 @@
             if (!detected) {
                 const lang = navigator.language || navigator.userLanguage || 'en-US';
                 const country = (lang.split('-')[1] || lang.split('_')[1] || '').toUpperCase();
-                detected = countryCurrencyMap[country] || 'USD';
+                detected = countryCurrencyMap[country] || 'NGN'; // Default to NGN
             }
 
+            console.log('Detected currency:', detected);
             currencySelect.value = detected;
         }
 
-        // Load saved data (using Capacitor Preferences for native, localStorage for web)
+        // Load saved data
         async function loadSavedData() {
             let saved = null;
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences) {
@@ -1794,7 +2312,6 @@
                 saved = saved ? JSON.parse(saved) : null;
                 console.log('Loaded from localStorage:', saved);
             }
-            
             if (saved) {
                 if (saved.dates) {
                     savedDates = {
@@ -1802,27 +2319,21 @@
                         consumption: new Date(saved.dates.consumption),
                         kg: saved.dates.kg || 0,
                         price: saved.dates.price || 0,
-                        currency: saved.dates.currency || 'USD'
+                        currency: saved.dates.currency || 'NGN'
                     };
                     refillDateInput.value = saved.dates.refill;
                     consumptionDateInput.value = saved.dates.consumption;
                     kgInput.value = saved.dates.kg || '';
                     priceInput.value = saved.dates.price || '';
-                    currencySelect.value = saved.dates.currency || 'USD';
+                    currencySelect.value = saved.dates.currency || 'NGN';
                 }
-                if (saved.history) {
-                    history = saved.history;
-                }
-                if (saved.sentNotifications) {
-                    sentNotifications = saved.sentNotifications;
-                }
-                if (saved.lastSent) {
-                    lastSent = saved.lastSent;
-                }
+                if (saved.history) history = saved.history;
+                if (saved.sentNotifications) sentNotifications = saved.sentNotifications;
+                if (saved.lastSent) lastSent = saved.lastSent;
             }
         }
 
-        // Save data (using Capacitor Preferences for native, localStorage for web)
+        // Save data
         async function saveToLocalStorage() {
             const data = {
                 dates: savedDates ? {
@@ -1836,7 +2347,6 @@
                 sentNotifications: sentNotifications,
                 lastSent: lastSent
             };
-            
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences) {
                 await window.Capacitor.Plugins.Preferences.set({ key: 'gasTrackerData', value: JSON.stringify(data) });
                 console.log('Saved to Preferences:', data);
@@ -1846,122 +2356,65 @@
             }
         }
 
-        // Record a sent notification
-        function recordNotificationSent(message) {
-            const now = Date.now();
-            lastSent = { timestamp: now, message: message };
+        // Record sent notification
+        function recordNotificationSent(message, timestamp = Date.now()) {
+            lastSent = { timestamp: timestamp, message: message };
             sentNotifications.push(lastSent);
             if (sentNotifications.length > 10) sentNotifications.shift();
             saveToLocalStorage();
         }
 
-        // Request notification permission and subscribe to push.
-        // Uses Capacitor Firebase Messaging inside the native app, and
-        // the browser Notification API + Firebase Messaging on the website.
+        // Request permission
         async function requestPermission() {
             try {
-                // ===== Native Capacitor app =====
-                if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
-                    const { FirebaseMessaging } = window.Capacitor.Plugins;
-                    const permission = await FirebaseMessaging.requestPermissions();
-
-                    if (permission.receive === 'granted') {
-                        const token = await FirebaseMessaging.getToken();
-                        console.log('FCM Token (native):', token);
-                        if (savedDates && token) await sendToWorker(token);
-                        document.getElementById('notifPermission').style.display = 'none';
-                        showToast('Notifications enabled!');
-                    } else {
-                        showToast('Notifications were not allowed. Please allow them in your device settings.');
-                    }
-                    return;
+                const { FirebaseMessaging } = window.Capacitor.Plugins;
+                const permission = await FirebaseMessaging.requestPermissions();
+                if (permission.receive === 'granted') {
+                    const tokenResult = await FirebaseMessaging.getToken();
+                    const token = tokenResult.token;
+                    console.log('FCM Token:', token);
+                    if (savedDates) await sendToWorker(token);
+                    document.getElementById('notifPermission').style.display = 'none';
+                    showToast('Notifications enabled!');
+                } else {
+                    showToast('Notifications denied.');
                 }
-
-                // ===== Website / browser =====
-                if (!('Notification' in window)) {
-                    showToast('This browser does not support notifications.');
-                    return;
-                }
-
-                // Permission must be requested directly from this button click.
-                let permission = Notification.permission;
-                if (permission === 'default') {
-                    permission = await Notification.requestPermission();
-                }
-
-                if (permission !== 'granted') {
-                    if (permission === 'denied') {
-                        showToast('Notifications are blocked. Please allow notifications for this website in your browser settings.');
-                    } else {
-                        showToast('Notification permission was not granted.');
-                    }
-                    return;
-                }
-
-                // Make sure the Firebase messaging service worker is ready before
-                // asking Firebase for the browser's FCM token.
-                let registration = null;
-                if ('serviceWorker' in navigator) {
-                    registration = await navigator.serviceWorker.ready;
-                }
-
-                const tokenOptions = { vapidKey: vapidKey };
-                if (registration) tokenOptions.serviceWorkerRegistration = registration;
-
-                const token = await messaging.getToken(tokenOptions);
-                if (!token) {
-                    throw new Error('Firebase did not return a web FCM token.');
-                }
-
-                console.log('FCM Token (web):', token);
-                isFirebaseReady = true;
-
-                if (savedDates) await sendToWorker(token);
-
-                document.getElementById('notifPermission').style.display = 'none';
-                showToast('Notifications enabled!');
             } catch (err) {
                 console.error('Permission error:', err);
-                showToast('Could not enable notifications. Please check your browser notification settings and try again.');
+                showToast('Error requesting permission.');
             }
         }
 
-        // Listen for incoming messages (foreground) - Capacitor
+        // Listen for incoming FCM messages. This is the real notification receipt time.
         if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
-            window.Capacitor.Plugins.FirebaseMessaging.addListener('messageReceived', (data) => {
-                console.log('Message received:', data);
-                const title = data.title || 'Cooking Gas Alert';
-                const body = data.body || 'You have a new notification';
-                
-                // Use Local Notifications to show a notification
-                if (window.Capacitor.Plugins.LocalNotifications) {
-                    window.Capacitor.Plugins.LocalNotifications.schedule({
-                        notifications: [
-                            {
-                                title: title,
-                                body: body,
-                                id: notificationId++,
-                                schedule: { at: new Date() }
-                            }
-                        ]
-                    }).catch(err => {
-                        console.error('Error scheduling local notification:', err);
-                        showToast(body);
-                    });
-                } else {
-                    showToast(body);
-                }
-                recordNotificationSent(body);
+            console.log('Registering notificationReceived listener');
+
+            window.Capacitor.Plugins.FirebaseMessaging.addListener('notificationReceived', (event) => {
+                console.log('NOTIFICATION RECEIVED:', JSON.stringify(event));
+
+                const notification = event.notification || {};
+                const title = notification.title || 'Cooking Gas Alert';
+                const body = notification.body || 'You have a new notification';
+
+                console.log('Notification title:', title);
+                console.log('Notification body:', body);
+
+                // Record the actual FCM receipt time, not a test/local notification time.
+                recordNotificationSent(body, Date.now());
+
+                // Show a local pop-up only while the app is open. It must not record a second time.
+                showLocalNotification(title, body, false);
                 playAlarm();
             });
+
         } else {
-            // Fallback for web (if not running in Capacitor)
+            // Web fallback
             messaging.onMessage((payload) => {
-                console.log('Message received:', payload);
-                // Handle both notification and data messages
+                console.log('WEB MESSAGE RECEIVED:', JSON.stringify(payload));
+
                 let title = 'Cooking Gas Alert';
                 let body = 'You have a new notification';
-                
+
                 if (payload.notification) {
                     title = payload.notification.title || title;
                     body = payload.notification.body || body;
@@ -1969,27 +2422,26 @@
                     title = payload.data.title || title;
                     body = payload.data.body || body;
                 }
-                
+
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(reg => {
                         reg.showNotification(title, { body: body });
                     }).catch(err => {
-                        console.error('SW not ready, falling back:', err);
-                        if (Notification.permission === 'granted') {
+                        console.error('Service worker notification error:', err);
+                        if ('Notification' in window && Notification.permission === 'granted') {
                             new Notification(title, { body: body });
                         }
                     });
-                } else {
-                    if (Notification.permission === 'granted') {
-                        new Notification(title, { body: body });
-                    }
+                } else if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification(title, { body: body });
                 }
+
                 recordNotificationSent(body);
                 playAlarm();
             });
         }
 
-        // Send user data to Cloudflare Worker
+        // Send user data to Worker
         async function sendToWorker(fcmToken) {
             if (!savedDates) return;
             try {
@@ -2000,23 +2452,21 @@
                     body: JSON.stringify({
                         userId,
                         fcmToken,
-                        consumptionDate: savedDates.consumption.toISOString()
+                        consumptionDate: savedDates.consumption.toISOString(),
+                        timeZone: 'Africa/Lagos'
                     })
                 });
-                if (response.ok) {
-                    console.log('Data sent to Worker');
-                } else {
-                    console.error('Worker response error:', response.status);
-                }
+                if (response.ok) console.log('Data sent to Worker');
+                else console.error('Worker response error:', response.status);
             } catch (err) {
                 console.error('Error sending to Worker:', err);
             }
         }
 
-        // Function to show a local notification (works for both web and native)
-        async function showLocalNotification(title, body) {
+        // Show local notification
+        async function showLocalNotification(title, body, shouldRecord = true) {
+            console.log('Showing local notification:', title, body);
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
-                // Request permission first
                 const permission = await window.Capacitor.Plugins.LocalNotifications.requestPermissions();
                 if (permission.display === 'granted') {
                     await window.Capacitor.Plugins.LocalNotifications.schedule({
@@ -2029,22 +2479,60 @@
                             }
                         ]
                     });
-                    recordNotificationSent(body);
+                    if (shouldRecord) recordNotificationSent(body);
                 } else {
                     showToast('Local notification permission denied');
                 }
             } else {
-                // Web fallback
                 if ('Notification' in window && Notification.permission === 'granted') {
                     new Notification(title, { body: body });
-                    recordNotificationSent(body);
+                    if (shouldRecord) recordNotificationSent(body);
                 } else {
                     showToast(body);
                 }
             }
         }
 
-        // Save dates and add to history
+        // Test Worker Notification - sends to Worker with test: true
+        async function testWorkerNotification() {
+            if (!window.Capacitor || !window.Capacitor.Plugins || !window.Capacitor.Plugins.FirebaseMessaging) {
+                showToast('Not running in Capacitor');
+                return;
+            }
+            try {
+                const tokenResult = await window.Capacitor.Plugins.FirebaseMessaging.getToken();
+                console.log('Token result:', JSON.stringify(tokenResult));
+                const token = tokenResult.token || tokenResult.value || tokenResult;
+                console.log('Extracted token:', token);
+                if (!token) {
+                    showToast('No token found. Check console.');
+                    return;
+                }
+                const response = await fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: 'test',
+                        fcmToken: token,
+                        consumptionDate: new Date(Date.now() + 86400000).toISOString(),
+                        test: true
+                    })
+                });
+                console.log('Response status:', response.status);
+                const responseText = await response.text();
+                console.log('Response body:', responseText);
+                if (response.ok) {
+                    showToast('Test notification sent! Check your notifications.');
+                } else {
+                    showToast('Test failed: ' + response.status + ' ' + responseText);
+                }
+            } catch (err) {
+                console.error('Test Worker error:', err);
+                showToast('Test failed: ' + err.message);
+            }
+        }
+
+        // Save dates
         async function saveDates() {
             const refill = refillDateInput.value;
             const consumption = consumptionDateInput.value;
@@ -2086,23 +2574,31 @@
             showToast('Dates saved! Notifications will be set.');
             updateStatus();
             checkNotifications();
-            // No scheduleNotifications here – only on app load
+            // No scheduleNotifications here – only on app load (disabled)
 
-            // Send to Worker if token is available (for scheduled notifications when app is closed)
-            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
-                const token = await window.Capacitor.Plugins.FirebaseMessaging.getToken();
-                if (token) {
-                    await sendToWorker(token);
-                }
-            } else {
-                // Web fallback
-                if (isFirebaseReady) {
-                    const token = await messaging.getToken({ vapidKey: vapidKey });
+            // Send to Worker if token is available
+            try {
+                if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
+                    const tokenResult = await window.Capacitor.Plugins.FirebaseMessaging.getToken();
+                    const token = tokenResult.token;
                     if (token) {
                         await sendToWorker(token);
                     }
+                } else {
+                    if (isFirebaseReady) {
+                        const token = await messaging.getToken({ vapidKey: vapidKey });
+                        if (token) {
+                            await sendToWorker(token);
+                        }
+                    }
                 }
+            } catch (workerError) {
+                console.error('Could not send saved dates to Worker:', workerError);
             }
+
+            // Dates are now saved and the Worker has been contacted, so this is
+            // a natural completion point for the interstitial.
+            await maybeShowInterstitialAtNaturalBreak();
         }
 
         // Delete history item
@@ -2149,7 +2645,7 @@
                 'IDR': 'Rp', 'MYR': 'RM', 'PHP': '₱', 'SGD': '$', 'HKD': '$', 'TWD': '$',
                 'KRW': '₩', 'PKR': '₨', 'BDT': '৳', 'LKR': '₨', 'NPR': '₨', 'TZS': 'TSh',
                 'UGX': 'USh', 'RWF': 'FRw', 'ETB': 'Br', 'MAD': 'د.م.', 'DZD': 'دج',
-                'TND': 'د.ت', 'LYD': 'ل.د', 'SDG': 'ج.س', 'GNF': 'FG', 'XOF': 'CFA',
+                'TND': 'د.ت', 'LYD': 'ل.', 'SDG': 'ج.س', 'GNF': 'FG', 'XOF': 'CFA',
                 'XAF': 'CFA', 'CDF': 'FC', 'ZMW': 'ZK', 'MWK': 'MK', 'BWP': 'P', 'NAD': '$',
                 'MUR': '₨', 'SCR': '₨', 'MZN': 'MT', 'AOA': 'Kz', 'GMD': 'D', 'SLL': 'Le',
                 'LRD': '$', 'MRU': 'UM', 'ERN': 'Nfk', 'DJF': 'Fdj', 'SOS': 'Sh', 'BIF': 'FBu',
@@ -2196,34 +2692,66 @@
                 statusIndicator.textContent = '⚠️ Today is the consumption date! Refill now.';
             } else if (diffDays <= 2) {
                 statusIndicator.classList.add('status-warning');
-                statusIndicator.innerHTML = `🔥 <strong class="about-finish-label">ABOUT TO FINISH</strong> — ${diffDays} day${diffDays === 1 ? '' : 's'} left!`;
+                statusIndicator.textContent = `🔥 Only ${diffDays} day${diffDays === 1 ? '' : 's'} left!`;
             } else {
                 statusIndicator.classList.add('status-ok');
                 statusIndicator.textContent = '✅ You have enough time';
             }
         }
 
-        // Times array (every 3 hours)
-        const times = [0, 3, 6, 9, 12, 15, 18, 21];
+        // Worker notification schedule: 4 times per day, using Africa/Lagos.
+        // Final schedule: 00:00, 06:00, 12:00 and 18:00 local Lagos time.
+        const APP_TIMEZONE = 'Africa/Lagos';
+        const times = [0, 6, 12, 18];
+        const notificationDaysBefore = [2, 1, 0];
 
-        // Get next scheduled notification time
+        // Get the calendar date of a Date in the same timezone used by the Worker.
+        function getLagosDateParts(date) {
+            const parts = new Intl.DateTimeFormat('en-CA', {
+                timeZone: APP_TIMEZONE,
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).formatToParts(date);
+            const out = {};
+            parts.forEach(p => { if (p.type !== 'literal') out[p.type] = p.value; });
+            return { year: Number(out.year), month: Number(out.month), day: Number(out.day) };
+        }
+
+        // Africa/Lagos is UTC+1 with no daylight-saving changes.
+        function lagosLocalToDate(year, month, day, hour) {
+            return new Date(Date.UTC(year, month - 1, day, hour, 0, 0) - (60 * 60 * 1000));
+        }
+
+        function addCalendarDays(year, month, day, amount) {
+            const d = new Date(Date.UTC(year, month - 1, day + amount));
+            return { year: d.getUTCFullYear(), month: d.getUTCMonth() + 1, day: d.getUTCDate() };
+        }
+
+        // Calculate the next notification using exactly the same calendar schedule as the Worker (Africa/Lagos).
         function getNextNotificationTime() {
-            if (!savedDates) return null;
-            const daysBefore = [2, 1, 0];
+            if (!savedDates || !savedDates.consumption) return null;
+
             const now = new Date();
+            const consumptionParts = getLagosDateParts(new Date(savedDates.consumption));
             let nextTime = null;
-            for (const days of daysBefore) {
-                const targetDate = new Date(savedDates.consumption);
-                targetDate.setDate(targetDate.getDate() - days);
-                targetDate.setHours(0,0,0,0);
+
+            for (const days of notificationDaysBefore) {
+                const target = addCalendarDays(
+                    consumptionParts.year,
+                    consumptionParts.month,
+                    consumptionParts.day,
+                    -days
+                );
+
                 for (const hour of times) {
-                    const notifyTime = new Date(targetDate);
-                    notifyTime.setHours(hour,0,0,0);
-                    if (notifyTime > now) {
-                        if (!nextTime || notifyTime < nextTime) nextTime = notifyTime;
+                    const notifyTime = lagosLocalToDate(target.year, target.month, target.day, hour);
+                    if (notifyTime > now && (!nextTime || notifyTime < nextTime)) {
+                        nextTime = notifyTime;
                     }
                 }
             }
+
             return nextTime;
         }
 
@@ -2231,18 +2759,30 @@
         function updateNotificationStatus() {
             let html = '';
 
-            // Show only real notification status. Do not show "No notifications yet"
+            // Show last notification only if one has been sent
             if (lastSent) {
-                const timeStr = new Date(lastSent.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const timeStr = new Date(lastSent.timestamp).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
                 const dateStr = new Date(lastSent.timestamp).toLocaleDateString();
-                html += `<div class="notification-item alert-none"><span class="icon">✅</span> Last notification sent at ${timeStr} on ${dateStr} - ${lastSent.message}</div>`;
+
+                html += `<div class="notification-item alert-none"><span class="icon">✅</span> Last FCM notification received at ${timeStr} on ${dateStr} — ${lastSent.message}</div>`;
             }
 
+            // Show next notification
             const nextTime = getNextNotificationTime();
+
             if (nextTime) {
-                const timeStr = nextTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const timeStr = nextTime.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
                 const dateStr = nextTime.toLocaleDateString();
-                html += `<div class="notification-item alert-none"><span class="icon">📅</span> Next notification at ${timeStr} on ${dateStr}</div>`;
+
+                html += `<div class="notification-item alert-none"><span class="icon">📅</span> Next scheduled Worker notification at ${timeStr} on ${dateStr} (Lagos time)</div>`;
             }
 
             notificationList.innerHTML = html;
@@ -2253,43 +2793,9 @@
             updateNotificationStatus();
         }
 
-        // Local scheduling (works when app is open/background)
+        // Local scheduling (disabled – Worker handles scheduling)
         function scheduleNotifications() {
-            if (!savedDates) return;
-            
-            if (window.notificationTimers) {
-                window.notificationTimers.forEach(timer => clearTimeout(timer));
-            }
-            window.notificationTimers = [];
-
-            const daysBefore = [2, 1, 0];
-
-            daysBefore.forEach(days => {
-                const targetDate = new Date(savedDates.consumption);
-                targetDate.setDate(targetDate.getDate() - days);
-                targetDate.setHours(0,0,0,0);
-
-                times.forEach(hour => {
-                    const notificationTime = new Date(targetDate);
-                    notificationTime.setHours(hour, 0, 0, 0);
-                    const now = new Date();
-                    const delay = notificationTime.getTime() - now.getTime();
-                    if (delay > 0) {
-                        const timer = setTimeout(() => {
-                            let message;
-                            if (days === 0) {
-                                message = "It's time to refill your cooking gas";
-                            } else {
-                                message = "Prepare to refill your cooking gas";
-                            }
-                            // Show local notification
-                            showLocalNotification('Cooking Gas Alert', message);
-                            playAlarm();
-                        }, delay);
-                        window.notificationTimers.push(timer);
-                    }
-                });
-            });
+            // Intentionally left empty to prevent duplicate local notifications
         }
 
         // Send notification (local fallback)
@@ -2325,8 +2831,641 @@
             oscillator.stop(now + 1);
         }
 
+        // Modal functions
+        function openModal(type) {
+            const modalBody = document.getElementById('modalBody');
+            let content = '';
+            if (type === 'privacy') {
+                content = `
+                    <h2>Privacy Policy</h2>
+                    <p>Your privacy is important to us. This app collects only the necessary data to function: your refill dates, consumption dates, gas amount (KG), price, currency, and your device's notification token for sending alerts.</p>
+                    <p>We do not sell, rent, or share your personal information with third parties except as required to provide the service (e.g., Firebase Cloud Messaging for push notifications).</p>
+                    <p>You can delete all locally stored data at any time by clearing your browser storage. For server-side data, contact us to request deletion.</p>
+                `;
+            } else if (type === 'about') {
+                content = `
+                    <h2>About Us</h2>
+                    <p>Welcome to Cooking Gas Consumption Tracker! Our mission is to help households manage their cooking gas usage efficiently and avoid running out unexpectedly.</p>
+                    <p>By setting your refill and expected consumption dates, our app sends timely reminders to ensure you always have gas when you need it.</p>
+                    <p>We are committed to providing a simple, reliable, and user-friendly experience.</p>
+                    <hr>
+                    <h3>HOW WILL NOTIFICATIONS BE SENT?</h3>
+                    <p>When you are 2 days or 1 day away from your expected gas consumption date, you will receive a reminder 8 times a day:</p>
+                    <ul>
+                        <li>12:00 AM</li>
+                        <li>3:00 AM</li>
+                        <li>6:00 AM</li>
+                        <li>9:00 AM</li>
+                        <li>12:00 PM</li>
+                        <li>3:00 PM</li>
+                        <li>6:00 PM</li>
+                        <li>9:00 PM</li>
+                    </ul>
+                    <p>The notification will say:</p>
+                    <p><em>"Prepare to refill your cooking gas."</em></p>
+                    <p>Don't panic when you receive this notification. It is only a reminder to prepare for a refill.</p>
+                    <h3>On Your Consumption Date</h3>
+                    <p>On the day you expect to run out of gas, you will also receive the notification 8 times at the same times:</p>
+                    <ul>
+                        <li>12:00 AM</li>
+                        <li>3:00 AM</li>
+                        <li>6:00 AM</li>
+                        <li>9:00 AM</li>
+                        <li>12:00 PM</li>
+                        <li>3:00 PM</li>
+                        <li>6:00 PM</li>
+                        <li>9:00 PM</li>
+                    </ul>
+                    <p>This notification will say:</p>
+                    <p><em>"It's time to refill your cooking gas."</em></p>
+                    <h3>Important Note</h3>
+                    <p>When you receive this notification, you may still have gas left in your cylinder.</p>
+                    <p>The estimated consumption date may not always be 100% accurate because your gas usage can change depending on how much you cook and how long you use your gas.</p>
+                    <p>The app is designed to remind you before you unexpectedly run out of gas.</p>
+                    <p>Please understand that we are not responsible for incorrect consumption estimates, because you set your expected consumption date based on your own gas usage.</p>
+                    <p>Thank you for using our app!</p>
+                `;
+            } else if (type === 'terms') {
+                content = `
+                    <h2>Terms & Conditions</h2>
+                    <p>By using this app, you agree to the following terms:</p>
+                    <p>1. The app provides estimates and reminders based on the dates you provide. Actual gas consumption may vary.</p>
+                    <p>2. We are not liable for any loss or inconvenience caused by missed notifications or inaccurate predictions.</p>
+                    <p>3. You are responsible for the accuracy of the information you enter.</p>
+                    <p>4. We may update these terms at any time. Continued use of the app constitutes acceptance of the new terms.</p>
+                `;
+            }
+            modalBody.innerHTML = content;
+            document.getElementById('modalOverlay').classList.add('show');
+        }
 
-        // Cylinder dashboard
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+        }
+
+        // Close modal when clicking outside (kept for compatibility with older app actions).
+        const modalOverlayElement = document.getElementById('modalOverlay');
+        if (modalOverlayElement) {
+            modalOverlayElement.addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+        }
+
+        // Initialize
+        detectCurrency();
+
+        // Start AdMob after the page UI is ready.
+        if (window.Capacitor && window.Capacitor.isNativePlatform) {
+            setTimeout(() => initializeAdMob(), 700);
+        }
+        loadSavedData().then(() => {
+            renderHistory();
+            updateStatus();
+            checkNotifications();
+            // scheduleNotifications(); // Disabled – Worker handles scheduling
+        });
+
+        // If running in Capacitor, request permission on load if not already granted
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
+            // Check if permission already granted
+            window.Capacitor.Plugins.FirebaseMessaging.requestPermissions().then(perm => {
+                if (perm.receive === 'granted') {
+                    document.getElementById('notifPermission').style.display = 'none';
+                    window.Capacitor.Plugins.FirebaseMessaging.getToken().then(tokenResult => {
+                        const token = tokenResult.token;
+                        console.log('FCM Token:', token);
+                        if (savedDates) {
+                            sendToWorker(token);
+                        }
+                    });
+                }
+            }).catch(err => console.error('Permission check error:', err));
+        } else {
+            // Web fallback
+            if ('Notification' in window && Notification.permission === 'granted') {
+                notifPermission.style.display = 'none';
+                // Get token and subscribe
+                messaging.getToken({ vapidKey: vapidKey }).then(token => {
+                    console.log('FCM Token:', token);
+                    isFirebaseReady = true;
+                    if (savedDates) {
+                        sendToWorker(token);
+                    }
+                }).catch(err => console.error('Token error:', err));
+            }
+        }
+
+        // Web service worker registration (optional, only for web)
+        if ('serviceWorker' in navigator && !(window.Capacitor && window.Capacitor.isNativePlatform)) {
+            navigator.serviceWorker.register('/firebase-messaging-sw.js')
+                .then(reg => console.log('SW registered', reg))
+                .catch(err => console.error('SW registration failed', err));
+        }
+
+        setInterval(() => {
+            updateStatus();
+            checkNotifications();
+        }, 60000);
+    
+</script>
+<script>
+
+(function(){
+  const ASSISTANT_ENDPOINT='https://gas-notifier.johnawotipe9.workers.dev/assistant';
+  const form=document.getElementById('assistantForm');
+  const input=document.getElementById('assistantInput');
+  const box=document.getElementById('assistantMessages');
+  const button=form ? form.querySelector('button[type="submit"]') : null;
+  if(!form||!input||!box||form.dataset.ready)return;
+  form.dataset.ready='1';
+
+  function escapeHtml(text){
+    return String(text??'').replace(/[&<>"']/g,function(ch){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch];
+    });
+  }
+
+  function formatAnswer(text){
+    return escapeHtml(text)
+      .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+      .replace(/(^|\n)[•*-]\s+/g,'$1• ')
+      .replace(/\n/g,'<br>');
+  }
+
+  function add(text,who='bot',isHtml=false){
+    const d=document.createElement('div');
+    d.className='assistant-message '+who;
+    d.innerHTML=isHtml ? text : (who==='bot' ? formatAnswer(text) : escapeHtml(text).replace(/\n/g,'<br>'));
+    box.appendChild(d);
+    box.scrollTop=box.scrollHeight;
+    return d;
+  }
+
+  async function getStoredValue(key){
+    try{
+      if(window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences){
+        const result=await window.Capacitor.Plugins.Preferences.get({key});
+        return result && result.value ? JSON.parse(result.value) : null;
+      }
+    }catch(e){
+      console.warn('Could not read Preferences:',e);
+    }
+    try{
+      const raw=localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    }catch(e){
+      console.warn('Could not read local storage:',e);
+      return null;
+    }
+  }
+
+
+  function getDetectedProfileCurrency(){
+    try{
+      const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+      const map={'Africa/Lagos':'NGN','Africa/Accra':'GHS','Africa/Nairobi':'KES','Africa/Kampala':'UGX','Africa/Kigali':'RWF','Africa/Johannesburg':'ZAR','Europe/London':'GBP','Europe/Zurich':'CHF','Asia/Kolkata':'INR','Asia/Tokyo':'JPY','Asia/Shanghai':'CNY','America/New_York':'USD','America/Toronto':'CAD'};
+      if(map[tz])return map[tz];
+      const m=(navigator.language||'en-US').match(/[-_]([A-Z]{2})$/i);
+      const region=m?m[1].toUpperCase():'';
+      const map2={'NG':'NGN','US':'USD','GB':'GBP','GH':'GHS','KE':'KES','ZA':'ZAR','EG':'EGP','CA':'CAD','AU':'AUD','JP':'JPY','CN':'CNY','IN':'INR','BR':'BRL','MX':'MXN','SA':'SAR','AE':'AED','TR':'TRY','CH':'CHF','SE':'SEK','NO':'NOK','DK':'DKK','PL':'PLN','CZ':'CZK','HU':'HUF','RO':'RON','TH':'THB','VN':'VND','ID':'IDR','MY':'MYR','PH':'PHP','SG':'SGD','HK':'HKD','TW':'TWD','KR':'KRW','PK':'PKR','BD':'BDT','LK':'LKR','NP':'NPR','TZ':'TZS','RW':'RWF','UG':'UGX','ZM':'ZMW','ZW':'ZWL'};
+      return map2[region]||'USD';
+    }catch(e){return 'USD'}
+  }
+  function formatProfileMoney(amount,currency){
+    try{return new Intl.NumberFormat(navigator.language||'en',{style:'currency',currency:currency||'USD',maximumFractionDigits:2}).format(Math.max(0,Number(amount)||0));}
+    catch(e){return `${currency||'USD'} ${Math.max(0,Number(amount)||0).toFixed(2)}`;}
+  }
+  function getCookingProfileData(){
+    return {
+      highestKg:Number(document.getElementById('profileHighestKg').value)||null,
+      lowestKg:Number(document.getElementById('profileLowestKg').value)||null,
+      currentKg:Number(document.getElementById('profileCurrentKg').value)||null,
+      householdSize:Number(document.getElementById('profilePeople').value)||null,
+      mealsPerDay:document.getElementById('profileMeals').value,
+      cookingDuration:document.getElementById('profileDuration').value,
+      commonFoodsText:document.getElementById('profileFoods').value.trim(),
+      budgetLevel:document.getElementById('profileBudget').value,
+      budgetAmount:Number(document.getElementById('profileBudgetAmount').value)||null,
+      budgetPeriod:document.getElementById('profileBudgetPeriod').value,
+      goal:document.getElementById('profileGoal').value,
+      avoidFoodsText:document.getElementById('profileAvoid').value.trim(),
+      currency:getDetectedProfileCurrency()
+    };
+  }
+  function profileSummary(d){
+    const people=d?.householdSize?`${d.householdSize} ${d.householdSize===1?'person':'people'}`:'your household';
+    const meals=d?.mealsPerDay?`${d.mealsPerDay} meal${d.mealsPerDay==='1'?'':'s'} per day`:'';
+    const budget=d?.budgetAmount?formatProfileMoney(Number(d.budgetAmount), d?.currency||getDetectedProfileCurrency()) + ` ${d.budgetPeriod==='day'?'per day':d.budgetPeriod==='month'?'per month':'per week'}`:'';
+    const goalMap={'save-gas':'save gas','balanced':'balance gas, food and cost','save-money':'save money and gas','convenience':'keep cooking simple'};
+    const goal=goalMap[d?.goal]||'manage cooking smarter';
+    return `Saved for ${people}${meals?` • ${meals}`:''}. ${budget?`Food budget: ${budget}. `:''}Main goal: ${goal}.`;
+  }
+  function showSavedProfile(d){
+    const editor=document.getElementById('profileEditor'),saved=document.getElementById('profileSaved'),cancel=document.getElementById('cancelCookingProfileBtn');
+    if(editor)editor.hidden=true;
+    if(saved)saved.hidden=false;
+    if(cancel)cancel.hidden=true;
+    const st=document.getElementById('profileStatus');if(st)st.textContent='';
+    const summary=document.getElementById('profileSavedSummary');if(summary)summary.textContent=profileSummary(d);
+  }
+  function showProfileEditor(){
+    const editor=document.getElementById('profileEditor'),saved=document.getElementById('profileSaved'),cancel=document.getElementById('cancelCookingProfileBtn');
+    if(editor)editor.hidden=false;
+    if(saved)saved.hidden=true;
+    if(cancel)cancel.hidden=!localStorage.getItem('cgtCookingProfile');
+    const first=document.getElementById('profileHighestKg');if(first)first.focus();
+  }
+  function saveCookingProfile(){
+    const data=getCookingProfileData();
+    localStorage.setItem('cgtCookingProfile',JSON.stringify(data));
+    showSavedProfile(data);
+  }
+  function loadCookingProfile(){
+    try{
+      const d=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null');
+      if(!d)return;
+      const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined&&v!==null)el.value=v};
+      set('profileHighestKg',d.highestKg);set('profileLowestKg',d.lowestKg);set('profileCurrentKg',d.currentKg);set('profilePeople',d.householdSize);set('profileMeals',d.mealsPerDay);set('profileDuration',d.cookingDuration);set('profileFoods',d.commonFoodsText);set('profileBudget',d.budgetLevel);set('profileBudgetAmount',d.budgetAmount);set('profileBudgetPeriod',d.budgetPeriod||'week');set('profileGoal',d.goal);set('profileAvoid',d.avoidFoodsText);
+      showSavedProfile(d);
+    }catch(e){console.warn('Cooking profile could not be loaded:',e)}
+  }
+  function clearCookingProfile(){
+    localStorage.removeItem('cgtCookingProfile');
+    ['profileHighestKg','profileLowestKg','profileCurrentKg','profilePeople','profileFoods','profileAvoid'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
+    document.getElementById('profileMeals').value='2';document.getElementById('profileDuration').value='30to60';document.getElementById('profileBudget').value='medium';document.getElementById('profileBudgetAmount').value='';document.getElementById('profileBudgetPeriod').value='week';document.getElementById('profileGoal').value='balanced';
+    document.getElementById('profileEditor').hidden=false;document.getElementById('profileSaved').hidden=true;document.getElementById('cancelCookingProfileBtn').hidden=true;
+    const st=document.getElementById('profileStatus');if(st)st.textContent='Cooking profile reset. You can create a new profile.';
+  }
+  function cancelCookingProfileEdit(){
+    const d=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null');
+    if(d){
+      const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined&&v!==null)el.value=v};
+      set('profileHighestKg',d.highestKg);set('profileLowestKg',d.lowestKg);set('profileCurrentKg',d.currentKg);set('profilePeople',d.householdSize);set('profileMeals',d.mealsPerDay);set('profileDuration',d.cookingDuration);set('profileFoods',d.commonFoodsText);set('profileBudget',d.budgetLevel);set('profileBudgetAmount',d.budgetAmount);set('profileBudgetPeriod',d.budgetPeriod||'week');set('profileGoal',d.goal);set('profileAvoid',d.avoidFoodsText);showSavedProfile(d);
+    }
+  }
+
+  const saveProfileBtn=document.getElementById('saveCookingProfileBtn');
+  const resetProfileBtn=document.getElementById('resetCookingProfileBtn');
+  const createProfileBtn=document.getElementById('createNewProfileBtn');
+  const cancelProfileBtn=document.getElementById('cancelCookingProfileBtn');
+  saveProfileBtn?.addEventListener('click',saveCookingProfile);
+  resetProfileBtn?.addEventListener('click',clearCookingProfile);
+  createProfileBtn?.addEventListener('click',showProfileEditor);
+  cancelProfileBtn?.addEventListener('click',cancelCookingProfileEdit);
+  // Restore the saved cooking profile automatically on every page load. It remains saved until the user presses Reset.
+  loadCookingProfile();
+
+  async function buildProfile(){
+    const tracker=await getStoredValue('gasTrackerData');
+    const planner=await getStoredValue('cgtMealPlanner');
+    let cookingProfile=null; try{ cookingProfile=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null'); }catch(e){}
+    let cylinder=null;
+    try{ cylinder=JSON.parse(localStorage.getItem('cgtCylinderSetup')||'null'); }catch(e){}
+
+    const dates=tracker && tracker.dates ? tracker.dates : {};
+    return {
+      cylinderSize: cylinder && cylinder.main ? String(cylinder.main)+'kg' : (dates.kg ? String(dates.kg)+'kg' : null),
+      refillDate: dates.refill || null,
+      consumptionDate: dates.consumption || null,
+      gasAmountKg: dates.kg || null,
+      refillPrice: dates.price || null,
+      currency: dates.currency || null,
+      householdSize: planner && planner.people ? Number(planner.people) : null,
+      mealsPerDay: planner && planner.meals ? Number(planner.meals) : null,
+      budgetLevel: planner && planner.budget ? planner.budget : null,
+      gasGoal: planner && planner.gas ? planner.gas : null,
+      commonFoods: planner && Array.isArray(planner.foods) ? planner.foods : [],
+      customFoods: planner && Array.isArray(planner.customFoods) ? planner.customFoods : [],
+      highestFillKg: cookingProfile?.highestKg || null,
+      lowestFillKg: cookingProfile?.lowestKg || null,
+      currentGasKg: cookingProfile?.currentKg || null,
+      cookingDuration: cookingProfile?.cookingDuration || null,
+      foodsOftenEaten: cookingProfile?.commonFoodsText || null,
+      foodsToAvoid: cookingProfile?.avoidFoodsText || null,
+      cookingGoal: cookingProfile?.goal || null
+    };
+  }
+
+  async function submit(q){
+    q=String(q||'').trim();
+    if(!q || form.dataset.busy==='1')return;
+
+    add(q,'user');
+    input.value='';
+    form.dataset.busy='1';
+    input.disabled=true;
+    if(button){button.disabled=true;button.textContent='Thinking...';}
+
+    const loading=add('Thinking...','bot');
+
+    try{
+      const profile=await buildProfile();
+      const response=await fetch(ASSISTANT_ENDPOINT,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({question:q,profile})
+      });
+
+      const data=await response.json().catch(()=>({}));
+      loading.remove();
+
+      if(!response.ok || !data.answer){
+        throw new Error(data.error || 'The assistant could not answer right now.');
+      }
+
+      add(String(data.answer),'bot');
+    }catch(error){
+      loading.remove();
+      console.error('Smart Assistant error:',error);
+      add('Sorry, I could not connect to the Smart Assistant right now. Please check your internet connection and try again.','bot');
+    }finally{
+      form.dataset.busy='0';
+      input.disabled=false;
+      if(button){button.disabled=false;button.textContent='Ask';}
+      input.focus();
+    }
+  }
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    submit(input.value);
+  });
+
+  document.querySelectorAll('#smart-assistant [data-q]').forEach(function(b){
+    b.addEventListener('click',function(){submit(b.dataset.q);});
+  });
+})();
+
+</script>
+<script>
+
+(function(){
+  const endpoint='https://gas-notifier.johnawotipe9.workers.dev/assistant';
+  const modal=document.getElementById('chatModal'), openBtn=document.getElementById('openChatBtn'), closeBtn=document.getElementById('closeChatBtn');
+  const form=document.getElementById('fullChatForm'), input=document.getElementById('fullChatInput'), messages=document.getElementById('fullChatMessages');
+  if(!modal||!openBtn||!closeBtn||!form||!input||!messages)return;
+  let busy=false, previousFocus=null;
+  function esc(t){return String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+  function fmt(t){return esc(t).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/(^|\n)[•*-]\s+/g,'$1• ').replace(/\n/g,'<br>');}
+  function add(text,who='bot'){
+    const d=document.createElement('div');
+    d.className='assistant-message '+who;
+    d.innerHTML=who==='bot'?fmt(text):esc(text).replace(/\n/g,'<br>');
+    if(who==='bot'){
+      const cleanText=String(text||'');
+      const listen=document.createElement('button');
+      listen.type='button';
+      listen.className='message-listen-btn';
+      listen.textContent='🔊 Listen';
+      listen.setAttribute('aria-label','Listen to this answer');
+      listen.addEventListener('click',()=>speakText(cleanText, listen));
+      d.appendChild(listen);
+    }
+    messages.appendChild(d);
+    messages.scrollTop=messages.scrollHeight;
+    return d;
+  }
+  async function stored(key){try{if(window.Capacitor?.Plugins?.Preferences){const r=await window.Capacitor.Plugins.Preferences.get({key});return r?.value?JSON.parse(r.value):null}}catch(e){}try{const r=localStorage.getItem(key);return r?JSON.parse(r):null}catch(e){return null}}
+  async function profile(){const tracker=await stored('gasTrackerData'), planner=await stored('cgtMealPlanner');let cookingProfile=null;try{cookingProfile=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null')}catch(e){}let cylinder=null;try{cylinder=JSON.parse(localStorage.getItem('cgtCylinderSetup')||'null')}catch(e){}const dates=tracker?.dates||{};return {cylinderSize:cylinder?.main?String(cylinder.main)+'kg':(dates.kg?String(dates.kg)+'kg':null),refillDate:dates.refill||null,consumptionDate:dates.consumption||null,gasAmountKg:dates.kg||null,refillPrice:dates.price||null,currency:dates.currency||null,householdSize:cookingProfile?.householdSize||planner?.people||null,mealsPerDay:cookingProfile?.mealsPerDay||planner?.meals||null,budgetLevel:cookingProfile?.budgetLevel||planner?.budget||null,budgetAmount:cookingProfile?.budgetAmount||null,budgetPeriod:cookingProfile?.budgetPeriod||'week',gasGoal:cookingProfile?.goal||planner?.gas||null,commonFoods:Array.isArray(planner?.foods)?planner.foods:[],customFoods:Array.isArray(planner?.customFoods)?planner.customFoods:[],highestFillKg:cookingProfile?.highestKg||null,lowestFillKg:cookingProfile?.lowestKg||null,currentGasKg:cookingProfile?.currentKg||null,cookingDuration:cookingProfile?.cookingDuration||null,foodsOftenEaten:cookingProfile?.commonFoodsText||null,foodsToAvoid:cookingProfile?.avoidFoodsText||null};}
+  async function ask(q){
+    q=String(q||'').trim();
+    if(!q||busy)return;
+    const lang=document.getElementById('chatLanguage')?.value||'English';
+    add(q,'user');
+    input.value='';
+    busy=true;input.disabled=true;const send=form.querySelector('button');if(send){send.disabled=true;send.textContent='…'}const load=add('Thinking…','bot');try{const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+          question: lang==='English'
+            ? q
+            : `Answer the user's question in ${lang}. Keep the answer natural, clear and practical for a household in Nigeria. User question: ${q}`,
+          profile:await profile()
+        })});const data=await res.json().catch(()=>({}));load.remove();if(!res.ok||!data.answer)throw new Error(data.error||'Assistant unavailable');add(String(data.answer),'bot')}catch(e){load.remove();console.error(e);add('Sorry, I could not connect to the Smart Assistant right now. Please check your internet connection and try again.','bot')}finally{busy=false;input.disabled=false;if(send){send.disabled=false;send.textContent='➤'}input.focus()}}
+  async function openChat(){
+    previousFocus=document.activeElement;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+    if(typeof hideProductionBannerForChat==='function') await hideProductionBannerForChat();
+    setTimeout(()=>input.focus(),50);
+  }
+  async function closeChat(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+    if(typeof resumeProductionBannerAfterChat==='function') await resumeProductionBannerAfterChat();
+    if(previousFocus?.focus)previousFocus.focus();
+  }
+  openBtn.addEventListener('click',openChat);closeBtn.addEventListener('click',closeChat);modal.addEventListener('click',e=>{if(e.target===modal)closeChat()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeChat()});form.addEventListener('submit',e=>{e.preventDefault();ask(input.value)});document.querySelectorAll('[data-full-q]').forEach(b=>b.addEventListener('click',()=>ask(b.dataset.fullQ)));
+  // Voice input + speech output + language selection
+  const voiceBtn=document.getElementById('voiceInputBtn');
+  const voiceStatus=document.getElementById('voiceStatus');
+  const languageSelect=document.getElementById('chatLanguage');
+  let recognition=null, listening=false;
+
+  function voiceLocale(){
+    return languageSelect?.selectedOptions?.[0]?.dataset?.voice || 'en-NG';
+  }
+
+  function speakText(text,button){
+    if(!('speechSynthesis' in window)){
+      if(voiceStatus)voiceStatus.textContent='Voice playback is not supported on this device.';
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utter=new SpeechSynthesisUtterance(String(text||'').replace(/[*_#]/g,''));
+    utter.lang=voiceLocale();
+    utter.rate=0.96;
+    utter.pitch=1;
+    if(button)button.textContent='⏹ Stop';
+    utter.onend=()=>{if(button)button.textContent='🔊 Listen';};
+    utter.onerror=()=>{if(button)button.textContent='🔊 Listen';};
+    window.speechSynthesis.speak(utter);
+  }
+
+  if(voiceBtn){
+    const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SpeechRecognition){
+      voiceBtn.disabled=true;
+      voiceBtn.title='Voice input is not supported by this browser';
+      if(voiceStatus)voiceStatus.textContent='Voice input unavailable in this browser.';
+    }else{
+      recognition=new SpeechRecognition();
+      recognition.continuous=false;
+      recognition.interimResults=false;
+      recognition.lang=voiceLocale();
+      recognition.onstart=()=>{
+        listening=true;
+        voiceBtn.classList.add('listening');
+        voiceBtn.textContent='🔴 Listening...';
+        if(voiceStatus)voiceStatus.textContent='Speak your question...';
+      };
+      recognition.onresult=(event)=>{
+        const transcript=event.results?.[0]?.[0]?.transcript||'';
+        input.value=transcript;
+        if(voiceStatus)voiceStatus.textContent='Voice captured. Tap Send to ask.';
+      };
+      recognition.onerror=(event)=>{
+        if(voiceStatus)voiceStatus.textContent=event.error==='not-allowed'
+          ? 'Microphone permission was not granted.'
+          : 'I could not hear that. Please try again.';
+      };
+      recognition.onend=()=>{
+        listening=false;
+        voiceBtn.classList.remove('listening');
+        voiceBtn.textContent='🎤 Speak';
+      };
+      voiceBtn.addEventListener('click',()=>{
+        if(listening){recognition.stop();return;}
+        recognition.lang=voiceLocale();
+        try{recognition.start();}catch(e){}
+      });
+    }
+  }
+
+  languageSelect?.addEventListener('change',()=>{
+    if(recognition)recognition.lang=voiceLocale();
+    if(voiceStatus)voiceStatus.textContent=`Responses will use ${languageSelect.value}.`;
+  });
+
+  // Keep conversation available while the modal remains open. It is intentionally not sent to the server as history.
+})();
+(function(){const b=document.getElementById('backToTopBtn');if(!b)return;function check(){b.classList.toggle('show',window.scrollY>500)}window.addEventListener('scroll',check,{passive:true});check();b.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));})();
+
+</script>
+<script>
+
+(function(){
+  const key='cgtShoppingList';
+  let state={buy:[],have:[]};
+  try{state=JSON.parse(localStorage.getItem(key)||'{"buy":[],"have":[]}')}catch(e){}
+  if(!state||!Array.isArray(state.buy)||!Array.isArray(state.have))state={buy:[],have:[]};
+
+  // Upgrade older string-only shopping lists into editable item records.
+  const normalizeItem=x=>typeof x==='string'?{name:x,qty:1,price:null}:({name:String(x?.name||'').trim(),qty:Number(x?.qty)||1,price:(x?.price===''||x?.price==null)?null:Number(x.price)||0});
+  state.buy=state.buy.map(normalizeItem).filter(x=>x.name);
+  state.have=state.have.map(normalizeItem).filter(x=>x.name);
+
+  const buyEl=document.getElementById('shoppingList'),input=document.getElementById('shoppingItemInput');
+  const qtyInput=document.getElementById('shoppingQtyInput'),priceInput=document.getElementById('shoppingPriceInput'),addBtn=document.getElementById('addShoppingBtn'),buildBtn=document.getElementById('buildShoppingBtn');
+  const countEl=document.getElementById('shoppingCount'),budgetEl=document.getElementById('shoppingBudget'),priceCountEl=document.getElementById('shoppingPriceCount');
+  const summaryEl=document.getElementById('shoppingSummary'),budgetAmountEl=document.getElementById('shoppingBudgetAmount'),totalEl=document.getElementById('shoppingEstimatedTotal'),remainingEl=document.getElementById('shoppingRemaining'),budgetMessageEl=document.getElementById('shoppingBudgetMessage');
+  const budgetInput=document.getElementById('shoppingBudgetInput'),budgetPeriodInput=document.getElementById('shoppingBudgetPeriodInput'),saveBudgetBtn=document.getElementById('saveShoppingBudgetBtn');
+  const currencyMap={NG:'NGN',US:'USD',GB:'GBP',GH:'GHS',KE:'KES',ZA:'ZAR',EG:'EGP',CA:'CAD',AU:'AUD',JP:'JPY',CN:'CNY',IN:'INR',BR:'BRL',MX:'MXN',SA:'SAR',AE:'AED',TR:'TRY',CH:'CHF',SE:'SEK',NO:'NOK',DK:'DKK',PL:'PLN',CZ:'CZK',HU:'HUF',RO:'RON',TH:'THB',VN:'VND',ID:'IDR',MY:'MYR',PH:'PHP',SG:'SGD',HK:'HKD',TW:'TWD',KR:'KRW',PK:'PKR',BD:'BDT',LK:'LKR',NP:'NPR',TZ:'TZS',RW:'RWF',UG:'UGX',ZM:'ZMW',ZW:'ZWL'};
+  function detectCurrency(){try{
+    // Use the device time zone first because many devices report a generic
+    // language such as en-US even when the user is physically elsewhere.
+    const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+    const tzMap={
+      'Africa/Lagos':'NGN','Africa/Accra':'GHS','Africa/Nairobi':'KES','Africa/Kampala':'UGX','Africa/Dar_es_Salaam':'TZS',
+      'Africa/Kigali':'RWF','Africa/Lusaka':'ZMW','Africa/Harare':'ZWL','Africa/Cairo':'EGP','Africa/Johannesburg':'ZAR',
+      'Europe/London':'GBP','Europe/Zurich':'CHF','Europe/Stockholm':'SEK','Europe/Oslo':'NOK','Europe/Copenhagen':'DKK',
+      'Europe/Warsaw':'PLN','Europe/Prague':'CZK','Europe/Budapest':'HUF','Europe/Bucharest':'RON',
+      'Asia/Kolkata':'INR','Asia/Dhaka':'BDT','Asia/Karachi':'PKR','Asia/Colombo':'LKR','Asia/Kathmandu':'NPR',
+      'Asia/Bangkok':'THB','Asia/Ho_Chi_Minh':'VND','Asia/Jakarta':'IDR','Asia/Kuala_Lumpur':'MYR','Asia/Manila':'PHP',
+      'Asia/Singapore':'SGD','Asia/Hong_Kong':'HKD','Asia/Taipei':'TWD','Asia/Seoul':'KRW','Asia/Tokyo':'JPY','Asia/Shanghai':'CNY',
+      'Asia/Dubai':'AED','Asia/Riyadh':'SAR','Europe/Istanbul':'TRY',
+      'America/New_York':'USD','America/Chicago':'USD','America/Denver':'USD','America/Los_Angeles':'USD',
+      'America/Toronto':'CAD','America/Sao_Paulo':'BRL','America/Mexico_City':'MXN'
+    };
+    if(tzMap[tz])return tzMap[tz];
+    const locale=navigator.language||'en-NG';
+    const m=locale.match(/[-_]([A-Z]{2})$/i);
+    const region=m?m[1].toUpperCase():'';
+    if(region&&currencyMap[region])return currencyMap[region];
+    return 'USD';
+  }catch(e){return 'USD'}}
+  const detectedCurrency=detectCurrency();
+  const currencyLabel=document.getElementById('shoppingCurrencyLabel');
+  function money(n){const value=Math.max(0,Number(n)||0);try{return new Intl.NumberFormat(navigator.language||'en',{style:'currency',currency:detectedCurrency,maximumFractionDigits:2}).format(value)}catch(e){return `${detectedCurrency} ${value.toFixed(2)}`}}
+  function currencySymbol(){try{return new Intl.NumberFormat(navigator.language||'en',{style:'currency',currency:detectedCurrency}).formatToParts(0).find(x=>x.type==='currency')?.value||detectedCurrency}catch(e){return detectedCurrency}}
+  if(currencyLabel)currencyLabel.textContent=`(${detectedCurrency} ${currencySymbol()})`;
+  const clean=s=>String(s||'').trim().replace(/\s+/g,' ').slice(0,100);
+  const profileData=()=>{try{return JSON.parse(localStorage.getItem('cgtCookingProfile')||'null')}catch(e){return null}};
+  const save=()=>{localStorage.setItem(key,JSON.stringify(state));render()};
+  const same=(a,b)=>String(a||'').toLowerCase()===String(b||'').toLowerCase();
+
+  function itemRow(item,from,index){
+    const d=document.createElement('div');d.className='shopping-item';
+    const main=document.createElement('div');main.className='shopping-item-main';
+    const name=document.createElement('span');name.className='shopping-item-name';name.textContent=item.name;
+    const meta=document.createElement('div');meta.className='shopping-item-meta';
+    const q=document.createElement('input');q.className='shopping-mini-input';q.type='number';q.min='.01';q.step='.01';q.value=item.qty;q.title='Number of items';q.setAttribute('aria-label',`Number of items for ${item.name}`);
+    const pr=document.createElement('input');pr.className='shopping-mini-input price';pr.type='number';pr.min='0';pr.step='.01';pr.value=item.price==null?'':item.price;pr.placeholder=`Amount per item ${currencySymbol()}`;pr.title='Amount per item';pr.setAttribute('aria-label',`Amount per item for ${item.name}`);
+    const rowTotal=document.createElement('div');rowTotal.className='shopping-row-total';
+    function updateRowTotal(){const total=(Math.max(.01,Number(q.value)||1))*(Math.max(0,Number(pr.value)||0));rowTotal.textContent=`Total: ${money(total)}`;}
+    q.addEventListener('input',updateRowTotal);q.addEventListener('change',()=>{item.qty=Math.max(.01,Number(q.value)||1);save()});
+    pr.addEventListener('input',updateRowTotal);pr.addEventListener('change',()=>{item.price=pr.value===''?null:Math.max(0,Number(pr.value)||0);save()});
+    meta.append(q,pr,rowTotal);main.append(name,meta);updateRowTotal();
+    const actions=document.createElement('div');actions.className='shopping-item-actions';
+    const del=document.createElement('button');del.type='button';del.textContent='✕';del.title='Remove';del.setAttribute('aria-label',`Remove ${item.name}`);del.onclick=()=>{state[from].splice(index,1);save()};
+    actions.append(del);d.append(main,actions);return d;
+  }
+
+  function render(){
+    if(!buyEl)return;
+    buyEl.innerHTML='';
+    if(!state.buy.length)buyEl.innerHTML='<p class="shopping-empty">Nothing to buy yet.</p>';
+    state.buy.forEach((x,i)=>buyEl.appendChild(itemRow(x,'buy',i)));
+    const p=profileData();
+    const budget=Number(p?.budgetAmount)||0;
+    const total=state.buy.reduce((sum,x)=>sum+(Number(x.price)||0)*(Number(x.qty)||1),0);
+    const priced=state.buy.filter(x=>x.price!=null&&Number(x.price)>=0).length;
+    const periodLabel={day:'day',week:'week',month:'month'}[p?.budgetPeriod]||'week';
+    if(countEl)countEl.textContent=state.buy.length;
+    if(priceCountEl)priceCountEl.textContent=priced;
+    if(budgetEl)budgetEl.textContent=p?.budgetLevel==='low'?'Limited':p?.budgetLevel==='high'?'Flexible':p?.budgetLevel==='medium'?'Moderate':'—';
+    if(budgetAmountEl)budgetAmountEl.textContent=budget?`${money(budget)} / ${periodLabel}`:'—';
+    if(totalEl)totalEl.textContent=total?money(total):'—';
+    if(remainingEl)remainingEl.textContent=budget?(budget-total>=0?money(budget-total):`-${money(total-budget)}`):'—';
+    if(budgetMessageEl){
+      if(!budget)budgetMessageEl.textContent='Add your actual food budget in My Cooking Profile to track planned spending.';
+      else if(!priced)budgetMessageEl.textContent=`Your ${periodLabel} budget is ${money(budget)}. Add estimated prices to see how much of it your shopping list uses.`;
+      else if(total>budget)budgetMessageEl.innerHTML=`<strong class="budget-over">⚠️ The prices is above your budget.</strong><br>Your current shopping estimate is ${money(total)} — ${money(total-budget)} above your ${periodLabel} budget. You can adjust the quantities or prices if possible, or continue if you still want to.`;
+      else budgetMessageEl.textContent=`Your current priced shopping list is ${money(total)}, leaving ${money(budget-total)} from your ${periodLabel} budget.`;
+    }
+    if(summaryEl)summaryEl.textContent=state.buy.length?`${state.buy.length} item${state.buy.length===1?'':'s'} ready for your next shop.`:'Start with your meal plan or add items you need for the household.';
+  }
+
+  function addItem(){
+    const name=clean(input?.value);if(!name)return;
+    const exists=[...state.buy,...state.have].some(x=>same(x.name,name));
+    if(!exists)state.buy.push({name,qty:Math.max(.01,Number(qtyInput?.value)||1),price:priceInput?.value===''?null:Math.max(0,Number(priceInput.value)||0)});
+    if(input)input.value='';if(qtyInput)qtyInput.value='1';if(priceInput)priceInput.value='';save();
+  }
+  addBtn?.addEventListener('click',addItem);
+  input?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addItem()}});
+  function syncBudgetInputs(){const p=profileData();if(budgetInput)budgetInput.value=p?.budgetAmount??'';if(budgetPeriodInput)budgetPeriodInput.value=p?.budgetPeriod||'week';}
+  saveBudgetBtn?.addEventListener('click',()=>{const p=profileData()||{};const amount=budgetInput?.value===''?null:Math.max(0,Number(budgetInput.value)||0);p.budgetAmount=amount;p.budgetPeriod=budgetPeriodInput?.value||'week';localStorage.setItem('cgtCookingProfile',JSON.stringify(p));render();if(typeof showToast==='function')showToast('Food budget saved');if(typeof maybeShowInterstitialAtNaturalBreak==='function')maybeShowInterstitialAtNaturalBreak();});
+  syncBudgetInputs();
+  const profileCurrencyLabel=document.getElementById('profileCurrencyLabel');if(profileCurrencyLabel)profileCurrencyLabel.textContent=`(${detectedCurrency} ${currencySymbol()})`;
+
+  buildBtn?.addEventListener('click',()=>{
+    let planner=null,profile=null;try{planner=JSON.parse(localStorage.getItem('cgtMealPlanner')||'null')}catch(e){}try{profile=profileData()}catch(e){}
+    const profileFoods=String(profile?.commonFoodsText||'').split(/[,;\n]+/).map(clean).filter(Boolean);
+    const plannerFoods=Array.isArray(planner?.foods)?planner.foods.map(clean).filter(Boolean):[];
+    const customFoods=Array.isArray(planner?.customFoods)?planner.customFoods.map(clean).filter(Boolean):[];
+    let foods=[...plannerFoods,...customFoods,...profileFoods];
+    if(!foods.length){foods=['Rice','Beans','Eggs','Tomatoes','Onions','Pepper','Bread','Pasta','Plantain'];if(summaryEl)summaryEl.textContent='Starter shopping list created. Add your own items or build from your meal plan.'}
+    const unique=[];foods.forEach(x=>{if(x&&!unique.some(y=>same(y,x)))unique.push(x)});
+    let added=0;unique.slice(0,25).forEach(x=>{if(![...state.buy,...state.have].some(y=>same(y.name,x))){state.buy.push({name:x,qty:1,price:null});added++}});
+    save();if(typeof showToast==='function')showToast(added?`Shopping list built — ${added} item${added===1?'':'s'} added`:'Your shopping list is already up to date');document.getElementById('smart-shopping')?.scrollIntoView({behavior:'smooth',block:'start'});
+    if(typeof maybeShowInterstitialAtNaturalBreak==='function') maybeShowInterstitialAtNaturalBreak();
+  });
+  render();
+})();
+
+</script>
+<script>
+
+(function(){
+  const nav=document.getElementById('navOpenChatBtn');
+  const open=document.getElementById('openChatBtn');
+  if(nav && open) nav.addEventListener('click',function(e){e.preventDefault();open.click();});
+})();
+
+</script>
+<script>
+// Website feature functions: cylinders, custom foods, meal planner.
+// Cylinder dashboard
         const CYLINDER_STORAGE_KEY = 'cookingGasTrackerCylinderSetup';
         const CYLINDER_IMAGES = {
             "3": "https://i.imgur.com/dZzOumd.png",
@@ -2582,6 +3721,9 @@
             }));
 
             showToast('Your meal plan is ready');
+            if (typeof maybeShowInterstitialAtNaturalBreak === 'function') {
+                maybeShowInterstitialAtNaturalBreak();
+            }
         }
 
         function resetMealPlanner() {
@@ -2642,119 +3784,11 @@
             });
         }
 
-        // Toast
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        // Test notification
-        async function testNotification() {
-            try {
-                if (!('Notification' in window)) {
-                    showToast('This browser does not support notifications.');
-                    return;
-                }
-
-                if (Notification.permission === 'default') {
-                    const permission = await Notification.requestPermission();
-                    if (permission !== 'granted') {
-                        showToast('Notification permission was not granted.');
-                        return;
-                    }
-                }
-
-                if (Notification.permission !== 'granted') {
-                    showToast('Please enable notifications in your browser settings.');
-                    return;
-                }
-
-                const title = 'Cooking Gas Tracker';
-                const body = 'Test notification — your notifications are working!';
-
-                if ('serviceWorker' in navigator) {
-                    try {
-                        const registration = await navigator.serviceWorker.ready;
-                        await registration.showNotification(title, {
-                            body: body,
-                            icon: 'https://i.imgur.com/OkIJfE2.png',
-                            badge: 'https://i.imgur.com/OkIJfE2.png'
-                        });
-                    } catch (swError) {
-                        console.warn('Service worker notification failed, using browser notification:', swError);
-                        new Notification(title, { body: body });
-                    }
-                } else {
-                    new Notification(title, { body: body });
-                }
-
-                recordNotificationSent(body);
-                updateNotificationStatus();
-                playAlarm();
-                showToast('Test notification sent!');
-            } catch (err) {
-                console.error('Test notification error:', err);
-                showToast('Unable to send test notification.');
-            }
-        }
-
-        // Initialize
-        loadCylinderSetup();
-        loadMealPlanner();
-        detectCurrency();
-        loadSavedData().then(() => {
-            renderHistory();
-            updateStatus();
-            checkNotifications();
-            scheduleNotifications();
-        });
-
-        // If running in Capacitor, request permission on load if not already granted
-        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseMessaging) {
-            // Check if permission already granted
-            window.Capacitor.Plugins.FirebaseMessaging.requestPermissions().then(perm => {
-                if (perm.receive === 'granted') {
-                    document.getElementById('notifPermission').style.display = 'none';
-                    window.Capacitor.Plugins.FirebaseMessaging.getToken().then(token => {
-                        console.log('FCM Token:', token);
-                        if (savedDates) {
-                            sendToWorker(token);
-                        }
-                    });
-                }
-            }).catch(err => console.error('Permission check error:', err));
-        } else {
-            // Web fallback
-            if ('Notification' in window && Notification.permission === 'granted') {
-                notifPermission.style.display = 'none';
-                // Get token and subscribe
-                messaging.getToken({ vapidKey: vapidKey }).then(token => {
-                    console.log('FCM Token:', token);
-                    isFirebaseReady = true;
-                    if (savedDates) {
-                        sendToWorker(token);
-                    }
-                }).catch(err => console.error('Token error:', err));
-            }
-        }
-
-        // Web service worker registration (optional, only for web)
-        if ('serviceWorker' in navigator && !(window.Capacitor && window.Capacitor.isNativePlatform)) {
-            navigator.serviceWorker.register('/firebase-messaging-sw.js')
-                .then(reg => console.log('SW registered', reg))
-                .catch(err => console.error('SW registration failed', err));
-        }
-
-        document.getElementById('refillDate')?.addEventListener('change', updateCylinderDashboard);
-        document.getElementById('consumptionDate')?.addEventListener('change', updateCylinderDashboard);
-        setInterval(() => {
-            updateStatus();
-            checkNotifications();
-        }, 60000);
-    
-        // Theme preference
+        
+</script>
+<script>
+// Theme support from the website.
+// Theme preference
         function applyTheme(theme) {
             const dark = theme === 'dark';
             document.body.classList.toggle('dark-mode', dark);
@@ -2777,636 +3811,7 @@
             const preferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             applyTheme(saved || preferred);
         })();
+
 </script>
-
-
-<style>
-#smart-assistant{scroll-margin-top:90px}.assistant-card{max-width:900px;margin:24px auto 0;border:1px solid var(--border-color,#dbe3ef);border-radius:22px;background:var(--card-bg,#fff);padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
-.assistant-header{display:flex;gap:14px;align-items:center;margin-bottom:16px}.assistant-icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:#eef5ff;font-size:24px}.assistant-header h3{margin:0}.assistant-header p{margin:4px 0 0;opacity:.72}.assistant-messages{min-height:150px;max-height:380px;overflow:auto;padding:8px;background:rgba(127,127,127,.06);border-radius:16px}.assistant-message{max-width:88%;padding:12px 14px;border-radius:16px;margin:8px 0;line-height:1.55}.assistant-message.bot{background:var(--card-bg,#fff);border:1px solid var(--border-color,#dbe3ef)}.assistant-message.user{margin-left:auto;background:#2563eb;color:#fff}.assistant-suggestions{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.assistant-suggestions button{border:1px solid var(--border-color,#dbe3ef);background:transparent;border-radius:999px;padding:9px 12px;cursor:pointer}.assistant-form{display:flex;gap:10px}.assistant-form input{flex:1;min-width:0;padding:13px 14px;border:1px solid var(--border-color,#dbe3ef);border-radius:12px;font-size:16px;background:var(--input-bg,#fff);color:inherit}.assistant-form button{border:0;border-radius:12px;padding:0 20px;font-weight:700;background:#2563eb;color:#fff;cursor:pointer}.assistant-note{font-size:12px;opacity:.68;margin:12px 2px 0;line-height:1.5}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:600px){.assistant-card{padding:14px}.assistant-form{align-items:stretch}.assistant-form button{padding:0 15px}.assistant-message{max-width:95%}}
-body.dark-mode .assistant-card{background:#111827;border-color:#334155}body.dark-mode .assistant-messages{background:#0b1220}body.dark-mode .assistant-message.bot{background:#111827;border-color:#334155}body.dark-mode .assistant-suggestions button{color:#e5e7eb;border-color:#475569}body.dark-mode .assistant-form input{background:#0f172a;border-color:#475569;color:#fff}
-/* Spacing upgrade for Smart Assistant + Smart Shopping */
-#smart-assistant,#smart-shopping{
-  margin:44px 0;
-  padding:28px;
-  border:1px solid var(--border-color,#dbe3ef);
-  border-radius:26px;
-  background:var(--card-bg,#fff);
-  box-shadow:0 12px 35px rgba(20,30,60,.06);
-}
-#smart-assistant .section-heading,#smart-shopping .section-heading{
-  margin:0 0 24px;
-  padding:22px 24px;
-  border:1px solid #e6ebf3;
-  border-radius:20px;
-  background:linear-gradient(145deg,#f8faff,#f5fbff);
-}
-#smart-assistant .section-heading h2,#smart-shopping .section-heading h2{
-  margin:8px 0 10px;
-  line-height:1.18;
-}
-#smart-assistant .section-heading p,#smart-shopping .section-heading p{
-  margin:0;
-  max-width:850px;
-  line-height:1.7;
-}
-#smart-assistant .assistant-card,#smart-shopping .shopping-card{margin:0 auto;}
-body.dark-mode #smart-assistant,body.dark-mode #smart-shopping{
-  background:#111827;
-  border-color:#334155;
-}
-body.dark-mode #smart-assistant .section-heading,body.dark-mode #smart-shopping .section-heading{
-  background:linear-gradient(145deg,#171d2b,#111827);
-  border-color:#334155;
-}
-@media(max-width:650px){
-  #smart-assistant,#smart-shopping{margin:34px 0;padding:16px;border-radius:22px;}
-  #smart-assistant .section-heading,#smart-shopping .section-heading{padding:18px 16px;margin-bottom:18px;border-radius:16px;}
-}
- .budget-over{color:#dc2626;font-weight:850}body.dark-mode .budget-over{color:#f87171}
-</style>
-<script>
-(function(){
-  const ASSISTANT_ENDPOINT='https://gas-notifier.johnawotipe9.workers.dev/assistant';
-  const form=document.getElementById('assistantForm');
-  const input=document.getElementById('assistantInput');
-  const box=document.getElementById('assistantMessages');
-  const button=form ? form.querySelector('button[type="submit"]') : null;
-  if(!form||!input||!box||form.dataset.ready)return;
-  form.dataset.ready='1';
-
-  function escapeHtml(text){
-    return String(text??'').replace(/[&<>"']/g,function(ch){
-      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch];
-    });
-  }
-
-  function formatAnswer(text){
-    return escapeHtml(text)
-      .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-      .replace(/(^|\n)[•*-]\s+/g,'$1• ')
-      .replace(/\n/g,'<br>');
-  }
-
-  function add(text,who='bot',isHtml=false){
-    const d=document.createElement('div');
-    d.className='assistant-message '+who;
-    d.innerHTML=isHtml ? text : (who==='bot' ? formatAnswer(text) : escapeHtml(text).replace(/\n/g,'<br>'));
-    box.appendChild(d);
-    box.scrollTop=box.scrollHeight;
-    return d;
-  }
-
-  async function getStoredValue(key){
-    try{
-      if(window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences){
-        const result=await window.Capacitor.Plugins.Preferences.get({key});
-        return result && result.value ? JSON.parse(result.value) : null;
-      }
-    }catch(e){
-      console.warn('Could not read Preferences:',e);
-    }
-    try{
-      const raw=localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : null;
-    }catch(e){
-      console.warn('Could not read local storage:',e);
-      return null;
-    }
-  }
-
-
-  function getDetectedProfileCurrency(){
-    try{
-      const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
-      const map={'Africa/Lagos':'NGN','Africa/Accra':'GHS','Africa/Nairobi':'KES','Africa/Kampala':'UGX','Africa/Kigali':'RWF','Africa/Johannesburg':'ZAR','Europe/London':'GBP','Europe/Zurich':'CHF','Asia/Kolkata':'INR','Asia/Tokyo':'JPY','Asia/Shanghai':'CNY','America/New_York':'USD','America/Toronto':'CAD'};
-      if(map[tz])return map[tz];
-      const m=(navigator.language||'en-US').match(/[-_]([A-Z]{2})$/i);
-      const region=m?m[1].toUpperCase():'';
-      const map2={'NG':'NGN','US':'USD','GB':'GBP','GH':'GHS','KE':'KES','ZA':'ZAR','EG':'EGP','CA':'CAD','AU':'AUD','JP':'JPY','CN':'CNY','IN':'INR','BR':'BRL','MX':'MXN','SA':'SAR','AE':'AED','TR':'TRY','CH':'CHF','SE':'SEK','NO':'NOK','DK':'DKK','PL':'PLN','CZ':'CZK','HU':'HUF','RO':'RON','TH':'THB','VN':'VND','ID':'IDR','MY':'MYR','PH':'PHP','SG':'SGD','HK':'HKD','TW':'TWD','KR':'KRW','PK':'PKR','BD':'BDT','LK':'LKR','NP':'NPR','TZ':'TZS','RW':'RWF','UG':'UGX','ZM':'ZMW','ZW':'ZWL'};
-      return map2[region]||'USD';
-    }catch(e){return 'USD'}
-  }
-  function formatProfileMoney(amount,currency){
-    try{return new Intl.NumberFormat(navigator.language||'en',{style:'currency',currency:currency||'USD',maximumFractionDigits:2}).format(Math.max(0,Number(amount)||0));}
-    catch(e){return `${currency||'USD'} ${Math.max(0,Number(amount)||0).toFixed(2)}`;}
-  }
-  function getCookingProfileData(){
-    return {
-      highestKg:Number(document.getElementById('profileHighestKg').value)||null,
-      lowestKg:Number(document.getElementById('profileLowestKg').value)||null,
-      currentKg:Number(document.getElementById('profileCurrentKg').value)||null,
-      householdSize:Number(document.getElementById('profilePeople').value)||null,
-      mealsPerDay:document.getElementById('profileMeals').value,
-      cookingDuration:document.getElementById('profileDuration').value,
-      commonFoodsText:document.getElementById('profileFoods').value.trim(),
-      budgetLevel:document.getElementById('profileBudget').value,
-      budgetAmount:Number(document.getElementById('profileBudgetAmount').value)||null,
-      budgetPeriod:document.getElementById('profileBudgetPeriod').value,
-      goal:document.getElementById('profileGoal').value,
-      avoidFoodsText:document.getElementById('profileAvoid').value.trim(),
-      currency:getDetectedProfileCurrency()
-    };
-  }
-  function profileSummary(d){
-    const people=d?.householdSize?`${d.householdSize} ${d.householdSize===1?'person':'people'}`:'your household';
-    const meals=d?.mealsPerDay?`${d.mealsPerDay} meal${d.mealsPerDay==='1'?'':'s'} per day`:'';
-    const budget=d?.budgetAmount?formatProfileMoney(Number(d.budgetAmount), d?.currency||getDetectedProfileCurrency()) + ` ${d.budgetPeriod==='day'?'per day':d.budgetPeriod==='month'?'per month':'per week'}`:'';
-    const goalMap={'save-gas':'save gas','balanced':'balance gas, food and cost','save-money':'save money and gas','convenience':'keep cooking simple'};
-    const goal=goalMap[d?.goal]||'manage cooking smarter';
-    return `Saved for ${people}${meals?` • ${meals}`:''}. ${budget?`Food budget: ${budget}. `:''}Main goal: ${goal}.`;
-  }
-  function showSavedProfile(d){
-    const editor=document.getElementById('profileEditor'),saved=document.getElementById('profileSaved'),cancel=document.getElementById('cancelCookingProfileBtn');
-    if(editor)editor.hidden=true;
-    if(saved)saved.hidden=false;
-    if(cancel)cancel.hidden=true;
-    const st=document.getElementById('profileStatus');if(st)st.textContent='';
-    const summary=document.getElementById('profileSavedSummary');if(summary)summary.textContent=profileSummary(d);
-  }
-  function showProfileEditor(){
-    const editor=document.getElementById('profileEditor'),saved=document.getElementById('profileSaved'),cancel=document.getElementById('cancelCookingProfileBtn');
-    if(editor)editor.hidden=false;
-    if(saved)saved.hidden=true;
-    if(cancel)cancel.hidden=!localStorage.getItem('cgtCookingProfile');
-    const first=document.getElementById('profileHighestKg');if(first)first.focus();
-  }
-  function saveCookingProfile(){
-    const data=getCookingProfileData();
-    localStorage.setItem('cgtCookingProfile',JSON.stringify(data));
-    showSavedProfile(data);
-  }
-  function loadCookingProfile(){
-    try{
-      const d=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null');
-      if(!d)return;
-      const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined&&v!==null)el.value=v};
-      set('profileHighestKg',d.highestKg);set('profileLowestKg',d.lowestKg);set('profileCurrentKg',d.currentKg);set('profilePeople',d.householdSize);set('profileMeals',d.mealsPerDay);set('profileDuration',d.cookingDuration);set('profileFoods',d.commonFoodsText);set('profileBudget',d.budgetLevel);set('profileBudgetAmount',d.budgetAmount);set('profileBudgetPeriod',d.budgetPeriod||'week');set('profileGoal',d.goal);set('profileAvoid',d.avoidFoodsText);
-      showSavedProfile(d);
-    }catch(e){console.warn('Cooking profile could not be loaded:',e)}
-  }
-  function clearCookingProfile(){
-    localStorage.removeItem('cgtCookingProfile');
-    ['profileHighestKg','profileLowestKg','profileCurrentKg','profilePeople','profileFoods','profileAvoid'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
-    document.getElementById('profileMeals').value='2';document.getElementById('profileDuration').value='30to60';document.getElementById('profileBudget').value='medium';document.getElementById('profileBudgetAmount').value='';document.getElementById('profileBudgetPeriod').value='week';document.getElementById('profileGoal').value='balanced';
-    document.getElementById('profileEditor').hidden=false;document.getElementById('profileSaved').hidden=true;document.getElementById('cancelCookingProfileBtn').hidden=true;
-    const st=document.getElementById('profileStatus');if(st)st.textContent='Cooking profile reset. You can create a new profile.';
-  }
-  function cancelCookingProfileEdit(){
-    const d=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null');
-    if(d){
-      const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined&&v!==null)el.value=v};
-      set('profileHighestKg',d.highestKg);set('profileLowestKg',d.lowestKg);set('profileCurrentKg',d.currentKg);set('profilePeople',d.householdSize);set('profileMeals',d.mealsPerDay);set('profileDuration',d.cookingDuration);set('profileFoods',d.commonFoodsText);set('profileBudget',d.budgetLevel);set('profileBudgetAmount',d.budgetAmount);set('profileBudgetPeriod',d.budgetPeriod||'week');set('profileGoal',d.goal);set('profileAvoid',d.avoidFoodsText);showSavedProfile(d);
-    }
-  }
-
-  const saveProfileBtn=document.getElementById('saveCookingProfileBtn');
-  const resetProfileBtn=document.getElementById('resetCookingProfileBtn');
-  const createProfileBtn=document.getElementById('createNewProfileBtn');
-  const cancelProfileBtn=document.getElementById('cancelCookingProfileBtn');
-  saveProfileBtn?.addEventListener('click',saveCookingProfile);
-  resetProfileBtn?.addEventListener('click',clearCookingProfile);
-  createProfileBtn?.addEventListener('click',showProfileEditor);
-  cancelProfileBtn?.addEventListener('click',cancelCookingProfileEdit);
-  // Restore the saved cooking profile automatically on every page load. It remains saved until the user presses Reset.
-  loadCookingProfile();
-
-  async function buildProfile(){
-    const tracker=await getStoredValue('gasTrackerData');
-    const planner=await getStoredValue('cgtMealPlanner');
-    let cookingProfile=null; try{ cookingProfile=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null'); }catch(e){}
-    let cylinder=null;
-    try{ cylinder=JSON.parse(localStorage.getItem('cgtCylinderSetup')||'null'); }catch(e){}
-
-    const dates=tracker && tracker.dates ? tracker.dates : {};
-    return {
-      cylinderSize: cylinder && cylinder.main ? String(cylinder.main)+'kg' : (dates.kg ? String(dates.kg)+'kg' : null),
-      refillDate: dates.refill || null,
-      consumptionDate: dates.consumption || null,
-      gasAmountKg: dates.kg || null,
-      refillPrice: dates.price || null,
-      currency: dates.currency || null,
-      householdSize: planner && planner.people ? Number(planner.people) : null,
-      mealsPerDay: planner && planner.meals ? Number(planner.meals) : null,
-      budgetLevel: planner && planner.budget ? planner.budget : null,
-      gasGoal: planner && planner.gas ? planner.gas : null,
-      commonFoods: planner && Array.isArray(planner.foods) ? planner.foods : [],
-      customFoods: planner && Array.isArray(planner.customFoods) ? planner.customFoods : [],
-      highestFillKg: cookingProfile?.highestKg || null,
-      lowestFillKg: cookingProfile?.lowestKg || null,
-      currentGasKg: cookingProfile?.currentKg || null,
-      cookingDuration: cookingProfile?.cookingDuration || null,
-      foodsOftenEaten: cookingProfile?.commonFoodsText || null,
-      foodsToAvoid: cookingProfile?.avoidFoodsText || null,
-      cookingGoal: cookingProfile?.goal || null
-    };
-  }
-
-  async function submit(q){
-    q=String(q||'').trim();
-    if(!q || form.dataset.busy==='1')return;
-
-    add(q,'user');
-    input.value='';
-    form.dataset.busy='1';
-    input.disabled=true;
-    if(button){button.disabled=true;button.textContent='Thinking...';}
-
-    const loading=add('Thinking...','bot');
-
-    try{
-      const profile=await buildProfile();
-      const response=await fetch(ASSISTANT_ENDPOINT,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({question:q,profile})
-      });
-
-      const data=await response.json().catch(()=>({}));
-      loading.remove();
-
-      if(!response.ok || !data.answer){
-        throw new Error(data.error || 'The assistant could not answer right now.');
-      }
-
-      add(String(data.answer),'bot');
-    }catch(error){
-      loading.remove();
-      console.error('Smart Assistant error:',error);
-      add('Sorry, I could not connect to the Smart Assistant right now. Please check your internet connection and try again.','bot');
-    }finally{
-      form.dataset.busy='0';
-      input.disabled=false;
-      if(button){button.disabled=false;button.textContent='Ask';}
-      input.focus();
-    }
-  }
-
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    submit(input.value);
-  });
-
-  document.querySelectorAll('#smart-assistant [data-q]').forEach(function(b){
-    b.addEventListener('click',function(){submit(b.dataset.q);});
-  });
-})();
-</script>
-
-
-<!-- FULL OPEN CHAT -->
-<div id="chatModal" class="chat-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="chatModalTitle">
-  <div class="chat-modal-panel">
-    <div class="chat-modal-header">
-      <div class="chat-title-wrap">
-        <div class="chat-modal-icon">🤖</div>
-        <div><h2 id="chatModalTitle">Gas & Food Assistant</h2><span>Powered by your Cooking Gas Tracker profile</span></div>
-      </div>
-      <button type="button" id="closeChatBtn" class="chat-close" aria-label="Close chat">×</button>
-    </div>
-    <div id="fullChatMessages" class="full-chat-messages" aria-live="polite">
-      <div class="assistant-message bot"><strong>Cooking Gas Tracker & Manager:</strong><br>Hi! 👋 I’m here to help with gas management, meal planning, food budgeting, cooking efficiency and gas safety. Ask me anything.</div>
-    </div>
-    <div class="chat-tools">
-      <div class="chat-language">
-        <label for="chatLanguage">🌐 Language</label>
-        <select id="chatLanguage" aria-label="Choose chat response language">
-          <option value="English" data-voice="en-NG">English</option>
-          <option value="Nigerian Pidgin" data-voice="en-NG">Nigerian Pidgin</option>
-          <option value="Yoruba" data-voice="yo-NG">Yoruba</option>
-          <option value="Igbo" data-voice="ig-NG">Igbo</option>
-          <option value="Hausa" data-voice="ha-NG">Hausa</option>
-          <option value="French" data-voice="fr-FR">French</option>
-          <option value="Spanish" data-voice="es-ES">Spanish</option>
-          <option value="Arabic" data-voice="ar-SA">Arabic</option>
-        </select>
-      </div>
-      <button type="button" id="voiceInputBtn" class="chat-voice-btn" aria-label="Speak your question" title="Speak your question">🎤 Speak</button>
-      <span id="voiceStatus" class="voice-status" aria-live="polite"></span>
-    </div>
-    <div class="chat-quick-actions">
-      <button type="button" data-full-q="How can I make my gas last longer?">🔥 Save gas</button>
-      <button type="button" data-full-q="What can I cook today?">🍲 Meal ideas</button>
-      <button type="button" data-full-q="How can I save money on food and gas?">💰 Save money</button>
-      <button type="button" data-full-q="My burner flame is low. What should I do?">🛠️ Burner</button>
-    </div>
-    <form id="fullChatForm" class="full-chat-form">
-      <input id="fullChatInput" type="text" maxlength="2000" autocomplete="off" placeholder="Type your question..." aria-label="Type your question" required>
-      <button type="submit" aria-label="Send message">➤</button>
-    </form>
-    <p class="chat-safety-note">For a suspected gas leak, fire, damaged cylinder, or other immediate danger, move to a safe place and contact appropriate emergency or qualified gas professionals. Do not use this chat as a substitute for emergency help.</p>
-  </div>
-</div>
-
-<button type="button" id="backToTopBtn" class="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
-
-<style>
-/* Open Chat */
-.assistant-header{position:relative}.assistant-header-copy{flex:1}.open-chat-btn{margin-left:auto;white-space:nowrap;border:0;border-radius:12px;padding:11px 15px;font-weight:800;background:#2563eb;color:#fff;cursor:pointer;box-shadow:0 6px 18px rgba(37,99,235,.22)}
-.chat-modal{position:fixed;inset:0;background:rgba(2,6,23,.66);backdrop-filter:blur(5px);z-index:10000;display:none;padding:18px}.chat-modal.open{display:flex;align-items:center;justify-content:center}.chat-modal-panel{width:min(900px,100%);height:min(760px,calc(100vh - 36px));display:flex;flex-direction:column;background:var(--card-bg,#fff);color:inherit;border:1px solid var(--border-color,#dbe3ef);border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.28);overflow:hidden}.chat-modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}.chat-title-wrap{display:flex;gap:12px;align-items:center}.chat-modal-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#eef5ff;font-size:23px}.chat-title-wrap h2{font-size:20px;margin:0}.chat-title-wrap span{font-size:12px;opacity:.68}.chat-close{width:40px;height:40px;border:0;border-radius:12px;background:transparent;font-size:30px;line-height:1;cursor:pointer;color:inherit}.chat-close:hover{background:rgba(127,127,127,.1)}.full-chat-messages{flex:1;overflow:auto;padding:18px;background:rgba(127,127,127,.055)}.full-chat-messages .assistant-message{max-width:78%;font-size:15px}.full-chat-messages .assistant-message.bot{background:var(--card-bg,#fff)}.chat-quick-actions{display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}.chat-quick-actions button{border:1px solid var(--border-color,#dbe3ef);background:transparent;color:inherit;border-radius:999px;padding:8px 11px;cursor:pointer}.full-chat-form{display:flex;gap:10px;padding:12px 16px;border-top:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}.full-chat-form input{flex:1;min-width:0;padding:14px;border:1px solid var(--border-color,#dbe3ef);border-radius:14px;background:var(--input-bg,#fff);color:inherit;font-size:16px;outline:none}.full-chat-form input:focus{box-shadow:0 0 0 3px rgba(37,99,235,.15)}.full-chat-form button{width:52px;border:0;border-radius:14px;background:#2563eb;color:#fff;font-size:22px;font-weight:800;cursor:pointer}.chat-safety-note{font-size:11px;opacity:.62;line-height:1.45;margin:0;padding:0 16px 13px;background:var(--card-bg,#fff)}
-.chat-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--border-color,#dbe3ef);background:var(--card-bg,#fff)}
-.chat-language{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:750}
-.chat-language select{border:1px solid var(--border-color,#dbe3ef);border-radius:10px;padding:8px 10px;background:var(--input-bg,#fff);color:inherit;font:inherit}
-.chat-voice-btn{border:1px solid var(--border-color,#dbe3ef);background:transparent;color:inherit;border-radius:12px;padding:9px 12px;font-weight:750;cursor:pointer}
-.chat-voice-btn.listening{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
-.chat-voice-btn:disabled{opacity:.55;cursor:not-allowed}
-.voice-status{font-size:11px;opacity:.68}
-.message-listen-btn{display:block;margin-top:9px;border:1px solid var(--border-color,#dbe3ef);background:transparent;color:inherit;border-radius:9px;padding:6px 9px;font-size:12px;font-weight:700;cursor:pointer}
-.message-listen-btn:hover{background:rgba(127,127,127,.08)}
-/* Back to top */
-.back-to-top{position:fixed;right:20px;bottom:22px;width:48px;height:48px;border:0;border-radius:50%;background:#2563eb;color:#fff;font-size:23px;font-weight:800;display:grid;place-items:center;cursor:pointer;z-index:9000;box-shadow:0 10px 25px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .2s,visibility .2s,transform .2s}.back-to-top.show{opacity:1;visibility:visible;transform:translateY(0)}
-body.dark-mode .chat-modal-panel,body.dark-mode .chat-modal-header,body.dark-mode .chat-quick-actions,body.dark-mode .full-chat-form,body.dark-mode .chat-safety-note{background:#111827;border-color:#334155}body.dark-mode .full-chat-messages{background:#0b1220}body.dark-mode .full-chat-messages .assistant-message.bot{background:#111827;border-color:#334155}body.dark-mode .chat-modal-icon{background:#1e293b}
-@media(max-width:600px){.chat-tools{align-items:stretch}.chat-language{width:100%}.chat-language select{flex:1}.voice-status{width:100%}.assistant-header{align-items:flex-start}.open-chat-btn{padding:9px 11px;font-size:13px}.chat-modal{padding:0}.chat-modal.open{align-items:stretch}.chat-modal-panel{height:100%;min-height:100%;border-radius:0;border:0}.chat-title-wrap h2{font-size:17px}.chat-title-wrap span{display:block;max-width:210px}.full-chat-messages .assistant-message{max-width:90%}.back-to-top{right:14px;bottom:16px;width:44px;height:44px}}
-
-/* Cooking Profile */
-.cooking-profile{margin-top:28px;padding:30px;border-radius:24px;background:linear-gradient(145deg,#f7f8ff,#f5fbff);border:1px solid #e1e6f0;box-shadow:0 12px 35px rgba(20,30,60,.06)}
-.profile-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.profile-head h2{margin:6px 0 10px;font-size:clamp(1.6rem,3vw,2.2rem)}.profile-lead{max-width:850px;color:#5d6878;line-height:1.7}.profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:22px}.profile-field{background:#fff;border:1px solid #e7eaf0;border-radius:16px;padding:15px}.profile-field.full{grid-column:1/-1}.profile-field label{display:block;font-weight:750;margin-bottom:7px}.profile-field input,.profile-field select,.profile-field textarea{width:100%;box-sizing:border-box;border:1px solid #dfe4ec;border-radius:11px;padding:11px 12px;font:inherit;background:#fff;color:#172033}.profile-field small{display:block;margin-top:6px;color:#788292;line-height:1.45}.profile-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.profile-btn{border:0;border-radius:12px;padding:11px 16px;font-weight:750;cursor:pointer;background:#667eea;color:#fff}.profile-btn.secondary{background:#eef1f7;color:#394357}.profile-status{margin-top:12px;color:#35704b;font-weight:700;min-height:20px}.profile-editor[hidden],.profile-saved[hidden]{display:none!important}.profile-saved{margin-top:6px;padding:22px;border:1px solid #dfe5ef;border-radius:18px;background:#fff;display:flex;align-items:center;gap:16px}.profile-saved-icon{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#e9f8ef;color:#23834a;font-weight:900;font-size:22px;flex:0 0 auto}.profile-saved-copy{flex:1}.profile-saved-copy h3{margin:4px 0 6px}.profile-saved-copy p{margin:0;color:#667085;line-height:1.55}.profile-cancel-btn[hidden]{display:none!important}.dark-mode .profile-saved{background:#1b2130;border-color:#303849}.dark-mode .profile-saved-copy p{color:#aab4c4}.dark-mode .cooking-profile{background:linear-gradient(145deg,#171b28,#111827);border-color:#2b3242}.dark-mode .profile-field{background:#1b2130;border-color:#303849}.dark-mode .profile-field input,.dark-mode .profile-field select,.dark-mode .profile-field textarea{background:#111827;color:#f3f5f8;border-color:#394254}.dark-mode .profile-btn.secondary{background:#2b3242;color:#eef2f7}@media(max-width:760px){.profile-grid{grid-template-columns:1fr}.profile-field.full{grid-column:auto}.profile-head{display:block}}
-
-/* Smart Shopping Manager */
-.nav-open-chat{font-weight:800}
-.shopping-add-row{display:grid;grid-template-columns:minmax(180px,1.4fr) minmax(150px,1fr) minmax(170px,1fr) auto;gap:12px;margin:22px 0 10px;align-items:end}
-.shopping-add-field{display:flex;flex-direction:column;gap:7px}.shopping-add-field label,.budget-input-wrap label{font-size:13px;font-weight:800;opacity:.82}.shopping-add-field input,.budget-input-wrap input,.budget-input-wrap select{width:100%;box-sizing:border-box;border:1px solid var(--border-color,#dbe3ef);border-radius:14px;padding:14px 15px;background:var(--input-bg,#fff);color:inherit;font:inherit;font-size:16px;min-height:50px}.shopping-add-button{min-height:50px;white-space:nowrap}
-.shopping-total-box{margin:20px 0;padding:20px 22px;border:2px solid #dbe3ef;border-radius:18px;background:linear-gradient(145deg,#f8fbff,#fff);display:flex;justify-content:space-between;align-items:center;gap:18px}.shopping-total-box>div{display:flex;align-items:center;gap:12px}.shopping-total-icon{font-size:28px}.shopping-total-box strong{display:block}.shopping-total-box small{display:block;margin-top:4px;opacity:.7}.shopping-total-value{font-size:26px!important}
-.shopping-budget-entry{display:grid;grid-template-columns:1.3fr 1fr auto;gap:12px;margin:18px 0}.budget-input-wrap{display:flex;flex-direction:column;gap:7px}.shopping-budget-panel{border:1px solid var(--border-color,#dbe3ef);border-radius:18px;padding:20px;margin-top:16px;background:var(--card-bg,#fff)}
-.shopping-item{display:flex;align-items:stretch;gap:16px;padding:20px;border-radius:16px;background:rgba(127,127,127,.07);min-height:108px;border:1px solid rgba(127,127,127,.08)}.shopping-item-main{flex:1;min-width:0}.shopping-item-name{display:block;font-size:18px;font-weight:750;margin-bottom:12px}.shopping-item-meta{display:grid;grid-template-columns:minmax(110px,1fr) minmax(150px,1.25fr) minmax(130px,1fr);gap:10px;align-items:end}.shopping-mini-input{width:100%;box-sizing:border-box;border:1px solid var(--border-color,#dbe3ef);border-radius:11px;padding:11px 12px;background:var(--input-bg,#fff);color:inherit;font:inherit;font-size:16px;min-height:46px}.shopping-mini-input::placeholder{opacity:.55}.shopping-row-total{padding:10px 12px;border-radius:11px;background:rgba(37,99,235,.08);font-weight:800;min-height:46px;display:flex;align-items:center;box-sizing:border-box}.shopping-item-actions{display:flex;flex-direction:column;justify-content:center;gap:8px}.shopping-item-actions button{width:44px;height:44px;border-radius:10px;background:transparent}
-body.dark-mode .shopping-total-box{background:#111827;border-color:#334155}body.dark-mode .shopping-budget-panel{background:#111827;border-color:#334155}body.dark-mode .shopping-list-panel{background:#111827;border-color:#334155}
-@media(max-width:850px){.shopping-add-row{grid-template-columns:1fr 1fr}.shopping-add-field.item-field{grid-column:1/-1}.shopping-add-button{grid-column:1/-1}.shopping-budget-entry{grid-template-columns:1fr 1fr}.shopping-budget-entry button{grid-column:1/-1}.shopping-item-meta{grid-template-columns:1fr 1fr}.shopping-row-total{grid-column:1/-1}}
-@media(max-width:650px){.shopping-add-row{grid-template-columns:1fr}.shopping-add-field.item-field{grid-column:auto}.shopping-add-button{grid-column:auto}.shopping-budget-entry{grid-template-columns:1fr}.shopping-budget-entry button{grid-column:auto}.shopping-total-box{flex-direction:column;align-items:flex-start}.shopping-total-value{font-size:24px!important}.shopping-list-panel{padding:16px}.shopping-item{padding:18px}.shopping-item-meta{grid-template-columns:1fr}.shopping-row-total{grid-column:auto}.shopping-item-actions{flex-direction:row;align-items:center}}
-
-.shopping-card{border:1px solid var(--border-color,#dbe3ef);border-radius:20px;background:var(--card-bg,#fff);padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
-.shopping-top{display:flex;justify-content:space-between;gap:18px;align-items:center}
-.shopping-top h3{margin:0 0 5px}
-.shopping-top p{margin:0;opacity:.72}
-.shopping-add-row{display:flex;gap:10px;margin:18px 0}
-.shopping-add-row input{flex:1;min-width:0;border:1px solid var(--border-color,#dbe3ef);border-radius:12px;padding:12px;background:var(--input-bg,#fff);color:inherit}
-.shopping-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.shopping-grid>div{border:1px solid var(--border-color,#dbe3ef);border-radius:16px;padding:15px}
-.shopping-grid h4{margin:0 0 10px}
-.shopping-list{display:flex;flex-direction:column;gap:8px;min-height:70px}
-.shopping-empty{opacity:.6;font-size:13px;margin:10px 0}
-.shopping-item{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;background:rgba(127,127,127,.07)}
-.shopping-item span{flex:1}
-.shopping-item button{border:0;background:transparent;cursor:pointer;font-size:14px}
-.shopping-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
-.shopping-stats div{padding:12px;border-radius:12px;background:rgba(127,127,127,.07);text-align:center}
-.shopping-stats strong,.shopping-stats span{display:block}
-.shopping-stats strong{font-size:20px}
-.shopping-stats span{font-size:11px;opacity:.7;margin-top:3px}
-.shopping-note{margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(255,193,7,.12);font-size:13px}
-@media(max-width:650px){.shopping-top{flex-direction:column;align-items:stretch}.shopping-grid{grid-template-columns:1fr}.shopping-add-row{flex-direction:column}.shopping-stats{grid-template-columns:1fr 1fr}.shopping-stats div:last-child{grid-column:1/-1}}
-
-
-/* Accessible meal timetable heading */
-.meal-timetable-heading{font-weight:900 !important;letter-spacing:.08em;}
-</style>
-<script>
-(function(){
-  const endpoint='https://gas-notifier.johnawotipe9.workers.dev/assistant';
-  const modal=document.getElementById('chatModal'), openBtn=document.getElementById('openChatBtn'), closeBtn=document.getElementById('closeChatBtn');
-  const form=document.getElementById('fullChatForm'), input=document.getElementById('fullChatInput'), messages=document.getElementById('fullChatMessages');
-  if(!modal||!openBtn||!closeBtn||!form||!input||!messages)return;
-  let busy=false, previousFocus=null;
-  function esc(t){return String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
-  function fmt(t){return esc(t).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/(^|\n)[•*-]\s+/g,'$1• ').replace(/\n/g,'<br>');}
-  function add(text,who='bot'){
-    const d=document.createElement('div');
-    d.className='assistant-message '+who;
-    d.innerHTML=who==='bot'?fmt(text):esc(text).replace(/\n/g,'<br>');
-    if(who==='bot'){
-      const cleanText=String(text||'');
-      const listen=document.createElement('button');
-      listen.type='button';
-      listen.className='message-listen-btn';
-      listen.textContent='🔊 Listen';
-      listen.setAttribute('aria-label','Listen to this answer');
-      listen.addEventListener('click',()=>speakText(cleanText, listen));
-      d.appendChild(listen);
-    }
-    messages.appendChild(d);
-    messages.scrollTop=messages.scrollHeight;
-    return d;
-  }
-  async function stored(key){try{if(window.Capacitor?.Plugins?.Preferences){const r=await window.Capacitor.Plugins.Preferences.get({key});return r?.value?JSON.parse(r.value):null}}catch(e){}try{const r=localStorage.getItem(key);return r?JSON.parse(r):null}catch(e){return null}}
-  async function profile(){const tracker=await stored('gasTrackerData'), planner=await stored('cgtMealPlanner');let cookingProfile=null;try{cookingProfile=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null')}catch(e){}let cylinder=null;try{cylinder=JSON.parse(localStorage.getItem('cgtCylinderSetup')||'null')}catch(e){}const dates=tracker?.dates||{};return {cylinderSize:cylinder?.main?String(cylinder.main)+'kg':(dates.kg?String(dates.kg)+'kg':null),refillDate:dates.refill||null,consumptionDate:dates.consumption||null,gasAmountKg:dates.kg||null,refillPrice:dates.price||null,currency:dates.currency||null,householdSize:cookingProfile?.householdSize||planner?.people||null,mealsPerDay:cookingProfile?.mealsPerDay||planner?.meals||null,budgetLevel:cookingProfile?.budgetLevel||planner?.budget||null,budgetAmount:cookingProfile?.budgetAmount||null,budgetPeriod:cookingProfile?.budgetPeriod||'week',gasGoal:cookingProfile?.goal||planner?.gas||null,commonFoods:Array.isArray(planner?.foods)?planner.foods:[],customFoods:Array.isArray(planner?.customFoods)?planner.customFoods:[],highestFillKg:cookingProfile?.highestKg||null,lowestFillKg:cookingProfile?.lowestKg||null,currentGasKg:cookingProfile?.currentKg||null,cookingDuration:cookingProfile?.cookingDuration||null,foodsOftenEaten:cookingProfile?.commonFoodsText||null,foodsToAvoid:cookingProfile?.avoidFoodsText||null};}
-  async function ask(q){
-    q=String(q||'').trim();
-    if(!q||busy)return;
-    const lang=document.getElementById('chatLanguage')?.value||'English';
-    add(q,'user');
-    input.value='';
-    busy=true;input.disabled=true;const send=form.querySelector('button');if(send){send.disabled=true;send.textContent='…'}const load=add('Thinking…','bot');try{const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-          question: lang==='English'
-            ? q
-            : `Answer the user's question in ${lang}. Keep the answer natural, clear and practical for a household in Nigeria. User question: ${q}`,
-          profile:await profile()
-        })});const data=await res.json().catch(()=>({}));load.remove();if(!res.ok||!data.answer)throw new Error(data.error||'Assistant unavailable');add(String(data.answer),'bot')}catch(e){load.remove();console.error(e);add('Sorry, I could not connect to the Smart Assistant right now. Please check your internet connection and try again.','bot')}finally{busy=false;input.disabled=false;if(send){send.disabled=false;send.textContent='➤'}input.focus()}}
-  function openChat(){previousFocus=document.activeElement;modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';setTimeout(()=>input.focus(),50)}
-  function closeChat(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';if(previousFocus?.focus)previousFocus.focus()}
-  openBtn.addEventListener('click',openChat);closeBtn.addEventListener('click',closeChat);modal.addEventListener('click',e=>{if(e.target===modal)closeChat()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeChat()});form.addEventListener('submit',e=>{e.preventDefault();ask(input.value)});document.querySelectorAll('[data-full-q]').forEach(b=>b.addEventListener('click',()=>ask(b.dataset.fullQ)));
-  // Voice input + speech output + language selection
-  const voiceBtn=document.getElementById('voiceInputBtn');
-  const voiceStatus=document.getElementById('voiceStatus');
-  const languageSelect=document.getElementById('chatLanguage');
-  let recognition=null, listening=false;
-
-  function voiceLocale(){
-    return languageSelect?.selectedOptions?.[0]?.dataset?.voice || 'en-NG';
-  }
-
-  function speakText(text,button){
-    if(!('speechSynthesis' in window)){
-      if(voiceStatus)voiceStatus.textContent='Voice playback is not supported on this device.';
-      return;
-    }
-    window.speechSynthesis.cancel();
-    const utter=new SpeechSynthesisUtterance(String(text||'').replace(/[*_#]/g,''));
-    utter.lang=voiceLocale();
-    utter.rate=0.96;
-    utter.pitch=1;
-    if(button)button.textContent='⏹ Stop';
-    utter.onend=()=>{if(button)button.textContent='🔊 Listen';};
-    utter.onerror=()=>{if(button)button.textContent='🔊 Listen';};
-    window.speechSynthesis.speak(utter);
-  }
-
-  if(voiceBtn){
-    const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
-    if(!SpeechRecognition){
-      voiceBtn.disabled=true;
-      voiceBtn.title='Voice input is not supported by this browser';
-      if(voiceStatus)voiceStatus.textContent='Voice input unavailable in this browser.';
-    }else{
-      recognition=new SpeechRecognition();
-      recognition.continuous=false;
-      recognition.interimResults=false;
-      recognition.lang=voiceLocale();
-      recognition.onstart=()=>{
-        listening=true;
-        voiceBtn.classList.add('listening');
-        voiceBtn.textContent='🔴 Listening...';
-        if(voiceStatus)voiceStatus.textContent='Speak your question...';
-      };
-      recognition.onresult=(event)=>{
-        const transcript=event.results?.[0]?.[0]?.transcript||'';
-        input.value=transcript;
-        if(voiceStatus)voiceStatus.textContent='Voice captured. Tap Send to ask.';
-      };
-      recognition.onerror=(event)=>{
-        if(voiceStatus)voiceStatus.textContent=event.error==='not-allowed'
-          ? 'Microphone permission was not granted.'
-          : 'I could not hear that. Please try again.';
-      };
-      recognition.onend=()=>{
-        listening=false;
-        voiceBtn.classList.remove('listening');
-        voiceBtn.textContent='🎤 Speak';
-      };
-      voiceBtn.addEventListener('click',()=>{
-        if(listening){recognition.stop();return;}
-        recognition.lang=voiceLocale();
-        try{recognition.start();}catch(e){}
-      });
-    }
-  }
-
-  languageSelect?.addEventListener('change',()=>{
-    if(recognition)recognition.lang=voiceLocale();
-    if(voiceStatus)voiceStatus.textContent=`Responses will use ${languageSelect.value}.`;
-  });
-
-  // Keep conversation available while the modal remains open. It is intentionally not sent to the server as history.
-})();
-(function(){const b=document.getElementById('backToTopBtn');if(!b)return;function check(){b.classList.toggle('show',window.scrollY>500)}window.addEventListener('scroll',check,{passive:true});check();b.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));})();
-</script>
-
-<script>
-(function(){
-  const key='cgtShoppingList';
-  let state={buy:[],have:[]};
-  try{state=JSON.parse(localStorage.getItem(key)||'{"buy":[],"have":[]}')}catch(e){}
-  if(!state||!Array.isArray(state.buy)||!Array.isArray(state.have))state={buy:[],have:[]};
-
-  // Upgrade older string-only shopping lists into editable item records.
-  const normalizeItem=x=>typeof x==='string'?{name:x,qty:1,price:null}:({name:String(x?.name||'').trim(),qty:Number(x?.qty)||1,price:(x?.price===''||x?.price==null)?null:Number(x.price)||0});
-  state.buy=state.buy.map(normalizeItem).filter(x=>x.name);
-  state.have=state.have.map(normalizeItem).filter(x=>x.name);
-
-  const buyEl=document.getElementById('shoppingList'),input=document.getElementById('shoppingItemInput');
-  const qtyInput=document.getElementById('shoppingQtyInput'),priceInput=document.getElementById('shoppingPriceInput'),addBtn=document.getElementById('addShoppingBtn'),buildBtn=document.getElementById('buildShoppingBtn');
-  const countEl=document.getElementById('shoppingCount'),budgetEl=document.getElementById('shoppingBudget'),priceCountEl=document.getElementById('shoppingPriceCount');
-  const summaryEl=document.getElementById('shoppingSummary'),budgetAmountEl=document.getElementById('shoppingBudgetAmount'),totalEl=document.getElementById('shoppingEstimatedTotal'),remainingEl=document.getElementById('shoppingRemaining'),budgetMessageEl=document.getElementById('shoppingBudgetMessage');
-  const budgetInput=document.getElementById('shoppingBudgetInput'),budgetPeriodInput=document.getElementById('shoppingBudgetPeriodInput'),saveBudgetBtn=document.getElementById('saveShoppingBudgetBtn');
-  const currencyMap={NG:'NGN',US:'USD',GB:'GBP',GH:'GHS',KE:'KES',ZA:'ZAR',EG:'EGP',CA:'CAD',AU:'AUD',JP:'JPY',CN:'CNY',IN:'INR',BR:'BRL',MX:'MXN',SA:'SAR',AE:'AED',TR:'TRY',CH:'CHF',SE:'SEK',NO:'NOK',DK:'DKK',PL:'PLN',CZ:'CZK',HU:'HUF',RO:'RON',TH:'THB',VN:'VND',ID:'IDR',MY:'MYR',PH:'PHP',SG:'SGD',HK:'HKD',TW:'TWD',KR:'KRW',PK:'PKR',BD:'BDT',LK:'LKR',NP:'NPR',TZ:'TZS',RW:'RWF',UG:'UGX',ZM:'ZMW',ZW:'ZWL'};
-  function detectCurrency(){try{
-    // Use the device time zone first because many devices report a generic
-    // language such as en-US even when the user is physically elsewhere.
-    const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
-    const tzMap={
-      'Africa/Lagos':'NGN','Africa/Accra':'GHS','Africa/Nairobi':'KES','Africa/Kampala':'UGX','Africa/Dar_es_Salaam':'TZS',
-      'Africa/Kigali':'RWF','Africa/Lusaka':'ZMW','Africa/Harare':'ZWL','Africa/Cairo':'EGP','Africa/Johannesburg':'ZAR',
-      'Europe/London':'GBP','Europe/Zurich':'CHF','Europe/Stockholm':'SEK','Europe/Oslo':'NOK','Europe/Copenhagen':'DKK',
-      'Europe/Warsaw':'PLN','Europe/Prague':'CZK','Europe/Budapest':'HUF','Europe/Bucharest':'RON',
-      'Asia/Kolkata':'INR','Asia/Dhaka':'BDT','Asia/Karachi':'PKR','Asia/Colombo':'LKR','Asia/Kathmandu':'NPR',
-      'Asia/Bangkok':'THB','Asia/Ho_Chi_Minh':'VND','Asia/Jakarta':'IDR','Asia/Kuala_Lumpur':'MYR','Asia/Manila':'PHP',
-      'Asia/Singapore':'SGD','Asia/Hong_Kong':'HKD','Asia/Taipei':'TWD','Asia/Seoul':'KRW','Asia/Tokyo':'JPY','Asia/Shanghai':'CNY',
-      'Asia/Dubai':'AED','Asia/Riyadh':'SAR','Europe/Istanbul':'TRY',
-      'America/New_York':'USD','America/Chicago':'USD','America/Denver':'USD','America/Los_Angeles':'USD',
-      'America/Toronto':'CAD','America/Sao_Paulo':'BRL','America/Mexico_City':'MXN'
-    };
-    if(tzMap[tz])return tzMap[tz];
-    const locale=navigator.language||'en-NG';
-    const m=locale.match(/[-_]([A-Z]{2})$/i);
-    const region=m?m[1].toUpperCase():'';
-    if(region&&currencyMap[region])return currencyMap[region];
-    return 'USD';
-  }catch(e){return 'USD'}}
-  const detectedCurrency=detectCurrency();
-  const currencyLabel=document.getElementById('shoppingCurrencyLabel');
-  function money(n){const value=Math.max(0,Number(n)||0);try{return new Intl.NumberFormat(navigator.language||'en',{style:'currency',currency:detectedCurrency,maximumFractionDigits:2}).format(value)}catch(e){return `${detectedCurrency} ${value.toFixed(2)}`}}
-  function currencySymbol(){try{return new Intl.NumberFormat(navigator.language||'en',{style:'currency',currency:detectedCurrency}).formatToParts(0).find(x=>x.type==='currency')?.value||detectedCurrency}catch(e){return detectedCurrency}}
-  if(currencyLabel)currencyLabel.textContent=`(${detectedCurrency} ${currencySymbol()})`;
-  const clean=s=>String(s||'').trim().replace(/\s+/g,' ').slice(0,100);
-  const profileData=()=>{try{return JSON.parse(localStorage.getItem('cgtCookingProfile')||'null')}catch(e){return null}};
-  const save=()=>{localStorage.setItem(key,JSON.stringify(state));render()};
-  const same=(a,b)=>String(a||'').toLowerCase()===String(b||'').toLowerCase();
-
-  function itemRow(item,from,index){
-    const d=document.createElement('div');d.className='shopping-item';
-    const main=document.createElement('div');main.className='shopping-item-main';
-    const name=document.createElement('span');name.className='shopping-item-name';name.textContent=item.name;
-    const meta=document.createElement('div');meta.className='shopping-item-meta';
-    const q=document.createElement('input');q.className='shopping-mini-input';q.type='number';q.min='.01';q.step='.01';q.value=item.qty;q.title='Number of items';q.setAttribute('aria-label',`Number of items for ${item.name}`);
-    const pr=document.createElement('input');pr.className='shopping-mini-input price';pr.type='number';pr.min='0';pr.step='.01';pr.value=item.price==null?'':item.price;pr.placeholder=`Amount per item ${currencySymbol()}`;pr.title='Amount per item';pr.setAttribute('aria-label',`Amount per item for ${item.name}`);
-    const rowTotal=document.createElement('div');rowTotal.className='shopping-row-total';
-    function updateRowTotal(){const total=(Math.max(.01,Number(q.value)||1))*(Math.max(0,Number(pr.value)||0));rowTotal.textContent=`Total: ${money(total)}`;}
-    q.addEventListener('input',updateRowTotal);q.addEventListener('change',()=>{item.qty=Math.max(.01,Number(q.value)||1);save()});
-    pr.addEventListener('input',updateRowTotal);pr.addEventListener('change',()=>{item.price=pr.value===''?null:Math.max(0,Number(pr.value)||0);save()});
-    meta.append(q,pr,rowTotal);main.append(name,meta);updateRowTotal();
-    const actions=document.createElement('div');actions.className='shopping-item-actions';
-    const del=document.createElement('button');del.type='button';del.textContent='✕';del.title='Remove';del.setAttribute('aria-label',`Remove ${item.name}`);del.onclick=()=>{state[from].splice(index,1);save()};
-    actions.append(del);d.append(main,actions);return d;
-  }
-
-  function render(){
-    if(!buyEl)return;
-    buyEl.innerHTML='';
-    if(!state.buy.length)buyEl.innerHTML='<p class="shopping-empty">Nothing to buy yet.</p>';
-    state.buy.forEach((x,i)=>buyEl.appendChild(itemRow(x,'buy',i)));
-    const p=profileData();
-    const budget=Number(p?.budgetAmount)||0;
-    const total=state.buy.reduce((sum,x)=>sum+(Number(x.price)||0)*(Number(x.qty)||1),0);
-    const priced=state.buy.filter(x=>x.price!=null&&Number(x.price)>=0).length;
-    const periodLabel={day:'day',week:'week',month:'month'}[p?.budgetPeriod]||'week';
-    if(countEl)countEl.textContent=state.buy.length;
-    if(priceCountEl)priceCountEl.textContent=priced;
-    if(budgetEl)budgetEl.textContent=p?.budgetLevel==='low'?'Limited':p?.budgetLevel==='high'?'Flexible':p?.budgetLevel==='medium'?'Moderate':'—';
-    if(budgetAmountEl)budgetAmountEl.textContent=budget?`${money(budget)} / ${periodLabel}`:'—';
-    if(totalEl)totalEl.textContent=total?money(total):'—';
-    if(remainingEl)remainingEl.textContent=budget?(budget-total>=0?money(budget-total):`-${money(total-budget)}`):'—';
-    if(budgetMessageEl){
-      if(!budget)budgetMessageEl.textContent='Add your actual food budget in My Cooking Profile to track planned spending.';
-      else if(!priced)budgetMessageEl.textContent=`Your ${periodLabel} budget is ${money(budget)}. Add estimated prices to see how much of it your shopping list uses.`;
-      else if(total>budget)budgetMessageEl.innerHTML=`<strong class="budget-over">⚠️ The prices is above your budget.</strong><br>Your current shopping estimate is ${money(total)} — ${money(total-budget)} above your ${periodLabel} budget. You can adjust the quantities or prices if possible, or continue if you still want to.`;
-      else budgetMessageEl.textContent=`Your current priced shopping list is ${money(total)}, leaving ${money(budget-total)} from your ${periodLabel} budget.`;
-    }
-    if(summaryEl)summaryEl.textContent=state.buy.length?`${state.buy.length} item${state.buy.length===1?'':'s'} ready for your next shop.`:'Start with your meal plan or add items you need for the household.';
-  }
-
-  function addItem(){
-    const name=clean(input?.value);if(!name)return;
-    const exists=[...state.buy,...state.have].some(x=>same(x.name,name));
-    if(!exists)state.buy.push({name,qty:Math.max(.01,Number(qtyInput?.value)||1),price:priceInput?.value===''?null:Math.max(0,Number(priceInput.value)||0)});
-    if(input)input.value='';if(qtyInput)qtyInput.value='1';if(priceInput)priceInput.value='';save();
-  }
-  addBtn?.addEventListener('click',addItem);
-  input?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addItem()}});
-  function syncBudgetInputs(){const p=profileData();if(budgetInput)budgetInput.value=p?.budgetAmount??'';if(budgetPeriodInput)budgetPeriodInput.value=p?.budgetPeriod||'week';}
-  saveBudgetBtn?.addEventListener('click',()=>{const p=profileData()||{};const amount=budgetInput?.value===''?null:Math.max(0,Number(budgetInput.value)||0);p.budgetAmount=amount;p.budgetPeriod=budgetPeriodInput?.value||'week';localStorage.setItem('cgtCookingProfile',JSON.stringify(p));render();if(typeof showToast==='function')showToast('Food budget saved');});
-  syncBudgetInputs();
-  const profileCurrencyLabel=document.getElementById('profileCurrencyLabel');if(profileCurrencyLabel)profileCurrencyLabel.textContent=`(${detectedCurrency} ${currencySymbol()})`;
-
-  buildBtn?.addEventListener('click',()=>{
-    let planner=null,profile=null;try{planner=JSON.parse(localStorage.getItem('cgtMealPlanner')||'null')}catch(e){}try{profile=profileData()}catch(e){}
-    const profileFoods=String(profile?.commonFoodsText||'').split(/[,;\n]+/).map(clean).filter(Boolean);
-    const plannerFoods=Array.isArray(planner?.foods)?planner.foods.map(clean).filter(Boolean):[];
-    const customFoods=Array.isArray(planner?.customFoods)?planner.customFoods.map(clean).filter(Boolean):[];
-    let foods=[...plannerFoods,...customFoods,...profileFoods];
-    if(!foods.length){foods=['Rice','Beans','Eggs','Tomatoes','Onions','Pepper','Bread','Pasta','Plantain'];if(summaryEl)summaryEl.textContent='Starter shopping list created. Add your own items or build from your meal plan.'}
-    const unique=[];foods.forEach(x=>{if(x&&!unique.some(y=>same(y,x)))unique.push(x)});
-    let added=0;unique.slice(0,25).forEach(x=>{if(![...state.buy,...state.have].some(y=>same(y.name,x))){state.buy.push({name:x,qty:1,price:null});added++}});
-    save();if(typeof showToast==='function')showToast(added?`Shopping list built — ${added} item${added===1?'':'s'} added`:'Your shopping list is already up to date');document.getElementById('smart-shopping')?.scrollIntoView({behavior:'smooth',block:'start'});
-  });
-  render();
-})();
-</script>
-
-
-<script>
-(function(){
-  const nav=document.getElementById('navOpenChatBtn');
-  const open=document.getElementById('openChatBtn');
-  if(nav && open) nav.addEventListener('click',function(e){e.preventDefault();open.click();});
-})();
-</script>
-
 </body>
 </html>
