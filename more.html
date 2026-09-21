@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#667eea"
+    >
+
+    <meta
+        name="description"
+        content="Explore additional Cooking Gas Tracker tools, gas safety resources, meal planning, smart shopping, your cooking profile, FAQ and related products."
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <title>
+        More | Cooking Gas Tracker & Manager
+    </title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="https://i.imgur.com/IkrGaXF.png"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        /* =====================================
+           RESET
+        ===================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+            min-height: 100vh;
+            transition:
+                background .25s ease,
+                color .25s ease;
+        }
+
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+
+        button {
+            font-family: inherit;
+        }
+
+
+        /* =====================================
+           CONTAINER
+        ===================================== */
+
+        .container {
+            width: min(
+                760px,
+                calc(100% - 32px)
+            );
+
+            margin: 0 auto;
+
+            padding-bottom: 100px;
+        }
+
+
+        /* =====================================
+           HEADER
+        ===================================== */
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            padding: 22px 0 18px;
+        }
+
+
+        .back-button {
+            width: 42px;
+            height: 42px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 12px;
+
+            background: #fff;
+            border: 1px solid #e1e5ed;
+
+            color: #172033;
+
+            font-size: 1.35rem;
+            font-weight: 700;
+
+            transition: .2s ease;
+        }
+
+
+        .back-button:hover {
+            transform: translateX(-2px);
+            border-color: #667eea;
+            color: #5b52b7;
+        }
+
+
+        .header-title {
+            flex: 1;
+        }
+
+
+        .header-title h1 {
+            font-size: 1.45rem;
+            letter-spacing: -.035em;
+            margin-bottom: 3px;
+        }
+
+
+        .header-title p {
+            color: #737d90;
+            font-size: .76rem;
+        }
+
+
+        .theme-toggle {
+            width: 42px;
+            height: 42px;
+
+            border: 1px solid #dfe4ec;
+            border-radius: 12px;
+
+            background: #fff;
+            color: #172033;
+
+            cursor: pointer;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 1.05rem;
+
+            transition: .2s ease;
+        }
+
+
+        .theme-toggle:hover {
+            border-color: #667eea;
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================
+           INTRO
+        ===================================== */
+
+        .intro {
+            padding: 25px 0 24px;
+        }
+
+
+        .intro-badge {
+            display: inline-flex;
+            align-items: center;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            background: #eef0ff;
+            color: #5b52b7;
+
+            font-size: .7rem;
+            font-weight: 800;
+
+            letter-spacing: .04em;
+
+            margin-bottom: 12px;
+        }
+
+
+        .intro h2 {
+            font-size: clamp(
+                1.7rem,
+                4vw,
+                2.35rem
+            );
+
+            letter-spacing: -.045em;
+
+            line-height: 1.1;
+
+            margin-bottom: 10px;
+        }
+
+
+        .intro p {
+            color: #697386;
+
+            font-size: .9rem;
+
+            line-height: 1.7;
+
+            max-width: 650px;
+        }
+
+
+        /* =====================================
+           GROUP
+        ===================================== */
+
+        .menu-group {
+            margin-top: 27px;
+        }
+
+
+        .group-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin: 0 5px 10px;
+
+            color: #667085;
+
+            font-size: .72rem;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: .12em;
+        }
+
+
+        .group-title-icon {
+            font-size: .95rem;
+        }
+
+
+        /* =====================================
+           MENU CARD
+        ===================================== */
+
+        .menu-card {
+            overflow: hidden;
+
+            background: #fff;
+
+            border: 1px solid #e2e6ee;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(20,30,60,.045);
+        }
+
+
+        .menu-item {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+
+            min-height: 76px;
+
+            padding: 13px 16px;
+
+            transition:
+                background .2s ease,
+                transform .2s ease;
+        }
+
+
+        .menu-item:not(:last-child) {
+            border-bottom: 1px solid #edf0f4;
+        }
+
+
+        .menu-item:hover {
+            background: #f8f9ff;
+        }
+
+
+        .menu-icon {
+            width: 46px;
+            height: 46px;
+
+            flex: 0 0 auto;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f0f1ff,
+                    #f7f8ff
+                );
+
+            font-size: 1.25rem;
+        }
+
+
+        .menu-content {
+            flex: 1;
+
+            min-width: 0;
+        }
+
+
+        .menu-content strong {
+            display: block;
+
+            color: #172033;
+
+            font-size: .9rem;
+
+            line-height: 1.35;
+
+            margin-bottom: 3px;
+        }
+
+
+        .menu-content span {
+            display: block;
+
+            color: #7a8495;
+
+            font-size: .74rem;
+
+            line-height: 1.45;
+        }
+
+
+        .menu-arrow {
+            width: 32px;
+            height: 32px;
+
+            flex: 0 0 auto;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            background: #f4f5f8;
+
+            color: #667085;
+
+            font-size: 1.35rem;
+
+            font-weight: 500;
+        }
+
+
+        /* =====================================
+           PRODUCT HIGHLIGHT
+        ===================================== */
+
+        .product-box {
+            margin-top: 30px;
+
+            padding: 21px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef0ff,
+                    #f8f6ff
+                );
+
+            border: 1px solid #dfe1ff;
+        }
+
+
+        .product-box-label {
+            display: inline-block;
+
+            margin-bottom: 9px;
+
+            color: #5b52b7;
+
+            font-size: .68rem;
+
+            font-weight: 900;
+
+            letter-spacing: .1em;
+
+            text-transform: uppercase;
+        }
+
+
+        .product-box h3 {
+            font-size: 1.1rem;
+
+            margin-bottom: 7px;
+        }
+
+
+        .product-box p {
+            color: #5f6b7c;
+
+            font-size: .8rem;
+
+            line-height: 1.65;
+
+            margin-bottom: 14px;
+        }
+
+
+        .product-link {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 10px 13px;
+
+            border-radius: 11px;
+
+            background: #5b52b7;
+
+            color: #fff;
+
+            font-size: .76rem;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================
+           FOOTER
+        ===================================== */
+
+        .footer {
+            text-align: center;
+
+            padding: 38px 10px 15px;
+
+            color: #7a8495;
+        }
+
+
+        .footer-brand {
+            color: #172033;
+
+            font-size: .9rem;
+
+            font-weight: 800;
+
+            margin-bottom: 7px;
+        }
+
+
+        .footer p {
+            font-size: .73rem;
+
+            line-height: 1.6;
+
+            margin-bottom: 7px;
+        }
+
+
+        .footer a {
+            color: #5b52b7;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================
+           MOBILE NAV
+        ===================================== */
+
+        .mobile-nav {
+            position: fixed;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+
+            z-index: 9999;
+
+            padding:
+                7px 5px
+                calc(
+                    7px +
+                    env(
+                        safe-area-inset-bottom,
+                        0px
+                    )
+                );
+
+            background:
+                rgba(255,255,255,.96);
+
+            backdrop-filter: blur(16px);
+
+            border:
+                1px solid #dfe5ee;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 14px 40px
+                rgba(20,30,60,.18);
+        }
+
+
+        .mobile-nav a {
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 3px;
+
+            padding: 6px 2px;
+
+            border-radius: 12px;
+
+            color: #657084;
+
+            font-size: .64rem;
+
+            font-weight: 800;
+
+            text-align: center;
+        }
+
+
+        .mobile-nav a strong {
+            font-size: 1.05rem;
+
+            line-height: 1;
+        }
+
+
+        .mobile-nav a.active {
+            background: #eef0ff;
+
+            color: #5b52b7;
+        }
+
+
+        /* =====================================
+           DARK MODE
+        ===================================== */
+
+        body.dark-mode {
+            background: #0f1220;
+            color: #edf1fb;
+        }
+
+
+        body.dark-mode .back-button,
+        body.dark-mode .theme-toggle {
+            background: #171b2b;
+            border-color: #30384d;
+            color: #fff;
+        }
+
+
+        body.dark-mode .header-title p,
+        body.dark-mode .intro p {
+            color: #b7c0cf;
+        }
+
+
+        body.dark-mode .intro-badge {
+            background: #29254d;
+            color: #d9d6ff;
+        }
+
+
+        body.dark-mode .group-title {
+            color: #9da7bb;
+        }
+
+
+        body.dark-mode .menu-card {
+            background: #171b2b;
+            border-color: #2c3448;
+            box-shadow: none;
+        }
+
+
+        body.dark-mode .menu-item:not(:last-child) {
+            border-color: #2c3448;
+        }
+
+
+        body.dark-mode .menu-item:hover {
+            background: #1d2233;
+        }
+
+
+        body.dark-mode .menu-icon {
+            background: #29254d;
+        }
+
+
+        body.dark-mode .menu-content strong {
+            color: #fff;
+        }
+
+
+        body.dark-mode .menu-content span {
+            color: #b7c0cf;
+        }
+
+
+        body.dark-mode .menu-arrow {
+            background: #252a3a;
+            color: #bfc7d8;
+        }
+
+
+        body.dark-mode .product-box {
+            background:
+                linear-gradient(
+                    135deg,
+                    #20213a,
+                    #1b1d30
+                );
+
+            border-color: #38365e;
+        }
+
+
+        body.dark-mode .product-box-label {
+            color: #c8c4ff;
+        }
+
+
+        body.dark-mode .product-box p {
+            color: #c6cede;
+        }
+
+
+        body.dark-mode .footer {
+            color: #9da7bb;
+        }
+
+
+        body.dark-mode .footer-brand {
+            color: #fff;
+        }
+
+
+        body.dark-mode .mobile-nav {
+            background:
+                rgba(15,23,42,.96);
+
+            border-color: #334155;
+        }
+
+
+        body.dark-mode .mobile-nav a {
+            color: #aeb8c9;
+        }
+
+
+        body.dark-mode .mobile-nav a.active {
+            background: #25234a;
+            color: #d7d9ff;
+        }
+
+
+        /* =====================================
+           DESKTOP
+        ===================================== */
+
+        @media (min-width: 761px) {
+
+            .mobile-nav {
+                display: none;
+            }
+
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (max-width: 760px) {
+
+            .container {
+                width:
+                    min(
+                        100% - 24px,
+                        620px
+                    );
+            }
+
+
+            .page-header {
+                padding-top: 17px;
+            }
+
+
+            .header-title h1 {
+                font-size: 1.25rem;
+            }
+
+
+            .intro {
+                padding-top: 20px;
+            }
+
+
+            .menu-item {
+                min-height: 78px;
+            }
+
+
+            .menu-content span {
+                max-width: 95%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =====================================
+         HEADER
+    ====================================== -->
+
+    <header class="page-header">
+
+
+        <a
+            href="index.html"
+            class="back-button"
+            aria-label="Back to home"
+        >
+            ‹
+        </a>
+
+
+        <div class="header-title">
+
+            <h1>
+                More
+            </h1>
+
+            <p>
+                More tools and resources
+            </p>
+
+        </div>
+
+
+        <button
+            class="theme-toggle"
+            id="themeToggle"
+            type="button"
+            onclick="toggleTheme()"
+            aria-label="Switch to dark mode"
+        >
+            🌙
+        </button>
+
+
+    </header>
+
+
+
+    <!-- =====================================
+         INTRO
+    ====================================== -->
+
+    <section class="intro">
+
+
+        <div class="intro-badge">
+            EXPLORE MORE
+        </div>
+
+
+        <h2>
+            More ways to get value from
+            Cooking Gas Tracker.
+        </h2>
+
+
+        <p>
+
+            Explore helpful tools, cooking resources,
+            safety information and other parts of the
+            Cooking Gas Tracker experience.
+
+            Each section opens on its own dedicated
+            page.
+
+        </p>
+
+
+    </section>
+
+
+
+    <!-- =====================================
+         COOKING GAS
+    ====================================== -->
+
+    <section class="menu-group">
+
+
+        <div class="group-title">
+
+            <span class="group-title-icon">
+                🔥
+            </span>
+
+            Cooking Gas
+
+        </div>
+
+
+        <div class="menu-card">
+
+
+            <a
+                href="gas-guide.html"
+                class="menu-item"
+            >
+
+                <div class="menu-icon">
+                    📖
+                </div>
+
+
+                <div class="menu-content">
+
+                    <strong>
+                        Cooking Gas Guide
+                    </strong>
+
+                    <span>
+                        Learn about gas usage,
+                        cylinders and everyday
+                        cooking.
+                    </span>
+
+                </div>
+
+
+                <div class="menu-arrow">
+                    ›
+                </div>
+
+            </a>
+
+
+
+            <a
+                href="gas-saving-tips.html"
+                class="menu-item"
+            >
+
+                <div class="menu-icon">
+                    💡
+                </div>
+
+
+                <div class="menu-content">
+
+                    <strong>
+                        Gas Saving Tips
+                    </strong>
+
+                    <span>
+                        Practical habits that can
+                        help you reduce unnecessary
+                        gas consumption.
+                    </span>
+
+                </div>
+
+
+                <div class="menu-arrow">
+                    ›
+                </div>
+
+            </a>
+
+
+
+            <a
+                href="gas-safety.html"
+                class="menu-item"
+            >
+
+                <div class="menu-icon">
+                    🛡️
+                </div>
+
+
+                <div class="menu-content">
+
+                    <strong>
+                        Gas Safety Center
+                    </strong>
+
+                    <span>
+                        Important safety practices
+                        for everyday cooking gas use.
+                    </span>
+
+                </div>
+
+
+                <div class="menu-arrow">
+                    ›
+                </div>
+
+            </a>
+
+
+
+            <a
+                href="how-it-works.html"
+                class="menu-item"
+            >
+
+                <div class="menu-icon">
+                    ⚙️
+                </div>
+
+
+                <div class="menu-content">
+
+                    <strong>
+                        How It Works
+                    </strong>
+
+                    <span>
+                        Understand how Cooking Gas
+                        Tracker works.
+                    </span>
+
+                </div>
+
+
+                <div class="menu-arrow">
+                    ›
+                </div>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         FOOD & PLANNING
+    ====================================== -->
+
+    <section class="menu-group">
+
+
+        <div class="group-title">
+
+            <span class="group-title-icon">
+                🍳
+            </span>
+
+            Food & Planning
+
+        </div>
+
+
+        <div class="menu-card">
+
+
+            <a
+                href="meal-planner.html"
+                class="menu-item"
+            >
+
+                <div class="menu-icon">
+                    🍲
+                </div>
+
+
+                <div class="menu-content">
+
+                    <strong>
+                        Smart Meal Planner
+                    </strong>
+
+                    <span>
+                        Plan practical meals around
+                        your household needs.
+                    </span>
+
+                </div>
+
+
+                <div class="menu-arrow">
+                    ›
+                </div>
+
+            </a>
+
+
+
+            <a
+                href="smart-shopping.html"
+                class="menu-item"
+            >
+
+                <div class="menu-icon">
+                    🛒
+                </div>
+
+
+                <div class="menu-content">
+
+                    <strong>
+                        Smart Shopping
+                    </strong>
+
+                    <span>
+                        Organize your food shopping
+                        and keep track of what you need.
+                    </span>
+
+                </div>
+
+
+                <div class="menu-arrow">
+                    ›
+                </div>
+
+            </a>
+
+
+
+            <a
+                href="cooking-profile.html"
+                class="menu-item"
+            >
+
+                <div class="menu-icon">
+                    👤
+                </div>
+
+
+                <div class="menu-content">
+
+                    <strong>
+                        My Cooking Profile
+                    </strong>
+
+                    <span>
+                        Keep your cooking preferences
+                        and household information together.
+                    </span>
+
+                </div>
+
+
+                <div class="menu-arrow">
+                    ›
+                </div>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         LEARN
+    ====================================== -->
+
+    <section class="menu-group">
+
+
+        <div class="group-title">
+
+            <span class="group-title-icon">
+                📚
+            </span>
+
+            Learn
+
+        </div>
+
+
+        <div class="menu-card">
+
+
+            <a
+                href="guides.html"
+                class="menu-item"
+            >
+
+                <div class="menu-icon">
+                    📚
+                </div>
+
+
+                <div class="menu-content">
+
+                    <strong>
+                        Guides & Resources
+                    </strong>
+
+                    <span>
+                        Explore our collection of
+                        cooking gas guides.
+                    </span>
+
+                </div>
+
+
+                <div class="menu-arrow">
+                    ›
+                </div>
+
+            </a>
+
+
+
+            <a
+                href="faq.html"
+                class="menu-item"
+            >
+
+                <div class="menu-icon">
+                    ❓
+                </div>
+
+
+                <div class="menu-content">
+
+                    <strong>
+                        Frequently Asked Questions
+                    </strong>
+
+                    <span>
+                        Find answers to common
+                        questions about the tracker.
+                    </span>
+
+                </div>
+
+
+                <div class="menu-arrow">
+                    ›
+                </div>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         OUR PRODUCTS
+    ====================================== -->
+
+    <section class="menu-group">
+
+
+        <div class="group-title">
+
+            <span class="group-title-icon">
+                🚀
+            </span>
+
+            Our Products
+
+        </div>
+
+
+        <div class="menu-card">
+
+
+            <a
+                href="products.html"
+                class="menu-item"
+            >
+
+                <div class="menu-icon">
+                    🚀
+                </div>
+
+
+                <div class="menu-content">
+
+                    <strong>
+                        Products & Tools
+                    </strong>
+
+                    <span>
+                        Discover other useful products
+                        and tools from our ecosystem.
+                    </span>
+
+                </div>
+
+
+                <div class="menu-arrow">
+                    ›
+                </div>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         PRODUCT MESSAGE
+    ====================================== -->
+
+    <section class="product-box">
+
+
+        <div class="product-box-label">
+            BUILDING SOMETHING BIGGER
+        </div>
+
+
+        <h3>
+            More useful tools are coming.
+        </h3>
+
+
+        <p>
+
+            Cooking Gas Tracker can grow beyond
+            gas tracking. We can gradually add
+            useful tools related to cooking,
+            household planning, food management
+            and everyday life.
+
+        </p>
+
+
+        <a
+            href="products.html"
+            class="product-link"
+        >
+            Explore Products →
+        </a>
+
+
+    </section>
+
+
+
+    <!-- =====================================
+         FOOTER
+    ====================================== -->
+
+    <footer class="footer">
+
+
+        <div class="footer-brand">
+            🔥 Cooking Gas Tracker & Manager
+        </div>
+
+
+        <p>
+            Track smarter. Refill on time.
+        </p>
+
+
+        <p>
+
+            <a
+                href="https://policies-privacy-8c085d.netlify.app/"
+                target="_blank"
+                rel="noopener"
+            >
+                Privacy Policy
+            </a>
+
+            &nbsp; • &nbsp;
+
+            <a
+                href="https://about-us-a9f8d5.netlify.app/"
+                target="_blank"
+                rel="noopener"
+            >
+                About Us
+            </a>
+
+            &nbsp; • &nbsp;
+
+            <a
+                href="https://terms-condition-36816f.netlify.app/"
+                target="_blank"
+                rel="noopener"
+            >
+                Terms & Conditions
+            </a>
+
+        </p>
+
+
+        <p>
+            © 2026 Cooking Gas Tracker & Manager
+        </p>
+
+
+    </footer>
+
+
+</div>
+
+
+
+<!-- =====================================
+     MOBILE NAV
+====================================== -->
+
+<nav class="mobile-nav">
+
+
+    <a href="index.html">
+
+        <strong>
+            ⌂
+        </strong>
+
+        Home
+
+    </a>
+
+
+    <a href="tracker.html">
+
+        <strong>
+            🔥
+        </strong>
+
+        Tracker
+
+    </a>
+
+
+    <a href="assistant.html">
+
+        <strong>
+            🤖
+        </strong>
+
+        Assistant
+
+    </a>
+
+
+    <a href="guides.html">
+
+        <strong>
+            📚
+        </strong>
+
+        Guides
+
+    </a>
+
+
+    <a
+        href="more.html"
+        class="active"
+    >
+
+        <strong>
+            ☰
+        </strong>
+
+        More
+
+    </a>
+
+
+</nav>
+
+
+
+<script>
+
+    /* =====================================
+       DARK MODE
+    ===================================== */
+
+    function applyTheme(theme) {
+
+        const dark =
+            theme === 'dark';
+
+
+        document.body.classList.toggle(
+            'dark-mode',
+            dark
+        );
+
+
+        const button =
+            document.getElementById(
+                'themeToggle'
+            );
+
+
+        if (button) {
+
+            button.textContent =
+                dark
+                    ? '☀️'
+                    : '🌙';
+
+            button.setAttribute(
+                'aria-label',
+                dark
+                    ? 'Switch to light mode'
+                    : 'Switch to dark mode'
+            );
+
+            button.title =
+                dark
+                    ? 'Switch to light mode'
+                    : 'Switch to dark mode';
+
+        }
+
+
+        const metaTheme =
+            document.querySelector(
+                'meta[name="theme-color"]'
+            );
+
+
+        if (metaTheme) {
+
+            metaTheme.setAttribute(
+                'content',
+                dark
+                    ? '#0f1220'
+                    : '#667eea'
+            );
+
+        }
+
+    }
+
+
+    function toggleTheme() {
+
+        const next =
+            document.body.classList.contains(
+                'dark-mode'
+            )
+                ? 'light'
+                : 'dark';
+
+
+        localStorage.setItem(
+            'cookingGasTrackerTheme',
+            next
+        );
+
+
+        applyTheme(next);
+
+    }
+
+
+    const savedTheme =
+        localStorage.getItem(
+            'cookingGasTrackerTheme'
+        );
+
+
+    const systemDark =
+        window.matchMedia &&
+        window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        ).matches;
+
+
+    applyTheme(
+        savedTheme ||
+        (systemDark
+            ? 'dark'
+            : 'light')
+    );
+
+</script>
+
+
+</body>
+
+</html>
