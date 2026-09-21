@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cooking Gas Assistant | Cooking Gas Tracker & Manager</title>
+
+<meta name="description" content="Get practical help with cooking gas management, gas saving, meal planning, food budgeting and cooking tips.">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#f7f9fc;
+    --card:#ffffff;
+    --text:#172033;
+    --muted:#687386;
+    --border:#e4e9f1;
+    --primary:#ff7a00;
+    --primary-dark:#e96300;
+    --secondary:#fff3e7;
+    --shadow:0 12px 35px rgba(20,30,60,.08);
+}
+
+body.dark{
+    --bg:#0d1420;
+    --card:#151e2d;
+    --text:#f3f6fb;
+    --muted:#aab5c5;
+    --border:#293548;
+    --secondary:#252018;
+    --shadow:0 12px 35px rgba(0,0,0,.3);
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+    transition:.25s ease;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input{
+    font:inherit;
+}
+
+.container{
+    width:min(1120px,92%);
+    margin:auto;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(255,255,255,.94);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(12px);
+}
+
+body.dark header{
+    background:rgba(13,20,32,.94);
+}
+
+.header-inner{
+    min-height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:900;
+    font-size:17px;
+}
+
+.logo-mark{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#ff9a3d,#ff6800);
+    color:white;
+    font-size:21px;
+}
+
+.nav{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.nav a{
+    padding:9px 12px;
+    border-radius:10px;
+    color:var(--muted);
+    font-weight:700;
+    font-size:14px;
+}
+
+.nav a:hover,
+.nav a.active{
+    color:var(--primary);
+    background:var(--secondary);
+}
+
+.theme-btn{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    width:40px;
+    height:40px;
+    border-radius:11px;
+    cursor:pointer;
+}
+
+/* HERO */
+
+.hero{
+    padding:65px 0 45px;
+}
+
+.hero-grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:40px;
+    align-items:center;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 12px;
+    border-radius:999px;
+    background:var(--secondary);
+    color:var(--primary);
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:clamp(36px,5vw,60px);
+    line-height:1.05;
+    letter-spacing:-2px;
+    margin-bottom:20px;
+}
+
+.hero h1 span{
+    color:var(--primary);
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:17px;
+    max-width:680px;
+}
+
+.hero-actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:28px;
+}
+
+.btn{
+    border:0;
+    cursor:pointer;
+    padding:13px 18px;
+    border-radius:12px;
+    font-weight:800;
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.btn-secondary{
+    background:var(--card);
+    color:var(--text);
+    border:1px solid var(--border);
+}
+
+/* ASSISTANT VISUAL */
+
+.assistant-visual{
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    border-radius:28px;
+    padding:25px;
+}
+
+.ai-top{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--border);
+}
+
+.ai-icon{
+    width:52px;
+    height:52px;
+    display:grid;
+    place-items:center;
+    border-radius:16px;
+    background:var(--secondary);
+    font-size:27px;
+}
+
+.ai-top h3{
+    font-size:18px;
+}
+
+.ai-top p{
+    font-size:13px;
+    color:var(--muted);
+}
+
+.mini-message{
+    margin-top:18px;
+    padding:14px 16px;
+    background:var(--secondary);
+    border-radius:15px;
+    font-size:14px;
+}
+
+.mini-message.user{
+    background:var(--primary);
+    color:#fff;
+    margin-left:35px;
+}
+
+.online{
+    margin-left:auto;
+    font-size:12px;
+    color:#16a34a;
+    font-weight:800;
+}
+
+/* MAIN */
+
+main{
+    padding-bottom:80px;
+}
+
+.section-title{
+    text-align:center;
+    margin:20px auto 30px;
+}
+
+.section-title .eyebrow{
+    color:var(--primary);
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:1.5px;
+}
+
+.section-title h2{
+    font-size:32px;
+    margin:6px 0 8px;
+}
+
+.section-title p{
+    color:var(--muted);
+    max-width:650px;
+    margin:auto;
+}
+
+/* CHAT */
+
+.chat-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    border-radius:25px;
+    overflow:hidden;
+    max-width:900px;
+    margin:auto;
+}
+
+.chat-header{
+    padding:20px 22px;
+    display:flex;
+    align-items:center;
+    gap:13px;
+    border-bottom:1px solid var(--border);
+}
+
+.chat-header-icon{
+    width:45px;
+    height:45px;
+    display:grid;
+    place-items:center;
+    border-radius:13px;
+    background:var(--secondary);
+    font-size:23px;
+}
+
+.chat-header h3{
+    font-size:18px;
+}
+
+.chat-header p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.chat-body{
+    min-height:350px;
+    max-height:480px;
+    overflow-y:auto;
+    padding:22px;
+}
+
+.message{
+    max-width:78%;
+    padding:13px 16px;
+    border-radius:17px;
+    margin-bottom:13px;
+    font-size:14px;
+}
+
+.message.bot{
+    background:var(--secondary);
+    border-bottom-left-radius:5px;
+}
+
+.message.user{
+    background:var(--primary);
+    color:white;
+    margin-left:auto;
+    border-bottom-right-radius:5px;
+}
+
+.chat-suggestions{
+    padding:0 22px 17px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.suggestion{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:999px;
+    padding:8px 12px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:700;
+}
+
+.suggestion:hover{
+    border-color:var(--primary);
+    color:var(--primary);
+}
+
+.chat-form{
+    padding:17px;
+    border-top:1px solid var(--border);
+    display:flex;
+    gap:10px;
+}
+
+.chat-form input{
+    flex:1;
+    min-width:0;
+    border:1px solid var(--border);
+    background:var(--bg);
+    color:var(--text);
+    border-radius:13px;
+    padding:13px 15px;
+    outline:none;
+}
+
+.chat-form input:focus{
+    border-color:var(--primary);
+}
+
+.chat-form button{
+    border:0;
+    background:var(--primary);
+    color:white;
+    padding:0 22px;
+    border-radius:13px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.chat-note{
+    padding:0 20px 20px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* TOOLS */
+
+.tools{
+    padding:75px 0 10px;
+}
+
+.tools-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+}
+
+.tool-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:21px;
+    transition:.2s ease;
+}
+
+.tool-card:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow);
+}
+
+.tool-icon{
+    width:45px;
+    height:45px;
+    display:grid;
+    place-items:center;
+    border-radius:13px;
+    background:var(--secondary);
+    font-size:22px;
+    margin-bottom:14px;
+}
+
+.tool-card h3{
+    font-size:16px;
+    margin-bottom:6px;
+}
+
+.tool-card p{
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:14px;
+}
+
+.tool-card a{
+    color:var(--primary);
+    font-weight:800;
+    font-size:13px;
+}
+
+/* PROFILE */
+
+.profile-box{
+    margin-top:55px;
+    background:linear-gradient(135deg,var(--secondary),var(--card));
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:25px;
+}
+
+.profile-box h2{
+    margin-bottom:7px;
+}
+
+.profile-box p{
+    color:var(--muted);
+    max-width:700px;
+}
+
+/* SAFETY */
+
+.safety{
+    margin-top:30px;
+    padding:20px;
+    border-radius:18px;
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    color:#7c2d12;
+}
+
+body.dark .safety{
+    background:#271b12;
+    border-color:#70401d;
+    color:#fed7aa;
+}
+
+.safety strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+/* FOOTER */
+
+footer{
+    border-top:1px solid var(--border);
+    padding:35px 0 90px;
+    color:var(--muted);
+}
+
+.footer-inner{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.footer-links{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+}
+
+.footer-links a:hover{
+    color:var(--primary);
+}
+
+/* MOBILE NAV */
+
+.mobile-nav{
+    display:none;
+}
+
+@media(max-width:850px){
+
+    .nav{
+        display:none;
+    }
+
+    .hero-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        padding-top:40px;
+    }
+
+    .tools-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .profile-box{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .mobile-nav{
+        display:flex;
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        z-index:2000;
+        background:var(--card);
+        border-top:1px solid var(--border);
+        justify-content:space-around;
+        padding:8px 5px calc(8px + env(safe-area-inset-bottom));
+        box-shadow:0 -8px 25px rgba(0,0,0,.08);
+    }
+
+    .mobile-nav a{
+        font-size:11px;
+        color:var(--muted);
+        text-align:center;
+        font-weight:700;
+    }
+
+    .mobile-nav span{
+        display:block;
+        font-size:20px;
+        line-height:24px;
+    }
+
+    .mobile-nav a.active{
+        color:var(--primary);
+    }
+}
+
+@media(max-width:560px){
+
+    .container{
+        width:min(94%,520px);
+    }
+
+    .hero h1{
+        font-size:39px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    .chat-body{
+        min-height:300px;
+    }
+
+    .message{
+        max-width:88%;
+    }
+
+    .chat-form{
+        flex-direction:column;
+    }
+
+    .chat-form button{
+        padding:13px;
+    }
+
+    .tools-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-inner{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="container header-inner">
+
+        <a href="index.html" class="logo">
+            <div class="logo-mark">🔥</div>
+            <span>Cooking Gas Tracker</span>
+        </a>
+
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="tracker.html">Tracker</a>
+            <a href="assistant.html" class="active">Assistant</a>
+            <a href="guides.html">Guides</a>
+            <a href="more.html">More</a>
+        </nav>
+
+        <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode">
+            🌙
+        </button>
+
+    </div>
+</header>
+
+
+<main>
+
+<!-- HERO -->
+
+<section class="hero">
+    <div class="container hero-grid">
+
+        <div>
+
+            <div class="badge">
+                🤖 SMART COOKING ASSISTANT
+            </div>
+
+            <h1>
+                Your smart helper for
+                <span>gas & cooking.</span>
+            </h1>
+
+            <p>
+                Get practical guidance for managing your cooking gas,
+                saving gas, planning meals, controlling your food budget,
+                solving common cooking problems and making smarter
+                everyday decisions in the kitchen.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#chat" class="btn btn-primary">
+                    💬 Ask the Assistant
+                </a>
+
+                <a href="cooking-profile.html" class="btn btn-secondary">
+                    👤 My Cooking Profile
+                </a>
+            </div>
+
+        </div>
+
+
+        <div class="assistant-visual">
+
+            <div class="ai-top">
+
+                <div class="ai-icon">🤖</div>
+
+                <div>
+                    <h3>Gas & Food Assistant</h3>
+                    <p>Practical everyday guidance</p>
+                </div>
+
+                <span class="online">● Ready</span>
+
+            </div>
+
+            <div class="mini-message">
+                👋 Hello! How can I help you manage your gas and food today?
+            </div>
+
+            <div class="mini-message user">
+                How can I make my gas last longer?
+            </div>
+
+            <div class="mini-message">
+                🔥 Use the right heat level, avoid unnecessary long cooking
+                times and keep your burners clean and working properly.
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- CHAT -->
+
+<section id="chat">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <div class="eyebrow">
+                ASK YOUR QUESTION
+            </div>
+
+            <h2>How can I help?</h2>
+
+            <p>
+                Ask a question about your cooking gas, meals,
+                food budget or everyday cooking.
+            </p>
+
+        </div>
+
+
+        <div class="chat-card">
+
+            <div class="chat-header">
+
+                <div class="chat-header-icon">
+                    💬
+                </div>
+
+                <div>
+                    <h3>Gas & Food Assistant</h3>
+                    <p>Ask your question below</p>
+                </div>
+
+            </div>
+
+
+            <div class="chat-body" id="chatMessages">
+
+                <div class="message bot">
+                    <strong>Cooking Gas Tracker:</strong><br><br>
+
+                    Hi! 👋
+
+                    I can help you with cooking gas management,
+                    gas-saving ideas, meal planning, food budgeting,
+                    shopping suggestions and common cooking questions.
+
+                    What would you like help with?
+                </div>
+
+            </div>
+
+
+            <div class="chat-suggestions">
+
+                <button class="suggestion"
+                    data-question="How can I make my gas last longer?">
+                    🔥 Save gas
+                </button>
+
+                <button class="suggestion"
+                    data-question="What can I cook with a small food budget?">
+                    💰 Save money
+                </button>
+
+                <button class="suggestion"
+                    data-question="What can I cook today?">
+                    🍲 Meal idea
+                </button>
+
+                <button class="suggestion"
+                    data-question="My burner flame is low. What should I do?">
+                    🛠️ Burner problem
+                </button>
+
+                <button class="suggestion"
+                    data-question="How can I plan my food shopping better?">
+                    🛒 Shopping
+                </button>
+
+            </div>
+
+
+            <form class="chat-form" id="chatForm">
+
+                <input
+                    type="text"
+                    id="questionInput"
+                    maxlength="500"
+                    autocomplete="off"
+                    placeholder="Ask about your gas or food..."
+                    required
+                >
+
+                <button type="submit">
+                    Ask
+                </button>
+
+            </form>
+
+            <div class="chat-note">
+                💡 The suggestions on this page are general guidance.
+                For dangerous gas situations, stop using the appliance
+                and contact a qualified gas professional or emergency service.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CONNECTED TOOLS -->
+
+<section class="tools">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <div class="eyebrow">
+                YOUR SMART TOOLS
+            </div>
+
+            <h2>Use the Assistant with your other tools</h2>
+
+            <p>
+                Your Cooking Gas Tracker website has more than just
+                gas tracking. These tools work together to help you
+                manage everyday cooking.
+            </p>
+
+        </div>
+
+
+        <div class="tools-grid">
+
+            <div class="tool-card">
+
+                <div class="tool-icon">🔥</div>
+
+                <h3>Gas Tracker</h3>
+
+                <p>
+                    Track your refill and expected consumption date
+                    and manage your gas usage.
+                </p>
+
+                <a href="tracker.html">
+                    Open Tracker →
+                </a>
+
+            </div>
+
+
+            <div class="tool-card">
+
+                <div class="tool-icon">🍲</div>
+
+                <h3>Meal Planner</h3>
+
+                <p>
+                    Plan your meals while considering your cooking
+                    habits, budget and gas usage.
+                </p>
+
+                <a href="meal-planner.html">
+                    Open Meal Planner →
+                </a>
+
+            </div>
+
+
+            <div class="tool-card">
+
+                <div class="tool-icon">🛒</div>
+
+                <h3>Smart Shopping</h3>
+
+                <p>
+                    Organize the food you need and make shopping
+                    more intentional.
+                </p>
+
+                <a href="smart-shopping.html">
+                    Open Smart Shopping →
+                </a>
+
+            </div>
+
+
+            <div class="tool-card">
+
+                <div class="tool-icon">👤</div>
+
+                <h3>Cooking Profile</h3>
+
+                <p>
+                    Save your cooking habits so your other tools
+                    can provide more relevant suggestions.
+                </p>
+
+                <a href="cooking-profile.html">
+                    Open My Profile →
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-box">
+
+            <div>
+
+                <h2>👤 Make your suggestions more personal</h2>
+
+                <p>
+                    Your Cooking Profile can contain information such as
+                    your normal gas amount, current gas amount, household
+                    cooking habits, meals, foods you often eat and your
+                    food budget. This information can be used to make
+                    your meal, shopping and gas-management suggestions
+                    more relevant.
+                </p>
+
+            </div>
+
+            <a href="cooking-profile.html" class="btn btn-primary">
+                Create My Profile
+            </a>
+
+        </div>
+
+
+        <div class="safety">
+
+            <strong>⚠️ Gas Safety Reminder</strong>
+
+            If you suspect a gas leak, smell gas strongly, notice flames
+            around valves or controls, or have a damaged gas cylinder,
+            stop using the appliance and move to a safe location.
+            Contact a qualified gas professional or the appropriate
+            emergency service.
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <div class="container footer-inner">
+
+        <div>
+            © 2026 Cooking Gas Tracker & Manager
+        </div>
+
+        <div class="footer-links">
+
+            <a href="https://policies-privacy-8c085d.netlify.app/">
+                Privacy Policy
+            </a>
+
+            <a href="https://about-us-a9f8d5.netlify.app/">
+                About Us
+            </a>
+
+            <a href="https://terms-condition-36816f.netlify.app/">
+                Terms & Conditions
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- MOBILE NAV -->
+
+<nav class="mobile-nav">
+
+    <a href="index.html">
+        <span>🏠</span>
+        Home
+    </a>
+
+    <a href="tracker.html">
+        <span>🔥</span>
+        Tracker
+    </a>
+
+    <a href="assistant.html" class="active">
+        <span>🤖</span>
+        Assistant
+    </a>
+
+    <a href="guides.html">
+        <span>📚</span>
+        Guides
+    </a>
+
+    <a href="more.html">
+        <span>☰</span>
+        More
+    </a>
+
+</nav>
+
+
+<script>
+
+/* =========================
+   THEME
+========================= */
+
+const themeBtn = document.getElementById("themeBtn");
+
+function loadTheme(){
+
+    const saved = localStorage.getItem("cgtTheme");
+
+    if(saved === "dark"){
+        document.body.classList.add("dark");
+        themeBtn.textContent = "☀️";
+    }else{
+        document.body.classList.remove("dark");
+        themeBtn.textContent = "🌙";
+    }
+
+}
+
+themeBtn.addEventListener("click",function(){
+
+    document.body.classList.toggle("dark");
+
+    const dark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "cgtTheme",
+        dark ? "dark" : "light"
+    );
+
+    themeBtn.textContent =
+        dark ? "☀️" : "🌙";
+
+});
+
+loadTheme();
+
+
+/* =========================
+   CHAT
+========================= */
+
+const chatForm =
+    document.getElementById("chatForm");
+
+const questionInput =
+    document.getElementById("questionInput");
+
+const chatMessages =
+    document.getElementById("chatMessages");
+
+
+function addMessage(text,type){
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message " + type;
+
+    message.innerHTML = text;
+
+    chatMessages.appendChild(message);
+
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+
+    return message;
+}
+
+
+/* =========================
+   READ USER INFORMATION
+========================= */
+
+function getUserData(){
+
+    let tracker = null;
+    let profile = null;
+    let planner = null;
+    let cylinder = null;
+
+    try{
+        tracker =
+            JSON.parse(
+                localStorage.getItem("gasTrackerData")
+                || "null"
+            );
+    }catch(e){}
+
+    try{
+        profile =
+            JSON.parse(
+                localStorage.getItem("cgtCookingProfile")
+                || "null"
+            );
+    }catch(e){}
+
+    try{
+        planner =
+            JSON.parse(
+                localStorage.getItem("cgtMealPlanner")
+                || "null"
+            );
+    }catch(e){}
+
+    try{
+        cylinder =
+            JSON.parse(
+                localStorage.getItem("cgtCylinderSetup")
+                || "null"
+            );
+    }catch(e){}
+
+    return {
+        tracker,
+        profile,
+        planner,
+        cylinder
+    };
+}
+
+
+/* =========================
+   LOCAL ASSISTANT
+========================= */
+
+function answerQuestion(question){
+
+    const q =
+        question.toLowerCase();
+
+    const data =
+        getUserData();
+
+    const profile =
+        data.profile || {};
+
+    const tracker =
+        data.tracker || {};
+
+    const dates =
+        tracker.dates || {};
+
+    const cylinder =
+        data.cylinder || {};
+
+
+    /* GAS SAVING */
+
+    if(
+        q.includes("save gas") ||
+        q.includes("last longer") ||
+        q.includes("gas finish") ||
+        q.includes("gas consumption")
+    ){
+
+        return `
+        <strong>🔥 Ways to make your gas last longer</strong><br><br>
+
+        • Use the correct heat level instead of keeping the flame unnecessarily high.<br>
+        • Avoid cooking for longer than necessary.<br>
+        • Keep your burner clean and working properly.<br>
+        • Cover pots when appropriate to reduce cooking time.<br>
+        • Prepare ingredients before turning on the burner.<br>
+        • Try to avoid repeatedly reheating food when it is not necessary.<br><br>
+
+        Remember that your actual gas usage depends on your cooking habits,
+        the type of food you prepare and how long you cook.
+        `;
+    }
+
+
+    /* BUDGET */
+
+    if(
+        q.includes("budget") ||
+        q.includes("save money") ||
+        q.includes("cheap") ||
+        q.includes("affordable")
+    ){
+
+        let budgetText = "";
+
+        if(profile.budget){
+            budgetText =
+                `<br><br>Your saved cooking profile contains
+                budget information, so you can also use the
+                Smart Shopping and Meal Planner tools to organize
+                your spending.`;
+        }
+
+        return `
+        <strong>💰 Managing food costs</strong><br><br>
+
+        Start by deciding how much you can realistically spend
+        for your chosen period. Then plan meals before shopping.<br><br>
+
+        • Build meals around foods you already have.<br>
+        • Avoid buying food without a plan.<br>
+        • Compare quantities and prices before buying.<br>
+        • Use ingredients across several meals where practical.<br>
+        • Keep your shopping list focused on what you actually need.
+
+        ${budgetText}
+        `;
+    }
+
+
+    /* MEALS */
+
+    if(
+        q.includes("meal") ||
+        q.includes("cook today") ||
+        q.includes("what can i cook") ||
+        q.includes("food idea")
+    ){
+
+        return `
+        <strong>🍲 Meal planning idea</strong><br><br>
+
+        A good way to decide what to cook is to first check
+        what ingredients you already have, then choose a meal
+        that fits your available time, budget and cooking needs.<br><br>
+
+        You can use the <strong>Meal Planner</strong> to organize
+        your meals and the <strong>Smart Shopping</strong> page
+        to prepare your shopping list.
+        <br><br>
+
+        <a href="meal-planner.html"
+        style="color:var(--primary);font-weight:800">
+        Open Meal Planner →
+        </a>
+        `;
+    }
+
+
+    /* BURNER */
+
+    if(
+        q.includes("burner") ||
+        q.includes("flame") ||
+        q.includes("low flame") ||
+        q.includes("weak flame")
+    ){
+
+        return `
+        <strong>🛠️ If your burner flame is low</strong><br><br>
+
+        First make sure the burner is switched off before
+        inspecting it.<br><br>
+
+        A dirty burner or blocked burner openings can affect
+        the flame. Allow the burner to cool completely and
+        clean it according to the appliance manufacturer's
+        instructions.<br><br>
+
+        If the problem continues, have the appliance checked
+        by a qualified gas professional.<br><br>
+
+        <strong>⚠️ Safety:</strong> Never attempt to repair
+        gas equipment if you are not qualified to do so.
+        `;
+    }
+
+
+    /* GAS LEAK */
+
+    if(
+        q.includes("gas leak") ||
+        q.includes("smell gas") ||
+        q.includes("gas smell")
+    ){
+
+        return `
+        <strong>⚠️ Possible gas leak</strong><br><br>
+
+        If you strongly suspect a gas leak:
+
+        <br><br>
+        • Stop using the appliance.<br>
+        • Do not create flames or sparks.<br>
+        • Do not operate electrical switches if doing so
+          could create a spark.<br>
+        • Move to a safe location.<br>
+        • Contact a qualified gas professional or appropriate
+          emergency service.
+
+        <br><br>
+
+        Your safety comes first.
+        `;
+    }
+
+
+    /* TRACKER */
+
+    if(
+        q.includes("consumption date") ||
+        q.includes("refill date") ||
+        q.includes("tracker") ||
+        q.includes("when will my gas finish")
+    ){
+
+        if(dates.consumption){
+
+            return `
+            <strong>🔥 Your tracker information</strong><br><br>
+
+            Your saved expected consumption date is:
+
+            <strong>${dates.consumption}</strong>
+
+            <br><br>
+
+            Remember that this is an expected date based on
+            the information entered into the tracker.
+            Actual gas usage can vary depending on your cooking
+            habits and usage during the period.
+
+            <br><br>
+
+            <a href="tracker.html"
+            style="color:var(--primary);font-weight:800">
+            Open Gas Tracker →
+            </a>
+            `;
+        }
+
+        return `
+        <strong>🔥 Gas Tracker</strong><br><br>
+
+        You have not entered an expected consumption date
+        in this browser yet.
+
+        <br><br>
+
+        Open the Tracker to enter your refill and expected
+        consumption information.
+
+        <br><br>
+
+        <a href="tracker.html"
+        style="color:var(--primary);font-weight:800">
+        Open Gas Tracker →
+        </a>
+        `;
+    }
+
+
+    /* SHOPPING */
+
+    if(
+        q.includes("shopping") ||
+        q.includes("shopping list") ||
+        q.includes("buy food")
+    ){
+
+        return `
+        <strong>🛒 Smart Shopping</strong><br><br>
+
+        Before shopping, check your existing food supplies,
+        decide which meals you want to prepare and create
+        a list based on those meals.
+
+        <br><br>
+
+        This can help reduce unnecessary purchases and make
+        your food budget easier to manage.
+
+        <br><br>
+
+        <a href="smart-shopping.html"
+        style="color:var(--primary);font-weight:800">
+        Open Smart Shopping →
+        </a>
+        `;
+    }
+
+
+    /* PROFILE */
+
+    if(
+        q.includes("profile") ||
+        q.includes("my cooking habits") ||
+        q.includes("my information")
+    ){
+
+        return `
+        <strong>👤 Your Cooking Profile</strong><br><br>
+
+        Your Cooking Profile can contain information about
+        your normal gas amount, current gas amount, household
+        cooking habits, foods you often eat, foods you avoid,
+        budget and cooking goals.
+
+        <br><br>
+
+        Keeping this information updated can help the website's
+        tools provide more relevant suggestions.
+
+        <br><br>
+
+        <a href="cooking-profile.html"
+        style="color:var(--primary);font-weight:800">
+        Open Cooking Profile →
+        </a>
+        `;
+    }
+
+
+    /* DEFAULT */
+
+    return `
+    <strong>👋 I can help with that.</strong><br><br>
+
+    Try asking me something like:
+
+    <br><br>
+
+    • How can I make my gas last longer?<br>
+    • What can I cook today?<br>
+    • How can I save money on food?<br>
+    • My burner flame is low. What should I do?<br>
+    • How can I plan my shopping?<br>
+    • When is my expected gas consumption date?
+
+    <br><br>
+
+    You can also use the
+    <strong>Meal Planner</strong>,
+    <strong>Smart Shopping</strong> and
+    <strong>Cooking Profile</strong> pages for more detailed
+    management.
+    `;
+}
+
+
+/* =========================
+   SUBMIT
+========================= */
+
+chatForm.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const question =
+        questionInput.value.trim();
+
+    if(!question){
+        return;
+    }
+
+    addMessage(
+        escapeHtml(question),
+        "user"
+    );
+
+    questionInput.value = "";
+
+    const loading =
+        addMessage(
+            "Thinking...",
+            "bot"
+        );
+
+    setTimeout(function(){
+
+        loading.remove();
+
+        const answer =
+            answerQuestion(question);
+
+        addMessage(
+            answer,
+            "bot"
+        );
+
+    },450);
+
+});
+
+
+/* =========================
+   SUGGESTIONS
+========================= */
+
+document.querySelectorAll(".suggestion")
+.forEach(function(button){
+
+    button.addEventListener("click",function(){
+
+        const question =
+            button.dataset.question;
+
+        questionInput.value =
+            question;
+
+        chatForm.dispatchEvent(
+            new Event("submit")
+        );
+
+    });
+
+});
+
+
+/* =========================
+   ESCAPE TEXT
+========================= */
+
+function escapeHtml(text){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+</script>
+
+</body>
+</html>
