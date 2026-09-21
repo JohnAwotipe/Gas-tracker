@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gas Saving Tips | Cooking Gas Tracker & Manager</title>
+
+<meta name="description" content="Practical cooking habits and gas saving tips to help you use your cooking gas more efficiently and plan your refills.">
+
+<style>
+:root{
+    --purple:#6d28d9;
+    --purple2:#7c3aed;
+    --purple3:#8b5cf6;
+
+    --green:#16a34a;
+    --green-light:#f0fdf4;
+
+    --orange:#ea580c;
+    --orange-light:#fff7ed;
+
+    --blue:#2563eb;
+    --blue-light:#eff6ff;
+
+    --yellow:#ca8a04;
+    --yellow-light:#fefce8;
+
+    --red:#dc2626;
+    --red-light:#fef2f2;
+
+    --cyan:#0891b2;
+    --cyan-light:#ecfeff;
+
+    --bg:#f7f7fb;
+    --card:#ffffff;
+    --text:#171717;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+
+    --shadow:0 10px 28px rgba(0,0,0,.07);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+    padding-bottom:80px;
+    transition:.3s ease;
+}
+
+body.dark{
+    --bg:#11111a;
+    --card:#1b1b28;
+    --text:#f5f5f5;
+    --muted:#aaaab8;
+    --border:#30303d;
+
+    --green-light:#12301d;
+    --orange-light:#321e12;
+    --blue-light:#172642;
+    --yellow-light:#332b12;
+    --red-light:#351717;
+    --cyan-light:#10363c;
+
+    --shadow:0 12px 30px rgba(0,0,0,.28);
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid var(--border);
+}
+
+body.dark header{
+    background:rgba(17,17,26,.94);
+}
+
+.navbar{
+    max-width:1180px;
+    margin:auto;
+
+    min-height:72px;
+    padding:11px 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+    text-decoration:none;
+    color:var(--text);
+
+    font-weight:800;
+}
+
+.brand-logo{
+    width:46px;
+    height:46px;
+
+    object-fit:cover;
+    border-radius:12px;
+
+    box-shadow:0 5px 15px rgba(109,40,217,.2);
+}
+
+.brand-name{
+    font-size:15px;
+    line-height:1.1;
+}
+
+.brand-name span{
+    color:var(--purple);
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:var(--muted);
+
+    padding:10px 13px;
+    border-radius:10px;
+
+    font-size:14px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    background:#ede9fe;
+    color:var(--purple);
+}
+
+body.dark .nav-links a:hover,
+body.dark .nav-links a.active{
+    background:#2b2144;
+    color:#c4b5fd;
+}
+
+.theme-btn{
+    width:40px;
+    height:40px;
+
+    border:0;
+    border-radius:50%;
+
+    background:#f1f1f5;
+    color:var(--text);
+
+    cursor:pointer;
+    font-size:18px;
+}
+
+body.dark .theme-btn{
+    background:#292936;
+}
+
+/* HERO */
+
+.hero{
+    max-width:1180px;
+    margin:auto;
+
+    padding:55px 20px 25px;
+}
+
+.hero-box{
+    position:relative;
+    overflow:hidden;
+
+    padding:48px 40px;
+
+    border-radius:30px;
+
+    background:
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(22,163,74,.25),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(249,115,22,.20),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #4c1d95,
+            #6d28d9 55%,
+            #7c3aed
+        );
+
+    color:white;
+
+    box-shadow:0 20px 50px rgba(76,29,149,.24);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+
+    max-width:780px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+
+    padding:8px 13px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.22);
+
+    font-size:13px;
+    font-weight:800;
+
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:clamp(34px,5vw,54px);
+    line-height:1.05;
+    margin-bottom:18px;
+}
+
+.hero p{
+    color:rgba(255,255,255,.91);
+    font-size:17px;
+    max-width:700px;
+}
+
+/* MAIN */
+
+.container{
+    max-width:1180px;
+    margin:auto;
+    padding:20px;
+}
+
+.intro{
+    background:var(--card);
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:25px;
+}
+
+.intro h2{
+    margin-bottom:9px;
+}
+
+.intro p{
+    color:var(--muted);
+}
+
+/* TIPS GRID */
+
+.tips-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.tip-card{
+    position:relative;
+
+    background:var(--card);
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:25px;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+}
+
+.tip-card:hover{
+    transform:translateY(-4px);
+}
+
+.tip-number{
+    position:absolute;
+
+    top:18px;
+    right:18px;
+
+    width:34px;
+    height:34px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#ede9fe;
+    color:var(--purple);
+
+    font-size:13px;
+    font-weight:900;
+}
+
+.tip-icon{
+    width:58px;
+    height:58px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:17px;
+
+    font-size:27px;
+
+    margin-bottom:17px;
+}
+
+.tip-card h2{
+    font-size:20px;
+    margin-bottom:8px;
+}
+
+.tip-card p{
+    color:var(--muted);
+}
+
+.green .tip-icon{
+    background:var(--green-light);
+}
+
+.orange .tip-icon{
+    background:var(--orange-light);
+}
+
+.blue .tip-icon{
+    background:var(--blue-light);
+}
+
+.yellow .tip-icon{
+    background:var(--yellow-light);
+}
+
+.red .tip-icon{
+    background:var(--red-light);
+}
+
+.cyan .tip-icon{
+    background:var(--cyan-light);
+}
+
+.purple .tip-icon{
+    background:#ede9fe;
+}
+
+/* QUICK CHECKLIST */
+
+.checklist{
+    margin-top:25px;
+
+    background:var(--card);
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+}
+
+.section-title{
+    margin-bottom:20px;
+}
+
+.section-title h2{
+    font-size:25px;
+    margin-bottom:6px;
+}
+
+.section-title p{
+    color:var(--muted);
+}
+
+.check-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:13px;
+}
+
+.check{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+
+    padding:16px;
+
+    background:var(--bg);
+
+    border:1px solid var(--border);
+    border-radius:15px;
+}
+
+.check-mark{
+    width:34px;
+    height:34px;
+
+    flex:0 0 34px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    background:#dcfce7;
+    color:#15803d;
+
+    font-weight:900;
+}
+
+body.dark .check-mark{
+    background:#12301d;
+    color:#86efac;
+}
+
+.check h3{
+    font-size:14px;
+    margin-bottom:3px;
+}
+
+.check p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* AVOID BOX */
+
+.avoid{
+    margin-top:25px;
+
+    padding:30px;
+
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--red-light),
+            var(--yellow-light)
+        );
+
+    border:1px solid #fecaca;
+}
+
+body.dark .avoid{
+    border-color:#572525;
+}
+
+.avoid h2{
+    margin-bottom:8px;
+}
+
+.avoid > p{
+    color:var(--muted);
+    margin-bottom:20px;
+}
+
+.avoid-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:13px;
+}
+
+.avoid-item{
+    background:rgba(255,255,255,.55);
+
+    padding:16px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(220,38,38,.12);
+}
+
+body.dark .avoid-item{
+    background:rgba(0,0,0,.15);
+}
+
+.avoid-item strong{
+    display:block;
+    margin-bottom:4px;
+}
+
+.avoid-item span{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* TRACKER BOX */
+
+.tracker-box{
+    margin-top:25px;
+
+    padding:32px;
+
+    border-radius:25px;
+
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(22,163,74,.13),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #f5f3ff,
+            #f0fdf4
+        );
+
+    border:1px solid #ddd6fe;
+}
+
+body.dark .tracker-box{
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(22,163,74,.14),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #251d3a,
+            #12301d
+        );
+
+    border-color:#3b3157;
+}
+
+.tracker-box h2{
+    margin-bottom:8px;
+}
+
+.tracker-box p{
+    color:var(--muted);
+    max-width:760px;
+}
+
+.buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+
+    margin-top:20px;
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:13px 20px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-size:14px;
+    font-weight:800;
+
+    transition:.2s;
+}
+
+.btn-primary{
+    color:white;
+
+    background:linear-gradient(
+        135deg,
+        var(--purple),
+        var(--purple2)
+    );
+
+    box-shadow:0 8px 20px rgba(109,40,217,.24);
+}
+
+.btn-secondary{
+    color:var(--purple);
+
+    background:var(--card);
+
+    border:1px solid #c4b5fd;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* FOOTER */
+
+footer{
+    max-width:1180px;
+    margin:55px auto 0;
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    border-top:1px solid var(--border);
+}
+
+.footer-brand{
+    font-weight:800;
+    margin-bottom:9px;
+}
+
+.footer-brand span{
+    color:var(--purple);
+}
+
+footer p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.footer-links{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:18px;
+
+    margin-top:15px;
+}
+
+.footer-links a{
+    color:var(--purple);
+    text-decoration:none;
+
+    font-size:13px;
+    font-weight:700;
+}
+
+/* MOBILE NAV */
+
+.mobile-nav{
+    display:none;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:850px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero{
+        padding:25px 15px 15px;
+    }
+
+    .hero-box{
+        padding:38px 25px;
+        border-radius:24px;
+    }
+
+    .container{
+        padding:15px;
+    }
+
+    .tips-grid{
+        grid-template-columns:1fr;
+    }
+
+    .check-grid{
+        grid-template-columns:1fr;
+    }
+
+    .avoid-grid{
+        grid-template-columns:1fr;
+    }
+
+    .mobile-nav{
+        position:fixed;
+
+        display:flex;
+
+        left:0;
+        right:0;
+        bottom:0;
+
+        z-index:2000;
+
+        background:rgba(255,255,255,.96);
+        backdrop-filter:blur(16px);
+
+        border-top:1px solid var(--border);
+
+        padding:8px 7px
+        calc(8px + env(safe-area-inset-bottom));
+
+        justify-content:space-around;
+    }
+
+    body.dark .mobile-nav{
+        background:rgba(25,25,36,.97);
+    }
+
+    .mobile-nav a{
+        flex:1;
+        max-width:90px;
+
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+
+        gap:4px;
+
+        text-decoration:none;
+
+        color:var(--muted);
+
+        font-size:10px;
+        font-weight:700;
+    }
+
+    .mobile-nav a span:first-child{
+        font-size:20px;
+    }
+
+    .mobile-nav a.active{
+        color:var(--purple);
+    }
+}
+
+@media(max-width:500px){
+
+    .brand-name{
+        font-size:13px;
+    }
+
+    .brand-logo{
+        width:42px;
+        height:42px;
+    }
+
+    .hero h1{
+        font-size:35px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    .tip-card{
+        padding:22px;
+    }
+
+    .checklist,
+    .tracker-box{
+        padding:23px;
+    }
+
+    .buttons{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+<div class="navbar">
+
+<a href="index.html" class="brand">
+
+<img
+src="https://i.imgur.com/QzPFczP.png"
+alt="Cooking Gas Tracker & Manager"
+class="brand-logo"
+>
+
+<div class="brand-name">
+Cooking Gas<br>
+<span>Tracker & Manager</span>
+</div>
+
+</a>
+
+<nav class="nav-links">
+
+<a href="index.html">Home</a>
+
+<a href="tracker.html">Tracker</a>
+
+<a href="assistant.html">Assistant</a>
+
+<a href="guides.html" class="active">Guides</a>
+
+<a href="more.html">More</a>
+
+</nav>
+
+<button
+class="theme-btn"
+id="themeBtn"
+aria-label="Toggle dark mode"
+>
+🌙
+</button>
+
+</div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-box">
+
+<div class="hero-content">
+
+<div class="badge">
+💡 Gas Saving Tips
+</div>
+
+<h1>
+Make your gas<br>
+go further.
+</h1>
+
+<p>
+Small changes in your cooking habits can make a difference.
+Explore practical ways to use your cooking gas more efficiently
+and plan your refills with less guesswork.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- MAIN -->
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<section class="intro">
+
+<h2>Start with simple habits</h2>
+
+<p>
+There is no single gas-saving method that works exactly the same
+for every household. Your meals, cooking time, household size,
+equipment and daily routine all matter. The tips below are simple
+habits you can consider as you learn what works for you.
+</p>
+
+</section>
+
+
+<!-- TIPS -->
+
+<section class="tips-grid">
+
+
+<!-- TIP 1 -->
+
+<article class="tip-card green">
+
+<div class="tip-number">01</div>
+
+<div class="tip-icon">
+🍲
+</div>
+
+<h2>Plan your cooking</h2>
+
+<p>
+Planning meals ahead can help you organize your cooking and
+reduce unnecessary repeated cooking sessions. When possible,
+group related cooking tasks together.
+</p>
+
+</article>
+
+
+<!-- TIP 2 -->
+
+<article class="tip-card orange">
+
+<div class="tip-number">02</div>
+
+<div class="tip-icon">
+🔥
+</div>
+
+<h2>Use the right flame</h2>
+
+<p>
+Avoid using a flame that is unnecessarily high for the task.
+Adjust the flame to suit what you are cooking and keep an eye
+on the food rather than leaving the burner at a high setting.
+</p>
+
+</article>
+
+
+<!-- TIP 3 -->
+
+<article class="tip-card blue">
+
+<div class="tip-number">03</div>
+
+<div class="tip-icon">
+🍳
+</div>
+
+<h2>Use suitable cookware</h2>
+
+<p>
+Use cookware that fits your burner properly. A suitable pot or
+pan can help the heat reach the food effectively during cooking.
+</p>
+
+</article>
+
+
+<!-- TIP 4 -->
+
+<article class="tip-card yellow">
+
+<div class="tip-number">04</div>
+
+<div class="tip-icon">
+🫕
+</div>
+
+<h2>Keep lids on when appropriate</h2>
+
+<p>
+For meals where it is suitable, using a lid can help retain heat
+and may reduce unnecessary cooking time.
+</p>
+
+</article>
+
+
+<!-- TIP 5 -->
+
+<article class="tip-card green">
+
+<div class="tip-number">05</div>
+
+<div class="tip-icon">
+💧
+</div>
+
+<h2>Prepare ingredients first</h2>
+
+<p>
+Have your ingredients ready before turning on the burner when
+possible. This can help reduce the time your cooker is running
+while you prepare food.
+</p>
+
+</article>
+
+
+<!-- TIP 6 -->
+
+<article class="tip-card cyan">
+
+<div class="tip-number">06</div>
+
+<div class="tip-icon">
+🧼
+</div>
+
+<h2>Keep your cooking area clean</h2>
+
+<p>
+Keep burners and cooking equipment clean and in good condition.
+If something about the flame or equipment looks unusual, have
+the equipment checked appropriately.
+</p>
+
+</article>
+
+
+<!-- TIP 7 -->
+
+<article class="tip-card purple">
+
+<div class="tip-number">07</div>
+
+<div class="tip-icon">
+⏱️
+</div>
+
+<h2>Pay attention to cooking time</h2>
+
+<p>
+Notice which meals take longer to prepare. Understanding your
+usual cooking times can help you recognize changes in your
+household's gas usage.
+</p>
+
+</article>
+
+
+<!-- TIP 8 -->
+
+<article class="tip-card orange">
+
+<div class="tip-number">08</div>
+
+<div class="tip-icon">
+📊
+</div>
+
+<h2>Track your usage</h2>
+
+<p>
+Keeping a record of your refill and expected consumption dates
+can help you understand your own pattern over time.
+</p>
+
+</article>
+
+
+<!-- TIP 9 -->
+
+<article class="tip-card blue">
+
+<div class="tip-number">09</div>
+
+<div class="tip-icon">
+🛒
+</div>
+
+<h2>Organize shopping and cooking</h2>
+
+<p>
+Having ingredients available when you need them can make meal
+planning easier and help you avoid unnecessary extra cooking
+sessions caused by poor preparation.
+</p>
+
+</article>
+
+
+<!-- TIP 10 -->
+
+<article class="tip-card green">
+
+<div class="tip-number">10</div>
+
+<div class="tip-icon">
+📅
+</div>
+
+<h2>Learn your household pattern</h2>
+
+<p>
+After several refills, compare your dates and cooking habits.
+Your own history can become a useful reference when planning
+future refills.
+</p>
+
+</article>
+
+
+</section>
+
+
+<!-- CHECKLIST -->
+
+<section class="checklist">
+
+<div class="section-title">
+
+<h2>Your gas-saving checklist</h2>
+
+<p>
+Before and during cooking, these simple reminders can help.
+</p>
+
+</div>
+
+
+<div class="check-grid">
+
+
+<div class="check">
+
+<div class="check-mark">✓</div>
+
+<div>
+
+<h3>Prepare ingredients first</h3>
+
+<p>
+Get what you need ready before cooking where practical.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="check">
+
+<div class="check-mark">✓</div>
+
+<div>
+
+<h3>Choose a suitable flame</h3>
+
+<p>
+Avoid keeping the burner higher than necessary.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="check">
+
+<div class="check-mark">✓</div>
+
+<div>
+
+<h3>Use suitable cookware</h3>
+
+<p>
+Make sure the pot or pan works well with the burner.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="check">
+
+<div class="check-mark">✓</div>
+
+<div>
+
+<h3>Monitor cooking time</h3>
+
+<p>
+Know which meals normally require longer cooking.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="check">
+
+<div class="check-mark">✓</div>
+
+<div>
+
+<h3>Track your refills</h3>
+
+<p>
+Keep useful records so you can recognize your pattern.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="check">
+
+<div class="check-mark">✓</div>
+
+<div>
+
+<h3>Plan before the gas gets low</h3>
+
+<p>
+Use your tracker to prepare for your next refill.
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- THINGS TO AVOID -->
+
+<section class="avoid">
+
+<h2>🚫 Things to avoid</h2>
+
+<p>
+Gas saving should never come at the expense of safety.
+Never use unsafe shortcuts just to reduce gas consumption.
+</p>
+
+
+<div class="avoid-grid">
+
+
+<div class="avoid-item">
+
+<strong>Don't ignore unusual smells</strong>
+
+<span>
+If you suspect a gas leak, follow appropriate safety procedures.
+</span>
+
+</div>
+
+
+<div class="avoid-item">
+
+<strong>Don't use damaged equipment</strong>
+
+<span>
+Damaged hoses, regulators or other equipment should be checked
+appropriately.
+</span>
+
+</div>
+
+
+<div class="avoid-item">
+
+<strong>Don't leave cooking unattended</strong>
+
+<span>
+Stay aware of cooking whenever the burner is operating.
+</span>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- TRACKER -->
+
+<section class="tracker-box">
+
+<h2>Turn these habits into a routine</h2>
+
+<p>
+The Cooking Gas Tracker helps you record your gas information,
+expected consumption date and refill details. Over time, your
+records can help you understand your household's own cooking
+pattern.
+</p>
+
+
+<div class="buttons">
+
+<a href="tracker.html" class="btn btn-primary">
+🔥 Start Tracking
+</a>
+
+<a href="assistant.html" class="btn btn-secondary">
+🤖 Ask the Assistant
+</a>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="footer-brand">
+Cooking Gas <span>Tracker & Manager</span>
+</div>
+
+<p>
+Helping you track your gas usage, plan refills and cook smarter.
+</p>
+
+<div class="footer-links">
+
+<a
+href="https://policies-privacy-8c085d.netlify.app/"
+target="_blank"
+rel="noopener"
+>
+Privacy Policy
+</a>
+
+<a
+href="https://about-us-a9f8d5.netlify.app/"
+target="_blank"
+rel="noopener"
+>
+About Us
+</a>
+
+<a
+href="https://terms-condition-36816f.netlify.app/"
+target="_blank"
+rel="noopener"
+>
+Terms & Conditions
+</a>
+
+</div>
+
+</footer>
+
+
+<!-- MOBILE NAV -->
+
+<nav class="mobile-nav">
+
+<a href="index.html">
+<span>🏠</span>
+<span>Home</span>
+</a>
+
+<a href="tracker.html">
+<span>🔥</span>
+<span>Tracker</span>
+</a>
+
+<a href="assistant.html">
+<span>🤖</span>
+<span>Assistant</span>
+</a>
+
+<a href="guides.html" class="active">
+<span>📚</span>
+<span>Guides</span>
+</a>
+
+<a href="more.html">
+<span>☰</span>
+<span>More</span>
+</a>
+
+</nav>
+
+
+<script>
+
+const themeBtn =
+document.getElementById("themeBtn");
+
+const savedTheme =
+localStorage.getItem("cgtTheme");
+
+if(savedTheme === "dark"){
+
+    document.body.classList.add("dark");
+
+    themeBtn.textContent = "☀️";
+}
+
+themeBtn.addEventListener("click",()=>{
+
+    document.body.classList.toggle("dark");
+
+    const isDark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "cgtTheme",
+        isDark ? "dark" : "light"
+    );
+
+    themeBtn.textContent =
+        isDark ? "☀️" : "🌙";
+
+});
+
+</script>
+
+</body>
+</html>
