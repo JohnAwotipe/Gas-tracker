@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cooking Gas Guide | Cooking Gas Tracker & Manager</title>
+
+<meta name="description" content="Learn about cooking gas cylinders, gas usage, consumption, refills and practical ways to plan your cooking gas.">
+
+<style>
+:root{
+    --purple:#6d28d9;
+    --purple2:#7c3aed;
+    --purple3:#8b5cf6;
+
+    --orange:#ea580c;
+    --orange-light:#fff7ed;
+
+    --blue:#2563eb;
+    --blue-light:#eff6ff;
+
+    --green:#16a34a;
+    --green-light:#f0fdf4;
+
+    --yellow:#ca8a04;
+    --yellow-light:#fefce8;
+
+    --red:#dc2626;
+    --red-light:#fef2f2;
+
+    --bg:#f7f7fb;
+    --card:#ffffff;
+    --text:#171717;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+
+    --shadow:0 10px 28px rgba(0,0,0,.07);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+    padding-bottom:80px;
+    transition:.3s ease;
+}
+
+body.dark{
+    --bg:#11111a;
+    --card:#1b1b28;
+    --text:#f5f5f5;
+    --muted:#aaaab8;
+    --border:#30303d;
+
+    --orange-light:#321e12;
+    --blue-light:#172642;
+    --green-light:#12301d;
+    --yellow-light:#332b12;
+    --red-light:#351717;
+
+    --shadow:0 12px 30px rgba(0,0,0,.28);
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid var(--border);
+}
+
+body.dark header{
+    background:rgba(17,17,26,.94);
+}
+
+.navbar{
+    max-width:1180px;
+    margin:auto;
+
+    min-height:72px;
+    padding:11px 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+    text-decoration:none;
+    color:var(--text);
+
+    font-weight:800;
+}
+
+.brand-logo{
+    width:46px;
+    height:46px;
+    object-fit:cover;
+    border-radius:12px;
+
+    box-shadow:0 5px 15px rgba(109,40,217,.2);
+}
+
+.brand-name{
+    font-size:15px;
+    line-height:1.1;
+}
+
+.brand-name span{
+    color:var(--purple);
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:var(--muted);
+
+    padding:10px 13px;
+    border-radius:10px;
+
+    font-size:14px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    background:#ede9fe;
+    color:var(--purple);
+}
+
+body.dark .nav-links a:hover,
+body.dark .nav-links a.active{
+    background:#2b2144;
+    color:#c4b5fd;
+}
+
+.theme-btn{
+    width:40px;
+    height:40px;
+
+    border:0;
+    border-radius:50%;
+
+    background:#f1f1f5;
+    color:var(--text);
+
+    cursor:pointer;
+    font-size:18px;
+}
+
+body.dark .theme-btn{
+    background:#292936;
+}
+
+/* HERO */
+
+.hero{
+    max-width:1180px;
+    margin:auto;
+    padding:55px 20px 25px;
+}
+
+.hero-box{
+    position:relative;
+    overflow:hidden;
+
+    padding:48px 40px;
+
+    border-radius:30px;
+
+    background:
+        radial-gradient(
+            circle at 88% 15%,
+            rgba(249,115,22,.28),
+            transparent 27%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(139,92,246,.32),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #4c1d95,
+            #6d28d9 55%,
+            #7c3aed
+        );
+
+    color:white;
+
+    box-shadow:0 20px 50px rgba(76,29,149,.24);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+
+    max-width:760px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+
+    padding:8px 13px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.22);
+
+    font-size:13px;
+    font-weight:800;
+
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:clamp(34px,5vw,54px);
+    line-height:1.05;
+    margin-bottom:18px;
+}
+
+.hero p{
+    color:rgba(255,255,255,.91);
+    font-size:17px;
+    max-width:690px;
+}
+
+/* MAIN */
+
+.container{
+    max-width:1180px;
+    margin:auto;
+    padding:20px;
+}
+
+.intro{
+    background:var(--card);
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:24px;
+}
+
+.intro h2{
+    margin-bottom:10px;
+}
+
+.intro p{
+    color:var(--muted);
+}
+
+/* CONTENT CARDS */
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.info-card{
+    background:var(--card);
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:27px;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+}
+
+.info-card:hover{
+    transform:translateY(-3px);
+}
+
+.icon{
+    width:55px;
+    height:55px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:16px;
+
+    font-size:26px;
+
+    margin-bottom:17px;
+}
+
+.info-card h2{
+    font-size:21px;
+    margin-bottom:9px;
+}
+
+.info-card p{
+    color:var(--muted);
+}
+
+.orange .icon{
+    background:var(--orange-light);
+}
+
+.blue .icon{
+    background:var(--blue-light);
+}
+
+.green .icon{
+    background:var(--green-light);
+}
+
+.yellow .icon{
+    background:var(--yellow-light);
+}
+
+.red .icon{
+    background:var(--red-light);
+}
+
+.purple-card .icon{
+    background:#ede9fe;
+}
+
+/* CYLINDER SECTION */
+
+.cylinder-section{
+    margin-top:25px;
+
+    background:var(--card);
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+}
+
+.section-title{
+    margin-bottom:20px;
+}
+
+.section-title h2{
+    font-size:25px;
+    margin-bottom:6px;
+}
+
+.section-title p{
+    color:var(--muted);
+}
+
+.cylinder-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.cylinder{
+    padding:20px 15px;
+
+    text-align:center;
+
+    border-radius:18px;
+
+    background:linear-gradient(
+        135deg,
+        #f5f3ff,
+        #fafafa
+    );
+
+    border:1px solid #ddd6fe;
+}
+
+body.dark .cylinder{
+    background:#242031;
+    border-color:#3b3157;
+}
+
+.cylinder-number{
+    font-size:25px;
+    font-weight:900;
+    color:var(--purple);
+}
+
+.cylinder span{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* FACTORS */
+
+.factor-list{
+    margin-top:20px;
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.factor{
+    display:flex;
+    gap:13px;
+    align-items:flex-start;
+
+    padding:17px;
+
+    border-radius:16px;
+
+    background:var(--bg);
+    border:1px solid var(--border);
+}
+
+.factor-icon{
+    width:38px;
+    height:38px;
+
+    flex:0 0 38px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:11px;
+
+    background:#ede9fe;
+    color:var(--purple);
+}
+
+.factor h3{
+    font-size:15px;
+    margin-bottom:3px;
+}
+
+.factor p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* IMPORTANT BOX */
+
+.notice{
+    margin-top:25px;
+
+    padding:25px;
+
+    border-radius:21px;
+
+    background:linear-gradient(
+        135deg,
+        var(--orange-light),
+        var(--yellow-light)
+    );
+
+    border:1px solid #fed7aa;
+}
+
+body.dark .notice{
+    border-color:#5a3c1b;
+}
+
+.notice h2{
+    margin-bottom:8px;
+}
+
+.notice p{
+    color:var(--muted);
+}
+
+/* APP CONNECTION */
+
+.app-box{
+    margin-top:25px;
+
+    padding:32px;
+
+    border-radius:25px;
+
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(139,92,246,.18),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #f5f3ff,
+            #eff6ff
+        );
+
+    border:1px solid #ddd6fe;
+}
+
+body.dark .app-box{
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(139,92,246,.18),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #251d3a,
+            #17233a
+        );
+
+    border-color:#3b3157;
+}
+
+.app-box h2{
+    margin-bottom:8px;
+}
+
+.app-box p{
+    color:var(--muted);
+    max-width:760px;
+}
+
+.buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+
+    margin-top:20px;
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:13px 20px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-size:14px;
+    font-weight:800;
+
+    transition:.2s;
+}
+
+.btn-primary{
+    color:white;
+
+    background:linear-gradient(
+        135deg,
+        var(--purple),
+        var(--purple2)
+    );
+
+    box-shadow:0 8px 20px rgba(109,40,217,.24);
+}
+
+.btn-secondary{
+    color:var(--purple);
+
+    background:var(--card);
+
+    border:1px solid #c4b5fd;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* FOOTER */
+
+footer{
+    max-width:1180px;
+    margin:55px auto 0;
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    border-top:1px solid var(--border);
+}
+
+.footer-brand{
+    font-weight:800;
+    margin-bottom:9px;
+}
+
+.footer-brand span{
+    color:var(--purple);
+}
+
+footer p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.footer-links{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:18px;
+
+    margin-top:15px;
+}
+
+.footer-links a{
+    color:var(--purple);
+    text-decoration:none;
+
+    font-size:13px;
+    font-weight:700;
+}
+
+/* MOBILE NAV */
+
+.mobile-nav{
+    display:none;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:850px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero{
+        padding:25px 15px 15px;
+    }
+
+    .hero-box{
+        padding:38px 25px;
+        border-radius:24px;
+    }
+
+    .container{
+        padding:15px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .cylinder-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .factor-list{
+        grid-template-columns:1fr;
+    }
+
+    .mobile-nav{
+        position:fixed;
+
+        display:flex;
+
+        left:0;
+        right:0;
+        bottom:0;
+
+        z-index:2000;
+
+        background:rgba(255,255,255,.96);
+        backdrop-filter:blur(16px);
+
+        border-top:1px solid var(--border);
+
+        padding:8px 7px
+        calc(8px + env(safe-area-inset-bottom));
+
+        justify-content:space-around;
+    }
+
+    body.dark .mobile-nav{
+        background:rgba(25,25,36,.97);
+    }
+
+    .mobile-nav a{
+        flex:1;
+        max-width:90px;
+
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+
+        gap:4px;
+
+        text-decoration:none;
+
+        color:var(--muted);
+
+        font-size:10px;
+        font-weight:700;
+    }
+
+    .mobile-nav a span:first-child{
+        font-size:20px;
+    }
+
+    .mobile-nav a.active{
+        color:var(--purple);
+    }
+}
+
+@media(max-width:500px){
+
+    .brand-name{
+        font-size:13px;
+    }
+
+    .brand-logo{
+        width:42px;
+        height:42px;
+    }
+
+    .hero h1{
+        font-size:35px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    .info-card{
+        padding:22px;
+    }
+
+    .cylinder-section{
+        padding:22px;
+    }
+
+    .app-box{
+        padding:24px;
+    }
+
+    .buttons{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+<div class="navbar">
+
+<a href="index.html" class="brand">
+
+<img
+src="https://i.imgur.com/QzPFczP.png"
+alt="Cooking Gas Tracker & Manager"
+class="brand-logo"
+>
+
+<div class="brand-name">
+Cooking Gas<br>
+<span>Tracker & Manager</span>
+</div>
+
+</a>
+
+<nav class="nav-links">
+
+<a href="index.html">Home</a>
+
+<a href="tracker.html">Tracker</a>
+
+<a href="assistant.html">Assistant</a>
+
+<a href="guides.html" class="active">Guides</a>
+
+<a href="more.html">More</a>
+
+</nav>
+
+<button
+class="theme-btn"
+id="themeBtn"
+aria-label="Toggle dark mode"
+>
+🌙
+</button>
+
+</div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-box">
+
+<div class="hero-content">
+
+<div class="badge">
+🔥 Cooking Gas Guide
+</div>
+
+<h1>
+Understand your gas.<br>
+Plan your cooking.
+</h1>
+
+<p>
+Cooking gas is part of everyday life for many households.
+Understanding how you use it can help you plan your refills,
+manage your spending and avoid unexpected shortages.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- MAIN -->
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<section class="intro">
+
+<h2>Why understanding your gas matters</h2>
+
+<p>
+The amount of gas you use can change depending on your cooking
+habits, the number of people you cook for, the meals you prepare,
+how long you cook and other factors. That is why keeping track of
+your usage can be useful when planning your next refill.
+</p>
+
+</section>
+
+
+<!-- BASIC INFORMATION -->
+
+<section class="info-grid">
+
+
+<div class="info-card orange">
+
+<div class="icon">🔥</div>
+
+<h2>What is cooking gas?</h2>
+
+<p>
+Cooking gas is commonly used as a household cooking fuel.
+It is stored under pressure inside a cylinder and supplied to
+your cooker through the appropriate regulator and hose system.
+</p>
+
+</div>
+
+
+<div class="info-card blue">
+
+<div class="icon">🛢️</div>
+
+<h2>Understanding your cylinder</h2>
+
+<p>
+Gas cylinders come in different sizes. The size you use affects
+the amount of gas the cylinder can hold. Always use equipment
+that is appropriate for your cylinder and cooking setup.
+</p>
+
+</div>
+
+
+<div class="info-card green">
+
+<div class="icon">📊</div>
+
+<h2>Understanding gas usage</h2>
+
+<p>
+Gas consumption is not exactly the same for everyone. Two
+households using the same cylinder size can finish their gas
+at different times because their cooking routines may differ.
+</p>
+
+</div>
+
+
+<div class="info-card yellow">
+
+<div class="icon">📅</div>
+
+<h2>Plan your refill</h2>
+
+<p>
+Knowing roughly when your gas may run low can help you prepare
+for a refill instead of waiting until the cylinder is empty.
+Cooking Gas Tracker & Manager helps you keep this information
+in one place.
+</p>
+
+</div>
+
+
+</section>
+
+
+<!-- CYLINDER SIZES -->
+
+<section class="cylinder-section">
+
+<div class="section-title">
+
+<h2>Common cylinder sizes</h2>
+
+<p>
+Cooking gas cylinders are available in different sizes.
+The sizes below are examples of commonly used cylinder capacities.
+</p>
+
+</div>
+
+
+<div class="cylinder-grid">
+
+<div class="cylinder">
+<div class="cylinder-number">3 KG</div>
+<span>Small cylinder</span>
+</div>
+
+<div class="cylinder">
+<div class="cylinder-number">5 KG</div>
+<span>Small household use</span>
+</div>
+
+<div class="cylinder">
+<div class="cylinder-number">6 KG</div>
+<span>Household use</span>
+</div>
+
+<div class="cylinder">
+<div class="cylinder-number">10 KG</div>
+<span>Household use</span>
+</div>
+
+<div class="cylinder">
+<div class="cylinder-number">12 KG</div>
+<span>Household use</span>
+</div>
+
+<div class="cylinder">
+<div class="cylinder-number">15 KG</div>
+<span>Larger household use</span>
+</div>
+
+<div class="cylinder">
+<div class="cylinder-number">25 KG</div>
+<span>Higher capacity</span>
+</div>
+
+<div class="cylinder">
+<div class="cylinder-number">50+ KG</div>
+<span>Large capacity</span>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- FACTORS -->
+
+<section class="cylinder-section">
+
+<div class="section-title">
+
+<h2>What can affect your gas consumption?</h2>
+
+<p>
+Your gas may finish faster or slower depending on your daily
+cooking pattern.
+</p>
+
+</div>
+
+
+<div class="factor-list">
+
+
+<div class="factor">
+
+<div class="factor-icon">👨‍👩‍👧‍👦</div>
+
+<div>
+
+<h3>Number of people</h3>
+
+<p>
+More people can mean more food being prepared and potentially
+more cooking time.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="factor">
+
+<div class="factor-icon">🍲</div>
+
+<div>
+
+<h3>Meals prepared</h3>
+
+<p>
+The number of meals prepared each day can affect how much gas
+your household uses.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="factor">
+
+<div class="factor-icon">⏱️</div>
+
+<div>
+
+<h3>Cooking duration</h3>
+
+<p>
+Longer cooking periods can result in more gas being consumed.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="factor">
+
+<div class="factor-icon">🍛</div>
+
+<div>
+
+<h3>Type of food</h3>
+
+<p>
+Different meals can require different cooking methods and
+different amounts of cooking time.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="factor">
+
+<div class="factor-icon">🔥</div>
+
+<div>
+
+<h3>Flame level</h3>
+
+<p>
+Cooking with an unnecessarily high flame can affect how
+efficiently your gas is used.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="factor">
+
+<div class="factor-icon">🍳</div>
+
+<div>
+
+<h3>Cooking equipment</h3>
+
+<p>
+The condition and efficiency of your cooker and related
+equipment can influence your cooking experience.
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- IMPORTANT NOTE -->
+
+<section class="notice">
+
+<h2>⚠️ Remember</h2>
+
+<p>
+Gas consumption estimates are not guaranteed to be exact.
+Your actual usage can change when your cooking habits change.
+Use your own refill and consumption history as a useful reference
+when planning future refills.
+</p>
+
+</section>
+
+
+<!-- CONNECT TO APP -->
+
+<section class="app-box">
+
+<h2>Ready to start tracking?</h2>
+
+<p>
+Instead of guessing when your gas may run out, record your gas
+information and expected consumption date in Cooking Gas Tracker
+& Manager. You can also use the Assistant for questions about
+gas saving, cooking and budgeting.
+</p>
+
+
+<div class="buttons">
+
+<a href="tracker.html" class="btn btn-primary">
+🔥 Start Tracking
+</a>
+
+<a href="assistant.html" class="btn btn-secondary">
+🤖 Ask the Assistant
+</a>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="footer-brand">
+Cooking Gas <span>Tracker & Manager</span>
+</div>
+
+<p>
+Helping you track your gas usage, plan refills and cook smarter.
+</p>
+
+<div class="footer-links">
+
+<a
+href="https://policies-privacy-8c085d.netlify.app/"
+target="_blank"
+rel="noopener"
+>
+Privacy Policy
+</a>
+
+<a
+href="https://about-us-a9f8d5.netlify.app/"
+target="_blank"
+rel="noopener"
+>
+About Us
+</a>
+
+<a
+href="https://terms-condition-36816f.netlify.app/"
+target="_blank"
+rel="noopener"
+>
+Terms & Conditions
+</a>
+
+</div>
+
+</footer>
+
+
+<!-- MOBILE NAV -->
+
+<nav class="mobile-nav">
+
+<a href="index.html">
+<span>🏠</span>
+<span>Home</span>
+</a>
+
+<a href="tracker.html">
+<span>🔥</span>
+<span>Tracker</span>
+</a>
+
+<a href="assistant.html">
+<span>🤖</span>
+<span>Assistant</span>
+</a>
+
+<a href="guides.html" class="active">
+<span>📚</span>
+<span>Guides</span>
+</a>
+
+<a href="more.html">
+<span>☰</span>
+<span>More</span>
+</a>
+
+</nav>
+
+
+<script>
+
+/* DARK MODE */
+
+const themeBtn = document.getElementById("themeBtn");
+
+const savedTheme = localStorage.getItem("cgtTheme");
+
+if(savedTheme === "dark"){
+
+    document.body.classList.add("dark");
+
+    themeBtn.textContent = "☀️";
+
+}
+
+themeBtn.addEventListener("click",()=>{
+
+    document.body.classList.toggle("dark");
+
+    const isDark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "cgtTheme",
+        isDark ? "dark" : "light"
+    );
+
+    themeBtn.textContent =
+        isDark ? "☀️" : "🌙";
+
+});
+
+</script>
+
+</body>
+</html>
