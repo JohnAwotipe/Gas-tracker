@@ -1,0 +1,3662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gas Tracker | Cooking Gas Tracker</title>
+
+<meta name="description" content="Track your cooking gas usage, expected consumption date, refill history and notification reminders.">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
+
+<style>
+:root{
+    --bg:#f7f8fa;
+    --card:#ffffff;
+    --text:#17202a;
+    --muted:#667085;
+    --border:#e6e8ec;
+    --primary:#f59e0b;
+    --primary-dark:#d97706;
+    --green:#16a34a;
+    --red:#dc2626;
+    --warning:#f59e0b;
+    --shadow:0 12px 35px rgba(0,0,0,.07);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+.container{
+    width:min(1120px,92%);
+    margin:auto;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+}
+
+.nav{
+    min-height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:1.05rem;
+    font-weight:800;
+}
+
+.logo-icon{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    background:#fff4d6;
+    font-size:1.25rem;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.nav-links a{
+    padding:9px 13px;
+    border-radius:10px;
+    color:var(--muted);
+    font-size:.94rem;
+    font-weight:600;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    color:var(--text);
+    background:#fff3d1;
+}
+
+.theme-btn{
+    border:1px solid var(--border);
+    background:var(--card);
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* ================= PAGE ================= */
+
+.page{
+    padding:55px 0 100px;
+}
+
+.page-heading{
+    margin-bottom:30px;
+}
+
+.eyebrow{
+    color:var(--primary-dark);
+    font-size:.78rem;
+    font-weight:800;
+    letter-spacing:.12em;
+    margin-bottom:8px;
+}
+
+.page-heading h1{
+    font-size:clamp(2rem,5vw,3.2rem);
+    line-height:1.08;
+    margin-bottom:12px;
+}
+
+.page-heading p{
+    color:var(--muted);
+    max-width:700px;
+}
+
+/* ================= TRACKER GRID ================= */
+
+.tracker-layout{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:24px;
+    align-items:start;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+}
+
+.card-inner{
+    padding:26px;
+}
+
+.card h2{
+    font-size:1.25rem;
+    margin-bottom:6px;
+}
+
+.card-subtitle{
+    color:var(--muted);
+    font-size:.92rem;
+    margin-bottom:22px;
+}
+
+/* ================= FORM ================= */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:17px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+.field label{
+    font-size:.88rem;
+    font-weight:700;
+}
+
+.field small{
+    color:var(--muted);
+    font-size:.78rem;
+}
+
+.field input,
+.field select{
+    width:100%;
+    min-height:48px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:0 13px;
+    background:var(--bg);
+    color:var(--text);
+    outline:none;
+}
+
+.field input:focus,
+.field select:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(245,158,11,.13);
+}
+
+.save-btn{
+    width:100%;
+    margin-top:22px;
+    min-height:52px;
+    border:0;
+    border-radius:13px;
+    background:var(--primary);
+    color:#111;
+    font-weight:800;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.save-btn:hover{
+    background:var(--primary-dark);
+    color:#fff;
+    transform:translateY(-1px);
+}
+
+/* ================= COUNTDOWN ================= */
+
+.countdown-card{
+    text-align:center;
+    overflow:hidden;
+}
+
+.countdown-top{
+    padding:28px 20px 24px;
+    background:linear-gradient(135deg,#fff7df,#fff);
+}
+
+.countdown{
+    font-size:clamp(4rem,10vw,6.5rem);
+    line-height:1;
+    font-weight:900;
+    color:var(--primary-dark);
+}
+
+.countdown-label{
+    color:var(--muted);
+    margin-top:8px;
+}
+
+.status-indicator{
+    margin:20px;
+    padding:13px 15px;
+    border-radius:12px;
+    font-weight:700;
+    font-size:.9rem;
+}
+
+.status-ok{
+    background:#ecfdf3;
+    color:#15803d;
+}
+
+.status-warning{
+    background:#fff7ed;
+    color:#c2410c;
+}
+
+.status-danger{
+    background:#fef2f2;
+    color:#b91c1c;
+}
+
+/* ================= INFO GRID ================= */
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    padding:0 20px 20px;
+}
+
+.info-box{
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:15px;
+    text-align:left;
+}
+
+.info-icon{
+    font-size:1.2rem;
+    margin-bottom:6px;
+}
+
+.info-title{
+    font-size:.78rem;
+    color:var(--muted);
+}
+
+.info-value{
+    font-weight:800;
+    margin-top:3px;
+    font-size:.95rem;
+}
+
+/* ================= CYLINDER ================= */
+
+.cylinder-section{
+    margin-top:24px;
+}
+
+.cylinder-dashboard{
+    display:grid;
+    grid-template-columns:.8fr 1.2fr;
+    gap:24px;
+    align-items:center;
+}
+
+.cylinder-image{
+    min-height:260px;
+    display:grid;
+    place-items:center;
+    background:#fafafa;
+    border-radius:16px;
+    overflow:hidden;
+}
+
+.cylinder-image img{
+    width:100%;
+    max-width:250px;
+    max-height:250px;
+    object-fit:contain;
+}
+
+.cylinder-image .placeholder{
+    font-size:4rem;
+}
+
+.cylinder-details h3{
+    margin-bottom:5px;
+}
+
+.cylinder-details p{
+    color:var(--muted);
+    font-size:.9rem;
+}
+
+.cylinder-controls{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:18px;
+}
+
+.cylinder-controls select{
+    width:100%;
+    min-height:45px;
+    padding:0 10px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--bg);
+    color:var(--text);
+}
+
+.secondary-btn{
+    min-height:45px;
+    border:1px solid var(--border);
+    background:var(--card);
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.secondary-btn:hover{
+    border-color:var(--primary);
+}
+
+.progress-wrap{
+    margin-top:18px;
+}
+
+.progress-header{
+    display:flex;
+    justify-content:space-between;
+    font-size:.85rem;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+.progress{
+    height:11px;
+    background:#e5e7eb;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:var(--primary);
+    border-radius:999px;
+    transition:.3s;
+}
+
+/* ================= NOTIFICATIONS ================= */
+
+.section{
+    margin-top:24px;
+}
+
+.notification-list,
+.history-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.notification-item,
+.history-item{
+    border:1px solid var(--border);
+    border-radius:13px;
+    padding:14px;
+    display:flex;
+    align-items:flex-start;
+    gap:11px;
+}
+
+.notification-item .icon,
+.history-item .icon{
+    font-size:1.15rem;
+}
+
+.notification-item p,
+.history-item p{
+    font-size:.87rem;
+}
+
+.notification-item small,
+.history-item small{
+    color:var(--muted);
+}
+
+.permission-box{
+    padding:18px;
+    border-radius:15px;
+    background:#fff7df;
+    border:1px solid #f6d98b;
+    margin-bottom:18px;
+}
+
+.permission-box p{
+    color:#6b4e00;
+    font-size:.88rem;
+    margin-bottom:12px;
+}
+
+.notify-btn{
+    border:0;
+    background:var(--primary);
+    color:#111;
+    padding:11px 16px;
+    border-radius:10px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+/* ================= TEST ================= */
+
+.test-box{
+    margin-top:20px;
+    padding:18px;
+    border:1px dashed var(--border);
+    border-radius:15px;
+    text-align:center;
+}
+
+.test-box p{
+    color:var(--muted);
+    font-size:.86rem;
+    margin-bottom:12px;
+}
+
+.test-btn{
+    border:0;
+    background:#111827;
+    color:#fff;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+/* ================= TIPS ================= */
+
+.notice{
+    margin-top:24px;
+    background:#fff8e7;
+    border:1px solid #f6dc9c;
+    border-radius:18px;
+    padding:23px;
+}
+
+.notice h3{
+    margin-bottom:8px;
+}
+
+.notice p{
+    color:#654f13;
+    font-size:.91rem;
+}
+
+/* ================= HISTORY ================= */
+
+.history-item{
+    justify-content:space-between;
+}
+
+.history-main{
+    display:flex;
+    gap:11px;
+}
+
+.delete-btn{
+    border:0;
+    background:#fef2f2;
+    color:#dc2626;
+    border-radius:8px;
+    padding:7px 9px;
+    cursor:pointer;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:90px;
+    transform:translate(-50%,20px);
+    background:#111827;
+    color:#fff;
+    padding:13px 18px;
+    border-radius:11px;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
+    z-index:5000;
+    max-width:90%;
+    text-align:center;
+    font-size:.88rem;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    border-top:1px solid var(--border);
+    padding:35px 0 90px;
+    color:var(--muted);
+    font-size:.85rem;
+    text-align:center;
+}
+
+.footer-links{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:16px;
+    margin-bottom:12px;
+}
+
+.footer-links a:hover{
+    color:var(--text);
+}
+
+/* ================= MOBILE NAV ================= */
+
+.mobile-nav{
+    display:none;
+}
+
+/* ================= DARK MODE ================= */
+
+body.dark{
+    --bg:#0f1115;
+    --card:#171a21;
+    --text:#f5f7fa;
+    --muted:#a7afbd;
+    --border:#292e38;
+    --shadow:0 12px 35px rgba(0,0,0,.25);
+}
+
+body.dark .header{
+    background:rgba(15,17,21,.94);
+}
+
+body.dark .logo-icon{
+    background:#302611;
+}
+
+body.dark .nav-links a:hover,
+body.dark .nav-links a.active{
+    background:#302611;
+}
+
+body.dark .countdown-top{
+    background:linear-gradient(135deg,#211b0d,#171a21);
+}
+
+body.dark .cylinder-image{
+    background:#11141a;
+}
+
+body.dark .notice,
+body.dark .permission-box{
+    background:#2b2411;
+    border-color:#5a4617;
+}
+
+body.dark .notice p,
+body.dark .permission-box p{
+    color:#e8cf7b;
+}
+
+body.dark .status-ok{
+    background:#0f2919;
+    color:#7ee2a5;
+}
+
+body.dark .status-warning{
+    background:#2b1d0d;
+    color:#ffbd76;
+}
+
+body.dark .status-danger{
+    background:#321616;
+    color:#ff8d8d;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:850px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .tracker-layout{
+        grid-template-columns:1fr;
+    }
+
+    .cylinder-dashboard{
+        grid-template-columns:1fr;
+    }
+
+    .page{
+        padding-top:35px;
+    }
+
+    .mobile-nav{
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        z-index:2000;
+        display:grid;
+        grid-template-columns:repeat(5,1fr);
+        background:rgba(255,255,255,.96);
+        backdrop-filter:blur(12px);
+        border-top:1px solid var(--border);
+        padding:7px 5px;
+    }
+
+    .mobile-nav a{
+        text-align:center;
+        font-size:.68rem;
+        color:var(--muted);
+        padding:5px 2px;
+    }
+
+    .mobile-nav a.active{
+        color:var(--primary-dark);
+        font-weight:800;
+    }
+
+    .mobile-nav span{
+        display:block;
+        font-size:1.1rem;
+        line-height:1.2;
+    }
+
+    body.dark .mobile-nav{
+        background:rgba(15,17,21,.96);
+    }
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:94%;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .card-inner{
+        padding:20px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr 1fr;
+        padding-left:15px;
+        padding-right:15px;
+    }
+
+    .cylinder-controls{
+        grid-template-columns:1fr;
+    }
+
+    .page-heading h1{
+        font-size:2.25rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+    <div class="container nav">
+
+        <a href="index.html" class="logo">
+            <span class="logo-icon">🔥</span>
+            <span>Cooking Gas Tracker</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="tracker.html" class="active">Tracker</a>
+            <a href="assistant.html">Assistant</a>
+            <a href="guides.html">Guides</a>
+            <a href="more.html">More</a>
+        </nav>
+
+        <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+            🌙
+        </button>
+
+    </div>
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="page">
+
+<div class="container">
+
+    <div class="page-heading">
+        <div class="eyebrow">COOKING GAS TRACKER</div>
+
+        <h1>Track your gas. Plan your refill.</h1>
+
+        <p>
+            Record your refill information, set your expected consumption date,
+            and use the countdown and reminders to prepare before your gas runs out unexpectedly.
+        </p>
+    </div>
+
+
+    <!-- ================= TRACKER TOP ================= -->
+
+    <div class="tracker-layout">
+
+        <!-- FORM -->
+
+        <section class="card">
+
+            <div class="card-inner">
+
+                <h2>Gas Information</h2>
+
+                <p class="card-subtitle">
+                    Enter the information from your latest refill.
+                </p>
+
+                <div class="form-grid">
+
+                    <div class="field">
+
+                        <label for="refillDate">
+                            Refill Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="refillDate"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="consumptionDate">
+                            Expected Consumption Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="consumptionDate"
+                        >
+
+                        <small>
+                            This is your estimated date based on your normal usage.
+                        </small>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="kgInput">
+                            Gas Amount (KG)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="kgInput"
+                            min="0.5"
+                            max="60"
+                            step="0.1"
+                            placeholder="e.g. 12"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="priceInput">
+                            Refill Price
+                        </label>
+
+                        <input
+                            type="number"
+                            id="priceInput"
+                            min="0"
+                            step="0.01"
+                            placeholder="Optional"
+                        >
+
+                    </div>
+
+
+                    <div class="field full">
+
+                        <label for="currencySelect">
+                            Currency
+                        </label>
+
+                        <select id="currencySelect">
+
+                            <option value="NGN">₦ NGN</option>
+                            <option value="USD">$ USD</option>
+                            <option value="GBP">£ GBP</option>
+                            <option value="EUR">€ EUR</option>
+                            <option value="GHS">₵ GHS</option>
+                            <option value="KES">KSh KES</option>
+                            <option value="ZAR">R ZAR</option>
+                            <option value="CAD">$ CAD</option>
+                            <option value="AUD">$ AUD</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <button class="save-btn" onclick="saveDates()">
+                    💾 Save Gas Information
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- COUNTDOWN -->
+
+        <section class="card countdown-card">
+
+            <div class="countdown-top">
+
+                <div class="eyebrow">
+                    YOUR GAS COUNTDOWN
+                </div>
+
+                <div
+                    class="countdown"
+                    id="countdown"
+                >
+                    --
+                </div>
+
+                <div
+                    class="countdown-label"
+                    id="countdownLabel"
+                >
+                    days until consumption
+                </div>
+
+            </div>
+
+
+            <div
+                id="statusIndicator"
+                class="status-indicator status-ok"
+            >
+                Enter your consumption date to begin tracking.
+            </div>
+
+
+            <div class="info-grid">
+
+                <div class="info-box">
+
+                    <div class="info-icon">🔥</div>
+
+                    <div class="info-title">
+                        Gas Amount
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="displayKg"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-icon">📅</div>
+
+                    <div class="info-title">
+                        Consumption Date
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="displayConsumption"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-icon">🔔</div>
+
+                    <div class="info-title">
+                        Last Notification
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="lastNotification"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-icon">⏰</div>
+
+                    <div class="info-title">
+                        Next Notification
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="nextNotification"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- ================= CYLINDER DASHBOARD ================= -->
+
+    <section class="card cylinder-section">
+
+        <div class="card-inner">
+
+            <h2>🔥 Cylinder Dashboard</h2>
+
+            <p class="card-subtitle">
+                Select your main cylinder size and optionally keep a backup cylinder size.
+            </p>
+
+
+            <div class="cylinder-dashboard">
+
+                <div class="cylinder-image">
+
+                    <img
+                        id="cylinderImage"
+                        src=""
+                        alt="Cooking gas cylinder"
+                        style="display:none;"
+                    >
+
+                    <div
+                        class="placeholder"
+                        id="cylinderPlaceholder"
+                    >
+                        🔥
+                    </div>
+
+                </div>
+
+
+                <div class="cylinder-details">
+
+                    <h3 id="cylinderTitle">
+                        Cylinder setup
+                    </h3>
+
+                    <p id="cylinderDescription">
+                        Your cylinder information will appear here.
+                    </p>
+
+
+                    <div class="cylinder-controls">
+
+                        <select id="mainCylinderSize">
+
+                            <option value="3">Main cylinder — 3 KG</option>
+                            <option value="4">Main cylinder — 4 KG</option>
+                            <option value="5">Main cylinder — 5 KG</option>
+                            <option value="6">Main cylinder — 6 KG</option>
+                            <option value="10">Main cylinder — 10 KG</option>
+                            <option value="12" selected>Main cylinder — 12 KG</option>
+                            <option value="60">Main cylinder — 60 KG</option>
+
+                        </select>
+
+
+                        <select id="backupCylinderSize">
+
+                            <option value="none">No backup cylinder</option>
+                            <option value="3">Backup — 3 KG</option>
+                            <option value="4">Backup — 4 KG</option>
+                            <option value="5">Backup — 5 KG</option>
+                            <option value="6">Backup — 6 KG</option>
+                            <option value="10">Backup — 10 KG</option>
+                            <option value="12">Backup — 12 KG</option>
+                            <option value="60">Backup — 60 KG</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button
+                        class="secondary-btn"
+                        style="width:100%;margin-top:12px;"
+                        onclick="saveCylinderSetup()"
+                    >
+                        Save Cylinder Setup
+                    </button>
+
+
+                    <div class="progress-wrap">
+
+                        <div class="progress-header">
+
+                            <span>
+                                Estimated time remaining
+                            </span>
+
+                            <span id="remainingPercent">
+                                —
+                            </span>
+
+                        </div>
+
+                        <div class="progress">
+
+                            <div
+                                class="progress-bar"
+                                id="progressBar"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= NOTIFICATIONS ================= -->
+
+    <section class="card section">
+
+        <div class="card-inner">
+
+            <h2>🔔 Notification Status</h2>
+
+            <p class="card-subtitle">
+                Your scheduled reminders are handled through Firebase and the Cloudflare Worker notification system.
+            </p>
+
+
+            <div
+                class="permission-box"
+                id="permissionBox"
+            >
+
+                <p>
+                    Enable notifications so Cooking Gas Tracker can send reminders when your expected consumption date is approaching.
+                </p>
+
+                <button
+                    class="notify-btn"
+                    onclick="requestPermission()"
+                >
+                    🔔 Enable Notifications
+                </button>
+
+            </div>
+
+
+            <div
+                class="notification-list"
+                id="notificationList"
+            >
+                <div class="notification-item">
+
+                    <span class="icon">ℹ️</span>
+
+                    <p>
+                        No notification activity yet.
+                    </p>
+
+                </div>
+            </div>
+
+
+            <div class="test-box">
+
+                <p>
+                    Testing the notification system is useful when setting up the app.
+                    The test button sends through the existing Worker/FCM system when the page is running inside the Capacitor app.
+                </p>
+
+                <button
+                    class="test-btn"
+                    onclick="testWorkerNotification()"
+                >
+                    🔔 Test Notification
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= REFILL HISTORY ================= -->
+
+    <section class="card section">
+
+        <div class="card-inner">
+
+            <h2>📊 Refill History</h2>
+
+            <p class="card-subtitle">
+                Keep previous refill records so you can understand your personal gas usage pattern.
+            </p>
+
+
+            <div
+                class="history-list"
+                id="historyList"
+            >
+                <p style="color:var(--muted);font-size:.9rem;">
+                    No refill history yet.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= GAS TIPS ================= -->
+
+    <section class="notice">
+
+        <h3>🔥 Gas Usage Tips</h3>
+
+        <p>
+            To help make your consumption estimate more useful, keep track of how
+            long you spend cooking each meal.
+            <br><br>
+
+            Try not to cook food for longer than the recommended cooking time.
+            <br><br>
+
+            Use medium or low heat whenever possible.
+            Higher heat can use more gas and may cause your gas to finish earlier
+            than your expected date.
+            <br><br>
+
+            Your cooking habits may change from week to week. You may cook more,
+            cook for longer, or have more people eating at home. These changes can
+            affect your actual gas consumption.
+            <br><br>
+
+            <strong>
+                Cook smart, save gas, and enjoy your meals! 🍳🔥
+            </strong>
+        </p>
+
+    </section>
+
+
+    <!-- ================= IMPORTANT NOTE ================= -->
+
+    <section class="card section">
+
+        <div class="card-inner">
+
+            <h2>Important to Know</h2>
+
+            <p style="color:var(--muted);margin-top:10px;">
+
+                Cooking Gas Tracker does not physically measure the gas inside your
+                cylinder. Your expected consumption date is an estimate based on
+                the information you provide and your cooking habits.
+
+                <br><br>
+
+                You may still have gas remaining when a reminder appears, and your
+                gas may also finish before the estimated date.
+
+                <br><br>
+
+                Always check your actual cylinder and refill when necessary.
+
+            </p>
+
+        </div>
+
+    </section>
+
+</div>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-links">
+
+            <a href="index.html">Home</a>
+
+            <a href="more.html">More</a>
+
+            <a href="https://policies-privacy-8c085d.netlify.app/" target="_blank">
+                Privacy Policy
+            </a>
+
+            <a href="https://about-us-a9f8d5.netlify.app/" target="_blank">
+                About Us
+            </a>
+
+            <a href="https://terms-condition-36816f.netlify.app/" target="_blank">
+                Terms & Conditions
+            </a>
+
+        </div>
+
+        <div>
+            © 2026 Cooking Gas Tracker. All rights reserved.
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- ================= MOBILE NAV ================= -->
+
+<nav class="mobile-nav">
+
+    <a href="index.html">
+        <span>🏠</span>
+        Home
+    </a>
+
+    <a href="tracker.html" class="active">
+        <span>🔥</span>
+        Tracker
+    </a>
+
+    <a href="assistant.html">
+        <span>🤖</span>
+        Assistant
+    </a>
+
+    <a href="guides.html">
+        <span>📚</span>
+        Guides
+    </a>
+
+    <a href="more.html">
+        <span>☰</span>
+        More
+    </a>
+
+</nav>
+
+
+<!-- ================= TOAST ================= -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+/* =========================================================
+   FIREBASE / CLOUDFLARE WORKER CONFIGURATION
+========================================================= */
+
+const firebaseConfig = {
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
+    projectId: "YOUR_FIREBASE_PROJECT_ID",
+    storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
+    messagingSenderId: "265524187379",
+    appId: "1:265524187379:web:d987da967ae8aadc582786"
+};
+
+const vapidKey =
+"BJC2ztNWs-SjxdEbdmy9_6XRhjhSW6JDlLhQu77vkgAMwWfyIGZTwWo-DewsBmmITfNRvj5Mek1MpkJd0I7Bioo";
+
+const WORKER_URL =
+"https://gas-notifier.johnawotipe9.workers.dev/";
+
+
+/* =========================================================
+   APP STATE
+========================================================= */
+
+let savedDates = null;
+
+let history = [];
+
+let sentNotifications = [];
+
+let lastSent = null;
+
+let notificationId = 1;
+
+let messaging = null;
+
+let isFirebaseReady = false;
+
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const countdownEl =
+document.getElementById("countdown");
+
+const countdownLabelEl =
+document.getElementById("countdownLabel");
+
+const statusIndicator =
+document.getElementById("statusIndicator");
+
+const notificationList =
+document.getElementById("notificationList");
+
+const historyList =
+document.getElementById("historyList");
+
+const refillDateInput =
+document.getElementById("refillDate");
+
+const consumptionDateInput =
+document.getElementById("consumptionDate");
+
+const kgInput =
+document.getElementById("kgInput");
+
+const priceInput =
+document.getElementById("priceInput");
+
+const currencySelect =
+document.getElementById("currencySelect");
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message){
+
+    const toast =
+    document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    },3000);
+}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    const dark =
+    document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "cgtTheme",
+        dark ? "dark" : "light"
+    );
+
+}
+
+function loadTheme(){
+
+    if(
+        localStorage.getItem("cgtTheme")
+        === "dark"
+    ){
+
+        document.body.classList.add("dark");
+
+    }
+
+}
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+async function saveStorage(){
+
+    const data = {
+
+        dates: savedDates ? {
+
+            refill:
+            savedDates.refill,
+
+            consumption:
+            savedDates.consumption,
+
+            kg:
+            savedDates.kg,
+
+            price:
+            savedDates.price,
+
+            currency:
+            savedDates.currency
+
+        } : null,
+
+        history,
+
+        sentNotifications,
+
+        lastSent
+
+    };
+
+
+    /* Capacitor */
+
+    if(
+        window.Capacitor &&
+        window.Capacitor.Plugins &&
+        window.Capacitor.Plugins.Preferences
+    ){
+
+        try{
+
+            await window.Capacitor.Plugins.Preferences.set({
+
+                key:"gasTrackerData",
+
+                value:JSON.stringify(data)
+
+            });
+
+            return;
+
+        }catch(error){
+
+            console.error(
+                "Capacitor storage error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* Website */
+
+    localStorage.setItem(
+        "gasTrackerData",
+        JSON.stringify(data)
+    );
+
+}
+
+
+async function loadStorage(){
+
+    let saved = null;
+
+
+    /* Capacitor */
+
+    if(
+        window.Capacitor &&
+        window.Capacitor.Plugins &&
+        window.Capacitor.Plugins.Preferences
+    ){
+
+        try{
+
+            const result =
+            await window.Capacitor.Plugins.Preferences.get({
+
+                key:"gasTrackerData"
+
+            });
+
+            saved =
+            result.value
+            ? JSON.parse(result.value)
+            : null;
+
+        }catch(error){
+
+            console.error(
+                "Capacitor load error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* Website fallback */
+
+    if(!saved){
+
+        try{
+
+            const raw =
+            localStorage.getItem(
+                "gasTrackerData"
+            );
+
+            saved =
+            raw
+            ? JSON.parse(raw)
+            : null;
+
+        }catch(error){
+
+            console.error(error);
+
+        }
+
+    }
+
+
+    if(!saved) return;
+
+
+    if(saved.dates){
+
+        savedDates = {
+
+            refill:
+            saved.dates.refill,
+
+            consumption:
+            saved.dates.consumption,
+
+            kg:
+            saved.dates.kg || 0,
+
+            price:
+            saved.dates.price || 0,
+
+            currency:
+            saved.dates.currency || "NGN"
+
+        };
+
+
+        refillDateInput.value =
+        saved.dates.refill || "";
+
+
+        consumptionDateInput.value =
+        saved.dates.consumption || "";
+
+
+        kgInput.value =
+        saved.dates.kg || "";
+
+
+        priceInput.value =
+        saved.dates.price || "";
+
+
+        currencySelect.value =
+        saved.dates.currency || "NGN";
+
+    }
+
+
+    history =
+    Array.isArray(saved.history)
+    ? saved.history
+    : [];
+
+
+    sentNotifications =
+    Array.isArray(saved.sentNotifications)
+    ? saved.sentNotifications
+    : [];
+
+
+    lastSent =
+    saved.lastSent || null;
+
+}
+
+
+/* =========================================================
+   SAVE GAS DATA
+========================================================= */
+
+async function saveDates(){
+
+    const refill =
+    refillDateInput.value;
+
+    const consumption =
+    consumptionDateInput.value;
+
+    const kg =
+    parseFloat(kgInput.value);
+
+    const price =
+    parseFloat(priceInput.value) || 0;
+
+    const currency =
+    currencySelect.value;
+
+
+    if(
+        !refill ||
+        !consumption ||
+        !kg ||
+        kg <= 0
+    ){
+
+        showToast(
+            "Please fill in the refill date, consumption date and gas amount."
+        );
+
+        return;
+
+    }
+
+
+    const refillDate =
+    new Date(refill + "T00:00:00");
+
+    const consumptionDate =
+    new Date(consumption + "T00:00:00");
+
+
+    if(
+        consumptionDate <
+        refillDate
+    ){
+
+        showToast(
+            "Consumption date cannot be before the refill date."
+        );
+
+        return;
+
+    }
+
+
+    savedDates = {
+
+        refill,
+
+        consumption,
+
+        kg,
+
+        price,
+
+        currency
+
+    };
+
+
+    const daysUsed =
+    Math.max(
+        1,
+        Math.round(
+            (
+                consumptionDate -
+                refillDate
+            )
+            /
+            (1000*60*60*24)
+        )
+    );
+
+
+    history.unshift({
+
+        kg,
+
+        refillDate:refill,
+
+        consumptionDate:consumption,
+
+        daysUsed,
+
+        price,
+
+        currency,
+
+        addedAt:
+        new Date().toISOString()
+
+    });
+
+
+    /*
+       Keep history useful.
+       We do not allow unlimited records.
+    */
+
+    if(history.length > 30){
+
+        history =
+        history.slice(0,30);
+
+    }
+
+
+    /*
+       New consumption period means
+       new notification tracking.
+    */
+
+    sentNotifications = [];
+
+    lastSent = null;
+
+
+    await saveStorage();
+
+
+    updateStatus();
+
+    updateNextNotification();
+
+    updateNotificationStatus();
+
+    renderHistory();
+
+    updateCylinderDashboard();
+
+
+    /*
+       Send the current consumption date
+       to the existing Worker.
+    */
+
+    await registerWorkerSchedule();
+
+
+    showToast(
+        "Gas information saved successfully."
+    );
+
+}
+
+
+/* =========================================================
+   WORKER REGISTRATION
+========================================================= */
+
+async function registerWorkerSchedule(){
+
+    if(!savedDates) return;
+
+
+    try{
+
+        let token = null;
+
+
+        /*
+           Native Capacitor app
+        */
+
+        if(
+            window.Capacitor &&
+            window.Capacitor.Plugins &&
+            window.Capacitor.Plugins.FirebaseMessaging
+        ){
+
+            try{
+
+                const result =
+                await window.Capacitor.Plugins.FirebaseMessaging.getToken();
+
+                token =
+                result?.token ||
+                result?.value ||
+                result;
+
+            }catch(error){
+
+                console.error(
+                    "Native FCM token error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /*
+           Web Firebase
+        */
+
+        if(
+            !token &&
+            messaging &&
+            isFirebaseReady
+        ){
+
+            try{
+
+                token =
+                await messaging.getToken({
+
+                    vapidKey
+
+                });
+
+            }catch(error){
+
+                console.error(
+                    "Web FCM token error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        if(!token){
+
+            console.log(
+                "No FCM token available yet."
+            );
+
+            return;
+
+        }
+
+
+        await sendToWorker(token);
+
+    }catch(error){
+
+        console.error(
+            "Worker registration error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SEND TO CLOUDFLARE WORKER
+========================================================= */
+
+async function sendToWorker(fcmToken){
+
+    if(!savedDates) return;
+
+
+    try{
+
+        const response =
+        await fetch(
+
+            WORKER_URL,
+
+            {
+
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    userId:fcmToken,
+
+                    fcmToken:fcmToken,
+
+                    consumptionDate:
+                    new Date(
+                        savedDates.consumption +
+                        "T00:00:00"
+                    ).toISOString(),
+
+                    timeZone:
+                    "Africa/Lagos"
+
+                })
+
+            }
+
+        );
+
+
+        if(response.ok){
+
+            console.log(
+                "Consumption date sent to Worker."
+            );
+
+        }else{
+
+            console.error(
+                "Worker response:",
+                response.status
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Worker request failed:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   NOTIFICATION PERMISSION
+========================================================= */
+
+async function requestPermission(){
+
+    try{
+
+        /*
+           Native Capacitor
+        */
+
+        if(
+            window.Capacitor &&
+            window.Capacitor.Plugins &&
+            window.Capacitor.Plugins.FirebaseMessaging
+        ){
+
+            const FirebaseMessaging =
+            window.Capacitor.Plugins.FirebaseMessaging;
+
+
+            const permission =
+            await FirebaseMessaging.requestPermissions();
+
+
+            if(
+                permission.receive === "granted"
+            ){
+
+                const result =
+                await FirebaseMessaging.getToken();
+
+                const token =
+                result?.token ||
+                result?.value ||
+                result;
+
+
+                if(savedDates && token){
+
+                    await sendToWorker(token);
+
+                }
+
+
+                document.getElementById(
+                    "permissionBox"
+                ).style.display = "none";
+
+
+                showToast(
+                    "Notifications enabled!"
+                );
+
+
+            }else{
+
+                showToast(
+                    "Notification permission was not granted."
+                );
+
+            }
+
+
+            return;
+
+        }
+
+
+        /*
+           Browser
+        */
+
+        if(!("Notification" in window)){
+
+            showToast(
+                "This browser does not support notifications."
+            );
+
+            return;
+
+        }
+
+
+        const permission =
+        await Notification.requestPermission();
+
+
+        if(permission !== "granted"){
+
+            showToast(
+                "Notification permission was not granted."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            messaging &&
+            isFirebaseReady
+        ){
+
+            const token =
+            await messaging.getToken({
+
+                vapidKey
+
+            });
+
+
+            if(savedDates && token){
+
+                await sendToWorker(token);
+
+            }
+
+        }
+
+
+        document.getElementById(
+            "permissionBox"
+        ).style.display = "none";
+
+
+        showToast(
+            "Notifications enabled!"
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Could not enable notifications. Check your notification settings."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   TEST WORKER NOTIFICATION
+========================================================= */
+
+async function testWorkerNotification(){
+
+    try{
+
+        if(
+            !window.Capacitor ||
+            !window.Capacitor.Plugins ||
+            !window.Capacitor.Plugins.FirebaseMessaging
+        ){
+
+            showToast(
+                "Test notification is available inside the Android app."
+            );
+
+            return;
+
+        }
+
+
+        const result =
+        await window.Capacitor.Plugins.FirebaseMessaging.getToken();
+
+
+        const token =
+        result?.token ||
+        result?.value ||
+        result;
+
+
+        if(!token){
+
+            showToast(
+                "No Firebase notification token was found."
+            );
+
+            return;
+
+        }
+
+
+        const response =
+        await fetch(
+
+            WORKER_URL,
+
+            {
+
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    userId:"test",
+
+                    fcmToken:token,
+
+                    consumptionDate:
+                    new Date(
+                        Date.now()+86400000
+                    ).toISOString(),
+
+                    test:true
+
+                })
+
+            }
+
+        );
+
+
+        const responseText =
+        await response.text();
+
+
+        if(response.ok){
+
+            showToast(
+                "Test notification sent! Check your notifications."
+            );
+
+        }else{
+
+            showToast(
+                "Test failed: " +
+                response.status
+            );
+
+            console.error(
+                responseText
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Test failed: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   NOTIFICATION RECORDING
+========================================================= */
+
+async function recordNotificationSent(message){
+
+    const item = {
+
+        timestamp:
+        Date.now(),
+
+        message
+
+    };
+
+
+    lastSent = item;
+
+    sentNotifications.push(item);
+
+
+    if(sentNotifications.length > 20){
+
+        sentNotifications =
+        sentNotifications.slice(-20);
+
+    }
+
+
+    await saveStorage();
+
+
+    updateNotificationStatus();
+
+    updateNextNotification();
+
+}
+
+
+/* =========================================================
+   NEXT NOTIFICATION
+   FINAL SCHEDULE:
+   00:00, 06:00, 12:00, 18:00
+   AFRICA/LAGOS
+========================================================= */
+
+const APP_TIMEZONE =
+"Africa/Lagos";
+
+const notificationHours =
+[
+    0,
+    6,
+    12,
+    18
+];
+
+const notificationDaysBefore =
+[
+    2,
+    1,
+    0
+];
+
+
+function getLagosParts(date){
+
+    const parts =
+    new Intl.DateTimeFormat(
+        "en-CA",
+        {
+
+            timeZone:
+            APP_TIMEZONE,
+
+            year:"numeric",
+            month:"2-digit",
+            day:"2-digit"
+
+        }
+    ).formatToParts(date);
+
+
+    const output = {};
+
+
+    parts.forEach(
+        part => {
+
+            if(
+                part.type !== "literal"
+            ){
+
+                output[part.type] =
+                part.value;
+
+            }
+
+        }
+    );
+
+
+    return {
+
+        year:Number(output.year),
+
+        month:Number(output.month),
+
+        day:Number(output.day)
+
+    };
+
+}
+
+
+function lagosLocalToDate(
+    year,
+    month,
+    day,
+    hour
+){
+
+    /*
+       Africa/Lagos is UTC+1.
+    */
+
+    return new Date(
+        Date.UTC(
+            year,
+            month-1,
+            day,
+            hour
+        )
+        -
+        60*60*1000
+    );
+
+}
+
+
+function addDays(
+    year,
+    month,
+    day,
+    amount
+){
+
+    const date =
+    new Date(
+        Date.UTC(
+            year,
+            month-1,
+            day+amount
+        )
+    );
+
+
+    return {
+
+        year:
+        date.getUTCFullYear(),
+
+        month:
+        date.getUTCMonth()+1,
+
+        day:
+        date.getUTCDate()
+
+    };
+
+}
+
+
+function getNextNotificationTime(){
+
+    if(
+        !savedDates ||
+        !savedDates.consumption
+    ){
+
+        return null;
+
+    }
+
+
+    const now =
+    new Date();
+
+
+    const consumptionParts =
+    getLagosParts(
+        new Date(
+            savedDates.consumption +
+            "T00:00:00"
+        )
+    );
+
+
+    let next = null;
+
+
+    for(
+        const daysBefore
+        of notificationDaysBefore
+    ){
+
+        const target =
+        addDays(
+
+            consumptionParts.year,
+
+            consumptionParts.month,
+
+            consumptionParts.day,
+
+            -daysBefore
+
+        );
+
+
+        for(
+            const hour
+            of notificationHours
+        ){
+
+            const notificationTime =
+            lagosLocalToDate(
+
+                target.year,
+
+                target.month,
+
+                target.day,
+
+                hour
+
+            );
+
+
+            if(
+                notificationTime > now &&
+                (
+                    !next ||
+                    notificationTime < next
+                )
+            ){
+
+                next =
+                notificationTime;
+
+            }
+
+        }
+
+    }
+
+
+    return next;
+
+}
+
+
+function formatDateTime(date){
+
+    if(!date) return "—";
+
+
+    return new Intl.DateTimeFormat(
+        undefined,
+        {
+
+            dateStyle:"medium",
+
+            timeStyle:"short"
+
+        }
+    ).format(date);
+
+}
+
+
+function updateNextNotification(){
+
+    const element =
+    document.getElementById(
+        "nextNotification"
+    );
+
+
+    const next =
+    getNextNotificationTime();
+
+
+    if(!next){
+
+        element.textContent =
+        "—";
+
+        return;
+
+    }
+
+
+    element.textContent =
+    formatDateTime(next);
+
+}
+
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+function updateStatus(){
+
+    if(
+        !savedDates ||
+        !savedDates.consumption
+    ){
+
+        countdownEl.textContent =
+        "--";
+
+        countdownLabelEl.textContent =
+        "days until consumption";
+
+        statusIndicator.className =
+        "status-indicator status-ok";
+
+        statusIndicator.textContent =
+        "Enter your consumption date to begin tracking.";
+
+        return;
+
+    }
+
+
+    const today =
+    new Date();
+
+
+    today.setHours(
+        0,0,0,0
+    );
+
+
+    const consumption =
+    new Date(
+        savedDates.consumption +
+        "T00:00:00"
+    );
+
+
+    consumption.setHours(
+        0,0,0,0
+    );
+
+
+    const diffDays =
+    Math.ceil(
+        (
+            consumption -
+            today
+        )
+        /
+        (1000*60*60*24)
+    );
+
+
+    countdownEl.textContent =
+    Math.max(
+        diffDays,
+        0
+    );
+
+
+    countdownLabelEl.textContent =
+    diffDays === 1
+    ? "day until consumption"
+    : "days until consumption";
+
+
+    statusIndicator.className =
+    "status-indicator";
+
+
+    if(diffDays < 0){
+
+        statusIndicator.classList.add(
+            "status-danger"
+        );
+
+        statusIndicator.textContent =
+        "⏰ Your expected consumption date has passed. Check your cylinder and refill if necessary.";
+
+    }
+
+    else if(diffDays === 0){
+
+        statusIndicator.classList.add(
+            "status-danger"
+        );
+
+        statusIndicator.textContent =
+        "⚠️ Today is your expected consumption date. Check your actual gas supply.";
+
+    }
+
+    else if(diffDays <= 2){
+
+        statusIndicator.classList.add(
+            "status-warning"
+        );
+
+        statusIndicator.textContent =
+        `🔥 Only ${diffDays} day${diffDays === 1 ? "" : "s"} left. Prepare for a refill.`;
+
+    }
+
+    else{
+
+        statusIndicator.classList.add(
+            "status-ok"
+        );
+
+        statusIndicator.textContent =
+        "✅ You have enough time. Keep tracking your usage.";
+
+    }
+
+
+    document.getElementById(
+        "displayKg"
+    ).textContent =
+    savedDates.kg
+    ? `${savedDates.kg} KG`
+    : "—";
+
+
+    document.getElementById(
+        "displayConsumption"
+    ).textContent =
+    formatSimpleDate(
+        savedDates.consumption
+    );
+
+
+    document.getElementById(
+        "lastNotification"
+    ).textContent =
+    lastSent
+    ? formatDateTime(
+        new Date(lastSent.timestamp)
+    )
+    : "None yet";
+
+}
+
+
+/* =========================================================
+   NOTIFICATION STATUS
+========================================================= */
+
+function updateNotificationStatus(){
+
+    let html = "";
+
+
+    if(!savedDates){
+
+        notificationList.innerHTML =
+        `<div class="notification-item">
+            <span class="icon">ℹ️</span>
+            <p>
+                Save your gas information first to activate the reminder schedule.
+            </p>
+        </div>`;
+
+        return;
+
+    }
+
+
+    const next =
+    getNextNotificationTime();
+
+
+    if(lastSent){
+
+        html +=
+        `<div class="notification-item">
+            <span class="icon">✅</span>
+
+            <div>
+                <p>
+                    <strong>Last notification received</strong>
+                </p>
+
+                <small>
+                    ${formatDateTime(
+                        new Date(lastSent.timestamp)
+                    )}
+                    — ${escapeHtml(
+                        lastSent.message
+                    )}
+                </small>
+            </div>
+        </div>`;
+
+    }else{
+
+        html +=
+        `<div class="notification-item">
+            <span class="icon">ℹ️</span>
+
+            <div>
+                <p>
+                    No notification has been recorded yet.
+                </p>
+
+                <small>
+                    Scheduled reminders are handled by the Worker.
+                </small>
+            </div>
+        </div>`;
+
+    }
+
+
+    if(next){
+
+        html +=
+        `<div class="notification-item">
+            <span class="icon">📅</span>
+
+            <div>
+                <p>
+                    <strong>Next scheduled notification</strong>
+                </p>
+
+                <small>
+                    ${formatDateTime(next)}
+                    — Africa/Lagos schedule
+                </small>
+            </div>
+        </div>`;
+
+    }
+
+
+    html +=
+    `<div class="notification-item">
+        <span class="icon">🕐</span>
+
+        <div>
+            <p>
+                <strong>Reminder schedule</strong>
+            </p>
+
+            <small>
+                12:00 AM · 6:00 AM · 12:00 PM · 6:00 PM
+            </small>
+        </div>
+    </div>`;
+
+
+    notificationList.innerHTML =
+    html;
+
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function renderHistory(){
+
+    if(
+        !history ||
+        history.length === 0
+    ){
+
+        historyList.innerHTML =
+        `<p style="color:var(--muted);font-size:.9rem;">
+            No refill history yet.
+        </p>`;
+
+        return;
+
+    }
+
+
+    historyList.innerHTML =
+    history.map(
+        (item,index) => {
+
+            return `
+            <div class="history-item">
+
+                <div class="history-main">
+
+                    <span class="icon">
+                        🔥
+                    </span>
+
+                    <div>
+
+                        <p>
+                            <strong>
+                                ${escapeHtml(
+                                    String(item.kg || "")
+                                )} KG refill
+                            </strong>
+                        </p>
+
+                        <small>
+                            Refilled:
+                            ${formatSimpleDate(
+                                item.refillDate
+                            )}
+                            <br>
+
+                            Expected consumption:
+                            ${formatSimpleDate(
+                                item.consumptionDate
+                            )}
+
+                            ${
+                                item.daysUsed
+                                ? `<br>${item.daysUsed} days estimated usage`
+                                : ""
+                            }
+
+                            ${
+                                item.price
+                                ? `<br>${escapeHtml(
+                                    item.currency || ""
+                                )} ${Number(
+                                    item.price
+                                ).toLocaleString()}`
+                                : ""
+                            }
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteHistory(${index})"
+                    aria-label="Delete history"
+                >
+                    🗑️
+                </button>
+
+            </div>
+            `;
+
+        }
+    ).join("");
+
+}
+
+
+async function deleteHistory(index){
+
+    if(
+        !confirm(
+            "Delete this refill history record?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    history.splice(
+        index,
+        1
+    );
+
+
+    await saveStorage();
+
+    renderHistory();
+
+    showToast(
+        "History entry deleted."
+    );
+
+}
+
+
+/* =========================================================
+   CYLINDER DASHBOARD
+========================================================= */
+
+const cylinderImages = {
+
+    "3":
+    "https://i.imgur.com/dZzOumd.png",
+
+    "4":
+    "https://i.imgur.com/AWzW1Oc.png",
+
+    "5":
+    "https://i.imgur.com/6XnSoH3.png",
+
+    "6":
+    "https://i.imgur.com/BW6TJ3s.png",
+
+    "10":
+    "https://i.imgur.com/j0DqhAI.png",
+
+    "12":
+    "https://i.imgur.com/UZGV7Qg.png",
+
+    "60":
+    "https://i.imgur.com/RmvTIe2.png"
+
+};
+
+
+function loadCylinderSetup(){
+
+    try{
+
+        const saved =
+        JSON.parse(
+            localStorage.getItem(
+                "cookingGasTrackerCylinderSetup"
+            ) || "{}"
+        );
+
+
+        document.getElementById(
+            "mainCylinderSize"
+        ).value =
+        saved.main || "12";
+
+
+        document.getElementById(
+            "backupCylinderSize"
+        ).value =
+        saved.backup || "none";
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+
+    updateCylinderDashboard();
+
+}
+
+
+function saveCylinderSetup(){
+
+    const main =
+    document.getElementById(
+        "mainCylinderSize"
+    ).value;
+
+
+    const backup =
+    document.getElementById(
+        "backupCylinderSize"
+    ).value;
+
+
+    localStorage.setItem(
+
+        "cookingGasTrackerCylinderSetup",
+
+        JSON.stringify({
+
+            main,
+
+            backup
+
+        })
+
+    );
+
+
+    updateCylinderDashboard();
+
+    showToast(
+        "Cylinder setup saved."
+    );
+
+}
+
+
+function updateCylinderDashboard(){
+
+    const main =
+    document.getElementById(
+        "mainCylinderSize"
+    ).value;
+
+
+    const backup =
+    document.getElementById(
+        "backupCylinderSize"
+    ).value;
+
+
+    const image =
+    document.getElementById(
+        "cylinderImage"
+    );
+
+
+    const placeholder =
+    document.getElementById(
+        "cylinderPlaceholder"
+    );
+
+
+    if(cylinderImages[main]){
+
+        image.src =
+        cylinderImages[main];
+
+        image.style.display =
+        "block";
+
+        placeholder.style.display =
+        "none";
+
+    }else{
+
+        image.style.display =
+        "none";
+
+        placeholder.style.display =
+        "block";
+
+    }
+
+
+    document.getElementById(
+        "cylinderTitle"
+    ).textContent =
+    `${main} KG Main Cylinder`;
+
+
+    document.getElementById(
+        "cylinderDescription"
+    ).textContent =
+    backup !== "none"
+    ? `${main} KG main cylinder with a ${backup} KG backup cylinder.`
+    : `${main} KG main cylinder. No backup cylinder selected.`;
+
+
+    const percent =
+    cylinderRemainingPercent();
+
+
+    const bar =
+    document.getElementById(
+        "progressBar"
+    );
+
+
+    const label =
+    document.getElementById(
+        "remainingPercent"
+    );
+
+
+    if(percent === null){
+
+        bar.style.width =
+        "0%";
+
+        label.textContent =
+        "—";
+
+    }else{
+
+        bar.style.width =
+        percent + "%";
+
+        label.textContent =
+        percent + "%";
+
+    }
+
+}
+
+
+function cylinderRemainingPercent(){
+
+    if(
+        !savedDates ||
+        !savedDates.refill ||
+        !savedDates.consumption
+    ){
+
+        return null;
+
+    }
+
+
+    const start =
+    new Date(
+        savedDates.refill +
+        "T00:00:00"
+    );
+
+
+    const end =
+    new Date(
+        savedDates.consumption +
+        "T23:59:59"
+    );
+
+
+    const now =
+    new Date();
+
+
+    const total =
+    end - start;
+
+
+    if(total <= 0){
+
+        return null;
+
+    }
+
+
+    const remaining =
+    Math.max(
+        0,
+        Math.min(
+            total,
+            end-now
+        )
+    );
+
+
+    return Math.round(
+        remaining /
+        total *
+        100
+    );
+
+}
+
+
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
+function formatSimpleDate(dateString){
+
+    if(!dateString) return "—";
+
+
+    const date =
+    new Date(
+        dateString +
+        "T00:00:00"
+    );
+
+
+    if(isNaN(date)){
+
+        return dateString;
+
+    }
+
+
+    return date.toLocaleDateString(
+        undefined,
+        {
+
+            day:"numeric",
+
+            month:"short",
+
+            year:"numeric"
+
+        }
+    );
+
+}
+
+
+function escapeHtml(value){
+
+    return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   FIREBASE INITIALIZATION
+========================================================= */
+
+function initializeFirebase(){
+
+    /*
+       If the Firebase config placeholders have not
+       been replaced, don't initialize Firebase.
+    */
+
+    if(
+        firebaseConfig.apiKey ===
+        "YOUR_FIREBASE_API_KEY"
+    ){
+
+        console.log(
+            "Firebase web configuration has not been added."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        firebase.initializeApp(
+            firebaseConfig
+        );
+
+
+        messaging =
+        firebase.messaging();
+
+
+        isFirebaseReady =
+        true;
+
+
+        messaging.onMessage(
+            payload => {
+
+                console.log(
+                    "Foreground FCM message:",
+                    payload
+                );
+
+
+                let title =
+                "Cooking Gas Alert";
+
+
+                let body =
+                "You have a new cooking gas reminder.";
+
+
+                if(payload.notification){
+
+                    title =
+                    payload.notification.title ||
+                    title;
+
+                    body =
+                    payload.notification.body ||
+                    body;
+
+                }
+
+
+                if(payload.data){
+
+                    title =
+                    payload.data.title ||
+                    title;
+
+                    body =
+                    payload.data.body ||
+                    body;
+
+                }
+
+
+                if(
+                    "Notification"
+                    in window &&
+                    Notification.permission ===
+                    "granted"
+                ){
+
+                    new Notification(
+                        title,
+                        {
+                            body
+                        }
+                    );
+
+                }
+
+
+                recordNotificationSent(
+                    body
+                );
+
+
+                showToast(body);
+
+            }
+
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Firebase initialization failed:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CAPACITOR FCM LISTENER
+========================================================= */
+
+function initializeCapacitorMessaging(){
+
+    if(
+        !window.Capacitor ||
+        !window.Capacitor.Plugins ||
+        !window.Capacitor.Plugins.FirebaseMessaging
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        window.Capacitor.Plugins.FirebaseMessaging
+        .addListener(
+            "messageReceived",
+            async data => {
+
+                console.log(
+                    "Native FCM message:",
+                    data
+                );
+
+
+                const title =
+                data.title ||
+                "Cooking Gas Alert";
+
+
+                const body =
+                data.body ||
+                "You have a new cooking gas reminder.";
+
+
+                if(
+                    window.Capacitor.Plugins.LocalNotifications
+                ){
+
+                    try{
+
+                        await window.Capacitor.Plugins.LocalNotifications
+                        .schedule({
+
+                            notifications:[{
+
+                                title,
+
+                                body,
+
+                                id:
+                                notificationId++,
+
+                                schedule:{
+                                    at:
+                                    new Date()
+                                }
+
+                            }]
+
+                        });
+
+                    }catch(error){
+
+                        console.error(
+                            error
+                        );
+
+                    }
+
+                }
+
+
+                await recordNotificationSent(
+                    body
+                );
+
+
+                showToast(body);
+
+            }
+        );
+
+    }catch(error){
+
+        console.error(
+            "Capacitor messaging listener error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CHECK PERMISSION VISIBILITY
+========================================================= */
+
+async function checkNotificationPermission(){
+
+    const box =
+    document.getElementById(
+        "permissionBox"
+    );
+
+
+    if(
+        window.Capacitor &&
+        window.Capacitor.Plugins &&
+        window.Capacitor.Plugins.FirebaseMessaging
+    ){
+
+        /*
+           Keep the button available in the
+           native app because the app controls
+           notification permission.
+        */
+
+        return;
+
+    }
+
+
+    if(
+        "Notification" in window &&
+        Notification.permission === "granted"
+    ){
+
+        box.style.display =
+        "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+async function init(){
+
+    loadTheme();
+
+    await loadStorage();
+
+    loadCylinderSetup();
+
+    updateStatus();
+
+    updateNextNotification();
+
+    updateNotificationStatus();
+
+    renderHistory();
+
+    initializeFirebase();
+
+    initializeCapacitorMessaging();
+
+    checkNotificationPermission();
+
+
+    /*
+       Refresh countdown/status regularly.
+    */
+
+    setInterval(
+        () => {
+
+            updateStatus();
+
+            updateNextNotification();
+
+            updateNotificationStatus();
+
+            updateCylinderDashboard();
+
+        },
+        30000
+    );
+
+}
+
+
+init();
+
+</script>
+
+</body>
+</html>
