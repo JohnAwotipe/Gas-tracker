@@ -1,865 +1,1680 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="theme-color" content="#667eea">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
 
-    <title>Cooking Gas Tracker & Manager — Home</title>
+    <meta
+        name="theme-color"
+        content="#667eea"
+    >
 
-    <meta name="description"
-          content="Cooking Gas Tracker & Manager helps households track cooking gas usage, plan refills, manage meals, shopping and household cooking routines.">
+    <meta
+        name="description"
+        content="Cooking Gas Tracker helps you track cooking gas usage, plan your refill, receive timely reminders, save gas and manage everyday cooking smarter."
+    >
 
-    <link rel="icon"
-          type="image/png"
-          href="https://i.imgur.com/IkrGaXF.png">
+    <meta
+        name="robots"
+        content="index, follow"
+    >
 
-    <link rel="stylesheet" href="styles.css">
+    <title>
+        Cooking Gas Tracker & Manager | Track Your Gas Smarter
+    </title>
 
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
+    <link
+        rel="icon"
+        type="image/png"
+        href="https://i.imgur.com/IkrGaXF.png"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        /* =========================================
+           RESET
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+            min-height: 100vh;
+            transition:
+                background .25s ease,
+                color .25s ease;
+        }
+
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        button {
+            font-family: inherit;
+        }
+
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+
+        .container {
+            width: min(1120px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .site-header {
+            min-height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+
+        .brand-logo {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            overflow: hidden;
+            flex: 0 0 auto;
+            box-shadow:
+                0 8px 22px rgba(31, 41, 91, .18);
+        }
+
+
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+
+        .brand-text {
+            min-width: 0;
+        }
+
+
+        .brand-name {
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: -.02em;
+        }
+
+
+        .brand-tagline {
+            margin-top: 2px;
+            color: #697386;
+            font-size: .74rem;
+        }
+
+
+        .top-nav {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+
+        .top-nav a {
+            padding: 9px 12px;
+            border-radius: 10px;
+            color: #4d586c;
+            font-size: .84rem;
+            font-weight: 700;
+            transition: .2s ease;
+        }
+
+
+        .top-nav a:hover {
+            background: #eef0ff;
+            color: #5b52b7;
+        }
+
+
+        .top-nav a.active {
+            background: #eef0ff;
+            color: #5b52b7;
+        }
+
+
+        .theme-toggle {
+            width: 42px;
+            height: 42px;
+            border: 1px solid #dfe4ec;
+            border-radius: 12px;
+            background: #fff;
+            color: #172033;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            transition: .2s ease;
+            flex: 0 0 auto;
+        }
+
+
+        .theme-toggle:hover {
+            transform: translateY(-1px);
+            border-color: #667eea;
+        }
+
+
+        /* =========================================
+           HERO
+        ========================================= */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 30px;
+            padding: 72px 52px;
+            color: #fff;
+
+            background:
+                radial-gradient(
+                    circle at 85% 15%,
+                    rgba(255,255,255,.18),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #667eea 0%,
+                    #764ba2 100%
+                );
+
+            box-shadow:
+                0 24px 65px rgba(76,70,160,.23);
+        }
+
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 1px solid rgba(255,255,255,.11);
+            border-radius: 50%;
+            right: -110px;
+            bottom: -150px;
+        }
+
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 50%;
+            right: 80px;
+            top: -90px;
+        }
+
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 790px;
+        }
+
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 13px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.13);
+            border: 1px solid rgba(255,255,255,.2);
+            font-size: .76rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+
+        .hero h1 {
+            max-width: 800px;
+            font-size: clamp(2.25rem, 5vw, 4.2rem);
+            line-height: 1.02;
+            letter-spacing: -.055em;
+            margin-bottom: 20px;
+        }
+
+
+        .hero h1 span {
+            color: #ffd34f;
+        }
+
+
+        .hero-description {
+            max-width: 730px;
+            color: #fff !important;
+            font-size: 1.03rem;
+            line-height: 1.75;
+        }
+
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+
+        .primary-button,
+        .secondary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 0 19px;
+            border-radius: 13px;
+            font-size: .88rem;
+            font-weight: 800;
+            transition: .2s ease;
+        }
+
+
+        .primary-button {
+            background: #fff;
+            color: #5b52b7;
+            box-shadow:
+                0 10px 25px rgba(0,0,0,.14);
+        }
+
+
+        .primary-button:hover {
+            transform: translateY(-2px);
+        }
+
+
+        .secondary-button {
+            color: #fff;
+            border: 1px solid rgba(255,255,255,.42);
+            background: rgba(255,255,255,.08);
+        }
+
+
+        .secondary-button:hover {
+            background: rgba(255,255,255,.15);
+        }
+
+
+        .hero-note {
+            margin-top: 22px;
+            color: rgba(255,255,255,.82);
+            font-size: .76rem;
+        }
+
+
+        /* =========================================
+           SECTION
+        ========================================= */
+
+        .section {
+            padding: 60px 0 0;
+        }
+
+
+        .section-heading {
+            max-width: 760px;
+            margin-bottom: 25px;
+        }
+
+
+        .eyebrow {
+            color: #5b52b7;
+            font-size: .72rem;
+            letter-spacing: .15em;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+
+        .section-heading h2 {
+            margin-top: 7px;
+            font-size: clamp(1.65rem, 3vw, 2.2rem);
+            letter-spacing: -.035em;
+            line-height: 1.15;
+        }
+
+
+        .section-heading p {
+            margin-top: 10px;
+            color: #697386;
+            line-height: 1.7;
+            font-size: .92rem;
+        }
+
+
+        /* =========================================
+           PAGE CARDS
+        ========================================= */
+
+        .page-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+
+        .page-card {
+            position: relative;
+            background: #fff;
+            border: 1px solid #e5e9f0;
+            border-radius: 19px;
+            padding: 22px;
+            min-height: 230px;
+            box-shadow:
+                0 8px 25px rgba(20,30,60,.045);
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease,
+                border-color .2s ease;
+        }
+
+
+        .page-card:hover {
+            transform: translateY(-4px);
+            border-color: #cfd2ff;
+            box-shadow:
+                0 16px 35px rgba(20,30,60,.09);
+        }
+
+
+        .page-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: #eef0ff;
+            font-size: 1.35rem;
+            margin-bottom: 20px;
+        }
+
+
+        .page-card h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+
+        .page-card p {
+            color: #697386;
+            line-height: 1.65;
+            font-size: .82rem;
+        }
+
+
+        .page-card .arrow {
+            position: absolute;
+            right: 17px;
+            top: 17px;
+            width: 31px;
+            height: 31px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #f3f4f8;
+            color: #667eea;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           QUICK MENU
+        ========================================= */
+
+        .quick-menu {
+            display: grid;
+            gap: 10px;
+        }
+
+
+        .quick-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: #fff;
+            border: 1px solid #e5e9f0;
+            border-radius: 16px;
+            transition: .2s ease;
+        }
+
+
+        .quick-item:hover {
+            border-color: #cfd2ff;
+            transform: translateX(3px);
+        }
+
+
+        .quick-icon {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            border-radius: 12px;
+            background: #f0f1ff;
+            font-size: 1.05rem;
+        }
+
+
+        .quick-content {
+            flex: 1;
+        }
+
+
+        .quick-content strong {
+            display: block;
+            font-size: .9rem;
+            margin-bottom: 3px;
+        }
+
+
+        .quick-content span {
+            display: block;
+            color: #747e90;
+            font-size: .76rem;
+            line-height: 1.45;
+        }
+
+
+        .quick-arrow {
+            color: #667eea;
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           TRUST / INFORMATION
+        ========================================= */
+
+        .info-box {
+            margin-top: 30px;
+            padding: 22px;
+            border-radius: 18px;
+            border: 1px solid #f0dfaa;
+            background:
+                linear-gradient(
+                    145deg,
+                    #fff9e8,
+                    #fff
+                );
+        }
+
+
+        .info-box strong {
+            display: block;
+            color: #8b4a00;
+            margin-bottom: 7px;
+        }
+
+
+        .info-box p {
+            color: #5f6b7c;
+            font-size: .84rem;
+            line-height: 1.7;
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .footer {
+            padding: 55px 0 105px;
+            text-align: center;
+            color: #697386;
+        }
+
+
+        .footer-brand {
+            color: #172033;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+
+        .footer p {
+            font-size: .78rem;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+
+        .footer a {
+            color: #5b52b7;
+            font-weight: 700;
+        }
+
+
+        .copyright {
+            margin-top: 15px;
+            font-size: .72rem !important;
+            color: #8b94a5;
+        }
+
+
+        /* =========================================
+           MOBILE BOTTOM NAV
+        ========================================= */
+
+        .mobile-nav {
+            display: none;
+        }
+
+
+        /* =========================================
+           DARK MODE
+        ========================================= */
+
+        body.dark-mode {
+            background: #0f1220;
+            color: #edf1fb;
+        }
+
+
+        body.dark-mode .brand-tagline {
+            color: #aeb7ca;
+        }
+
+
+        body.dark-mode .top-nav a {
+            color: #b6bfd1;
+        }
+
+
+        body.dark-mode .top-nav a:hover,
+        body.dark-mode .top-nav a.active {
+            background: #25234a;
+            color: #d9d6ff;
+        }
+
+
+        body.dark-mode .theme-toggle {
+            background: #1a1f31;
+            border-color: #30384d;
+            color: #fff;
+        }
+
+
+        body.dark-mode .section-heading p {
+            color: #b7c0cf;
+        }
+
+
+        body.dark-mode .page-card,
+        body.dark-mode .quick-item {
+            background: #171b2b;
+            border-color: #2c3448;
+            box-shadow: none;
+        }
+
+
+        body.dark-mode .page-card:hover,
+        body.dark-mode .quick-item:hover {
+            border-color: #4d477f;
+        }
+
+
+        body.dark-mode .page-card p,
+        body.dark-mode .quick-content span {
+            color: #b7c0cf;
+        }
+
+
+        body.dark-mode .page-card-icon,
+        body.dark-mode .quick-icon {
+            background: #29254d;
+        }
+
+
+        body.dark-mode .page-card .arrow {
+            background: #24283a;
+        }
+
+
+        body.dark-mode .info-box {
+            background: #211f18;
+            border-color: #5a4a24;
+        }
+
+
+        body.dark-mode .info-box strong {
+            color: #ffd166;
+        }
+
+
+        body.dark-mode .info-box p {
+            color: #c6cede;
+        }
+
+
+        body.dark-mode .footer,
+        body.dark-mode .footer p {
+            color: #aeb7ca;
+        }
+
+
+        body.dark-mode .footer-brand {
+            color: #fff;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .page-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+
+        @media (max-width: 760px) {
+
+            .container {
+                width: min(
+                    100% - 24px,
+                    620px
+                );
+            }
+
+
+            .site-header {
+                min-height: 75px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+
+            .top-nav {
+                display: none;
+            }
+
+
+            .brand-name {
+                font-size: .95rem;
+            }
+
+
+            .brand-tagline {
+                font-size: .69rem;
+            }
+
+
+            .theme-toggle {
+                margin-left: auto;
+            }
+
+
+            .hero {
+                padding: 43px 23px;
+                border-radius: 23px;
+            }
+
+
+            .hero h1 {
+                font-size: 2.35rem;
+            }
+
+
+            .hero-description {
+                font-size: .91rem;
+                line-height: 1.7;
+            }
+
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
+
+
+            .page-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .page-card {
+                min-height: auto;
+            }
+
+
+            .section {
+                padding-top: 43px;
+            }
+
+
+            .footer {
+                padding-bottom: 105px;
+            }
+
+
+            .mobile-nav {
+                position: fixed;
+                display: grid;
+                grid-template-columns:
+                    repeat(5, 1fr);
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                z-index: 9999;
+                padding: 7px 5px
+                    calc(
+                        7px +
+                        env(
+                            safe-area-inset-bottom,
+                            0px
+                        )
+                    );
+                background:
+                    rgba(255,255,255,.96);
+                backdrop-filter: blur(16px);
+                border: 1px solid #dfe5ee;
+                border-radius: 18px;
+                box-shadow:
+                    0 14px 40px
+                    rgba(20,30,60,.18);
+            }
+
+
+            .mobile-nav a {
+                min-width: 0;
+                padding: 6px 2px;
+                border-radius: 12px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 3px;
+                color: #657084;
+                font-size: .65rem;
+                font-weight: 800;
+            }
+
+
+            .mobile-nav a strong {
+                font-size: 1.05rem;
+                line-height: 1;
+            }
+
+
+            .mobile-nav a.active {
+                background: #eef0ff;
+                color: #5b52b7;
+            }
+
+
+            body.dark-mode .mobile-nav {
+                background:
+                    rgba(15,23,42,.96);
+                border-color: #334155;
+            }
+
+
+            body.dark-mode .mobile-nav a {
+                color: #aeb8c9;
+            }
+
+
+            body.dark-mode .mobile-nav a.active {
+                background: #25234a;
+                color: #d7d9ff;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<div class="page-shell">
 
-    <!-- =====================================================
+<div class="container">
+
+
+    <!-- =====================================
          HEADER
-    ====================================================== -->
+    ====================================== -->
 
     <header class="site-header">
 
-        <a href="index.html" class="brand-row">
 
-            <div class="brand-mark">
+        <a
+            href="index.html"
+            class="brand"
+        >
+
+            <div class="brand-logo">
+
                 <img
                     src="https://i.imgur.com/OkIJfE2.png"
-                    alt="Cooking Gas Tracker & Manager logo">
+                    alt="Cooking Gas Tracker logo"
+                >
+
             </div>
 
-            <div>
+
+            <div class="brand-text">
+
                 <div class="brand-name">
-                    Cooking Gas Tracker & Manager
+                    Cooking Gas Tracker
                 </div>
 
                 <div class="brand-tagline">
                     Track smarter. Refill on time.
                 </div>
+
             </div>
 
         </a>
 
 
-        <!-- DESKTOP NAVIGATION -->
-
-        <nav class="top-nav" aria-label="Main navigation">
+        <nav class="top-nav">
 
             <a
                 href="index.html"
-                class="active">
+                class="active"
+            >
                 Home
             </a>
 
             <a href="tracker.html">
-                🔥 Tracker
+                Tracker
             </a>
 
             <a href="assistant.html">
-                🤖 Assistant
+                Assistant
             </a>
 
             <a href="guides.html">
-                📚 Guides
+                Guides
             </a>
 
             <a href="more.html">
-                ☰ More
+                More
             </a>
 
         </nav>
 
 
-        <!-- DARK MODE -->
-
         <button
-            id="themeToggle"
             class="theme-toggle"
+            id="themeToggle"
             type="button"
-            aria-label="Switch theme"
-            onclick="toggleTheme()">
-
+            onclick="toggleTheme()"
+            aria-label="Switch to dark mode"
+            title="Switch to dark mode"
+        >
             🌙
-
         </button>
+
 
     </header>
 
 
-    <!-- =====================================================
-         MOBILE NAVIGATION
-    ====================================================== -->
 
-    <nav
-        class="mobile-bottom-nav"
-        aria-label="Mobile navigation">
+    <!-- =====================================
+         HERO
+    ====================================== -->
 
-        <a
-            href="index.html"
-            class="active">
-
-            <span>🏠</span>
-            <b>Home</b>
-
-        </a>
+    <main>
 
 
-        <a href="tracker.html">
+        <section class="hero">
 
-            <span>🔥</span>
-            <b>Tracker</b>
-
-        </a>
+            <div class="hero-content">
 
 
-        <a href="assistant.html">
-
-            <span>🤖</span>
-            <b>Assistant</b>
-
-        </a>
+                <div class="hero-badge">
+                    🔥 A smarter way to manage cooking gas
+                </div>
 
 
-        <a href="guides.html">
+                <h1>
 
-            <span>📚</span>
-            <b>Guides</b>
+                    Stop guessing.
 
-        </a>
+                    <span>
+                        Track your gas.
+                    </span>
 
+                    Plan your refill.
 
-        <a href="more.html">
-
-            <span>☰</span>
-            <b>More</b>
-
-        </a>
-
-    </nav>
+                </h1>
 
 
-    <!-- =====================================================
-         MAIN CONTENT
-    ====================================================== -->
+                <p class="hero-description">
 
-    <main class="page-content">
+                    Stop guessing. Track your gas usage,
+                    plan your refill, and receive timely
+                    reminders before you run out
+                    unexpectedly.
 
-        <!-- HERO -->
+                </p>
 
-        <section class="hero-section">
 
-            <div class="hero-badge">
-                🔥 A smarter way to manage cooking gas
+                <div class="hero-actions">
+
+                    <a
+                        href="tracker.html"
+                        class="primary-button"
+                    >
+                        🔥 Start Tracking
+                    </a>
+
+
+                    <a
+                        href="how-it-works.html"
+                        class="secondary-button"
+                    >
+                        See How It Works →
+                    </a>
+
+                </div>
+
+
+                <div class="hero-note">
+
+                    Simple to use • Built for everyday
+                    cooking • Plan ahead with confidence
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             EXPLORE
+        ====================================== -->
+
+        <section class="section">
+
+
+            <div class="section-heading">
+
+                <div class="eyebrow">
+                    EXPLORE
+                </div>
+
+
+                <h2>
+                    Everything you need,
+                    organized into dedicated pages.
+                </h2>
+
+
+                <p>
+
+                    Instead of putting everything on
+                    one long page, each important part
+                    of Cooking Gas Tracker has its own
+                    dedicated space.
+
+                </p>
+
             </div>
 
 
-            <h1>
-                Know when your cooking gas is
-                <span>about to finish.</span>
-            </h1>
 
+            <div class="page-grid">
 
-            <p>
-
-                Stop guessing and start managing smarter.
-                Track your cooking gas usage, plan your
-                refills, and receive timely reminders before
-                you run out unexpectedly.
-
-                Plan affordable meals, manage your food
-                budget, build smart shopping lists, track
-                what you already have, save cooking gas,
-                learn essential gas safety tips, and get
-                personalized guidance from our Smart Gas
-                & Food Assistant.
-
-            </p>
-
-
-            <div class="hero-actions">
-
-                <!-- NOW OPENS A REAL PAGE -->
 
                 <a
                     href="tracker.html"
-                    class="hero-primary">
+                    class="page-card"
+                >
 
-                    🔥 Start Tracking Free
-
-                </a>
-
-
-                <!-- NOW OPENS A REAL PAGE -->
-
-                <a
-                    href="how-it-works.html"
-                    class="hero-secondary">
-
-                    See How It Works →
-
-                </a>
-
-            </div>
+                    <span class="arrow">
+                        ›
+                    </span>
 
 
-            <div class="hero-trust">
-
-                ✓ Simple to use
-                <span>•</span>
-
-                ✓ Works on phone
-                <span>•</span>
-
-                ✓ Built for everyday cooking
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             APP DOWNLOAD
-        ================================================== -->
-
-        <section class="download-section">
-
-            <div>
-
-                <div class="section-eyebrow">
-                    COOKING GAS TRACKER APP
-                </div>
-
-                <h2>
-                    Get Cooking Gas Tracker on your phone
-                </h2>
-
-                <p>
-
-                    Track your gas usage, plan your refill,
-                    and receive timely reminders wherever
-                    you are.
-
-                </p>
-
-            </div>
-
-
-            <a
-                href="https://play.google.com/"
-                target="_blank"
-                rel="noopener"
-                class="play-store-button">
-
-                📱
-                <span>
-                    <small>GET IT ON</small>
-                    Google Play
-                </span>
-
-            </a>
-
-        </section>
-
-
-        <!-- =================================================
-             WHAT YOU CAN DO
-        ================================================== -->
-
-        <section class="home-overview">
-
-            <div class="page-heading">
-
-                <div class="eyebrow">
-                    COOKING GAS TRACKER & MANAGER
-                </div>
-
-                <h2>
-                    Everything you need in one place
-                </h2>
-
-                <p>
-
-                    Use the tracker to plan your refill,
-                    learn practical cooking and gas-management
-                    tips, ask the Gas & Food Assistant questions,
-                    and explore tools for meal planning,
-                    shopping and household cooking.
-
-                </p>
-
-            </div>
-
-
-            <div class="home-grid">
-
-
-                <!-- TRACKER -->
-
-                <article class="home-card">
-
-                    <div class="home-card-icon">
+                    <div class="page-card-icon">
                         🔥
                     </div>
+
 
                     <h3>
                         Gas Tracker
                     </h3>
 
+
                     <p>
 
-                        Record refills, set an expected
-                        consumption date and keep your
-                        refill plan in one place.
+                        Track your expected consumption
+                        date, manage your cylinder,
+                        monitor notifications and keep
+                        your refill history.
 
                     </p>
 
-                    <a href="tracker.html">
-                        Open Gas Tracker →
-                    </a>
-
-                </article>
+                </a>
 
 
-                <!-- ASSISTANT -->
 
-                <article class="home-card">
+                <a
+                    href="assistant.html"
+                    class="page-card"
+                >
 
-                    <div class="home-card-icon">
+                    <span class="arrow">
+                        ›
+                    </span>
+
+
+                    <div class="page-card-icon">
                         🤖
                     </div>
 
+
                     <h3>
-                        Gas & Food Assistant
+                        Smart Assistant
                     </h3>
+
 
                     <p>
 
-                        Ask practical questions about gas
-                        management, food planning, saving
-                        gas and common cooking problems.
+                        Get practical guidance about
+                        cooking gas, food, meal planning,
+                        saving gas and everyday cooking.
 
                     </p>
 
-                    <a href="assistant.html">
-                        Open Gas & Food Assistant →
-                    </a>
+                </a>
 
-                </article>
 
 
-                <!-- PROFILE -->
+                <a
+                    href="guides.html"
+                    class="page-card"
+                >
 
-                <article class="home-card">
+                    <span class="arrow">
+                        ›
+                    </span>
 
-                    <div class="home-card-icon">
-                        👤
-                    </div>
 
-                    <h3>
-                        My Cooking Profile
-                    </h3>
-
-                    <p>
-
-                        Save your cooking routine,
-                        household size, foods, budget
-                        and cooking goals.
-
-                    </p>
-
-                    <a href="profile.html">
-                        Open My Cooking Profile →
-                    </a>
-
-                </article>
-
-
-                <!-- HOW IT WORKS -->
-
-                <article class="home-card">
-
-                    <div class="home-card-icon">
-                        📖
-                    </div>
-
-                    <h3>
-                        How It Works
-                    </h3>
-
-                    <p>
-
-                        Understand how the tracker uses
-                        the information you provide and
-                        why consumption estimates can change.
-
-                    </p>
-
-                    <a href="how-it-works.html">
-                        Open How It Works →
-                    </a>
-
-                </article>
-
-
-                <!-- TIPS -->
-
-                <article class="home-card">
-
-                    <div class="home-card-icon">
-                        💡
-                    </div>
-
-                    <h3>
-                        Gas-Saving Tips
-                    </h3>
-
-                    <p>
-
-                        Practical everyday ideas for
-                        managing cooking time, heat and
-                        household gas use.
-
-                    </p>
-
-                    <a href="tips.html">
-                        Open Gas-Saving Tips →
-                    </a>
-
-                </article>
-
-
-                <!-- SHOPPING -->
-
-                <article class="home-card">
-
-                    <div class="home-card-icon">
-                        🛒
-                    </div>
-
-                    <h3>
-                        Smart Shopping
-                    </h3>
-
-                    <p>
-
-                        Create a shopping list, record
-                        quantities and compare planned
-                        spending with your food budget.
-
-                    </p>
-
-                    <a href="shopping.html">
-                        Open Smart Shopping →
-                    </a>
-
-                </article>
-
-
-                <!-- MEAL PLANNER -->
-
-                <article class="home-card">
-
-                    <div class="home-card-icon">
-                        🍲
-                    </div>
-
-                    <h3>
-                        7-Day Meal Planner
-                    </h3>
-
-                    <p>
-
-                        Build a meal plan around your
-                        household size, food choices,
-                        budget and gas-saving goal.
-
-                    </p>
-
-                    <a href="meal-planner.html">
-                        Open 7-Day Meal Planner →
-                    </a>
-
-                </article>
-
-
-                <!-- SAFETY -->
-
-                <article class="home-card">
-
-                    <div class="home-card-icon">
-                        🛡️
-                    </div>
-
-                    <h3>
-                        Gas Safety Center
-                    </h3>
-
-                    <p>
-
-                        Read general safety guidance
-                        for suspected leaks, flames,
-                        burner problems and damaged cylinders.
-
-                    </p>
-
-                    <a href="safety.html">
-                        Open Gas Safety Center →
-                    </a>
-
-                </article>
-
-
-                <!-- GUIDE -->
-
-                <article class="home-card">
-
-                    <div class="home-card-icon">
+                    <div class="page-card-icon">
                         📚
                     </div>
 
+
                     <h3>
-                        Cooking Gas Guide
+                        Guides
                     </h3>
+
 
                     <p>
 
-                        Learn how LPG consumption works,
-                        how to use refill history and
-                        how to interpret cylinder sizes.
+                        Learn how gas tracking works,
+                        how to save gas, understand your
+                        cylinder and cook more efficiently.
 
                     </p>
 
-                    <a href="guides.html">
-                        Open Cooking Gas Guide →
-                    </a>
-
-                </article>
+                </a>
 
 
-                <!-- FAQ -->
 
-                <article class="home-card">
+                <a
+                    href="more.html"
+                    class="page-card"
+                >
 
-                    <div class="home-card-icon">
-                        ❓
+                    <span class="arrow">
+                        ›
+                    </span>
+
+
+                    <div class="page-card-icon">
+                        ☰
                     </div>
 
+
                     <h3>
-                        FAQ
+                        More
                     </h3>
+
 
                     <p>
 
-                        Find answers to common questions
-                        about estimates, reminders and
-                        using the tracker.
+                        Explore additional tools,
+                        safety resources, planning
+                        tools, your cooking profile
+                        and related products.
 
                     </p>
 
-                    <a href="faq.html">
-                        Open FAQ →
-                    </a>
+                </a>
 
-                </article>
 
             </div>
 
         </section>
 
 
-        <!-- =================================================
-             RELATED PRODUCTS
-        ================================================== -->
 
-        <section class="related-products">
+        <!-- =====================================
+             QUICK ACCESS
+        ====================================== -->
 
-            <div class="page-heading">
+        <section class="section">
+
+
+            <div class="section-heading">
 
                 <div class="eyebrow">
-                    MORE FROM US
+                    QUICK ACCESS
                 </div>
 
+
                 <h2>
-                    Useful household tools we're exploring
+                    Start with what you need.
                 </h2>
+
 
                 <p>
 
-                    We are exploring additional tools that
-                    can help households remember important
-                    tasks, manage supplies and keep everyday
-                    life organized.
+                    Choose a section and open its
+                    dedicated page.
 
                 </p>
 
             </div>
 
 
-            <div class="home-grid">
+
+            <div class="quick-menu">
 
 
-                <article class="home-card">
+                <a
+                    href="tracker.html"
+                    class="quick-item"
+                >
 
-                    <div class="home-card-icon">
-                        🏠
+                    <div class="quick-icon">
+                        🔥
                     </div>
 
-                    <h3>
-                        HomeStock
-                    </h3>
 
-                    <p>
+                    <div class="quick-content">
 
-                        A future household refill manager
-                        designed to help you remember
-                        everyday supplies before they run out.
+                        <strong>
+                            Start tracking your gas
+                        </strong>
 
-                    </p>
+                        <span>
+                            Set your dates and begin
+                            monitoring your expected
+                            refill time.
+                        </span>
 
-                    <span class="coming-soon">
-                        Coming Soon
-                    </span>
-
-                </article>
-
-
-                <article class="home-card">
-
-                    <div class="home-card-icon">
-                        🔧
                     </div>
 
-                    <h3>
-                        HomeCare
-                    </h3>
 
-                    <p>
-
-                        A future reminder tool for
-                        household maintenance and
-                        servicing.
-
-                    </p>
-
-                    <span class="coming-soon">
-                        Coming Soon
-                    </span>
-
-                </article>
-
-
-                <article class="home-card">
-
-                    <div class="home-card-icon">
-                        💰
+                    <div class="quick-arrow">
+                        ›
                     </div>
 
-                    <h3>
-                        Price Memory
-                    </h3>
+                </a>
 
-                    <p>
 
-                        A future personal price-history
-                        tool for remembering what you paid
-                        for everyday products.
 
-                    </p>
+                <a
+                    href="how-it-works.html"
+                    class="quick-item"
+                >
 
-                    <span class="coming-soon">
-                        Coming Soon
-                    </span>
+                    <div class="quick-icon">
+                        01
+                    </div>
 
-                </article>
+
+                    <div class="quick-content">
+
+                        <strong>
+                            How It Works
+                        </strong>
+
+                        <span>
+                            Understand how the tracker
+                            estimates your refill timing
+                            and sends reminders.
+                        </span>
+
+                    </div>
+
+
+                    <div class="quick-arrow">
+                        ›
+                    </div>
+
+                </a>
+
+
+
+                <a
+                    href="gas-saving-tips.html"
+                    class="quick-item"
+                >
+
+                    <div class="quick-icon">
+                        💡
+                    </div>
+
+
+                    <div class="quick-content">
+
+                        <strong>
+                            Save Cooking Gas
+                        </strong>
+
+                        <span>
+                            Learn practical habits that
+                            can help reduce unnecessary
+                            gas consumption.
+                        </span>
+
+                    </div>
+
+
+                    <div class="quick-arrow">
+                        ›
+                    </div>
+
+                </a>
+
+
+
+                <a
+                    href="gas-safety.html"
+                    class="quick-item"
+                >
+
+                    <div class="quick-icon">
+                        🛡️
+                    </div>
+
+
+                    <div class="quick-content">
+
+                        <strong>
+                            Gas Safety
+                        </strong>
+
+                        <span>
+                            Learn important safety
+                            practices for everyday
+                            cooking gas use.
+                        </span>
+
+                    </div>
+
+
+                    <div class="quick-arrow">
+                        ›
+                    </div>
+
+                </a>
+
 
             </div>
 
         </section>
 
+
+
+        <!-- =====================================
+             INFORMATION
+        ====================================== -->
+
+        <section class="section">
+
+
+            <div class="info-box">
+
+                <strong>
+                    A reminder about your gas estimate
+                </strong>
+
+
+                <p>
+
+                    Cooking Gas Tracker provides
+                    estimates based on the information
+                    you enter and your expected
+                    consumption date. Actual gas usage
+                    can vary depending on cooking habits,
+                    meals prepared, cylinder condition
+                    and other factors.
+
+                </p>
+
+            </div>
+
+
+        </section>
+
+
     </main>
 
 
-    <!-- =====================================================
+
+    <!-- =====================================
          FOOTER
-    ====================================================== -->
+    ====================================== -->
 
-    <div class="legal-links">
+    <footer class="footer">
 
-        <a
-            href="https://policies-privacy-8c085d.netlify.app/"
-            target="_blank"
-            rel="noopener">
-
-            Privacy Policy
-
-        </a>
-
-
-        <a
-            href="https://about-us-a9f8d5.netlify.app/"
-            target="_blank"
-            rel="noopener">
-
-            About Us
-
-        </a>
-
-
-        <a
-            href="https://terms-condition-36816f.netlify.app/"
-            target="_blank"
-            rel="noopener">
-
-            Terms & Conditions
-
-        </a>
-
-
-        <a
-            href="https://contacts-us-now.netlify.app/"
-            target="_blank"
-            rel="noopener">
-
-            Contact Us
-
-        </a>
-
-    </div>
-
-
-    <footer class="site-footer">
 
         <div class="footer-brand">
-
-            ⛽ Cooking Gas Tracker & Manager
-
+            🔥 Cooking Gas Tracker & Manager
         </div>
 
 
         <p>
+            Track smarter. Refill on time.
+        </p>
 
-            Helping everyday cooks plan ahead and
-            avoid unexpected gas shortages.
+
+        <p>
+
+            <a
+                href="https://policies-privacy-8c085d.netlify.app/"
+                target="_blank"
+                rel="noopener"
+            >
+                Privacy Policy
+            </a>
+
+            &nbsp; • &nbsp;
+
+            <a
+                href="https://about-us-a9f8d5.netlify.app/"
+                target="_blank"
+                rel="noopener"
+            >
+                About Us
+            </a>
+
+            &nbsp; • &nbsp;
+
+            <a
+                href="https://terms-condition-36816f.netlify.app/"
+                target="_blank"
+                rel="noopener"
+            >
+                Terms & Conditions
+            </a>
 
         </p>
 
 
-        <div class="footer-note">
+        <p class="copyright">
 
-            Reminder estimates are based on the
-            information you provide and your
-            cooking habits.
-
-        </div>
-
-
-        <div class="footer-copyright">
-
-            © 2026 Cooking Gas Tracker.
+            © 2026 Cooking Gas Tracker & Manager.
             All rights reserved.
 
-        </div>
+        </p>
+
 
     </footer>
 
+
 </div>
 
 
-<!-- =====================================================
-     TOAST
-====================================================== -->
 
-<div
-    id="toast"
-    class="toast">
-</div>
+<!-- =====================================
+     MOBILE NAVIGATION
+====================================== -->
+
+<nav class="mobile-nav">
 
 
-<!-- =====================================================
-     BACK TO TOP
-====================================================== -->
+    <a
+        href="index.html"
+        class="active"
+    >
 
-<button
-    id="backToTopBtn"
-    class="back-to-top"
-    type="button"
-    aria-label="Back to top">
+        <strong>
+            ⌂
+        </strong>
 
-    ↑
+        Home
 
-</button>
+    </a>
 
 
-<!-- =====================================================
-     JAVASCRIPT
-====================================================== -->
+    <a href="tracker.html">
 
-<script src="app.js"></script>
+        <strong>
+            🔥
+        </strong>
+
+        Tracker
+
+    </a>
+
+
+    <a href="assistant.html">
+
+        <strong>
+            🤖
+        </strong>
+
+        Assistant
+
+    </a>
+
+
+    <a href="guides.html">
+
+        <strong>
+            📚
+        </strong>
+
+        Guides
+
+    </a>
+
+
+    <a href="more.html">
+
+        <strong>
+            ☰
+        </strong>
+
+        More
+
+    </a>
+
+
+</nav>
+
 
 
 <script>
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+    /* =========================================
+       DARK / LIGHT MODE
+    ========================================= */
 
-        const backToTop =
+    function applyTheme(theme) {
+
+        const dark =
+            theme === 'dark';
+
+        document.body.classList.toggle(
+            'dark-mode',
+            dark
+        );
+
+
+        const button =
             document.getElementById(
-                "backToTopBtn"
+                'themeToggle'
             );
 
 
-        window.addEventListener(
-            "scroll",
-            function () {
+        if (button) {
 
-                if (
-                    window.scrollY > 400
-                ) {
+            button.textContent =
+                dark ? '☀️' : '🌙';
 
-                    backToTop.classList.add(
-                        "show"
-                    );
+            button.setAttribute(
+                'aria-label',
+                dark
+                    ? 'Switch to light mode'
+                    : 'Switch to dark mode'
+            );
 
-                } else {
+            button.title =
+                dark
+                    ? 'Switch to light mode'
+                    : 'Switch to dark mode';
 
-                    backToTop.classList.remove(
-                        "show"
-                    );
-
-                }
-
-            }
-        );
+        }
 
 
-        backToTop.addEventListener(
-            "click",
-            function () {
+        const metaTheme =
+            document.querySelector(
+                'meta[name="theme-color"]'
+            );
 
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
 
-            }
-        );
+        if (metaTheme) {
+
+            metaTheme.setAttribute(
+                'content',
+                dark
+                    ? '#0f1220'
+                    : '#667eea'
+            );
+
+        }
 
     }
-);
+
+
+    function toggleTheme() {
+
+        const next =
+            document.body.classList.contains(
+                'dark-mode'
+            )
+                ? 'light'
+                : 'dark';
+
+
+        localStorage.setItem(
+            'cookingGasTrackerTheme',
+            next
+        );
+
+
+        applyTheme(next);
+
+    }
+
+
+    const savedTheme =
+        localStorage.getItem(
+            'cookingGasTrackerTheme'
+        );
+
+
+    const systemDark =
+        window.matchMedia &&
+        window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        ).matches;
+
+
+    applyTheme(
+        savedTheme ||
+        (systemDark ? 'dark' : 'light')
+    );
 
 </script>
 
+
 </body>
+
 </html>
