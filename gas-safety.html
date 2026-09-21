@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gas Safety Center | Cooking Gas Tracker & Manager</title>
+
+<meta name="description" content="Learn important cooking gas safety practices, warning signs, safe kitchen habits and what to do when you suspect a gas leak.">
+
+<style>
+:root{
+    --purple:#6d28d9;
+    --purple2:#7c3aed;
+    --purple3:#8b5cf6;
+
+    --red:#dc2626;
+    --red-light:#fef2f2;
+
+    --orange:#ea580c;
+    --orange-light:#fff7ed;
+
+    --blue:#2563eb;
+    --blue-light:#eff6ff;
+
+    --green:#16a34a;
+    --green-light:#f0fdf4;
+
+    --yellow:#ca8a04;
+    --yellow-light:#fefce8;
+
+    --cyan:#0891b2;
+    --cyan-light:#ecfeff;
+
+    --bg:#f7f7fb;
+    --card:#ffffff;
+    --text:#171717;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+
+    --shadow:0 10px 28px rgba(0,0,0,.07);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+    padding-bottom:80px;
+    transition:.3s ease;
+}
+
+body.dark{
+    --bg:#11111a;
+    --card:#1b1b28;
+    --text:#f5f5f5;
+    --muted:#aaaab8;
+    --border:#30303d;
+
+    --red-light:#351717;
+    --orange-light:#321e12;
+    --blue-light:#172642;
+    --green-light:#12301d;
+    --yellow-light:#332b12;
+    --cyan-light:#10363c;
+
+    --shadow:0 12px 30px rgba(0,0,0,.28);
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid var(--border);
+}
+
+body.dark header{
+    background:rgba(17,17,26,.94);
+}
+
+.navbar{
+    max-width:1180px;
+    margin:auto;
+
+    min-height:72px;
+    padding:11px 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+    text-decoration:none;
+    color:var(--text);
+
+    font-weight:800;
+}
+
+.brand-logo{
+    width:46px;
+    height:46px;
+
+    object-fit:cover;
+    border-radius:12px;
+
+    box-shadow:0 5px 15px rgba(109,40,217,.2);
+}
+
+.brand-name{
+    font-size:15px;
+    line-height:1.1;
+}
+
+.brand-name span{
+    color:var(--purple);
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:var(--muted);
+
+    padding:10px 13px;
+    border-radius:10px;
+
+    font-size:14px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    background:#ede9fe;
+    color:var(--purple);
+}
+
+body.dark .nav-links a:hover,
+body.dark .nav-links a.active{
+    background:#2b2144;
+    color:#c4b5fd;
+}
+
+.theme-btn{
+    width:40px;
+    height:40px;
+
+    border:0;
+    border-radius:50%;
+
+    background:#f1f1f5;
+    color:var(--text);
+
+    cursor:pointer;
+    font-size:18px;
+}
+
+body.dark .theme-btn{
+    background:#292936;
+}
+
+/* HERO */
+
+.hero{
+    max-width:1180px;
+    margin:auto;
+
+    padding:55px 20px 25px;
+}
+
+.hero-box{
+    position:relative;
+    overflow:hidden;
+
+    padding:48px 40px;
+
+    border-radius:30px;
+
+    background:
+        radial-gradient(
+            circle at 88% 15%,
+            rgba(220,38,38,.30),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(139,92,246,.30),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #4c1d95,
+            #6d28d9 55%,
+            #7c3aed
+        );
+
+    color:white;
+
+    box-shadow:0 20px 50px rgba(76,29,149,.24);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+
+    max-width:790px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+
+    padding:8px 13px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.22);
+
+    font-size:13px;
+    font-weight:800;
+
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:clamp(34px,5vw,54px);
+    line-height:1.05;
+    margin-bottom:18px;
+}
+
+.hero p{
+    color:rgba(255,255,255,.91);
+    font-size:17px;
+    max-width:710px;
+}
+
+/* MAIN */
+
+.container{
+    max-width:1180px;
+    margin:auto;
+    padding:20px;
+}
+
+/* EMERGENCY NOTICE */
+
+.emergency{
+    display:flex;
+    align-items:flex-start;
+    gap:16px;
+
+    padding:25px;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--red-light),
+            var(--orange-light)
+        );
+
+    border:1px solid #fecaca;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:25px;
+}
+
+body.dark .emergency{
+    border-color:#572525;
+}
+
+.emergency-icon{
+    width:55px;
+    height:55px;
+
+    flex:0 0 55px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#fee2e2;
+    color:var(--red);
+
+    border-radius:16px;
+
+    font-size:27px;
+}
+
+body.dark .emergency-icon{
+    background:#4a1b1b;
+}
+
+.emergency h2{
+    margin-bottom:7px;
+}
+
+.emergency p{
+    color:var(--muted);
+}
+
+/* INTRO */
+
+.intro{
+    background:var(--card);
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:25px;
+}
+
+.intro h2{
+    margin-bottom:9px;
+}
+
+.intro p{
+    color:var(--muted);
+}
+
+/* SAFETY GRID */
+
+.safety-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.safety-card{
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:26px;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+}
+
+.safety-card:hover{
+    transform:translateY(-4px);
+}
+
+.icon{
+    width:57px;
+    height:57px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:17px;
+
+    font-size:27px;
+
+    margin-bottom:17px;
+}
+
+.safety-card h2{
+    font-size:20px;
+    margin-bottom:8px;
+}
+
+.safety-card p{
+    color:var(--muted);
+}
+
+.red .icon{
+    background:var(--red-light);
+}
+
+.orange .icon{
+    background:var(--orange-light);
+}
+
+.blue .icon{
+    background:var(--blue-light);
+}
+
+.green .icon{
+    background:var(--green-light);
+}
+
+.yellow .icon{
+    background:var(--yellow-light);
+}
+
+.cyan .icon{
+    background:var(--cyan-light);
+}
+
+.purple .icon{
+    background:#ede9fe;
+}
+
+/* DO / DON'T */
+
+.do-dont{
+    margin-top:25px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.do-box,
+.dont-box{
+    padding:28px;
+
+    border-radius:22px;
+
+    box-shadow:var(--shadow);
+}
+
+.do-box{
+    background:var(--green-light);
+    border:1px solid #bbf7d0;
+}
+
+.dont-box{
+    background:var(--red-light);
+    border:1px solid #fecaca;
+}
+
+body.dark .do-box{
+    border-color:#245a35;
+}
+
+body.dark .dont-box{
+    border-color:#572525;
+}
+
+.do-box h2,
+.dont-box h2{
+    margin-bottom:15px;
+}
+
+.do-list,
+.dont-list{
+    display:grid;
+    gap:12px;
+}
+
+.do-item,
+.dont-item{
+    display:flex;
+    gap:11px;
+    align-items:flex-start;
+}
+
+.mark{
+    width:28px;
+    height:28px;
+
+    flex:0 0 28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:9px;
+
+    font-weight:900;
+}
+
+.do-item .mark{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.dont-item .mark{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+body.dark .do-item .mark{
+    background:#12301d;
+    color:#86efac;
+}
+
+body.dark .dont-item .mark{
+    background:#431515;
+    color:#fca5a5;
+}
+
+.do-item p,
+.dont-item p{
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* LEAK SECTION */
+
+.leak-section{
+    margin-top:25px;
+
+    padding:30px;
+
+    border-radius:25px;
+
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(220,38,38,.13),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            var(--red-light),
+            var(--orange-light)
+        );
+
+    border:1px solid #fecaca;
+}
+
+body.dark .leak-section{
+    border-color:#572525;
+}
+
+.leak-section h2{
+    margin-bottom:7px;
+}
+
+.leak-section > p{
+    color:var(--muted);
+}
+
+.leak-steps{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+
+    gap:13px;
+
+    margin-top:22px;
+}
+
+.leak-step{
+    background:rgba(255,255,255,.55);
+
+    padding:19px;
+
+    border-radius:17px;
+
+    border:1px solid rgba(220,38,38,.12);
+}
+
+body.dark .leak-step{
+    background:rgba(0,0,0,.16);
+}
+
+.step-number{
+    width:34px;
+    height:34px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:var(--red);
+    color:white;
+
+    font-size:13px;
+    font-weight:900;
+
+    margin-bottom:11px;
+}
+
+.leak-step h3{
+    font-size:15px;
+    margin-bottom:5px;
+}
+
+.leak-step p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* CHILDREN */
+
+.children{
+    margin-top:25px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+}
+
+.children-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+
+    gap:15px;
+
+    margin-top:20px;
+}
+
+.child-card{
+    padding:20px;
+
+    background:var(--bg);
+
+    border:1px solid var(--border);
+
+    border-radius:17px;
+}
+
+.child-card .small-icon{
+    font-size:27px;
+    margin-bottom:9px;
+}
+
+.child-card h3{
+    font-size:16px;
+    margin-bottom:5px;
+}
+
+.child-card p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* PROFESSIONAL HELP */
+
+.help{
+    margin-top:25px;
+
+    padding:30px;
+
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5f3ff,
+            #eff6ff
+        );
+
+    border:1px solid #ddd6fe;
+}
+
+body.dark .help{
+    background:
+        linear-gradient(
+            135deg,
+            #251d3a,
+            #172642
+        );
+
+    border-color:#3b3157;
+}
+
+.help h2{
+    margin-bottom:8px;
+}
+
+.help p{
+    color:var(--muted);
+}
+
+/* BUTTONS */
+
+.buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+
+    margin-top:20px;
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:13px 20px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-size:14px;
+    font-weight:800;
+
+    transition:.2s;
+}
+
+.btn-primary{
+    color:white;
+
+    background:linear-gradient(
+        135deg,
+        var(--purple),
+        var(--purple2)
+    );
+
+    box-shadow:0 8px 20px rgba(109,40,217,.24);
+}
+
+.btn-secondary{
+    color:var(--purple);
+
+    background:var(--card);
+
+    border:1px solid #c4b5fd;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* FOOTER */
+
+footer{
+    max-width:1180px;
+    margin:55px auto 0;
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    border-top:1px solid var(--border);
+}
+
+.footer-brand{
+    font-weight:800;
+    margin-bottom:9px;
+}
+
+.footer-brand span{
+    color:var(--purple);
+}
+
+footer p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.footer-links{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:18px;
+
+    margin-top:15px;
+}
+
+.footer-links a{
+    color:var(--purple);
+    text-decoration:none;
+
+    font-size:13px;
+    font-weight:700;
+}
+
+/* MOBILE NAV */
+
+.mobile-nav{
+    display:none;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero{
+        padding:25px 15px 15px;
+    }
+
+    .hero-box{
+        padding:38px 25px;
+        border-radius:24px;
+    }
+
+    .container{
+        padding:15px;
+    }
+
+    .safety-grid{
+        grid-template-columns:1fr;
+    }
+
+    .do-dont{
+        grid-template-columns:1fr;
+    }
+
+    .leak-steps{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .children-grid{
+        grid-template-columns:1fr;
+    }
+
+    .mobile-nav{
+        position:fixed;
+
+        display:flex;
+
+        left:0;
+        right:0;
+        bottom:0;
+
+        z-index:2000;
+
+        background:rgba(255,255,255,.96);
+        backdrop-filter:blur(16px);
+
+        border-top:1px solid var(--border);
+
+        padding:8px 7px
+        calc(8px + env(safe-area-inset-bottom));
+
+        justify-content:space-around;
+    }
+
+    body.dark .mobile-nav{
+        background:rgba(25,25,36,.97);
+    }
+
+    .mobile-nav a{
+        flex:1;
+        max-width:90px;
+
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+
+        gap:4px;
+
+        text-decoration:none;
+
+        color:var(--muted);
+
+        font-size:10px;
+        font-weight:700;
+    }
+
+    .mobile-nav a span:first-child{
+        font-size:20px;
+    }
+
+    .mobile-nav a.active{
+        color:var(--purple);
+    }
+}
+
+@media(max-width:500px){
+
+    .brand-name{
+        font-size:13px;
+    }
+
+    .brand-logo{
+        width:42px;
+        height:42px;
+    }
+
+    .hero h1{
+        font-size:35px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    .emergency{
+        flex-direction:column;
+    }
+
+    .safety-card{
+        padding:22px;
+    }
+
+    .do-box,
+    .dont-box,
+    .leak-section,
+    .children,
+    .help{
+        padding:23px;
+    }
+
+    .leak-steps{
+        grid-template-columns:1fr;
+    }
+
+    .buttons{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+<div class="navbar">
+
+<a href="index.html" class="brand">
+
+<img
+src="https://i.imgur.com/QzPFczP.png"
+alt="Cooking Gas Tracker & Manager"
+class="brand-logo"
+>
+
+<div class="brand-name">
+Cooking Gas<br>
+<span>Tracker & Manager</span>
+</div>
+
+</a>
+
+<nav class="nav-links">
+
+<a href="index.html">Home</a>
+
+<a href="tracker.html">Tracker</a>
+
+<a href="assistant.html">Assistant</a>
+
+<a href="guides.html" class="active">Guides</a>
+
+<a href="more.html">More</a>
+
+</nav>
+
+<button
+class="theme-btn"
+id="themeBtn"
+aria-label="Toggle dark mode"
+>
+🌙
+</button>
+
+</div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-box">
+
+<div class="hero-content">
+
+<div class="badge">
+🛡️ Gas Safety Center
+</div>
+
+<h1>
+Safety first.<br>
+Always.
+</h1>
+
+<p>
+Learn important safety habits for using cooking gas at home,
+recognize warning signs and know when to step away and seek
+appropriate professional help.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- MAIN -->
+
+<main class="container">
+
+
+<!-- EMERGENCY NOTICE -->
+
+<section class="emergency">
+
+<div class="emergency-icon">
+⚠️
+</div>
+
+<div>
+
+<h2>Safety comes before saving gas</h2>
+
+<p>
+Never take unnecessary risks to make your gas last longer.
+If you suspect a gas leak, fire or another serious gas-related
+hazard, move away from the danger and seek appropriate emergency
+or professional assistance.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- INTRO -->
+
+<section class="intro">
+
+<h2>Build safe cooking habits</h2>
+
+<p>
+Safe gas use starts with proper equipment, a suitable cooking
+environment and attention to unusual signs. The information on
+this page is intended as general safety guidance and does not
+replace instructions from your equipment manufacturer or advice
+from a qualified gas professional.
+</p>
+
+</section>
+
+
+<!-- SAFETY CARDS -->
+
+<section class="safety-grid">
+
+
+<!-- 1 -->
+
+<article class="safety-card red">
+
+<div class="icon">
+🛢️
+</div>
+
+<h2>Keep the cylinder in a suitable place</h2>
+
+<p>
+Keep your gas cylinder in an appropriate, stable and well-ventilated
+location according to the equipment manufacturer's instructions.
+Keep it away from unnecessary heat sources and areas where it can
+be knocked over or damaged.
+</p>
+
+</article>
+
+
+<!-- 2 -->
+
+<article class="safety-card orange">
+
+<div class="icon">
+🔥
+</div>
+
+<h2>Pay attention while cooking</h2>
+
+<p>
+Avoid leaving active cooking unattended. Keep combustible items,
+such as loose paper, cloth and other easily ignited materials,
+away from open flames and hot surfaces.
+</p>
+
+</article>
+
+
+<!-- 3 -->
+
+<article class="safety-card blue">
+
+<div class="icon">
+🔧
+</div>
+
+<h2>Check your equipment</h2>
+
+<p>
+Pay attention to the condition of your regulator, hose, cooker
+and connections. If equipment appears damaged, worn or unusual,
+stop using it and have it assessed by an appropriately qualified
+professional.
+</p>
+
+</article>
+
+
+<!-- 4 -->
+
+<article class="safety-card green">
+
+<div class="icon">
+🌬️
+</div>
+
+<h2>Keep the cooking area ventilated</h2>
+
+<p>
+Use your cooking area in a way that provides appropriate
+ventilation. Never block ventilation openings that are intended
+to help maintain a safe cooking environment.
+</p>
+
+</article>
+
+
+<!-- 5 -->
+
+<article class="safety-card yellow">
+
+<div class="icon">
+👃
+</div>
+
+<h2>Take unusual smells seriously</h2>
+
+<p>
+If you notice an unusual smell that makes you suspect a gas leak,
+do not ignore it. Move away from the suspected danger and follow
+appropriate safety and emergency procedures.
+</p>
+
+</article>
+
+
+<!-- 6 -->
+
+<article class="safety-card cyan">
+
+<div class="icon">
+👨‍👩‍👧‍👦
+</div>
+
+<h2>Keep children away from gas equipment</h2>
+
+<p>
+Children should not play with cylinders, regulators, hoses,
+cookers or control knobs. Keep the cooking area appropriately
+supervised.
+</p>
+
+</article>
+
+
+<!-- 7 -->
+
+<article class="safety-card purple">
+
+<div class="icon">
+🧯
+</div>
+
+<h2>Know your emergency plan</h2>
+
+<p>
+Make sure members of your household know how to move away from
+danger and how to contact appropriate emergency services or
+qualified professionals when necessary.
+</p>
+
+</article>
+
+
+<!-- 8 -->
+
+<article class="safety-card orange">
+
+<div class="icon">
+📖
+</div>
+
+<h2>Follow manufacturer instructions</h2>
+
+<p>
+Use your cylinder, regulator, cooker and related equipment
+according to the instructions supplied with the equipment.
+When in doubt, ask a qualified professional.
+</p>
+
+</article>
+
+
+</section>
+
+
+<!-- DO AND DON'T -->
+
+<section class="do-dont">
+
+
+<div class="do-box">
+
+<h2>✅ Good safety habits</h2>
+
+<div class="do-list">
+
+<div class="do-item">
+
+<div class="mark">✓</div>
+
+<p>
+Keep cooking equipment in appropriate condition.
+</p>
+
+</div>
+
+<div class="do-item">
+
+<div class="mark">✓</div>
+
+<p>
+Pay attention to unusual smells, sounds or visible damage.
+</p>
+
+</div>
+
+<div class="do-item">
+
+<div class="mark">✓</div>
+
+<p>
+Keep flammable materials away from open flames.
+</p>
+
+</div>
+
+<div class="do-item">
+
+<div class="mark">✓</div>
+
+<p>
+Keep children away from cooking equipment.
+</p>
+
+</div>
+
+<div class="do-item">
+
+<div class="mark">✓</div>
+
+<p>
+Use qualified professionals when equipment needs attention.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="dont-box">
+
+<h2>🚫 Things to avoid</h2>
+
+<div class="dont-list">
+
+<div class="dont-item">
+
+<div class="mark">×</div>
+
+<p>
+Do not ignore a suspected gas leak.
+</p>
+
+</div>
+
+<div class="dont-item">
+
+<div class="mark">×</div>
+
+<p>
+Do not use visibly damaged gas equipment.
+</p>
+
+</div>
+
+<div class="dont-item">
+
+<div class="mark">×</div>
+
+<p>
+Do not deliberately create flames or sparks around suspected
+gas leaks.
+</p>
+
+</div>
+
+<div class="dont-item">
+
+<div class="mark">×</div>
+
+<p>
+Do not attempt unsafe repairs if you are not qualified.
+</p>
+
+</div>
+
+<div class="dont-item">
+
+<div class="mark">×</div>
+
+<p>
+Do not sacrifice safety simply to reduce gas consumption.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+</section>
+
+
+<!-- SUSPECTED LEAK -->
+
+<section class="leak-section">
+
+<h2>🚨 If you suspect a gas leak</h2>
+
+<p>
+If you smell gas or have another reason to suspect a leak,
+treat the situation seriously. Do not attempt to troubleshoot
+or repair gas equipment yourself unless you are appropriately
+qualified.
+</p>
+
+
+<div class="leak-steps">
+
+
+<div class="leak-step">
+
+<div class="step-number">1</div>
+
+<h3>Move away</h3>
+
+<p>
+Move yourself and others away from the suspected danger.
+</p>
+
+</div>
+
+
+<div class="leak-step">
+
+<div class="step-number">2</div>
+
+<h3>Avoid ignition</h3>
+
+<p>
+Avoid flames, sparks and other potential ignition sources
+near the suspected leak.
+</p>
+
+</div>
+
+
+<div class="leak-step">
+
+<div class="step-number">3</div>
+
+<h3>Get appropriate help</h3>
+
+<p>
+Contact the appropriate emergency service or qualified gas
+professional for your situation.
+</p>
+
+</div>
+
+
+<div class="leak-step">
+
+<div class="step-number">4</div>
+
+<h3>Stay clear</h3>
+
+<p>
+Do not return to the affected area until it is considered
+safe by the appropriate person or authority.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- CHILDREN -->
+
+<section class="children">
+
+<div class="section-title">
+
+<h2>👨‍👩‍👧 Make safety a household habit</h2>
+
+<p>
+Everyone who uses the kitchen should understand basic gas safety.
+</p>
+
+</div>
+
+
+<div class="children-grid">
+
+
+<div class="child-card">
+
+<div class="small-icon">
+👶
+</div>
+
+<h3>Children</h3>
+
+<p>
+Teach children not to touch cylinders, regulators, hoses or
+cooker controls without adult supervision.
+</p>
+
+</div>
+
+
+<div class="child-card">
+
+<div class="small-icon">
+👨‍🍳
+</div>
+
+<h3>Adults</h3>
+
+<p>
+Adults responsible for cooking should know where the equipment
+instructions and emergency contacts can be found.
+</p>
+
+</div>
+
+
+<div class="child-card">
+
+<div class="small-icon">
+🏠
+</div>
+
+<h3>Everyone</h3>
+
+<p>
+Make sure everyone knows where to move if there is a suspected
+gas-related emergency.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- PROFESSIONAL HELP -->
+
+<section class="help">
+
+<h2>Need professional help?</h2>
+
+<p>
+Gas equipment problems should be assessed by an appropriately
+qualified professional. If there is an immediate danger,
+contact the relevant emergency service for your location.
+</p>
+
+
+<div class="buttons">
+
+<a href="tracker.html" class="btn btn-primary">
+🔥 Go to Tracker
+</a>
+
+<a href="assistant.html" class="btn btn-secondary">
+🤖 Ask the Assistant
+</a>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="footer-brand">
+Cooking Gas <span>Tracker & Manager</span>
+</div>
+
+<p>
+Helping you track your gas usage, plan refills and cook smarter.
+</p>
+
+<div class="footer-links">
+
+<a
+href="https://policies-privacy-8c085d.netlify.app/"
+target="_blank"
+rel="noopener"
+>
+Privacy Policy
+</a>
+
+<a
+href="https://about-us-a9f8d5.netlify.app/"
+target="_blank"
+rel="noopener"
+>
+About Us
+</a>
+
+<a
+href="https://terms-condition-36816f.netlify.app/"
+target="_blank"
+rel="noopener"
+>
+Terms & Conditions
+</a>
+
+</div>
+
+</footer>
+
+
+<!-- MOBILE NAV -->
+
+<nav class="mobile-nav">
+
+<a href="index.html">
+<span>🏠</span>
+<span>Home</span>
+</a>
+
+<a href="tracker.html">
+<span>🔥</span>
+<span>Tracker</span>
+</a>
+
+<a href="assistant.html">
+<span>🤖</span>
+<span>Assistant</span>
+</a>
+
+<a href="guides.html" class="active">
+<span>📚</span>
+<span>Guides</span>
+</a>
+
+<a href="more.html">
+<span>☰</span>
+<span>More</span>
+</a>
+
+</nav>
+
+
+<script>
+
+const themeBtn =
+document.getElementById("themeBtn");
+
+const savedTheme =
+localStorage.getItem("cgtTheme");
+
+if(savedTheme === "dark"){
+
+    document.body.classList.add("dark");
+
+    themeBtn.textContent = "☀️";
+}
+
+themeBtn.addEventListener("click",()=>{
+
+    document.body.classList.toggle("dark");
+
+    const isDark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "cgtTheme",
+        isDark ? "dark" : "light"
+    );
+
+    themeBtn.textContent =
+        isDark ? "☀️" : "🌙";
+
+});
+
+</script>
+
+</body>
+</html>
