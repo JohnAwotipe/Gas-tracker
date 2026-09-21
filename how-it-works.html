@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>How It Works | Cooking Gas Tracker & Manager</title>
+
+<meta name="description" content="Learn how Cooking Gas Tracker & Manager works, from entering your gas information to receiving refill reminders.">
+
+<style>
+:root{
+    --purple:#6d28d9;
+    --purple2:#7c3aed;
+    --purple3:#8b5cf6;
+
+    --blue:#2563eb;
+    --blue-light:#eff6ff;
+
+    --green:#16a34a;
+    --green-light:#f0fdf4;
+
+    --orange:#ea580c;
+    --orange-light:#fff7ed;
+
+    --yellow:#ca8a04;
+    --yellow-light:#fefce8;
+
+    --red:#dc2626;
+    --red-light:#fef2f2;
+
+    --cyan:#0891b2;
+    --cyan-light:#ecfeff;
+
+    --bg:#f7f7fb;
+    --card:#ffffff;
+    --text:#171717;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+
+    --shadow:0 10px 28px rgba(0,0,0,.07);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+    padding-bottom:80px;
+    transition:.3s ease;
+}
+
+body.dark{
+    --bg:#11111a;
+    --card:#1b1b28;
+    --text:#f5f5f5;
+    --muted:#aaaab8;
+    --border:#30303d;
+
+    --blue-light:#172642;
+    --green-light:#12301d;
+    --orange-light:#321e12;
+    --yellow-light:#332b12;
+    --red-light:#351717;
+    --cyan-light:#10363c;
+
+    --shadow:0 12px 30px rgba(0,0,0,.28);
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid var(--border);
+}
+
+body.dark header{
+    background:rgba(17,17,26,.94);
+}
+
+.navbar{
+    max-width:1180px;
+    margin:auto;
+
+    min-height:72px;
+    padding:11px 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+    text-decoration:none;
+    color:var(--text);
+
+    font-weight:800;
+}
+
+.brand-logo{
+    width:46px;
+    height:46px;
+
+    object-fit:cover;
+    border-radius:12px;
+
+    box-shadow:0 5px 15px rgba(109,40,217,.2);
+}
+
+.brand-name{
+    font-size:15px;
+    line-height:1.1;
+}
+
+.brand-name span{
+    color:var(--purple);
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:var(--muted);
+
+    padding:10px 13px;
+    border-radius:10px;
+
+    font-size:14px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    background:#ede9fe;
+    color:var(--purple);
+}
+
+body.dark .nav-links a:hover,
+body.dark .nav-links a.active{
+    background:#2b2144;
+    color:#c4b5fd;
+}
+
+.theme-btn{
+    width:40px;
+    height:40px;
+
+    border:0;
+    border-radius:50%;
+
+    background:#f1f1f5;
+    color:var(--text);
+
+    cursor:pointer;
+    font-size:18px;
+}
+
+body.dark .theme-btn{
+    background:#292936;
+}
+
+/* HERO */
+
+.hero{
+    max-width:1180px;
+    margin:auto;
+
+    padding:55px 20px 25px;
+}
+
+.hero-box{
+    position:relative;
+    overflow:hidden;
+
+    padding:48px 40px;
+
+    border-radius:30px;
+
+    background:
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(37,99,235,.28),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(22,163,74,.22),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #4c1d95,
+            #6d28d9 55%,
+            #7c3aed
+        );
+
+    color:white;
+
+    box-shadow:0 20px 50px rgba(76,29,149,.24);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+
+    max-width:790px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+
+    padding:8px 13px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.22);
+
+    font-size:13px;
+    font-weight:800;
+
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:clamp(34px,5vw,54px);
+    line-height:1.05;
+    margin-bottom:18px;
+}
+
+.hero p{
+    color:rgba(255,255,255,.91);
+    font-size:17px;
+    max-width:710px;
+}
+
+/* MAIN */
+
+.container{
+    max-width:1180px;
+    margin:auto;
+    padding:20px;
+}
+
+/* INTRO */
+
+.intro{
+    background:var(--card);
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:25px;
+}
+
+.intro h2{
+    margin-bottom:9px;
+}
+
+.intro p{
+    color:var(--muted);
+}
+
+/* PROCESS */
+
+.process{
+    margin-top:10px;
+}
+
+.section-heading{
+    margin-bottom:22px;
+}
+
+.section-heading h2{
+    font-size:27px;
+    margin-bottom:7px;
+}
+
+.section-heading p{
+    color:var(--muted);
+}
+
+/* STEPS */
+
+.steps{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.step{
+    position:relative;
+
+    background:var(--card);
+    border:1px solid var(--border);
+
+    border-radius:23px;
+
+    padding:28px;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+}
+
+.step:hover{
+    transform:translateY(-4px);
+}
+
+.step-top{
+    display:flex;
+    align-items:center;
+    gap:15px;
+
+    margin-bottom:17px;
+}
+
+.step-number{
+    width:52px;
+    height:52px;
+
+    flex:0 0 52px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:16px;
+
+    color:white;
+
+    font-size:18px;
+    font-weight:900;
+
+    background:linear-gradient(
+        135deg,
+        var(--purple),
+        var(--purple2)
+    );
+}
+
+.step-icon{
+    font-size:28px;
+}
+
+.step h3{
+    font-size:20px;
+    margin-bottom:7px;
+}
+
+.step p{
+    color:var(--muted);
+}
+
+/* STEP COLORS */
+
+.step:nth-child(1){
+    border-top:4px solid var(--blue);
+}
+
+.step:nth-child(2){
+    border-top:4px solid var(--orange);
+}
+
+.step:nth-child(3){
+    border-top:4px solid var(--green);
+}
+
+.step:nth-child(4){
+    border-top:4px solid var(--purple);
+}
+
+.step:nth-child(5){
+    border-top:4px solid var(--yellow);
+}
+
+.step:nth-child(6){
+    border-top:4px solid var(--cyan);
+}
+
+/* NOTIFICATION */
+
+.notification-section{
+    margin-top:30px;
+
+    padding:30px;
+
+    border-radius:25px;
+
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(249,115,22,.15),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            var(--orange-light),
+            var(--yellow-light)
+        );
+
+    border:1px solid #fed7aa;
+}
+
+body.dark .notification-section{
+    border-color:#5a3c1b;
+}
+
+.notification-section h2{
+    font-size:25px;
+    margin-bottom:7px;
+}
+
+.notification-section > p{
+    color:var(--muted);
+}
+
+.notification-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+
+    gap:15px;
+
+    margin-top:22px;
+}
+
+.notification-card{
+    padding:22px;
+
+    background:rgba(255,255,255,.62);
+
+    border:1px solid rgba(234,88,12,.13);
+
+    border-radius:18px;
+}
+
+body.dark .notification-card{
+    background:rgba(0,0,0,.15);
+}
+
+.notification-icon{
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.notification-card h3{
+    font-size:17px;
+    margin-bottom:5px;
+}
+
+.notification-card p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* TIME BOX */
+
+.time-box{
+    margin-top:15px;
+
+    padding:20px;
+
+    border-radius:17px;
+
+    background:rgba(255,255,255,.62);
+
+    border:1px solid rgba(234,88,12,.13);
+}
+
+body.dark .time-box{
+    background:rgba(0,0,0,.15);
+}
+
+.time-box h3{
+    margin-bottom:12px;
+}
+
+.times{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.time{
+    padding:9px 13px;
+
+    border-radius:10px;
+
+    background:#ede9fe;
+    color:var(--purple);
+
+    font-weight:800;
+    font-size:13px;
+}
+
+/* FLOW */
+
+.flow{
+    margin-top:25px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+}
+
+.flow-list{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+
+    gap:12px;
+
+    margin-top:20px;
+}
+
+.flow-item{
+    text-align:center;
+
+    padding:20px 15px;
+
+    background:var(--bg);
+
+    border:1px solid var(--border);
+
+    border-radius:17px;
+}
+
+.flow-icon{
+    font-size:29px;
+    margin-bottom:8px;
+}
+
+.flow-item h3{
+    font-size:15px;
+    margin-bottom:4px;
+}
+
+.flow-item p{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.flow-arrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:var(--purple);
+    font-size:22px;
+    font-weight:900;
+}
+
+/* ACCURACY */
+
+.accuracy{
+    margin-top:25px;
+
+    padding:28px;
+
+    border-radius:23px;
+
+    background:var(--blue-light);
+
+    border:1px solid #bfdbfe;
+}
+
+body.dark .accuracy{
+    border-color:#28466e;
+}
+
+.accuracy h2{
+    margin-bottom:8px;
+}
+
+.accuracy p{
+    color:var(--muted);
+}
+
+/* CTA */
+
+.cta{
+    margin-top:25px;
+
+    padding:32px;
+
+    border-radius:25px;
+
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(22,163,74,.14),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #f5f3ff,
+            #f0fdf4
+        );
+
+    border:1px solid #ddd6fe;
+}
+
+body.dark .cta{
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(22,163,74,.14),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #251d3a,
+            #12301d
+        );
+
+    border-color:#3b3157;
+}
+
+.cta h2{
+    margin-bottom:8px;
+}
+
+.cta p{
+    color:var(--muted);
+    max-width:760px;
+}
+
+.buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+
+    margin-top:20px;
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:13px 20px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-size:14px;
+    font-weight:800;
+
+    transition:.2s;
+}
+
+.btn-primary{
+    color:white;
+
+    background:linear-gradient(
+        135deg,
+        var(--purple),
+        var(--purple2)
+    );
+
+    box-shadow:0 8px 20px rgba(109,40,217,.24);
+}
+
+.btn-secondary{
+    color:var(--purple);
+
+    background:var(--card);
+
+    border:1px solid #c4b5fd;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* FOOTER */
+
+footer{
+    max-width:1180px;
+    margin:55px auto 0;
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    border-top:1px solid var(--border);
+}
+
+.footer-brand{
+    font-weight:800;
+    margin-bottom:9px;
+}
+
+.footer-brand span{
+    color:var(--purple);
+}
+
+footer p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.footer-links{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:18px;
+
+    margin-top:15px;
+}
+
+.footer-links a{
+    color:var(--purple);
+    text-decoration:none;
+
+    font-size:13px;
+    font-weight:700;
+}
+
+/* MOBILE NAV */
+
+.mobile-nav{
+    display:none;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero{
+        padding:25px 15px 15px;
+    }
+
+    .hero-box{
+        padding:38px 25px;
+        border-radius:24px;
+    }
+
+    .container{
+        padding:15px;
+    }
+
+    .steps{
+        grid-template-columns:1fr;
+    }
+
+    .notification-grid{
+        grid-template-columns:1fr;
+    }
+
+    .flow-list{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .flow-arrow{
+        display:none;
+    }
+
+    .mobile-nav{
+        position:fixed;
+
+        display:flex;
+
+        left:0;
+        right:0;
+        bottom:0;
+
+        z-index:2000;
+
+        background:rgba(255,255,255,.96);
+        backdrop-filter:blur(16px);
+
+        border-top:1px solid var(--border);
+
+        padding:8px 7px
+        calc(8px + env(safe-area-inset-bottom));
+
+        justify-content:space-around;
+    }
+
+    body.dark .mobile-nav{
+        background:rgba(25,25,36,.97);
+    }
+
+    .mobile-nav a{
+        flex:1;
+        max-width:90px;
+
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+
+        gap:4px;
+
+        text-decoration:none;
+
+        color:var(--muted);
+
+        font-size:10px;
+        font-weight:700;
+    }
+
+    .mobile-nav a span:first-child{
+        font-size:20px;
+    }
+
+    .mobile-nav a.active{
+        color:var(--purple);
+    }
+}
+
+@media(max-width:500px){
+
+    .brand-name{
+        font-size:13px;
+    }
+
+    .brand-logo{
+        width:42px;
+        height:42px;
+    }
+
+    .hero h1{
+        font-size:35px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    .intro,
+    .notification-section,
+    .flow,
+    .accuracy,
+    .cta{
+        padding:23px;
+    }
+
+    .flow-list{
+        grid-template-columns:1fr;
+    }
+
+    .buttons{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+<div class="navbar">
+
+<a href="index.html" class="brand">
+
+<img
+src="https://i.imgur.com/QzPFczP.png"
+alt="Cooking Gas Tracker & Manager"
+class="brand-logo"
+>
+
+<div class="brand-name">
+Cooking Gas<br>
+<span>Tracker & Manager</span>
+</div>
+
+</a>
+
+<nav class="nav-links">
+
+<a href="index.html">Home</a>
+
+<a href="tracker.html">Tracker</a>
+
+<a href="assistant.html">Assistant</a>
+
+<a href="guides.html" class="active">Guides</a>
+
+<a href="more.html">More</a>
+
+</nav>
+
+<button
+class="theme-btn"
+id="themeBtn"
+aria-label="Toggle dark mode"
+>
+🌙
+</button>
+
+</div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-box">
+
+<div class="hero-content">
+
+<div class="badge">
+⚙️ How It Works
+</div>
+
+<h1>
+Track your gas.<br>
+Plan ahead.
+</h1>
+
+<p>
+Cooking Gas Tracker & Manager helps you keep your gas information
+organized, track your expected consumption date and prepare for
+your next refill.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- MAIN -->
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<section class="intro">
+
+<h2>How the system works</h2>
+
+<p>
+The process is simple. You provide information about your gas and
+your expected consumption date. The tracker stores your information
+and uses your selected date to help you plan ahead and receive
+scheduled reminders.
+</p>
+
+</section>
+
+
+<!-- STEPS -->
+
+<section class="process">
+
+<div class="section-heading">
+
+<h2>From setup to refill</h2>
+
+<p>
+Here is the basic journey through Cooking Gas Tracker & Manager.
+</p>
+
+</div>
+
+
+<div class="steps">
+
+
+<!-- STEP 1 -->
+
+<article class="step">
+
+<div class="step-top">
+
+<div class="step-number">1</div>
+
+<div class="step-icon">📝</div>
+
+</div>
+
+<h3>Enter your gas information</h3>
+
+<p>
+Start by entering the information requested by the tracker,
+such as your gas amount, refill information and relevant dates.
+This gives the tracker the information it needs to organize
+your gas plan.
+</p>
+
+</article>
+
+
+<!-- STEP 2 -->
+
+<article class="step">
+
+<div class="step-top">
+
+<div class="step-number">2</div>
+
+<div class="step-icon">📅</div>
+
+</div>
+
+<h3>Set your expected consumption date</h3>
+
+<p>
+Choose the date you expect your current gas supply to be
+consumed based on your own usage pattern. This date is important
+because the reminder schedule is based on it.
+</p>
+
+</article>
+
+
+<!-- STEP 3 -->
+
+<article class="step">
+
+<div class="step-top">
+
+<div class="step-number">3</div>
+
+<div class="step-icon">📊</div>
+
+</div>
+
+<h3>Keep track of your plan</h3>
+
+<p>
+Your tracker gives you a central place to view your gas
+information, countdown and refill-related details instead of
+keeping everything in your head.
+</p>
+
+</article>
+
+
+<!-- STEP 4 -->
+
+<article class="step">
+
+<div class="step-top">
+
+<div class="step-number">4</div>
+
+<div class="step-icon">🔔</div>
+
+</div>
+
+<h3>Receive scheduled reminders</h3>
+
+<p>
+When your expected consumption date gets close, the notification
+system sends reminders according to the schedule configured for
+the Cooking Gas Tracker & Manager service.
+</p>
+
+</article>
+
+
+<!-- STEP 5 -->
+
+<article class="step">
+
+<div class="step-top">
+
+<div class="step-number">5</div>
+
+<div class="step-icon">🛒</div>
+
+</div>
+
+<h3>Prepare for your refill</h3>
+
+<p>
+The purpose of the reminder is to give you time to prepare.
+You can plan your refill instead of waiting until you suddenly
+discover that you need more gas.
+</p>
+
+</article>
+
+
+<!-- STEP 6 -->
+
+<article class="step">
+
+<div class="step-top">
+
+<div class="step-number">6</div>
+
+<div class="step-icon">🔄</div>
+
+</div>
+
+<h3>Update your next cycle</h3>
+
+<p>
+After a refill, update your gas information and expected
+consumption date so your next tracking cycle can begin.
+</p>
+
+</article>
+
+
+</div>
+
+</section>
+
+
+<!-- NOTIFICATION -->
+
+<section class="notification-section">
+
+<h2>🔔 How the notifications work</h2>
+
+<p>
+The reminder system is designed to notify you as your expected
+consumption date approaches.
+</p>
+
+
+<div class="notification-grid">
+
+
+<div class="notification-card">
+
+<div class="notification-icon">
+🟡
+</div>
+
+<h3>2 days before</h3>
+
+<p>
+You receive a preparation reminder telling you to prepare for
+your cooking gas refill.
+</p>
+
+</div>
+
+
+<div class="notification-card">
+
+<div class="notification-icon">
+🟠
+</div>
+
+<h3>1 day before</h3>
+
+<p>
+The preparation reminder continues so you have another
+opportunity to plan your refill.
+</p>
+
+</div>
+
+
+<div class="notification-card">
+
+<div class="notification-icon">
+🔴
+</div>
+
+<h3>Consumption date</h3>
+
+<p>
+On the expected consumption date, the notification changes to
+a refill reminder.
+</p>
+
+</div>
+
+
+</div>
+
+
+<div class="time-box">
+
+<h3>Scheduled notification times</h3>
+
+<div class="times">
+
+<span class="time">12:00 AM</span>
+
+<span class="time">6:00 AM</span>
+
+<span class="time">12:00 PM</span>
+
+<span class="time">6:00 PM</span>
+
+</div>
+
+<p style="margin-top:12px;color:var(--muted);font-size:13px;">
+Schedule shown for the Africa/Lagos timezone.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- FLOW -->
+
+<section class="flow">
+
+<div class="section-heading">
+
+<h2>Your simple tracking flow</h2>
+
+<p>
+The idea is to turn gas planning into a simple routine.
+</p>
+
+</div>
+
+
+<div class="flow-list">
+
+<div class="flow-item">
+
+<div class="flow-icon">📝</div>
+
+<h3>Enter</h3>
+
+<p>
+Add your gas information.
+</p>
+
+</div>
+
+
+<div class="flow-item">
+
+<div class="flow-icon">📅</div>
+
+<h3>Set</h3>
+
+<p>
+Choose your expected date.
+</p>
+
+</div>
+
+
+<div class="flow-item">
+
+<div class="flow-icon">🔔</div>
+
+<h3>Receive</h3>
+
+<p>
+Get your scheduled reminders.
+</p>
+
+</div>
+
+
+<div class="flow-item">
+
+<div class="flow-icon">🔥</div>
+
+<h3>Refill</h3>
+
+<p>
+Prepare and refill when needed.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ACCURACY -->
+
+<section class="accuracy">
+
+<h2>📌 About the consumption estimate</h2>
+
+<p>
+The expected consumption date is based on the information you
+provide. Actual gas usage can change because of factors such as
+the number of people you cook for, meals prepared, cooking time,
+food type and other cooking habits.
+
+You may still have gas remaining when a reminder appears. The
+notification is intended as a planning reminder, not a guarantee
+that your cylinder is empty.
+</p>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="cta">
+
+<h2>Ready to start?</h2>
+
+<p>
+Set up your gas information and begin keeping track of your
+cooking gas plan.
+</p>
+
+
+<div class="buttons">
+
+<a href="tracker.html" class="btn btn-primary">
+🔥 Start Tracking
+</a>
+
+<a href="assistant.html" class="btn btn-secondary">
+🤖 Ask the Assistant
+</a>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="footer-brand">
+Cooking Gas <span>Tracker & Manager</span>
+</div>
+
+<p>
+Helping you track your gas usage, plan refills and cook smarter.
+</p>
+
+<div class="footer-links">
+
+<a
+href="https://policies-privacy-8c085d.netlify.app/"
+target="_blank"
+rel="noopener"
+>
+Privacy Policy
+</a>
+
+<a
+href="https://about-us-a9f8d5.netlify.app/"
+target="_blank"
+rel="noopener"
+>
+About Us
+</a>
+
+<a
+href="https://terms-condition-36816f.netlify.app/"
+target="_blank"
+rel="noopener"
+>
+Terms & Conditions
+</a>
+
+</div>
+
+</footer>
+
+
+<!-- MOBILE NAV -->
+
+<nav class="mobile-nav">
+
+<a href="index.html">
+<span>🏠</span>
+<span>Home</span>
+</a>
+
+<a href="tracker.html">
+<span>🔥</span>
+<span>Tracker</span>
+</a>
+
+<a href="assistant.html">
+<span>🤖</span>
+<span>Assistant</span>
+</a>
+
+<a href="guides.html" class="active">
+<span>📚</span>
+<span>Guides</span>
+</a>
+
+<a href="more.html">
+<span>☰</span>
+<span>More</span>
+</a>
+
+</nav>
+
+
+<script>
+
+const themeBtn =
+document.getElementById("themeBtn");
+
+const savedTheme =
+localStorage.getItem("cgtTheme");
+
+if(savedTheme === "dark"){
+
+    document.body.classList.add("dark");
+
+    themeBtn.textContent = "☀️";
+}
+
+themeBtn.addEventListener("click",()=>{
+
+    document.body.classList.toggle("dark");
+
+    const isDark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "cgtTheme",
+        isDark ? "dark" : "light"
+    );
+
+    themeBtn.textContent =
+        isDark ? "☀️" : "🌙";
+
+});
+
+</script>
+
+</body>
+</html>
