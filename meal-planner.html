@@ -1,0 +1,2753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Meal Planner | Cooking Gas Tracker & Manager</title>
+
+<meta
+    name="description"
+    content="Plan your meals, organize your cooking week and create a simple shopping list with Cooking Gas Tracker & Manager."
+>
+
+<link rel="stylesheet" href="style.css">
+
+
+<style>
+
+/* =========================================================
+   MEAL PLANNER
+========================================================= */
+
+:root{
+
+    --purple:#6d28d9;
+    --purple2:#7c3aed;
+
+    --green:#16a34a;
+    --green-light:#f0fdf4;
+
+    --orange:#ea580c;
+    --orange-light:#fff7ed;
+
+    --blue:#2563eb;
+    --blue-light:#eff6ff;
+
+    --yellow:#ca8a04;
+    --yellow-light:#fefce8;
+
+    --red:#dc2626;
+    --red-light:#fef2f2;
+
+    --cyan:#0891b2;
+    --cyan-light:#ecfeff;
+
+    --pink:#db2777;
+    --pink-light:#fdf2f8;
+
+    --bg:#f7f7fb;
+    --card:#ffffff;
+    --text:#171717;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+
+    --shadow:0 10px 28px rgba(0,0,0,.07);
+}
+
+
+body.dark{
+
+    --bg:#11111a;
+    --card:#1b1b28;
+    --text:#f5f5f5;
+    --muted:#aaaab8;
+    --border:#30303d;
+
+    --green-light:#12301d;
+    --orange-light:#321e12;
+    --blue-light:#172642;
+    --yellow-light:#332b12;
+    --red-light:#351717;
+    --cyan-light:#10363c;
+    --pink-light:#351827;
+
+    --shadow:0 12px 30px rgba(0,0,0,.28);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:Inter,Arial,Helvetica,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    line-height:1.65;
+
+    padding-bottom:80px;
+
+    transition:.3s ease;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    background:rgba(255,255,255,.94);
+
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid var(--border);
+}
+
+
+body.dark header{
+    background:rgba(17,17,26,.94);
+}
+
+
+.navbar{
+
+    max-width:1180px;
+
+    margin:auto;
+
+    min-height:72px;
+
+    padding:11px 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    text-decoration:none;
+
+    color:var(--text);
+
+    font-weight:800;
+}
+
+
+.brand-logo{
+
+    width:46px;
+
+    height:46px;
+
+    object-fit:cover;
+
+    border-radius:12px;
+
+    box-shadow:
+        0 5px 15px rgba(109,40,217,.2);
+}
+
+
+.brand-name{
+
+    font-size:15px;
+
+    line-height:1.1;
+}
+
+
+.brand-name span{
+    color:var(--purple);
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.nav-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+}
+
+
+.nav-links a{
+
+    text-decoration:none;
+
+    color:var(--muted);
+
+    padding:10px 13px;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    transition:.2s;
+}
+
+
+.nav-links a:hover,
+.nav-links a.active{
+
+    background:#ede9fe;
+
+    color:var(--purple);
+}
+
+
+body.dark .nav-links a:hover,
+body.dark .nav-links a.active{
+
+    background:#2b2144;
+
+    color:#c4b5fd;
+}
+
+
+/* =========================================================
+   THEME BUTTON
+========================================================= */
+
+.theme-btn{
+
+    width:40px;
+
+    height:40px;
+
+    border:0;
+
+    border-radius:50%;
+
+    background:#f1f1f5;
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-size:18px;
+}
+
+
+body.dark .theme-btn{
+    background:#292936;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+
+    max-width:1180px;
+
+    margin:auto;
+
+    padding:55px 20px 25px;
+}
+
+
+.hero-box{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:48px 40px;
+
+    border-radius:30px;
+
+    background:
+
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(34,211,238,.25),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(250,204,21,.20),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 55% 105%,
+            rgba(22,163,74,.18),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            135deg,
+            #312e81,
+            #6d28d9 52%,
+            #7c3aed
+        );
+
+    color:white;
+
+    box-shadow:
+        0 20px 50px rgba(76,29,149,.24);
+}
+
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:820px;
+}
+
+
+/* HERO BADGE */
+
+.hero .badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:7px;
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.16);
+
+    border:1px solid rgba(255,255,255,.35);
+
+    color:#ffffff !important;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    margin-bottom:18px;
+
+    text-decoration:none;
+
+    opacity:1 !important;
+}
+
+
+.hero .badge *{
+    color:#ffffff !important;
+}
+
+
+.hero h1{
+
+    font-size:clamp(34px,5vw,54px);
+
+    line-height:1.05;
+
+    margin-bottom:18px;
+}
+
+
+.hero p{
+
+    color:rgba(255,255,255,.91);
+
+    font-size:17px;
+
+    max-width:720px;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.container{
+
+    max-width:1180px;
+
+    margin:auto;
+
+    padding:20px;
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.intro{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:25px;
+}
+
+
+.intro h2{
+    margin-bottom:9px;
+}
+
+
+.intro p{
+    color:var(--muted);
+}
+
+
+/* =========================================================
+   PLANNER TOOL
+========================================================= */
+
+.planner-box{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+}
+
+
+.planner-heading{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    margin-bottom:25px;
+}
+
+
+.planner-heading h2{
+
+    font-size:25px;
+
+    margin-bottom:5px;
+}
+
+
+.planner-heading p{
+
+    color:var(--muted);
+
+    font-size:14px;
+}
+
+
+.clear-btn{
+
+    border:1px solid #fecaca;
+
+    background:var(--red-light);
+
+    color:var(--red);
+
+    padding:10px 15px;
+
+    border-radius:11px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    white-space:nowrap;
+}
+
+
+.clear-btn:hover{
+    opacity:.85;
+}
+
+
+/* =========================================================
+   DAYS
+========================================================= */
+
+.day-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:18px;
+}
+
+
+.day-card{
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    background:var(--bg);
+}
+
+
+.day-header{
+
+    padding:16px 18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    background:var(--card);
+
+    border-bottom:1px solid var(--border);
+}
+
+
+.day-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-weight:850;
+}
+
+
+.day-icon{
+
+    width:38px;
+
+    height:38px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:11px;
+
+    background:#ede9fe;
+
+    font-size:18px;
+}
+
+
+.day-count{
+
+    font-size:11px;
+
+    font-weight:800;
+
+    color:var(--muted);
+}
+
+
+/* =========================================================
+   MEAL ROWS
+========================================================= */
+
+.meals{
+
+    padding:14px;
+}
+
+
+.meal-row{
+
+    display:grid;
+
+    grid-template-columns:88px 1fr 42px;
+
+    gap:9px;
+
+    align-items:center;
+
+    margin-bottom:10px;
+}
+
+
+.meal-row:last-child{
+    margin-bottom:0;
+}
+
+
+.meal-label{
+
+    font-size:12px;
+
+    font-weight:800;
+
+    color:var(--muted);
+}
+
+
+.meal-input{
+
+    width:100%;
+
+    padding:11px 12px;
+
+    border:1px solid var(--border);
+
+    border-radius:11px;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    outline:none;
+
+    font-size:13px;
+}
+
+
+.meal-input:focus{
+
+    border-color:var(--purple);
+
+    box-shadow:
+        0 0 0 3px rgba(109,40,217,.10);
+}
+
+
+.remove-meal{
+
+    width:40px;
+
+    height:40px;
+
+    border:0;
+
+    border-radius:11px;
+
+    background:var(--red-light);
+
+    color:var(--red);
+
+    cursor:pointer;
+
+    font-size:16px;
+}
+
+
+.remove-meal:hover{
+    opacity:.8;
+}
+
+
+/* =========================================================
+   ADD MEAL
+========================================================= */
+
+.add-meal-row{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:13px;
+}
+
+
+.add-meal-input{
+
+    flex:1;
+
+    min-width:0;
+
+    padding:11px 12px;
+
+    border:1px solid var(--border);
+
+    border-radius:11px;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    outline:none;
+
+    font-size:13px;
+}
+
+
+.add-meal-input:focus{
+
+    border-color:var(--purple);
+
+    box-shadow:
+        0 0 0 3px rgba(109,40,217,.10);
+}
+
+
+.add-btn{
+
+    border:0;
+
+    border-radius:11px;
+
+    padding:0 15px;
+
+    background:var(--purple);
+
+    color:white;
+
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+
+.add-btn:hover{
+    opacity:.9;
+}
+
+
+/* =========================================================
+   SHOPPING LIST
+========================================================= */
+
+.shopping-box{
+
+    margin-top:25px;
+
+    padding:30px;
+
+    border-radius:24px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--green-light),
+            var(--blue-light)
+        );
+
+    border:1px solid #bfdbfe;
+}
+
+
+body.dark .shopping-box{
+    border-color:#29455d;
+}
+
+
+.section-title{
+
+    margin-bottom:20px;
+}
+
+
+.section-title h2{
+
+    font-size:25px;
+
+    margin-bottom:6px;
+}
+
+
+.section-title p{
+    color:var(--muted);
+}
+
+
+.shopping-form{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-bottom:18px;
+}
+
+
+.shopping-input{
+
+    flex:1;
+
+    min-width:0;
+
+    padding:13px 14px;
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    outline:none;
+}
+
+
+.shopping-input:focus{
+
+    border-color:var(--purple);
+
+    box-shadow:
+        0 0 0 3px rgba(109,40,217,.10);
+}
+
+
+.shopping-add{
+
+    border:0;
+
+    border-radius:12px;
+
+    padding:0 20px;
+
+    background:var(--purple);
+
+    color:white;
+
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+
+.shopping-list{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:10px;
+}
+
+
+.shopping-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px 14px;
+
+    background:rgba(255,255,255,.65);
+
+    border:1px solid rgba(22,163,74,.12);
+
+    border-radius:13px;
+}
+
+
+body.dark .shopping-item{
+    background:rgba(0,0,0,.15);
+}
+
+
+.shopping-item input{
+
+    width:18px;
+
+    height:18px;
+
+    accent-color:var(--purple);
+}
+
+
+.shopping-item span{
+
+    flex:1;
+
+    font-size:13px;
+
+    font-weight:650;
+}
+
+
+.shopping-item.checked span{
+
+    text-decoration:line-through;
+
+    color:var(--muted);
+}
+
+
+.delete-shopping{
+
+    border:0;
+
+    background:transparent;
+
+    color:var(--red);
+
+    cursor:pointer;
+
+    font-size:15px;
+}
+
+
+/* =========================================================
+   COOKING TIPS
+========================================================= */
+
+.tips-box{
+
+    margin-top:25px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+}
+
+
+.tip-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:13px;
+}
+
+
+.tip-card{
+
+    padding:20px;
+
+    border-radius:17px;
+
+    background:var(--bg);
+
+    border:1px solid var(--border);
+}
+
+
+.tip-icon{
+
+    width:50px;
+
+    height:50px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:15px;
+
+    font-size:23px;
+
+    margin-bottom:12px;
+}
+
+
+.tip-card:nth-child(1) .tip-icon{
+    background:#ede9fe;
+}
+
+.tip-card:nth-child(2) .tip-icon{
+    background:var(--orange-light);
+}
+
+.tip-card:nth-child(3) .tip-icon{
+    background:var(--green-light);
+}
+
+.tip-card:nth-child(4) .tip-icon{
+    background:var(--blue-light);
+}
+
+.tip-card:nth-child(5) .tip-icon{
+    background:var(--yellow-light);
+}
+
+.tip-card:nth-child(6) .tip-icon{
+    background:var(--pink-light);
+}
+
+
+.tip-card h3{
+
+    font-size:15px;
+
+    margin-bottom:5px;
+}
+
+
+.tip-card p{
+
+    color:var(--muted);
+
+    font-size:13px;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.tracker-box{
+
+    margin-top:25px;
+
+    padding:32px;
+
+    border-radius:25px;
+
+    background:
+
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(22,163,74,.13),
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #f5f3ff,
+            #f0fdf4
+        );
+
+    border:1px solid #ddd6fe;
+}
+
+
+body.dark .tracker-box{
+
+    background:
+
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(22,163,74,.14),
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #251d3a,
+            #12301d
+        );
+
+    border-color:#3b3157;
+}
+
+
+.tracker-box h2{
+    margin-bottom:8px;
+}
+
+
+.tracker-box p{
+
+    color:var(--muted);
+
+    max-width:760px;
+}
+
+
+.buttons{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin-top:20px;
+}
+
+
+.btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:13px 20px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    transition:.2s;
+}
+
+
+.btn-primary{
+
+    color:white;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--purple),
+            var(--purple2)
+        );
+
+    box-shadow:
+        0 8px 20px rgba(109,40,217,.24);
+}
+
+
+.btn-secondary{
+
+    color:var(--purple);
+
+    background:var(--card);
+
+    border:1px solid #c4b5fd;
+}
+
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    max-width:1180px;
+
+    margin:55px auto 0;
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    border-top:1px solid var(--border);
+}
+
+
+.footer-brand{
+
+    font-weight:800;
+
+    margin-bottom:9px;
+}
+
+
+.footer-brand span{
+    color:var(--purple);
+}
+
+
+footer p{
+
+    color:var(--muted);
+
+    font-size:13px;
+}
+
+
+.footer-links{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    margin-top:15px;
+}
+
+
+.footer-links a{
+
+    color:var(--purple);
+
+    text-decoration:none;
+
+    font-size:13px;
+
+    font-weight:700;
+}
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-nav{
+    display:none;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:850px){
+
+    .nav-links{
+        display:none;
+    }
+
+
+    .hero{
+        padding:25px 15px 15px;
+    }
+
+
+    .hero-box{
+
+        padding:38px 25px;
+
+        border-radius:24px;
+    }
+
+
+    .container{
+        padding:15px;
+    }
+
+
+    .day-grid{
+        grid-template-columns:1fr;
+    }
+
+
+    .shopping-list{
+        grid-template-columns:1fr;
+    }
+
+
+    .tip-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+
+    .planner-heading{
+        flex-direction:column;
+    }
+
+
+    .mobile-nav{
+
+        position:fixed;
+
+        display:flex;
+
+        left:0;
+        right:0;
+        bottom:0;
+
+        z-index:2000;
+
+        background:rgba(255,255,255,.96);
+
+        backdrop-filter:blur(16px);
+
+        border-top:1px solid var(--border);
+
+        padding:
+            8px 7px
+            calc(8px + env(safe-area-inset-bottom));
+
+        justify-content:space-around;
+    }
+
+
+    body.dark .mobile-nav{
+        background:rgba(25,25,36,.97);
+    }
+
+
+    .mobile-nav a{
+
+        flex:1;
+
+        max-width:90px;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+
+        gap:4px;
+
+        text-decoration:none;
+
+        color:var(--muted);
+
+        font-size:10px;
+
+        font-weight:700;
+    }
+
+
+    .mobile-nav a span:first-child{
+        font-size:20px;
+    }
+
+
+    .mobile-nav a.active{
+        color:var(--purple);
+    }
+
+}
+
+
+@media(max-width:500px){
+
+    .brand-name{
+        font-size:13px;
+    }
+
+
+    .brand-logo{
+
+        width:42px;
+
+        height:42px;
+    }
+
+
+    .hero h1{
+        font-size:35px;
+    }
+
+
+    .hero p{
+        font-size:15px;
+    }
+
+
+    .intro,
+    .planner-box,
+    .shopping-box,
+    .tips-box,
+    .tracker-box{
+
+        padding:23px;
+    }
+
+
+    .meal-row{
+
+        grid-template-columns:
+            70px 1fr 40px;
+    }
+
+
+    .add-meal-row,
+    .shopping-form{
+
+        flex-direction:column;
+    }
+
+
+    .add-btn,
+    .shopping-add{
+
+        min-height:44px;
+    }
+
+
+    .tip-grid{
+        grid-template-columns:1fr;
+    }
+
+
+    .buttons{
+        flex-direction:column;
+    }
+
+
+    .btn{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header>
+
+<div class="navbar">
+
+
+<a href="index.html" class="brand">
+
+<img
+    src="https://i.imgur.com/QzPFczP.png"
+    alt="Cooking Gas Tracker & Manager"
+    class="brand-logo"
+>
+
+<div class="brand-name">
+
+Cooking Gas<br>
+
+<span>Tracker & Manager</span>
+
+</div>
+
+</a>
+
+
+<nav class="nav-links">
+
+<a href="index.html">
+Home
+</a>
+
+<a href="tracker.html">
+Tracker
+</a>
+
+<a href="assistant.html">
+Assistant
+</a>
+
+<a href="guides.html">
+Guides
+</a>
+
+<a
+    href="more.html"
+    class="active"
+>
+More
+</a>
+
+</nav>
+
+
+<button
+    class="theme-btn"
+    id="themeBtn"
+    aria-label="Toggle dark mode"
+>
+🌙
+</button>
+
+
+</div>
+
+</header>
+
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+<div class="hero-box">
+
+<div class="hero-content">
+
+
+<div class="badge">
+
+🍽️ Meal Planner
+
+</div>
+
+
+<h1>
+
+Plan your meals.<br>
+
+Cook with a plan.
+
+</h1>
+
+
+<p>
+
+Organize your meals for the week, keep your shopping list
+together and get a clearer picture of your cooking routine.
+
+</p>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<section class="intro">
+
+<h2>
+Make your weekly cooking easier
+</h2>
+
+<p>
+
+Planning meals ahead can help you organize ingredients,
+reduce last-minute decisions and understand what your household
+will be cooking throughout the week.
+
+Your plan is saved in this browser so you can return to it
+later.
+
+</p>
+
+</section>
+
+
+
+<!-- =========================================================
+     MEAL PLANNER
+========================================================= -->
+
+<section class="planner-box">
+
+
+<div class="planner-heading">
+
+<div>
+
+<h2>
+📅 Weekly Meal Planner
+</h2>
+
+<p>
+Add meals to each day. Your plan is saved automatically.
+</p>
+
+</div>
+
+
+<button
+    class="clear-btn"
+    id="clearPlanner"
+>
+🗑️ Clear Plan
+</button>
+
+</div>
+
+
+<div
+    class="day-grid"
+    id="dayGrid"
+>
+</div>
+
+
+</section>
+
+
+
+<!-- =========================================================
+     SHOPPING LIST
+========================================================= -->
+
+<section class="shopping-box">
+
+<div class="section-title">
+
+<h2>
+🛒 Shopping List
+</h2>
+
+<p>
+Add ingredients or household items you need for your planned
+meals.
+</p>
+
+</div>
+
+
+<div class="shopping-form">
+
+<input
+    type="text"
+    id="shoppingInput"
+    class="shopping-input"
+    placeholder="e.g. Rice, tomatoes, onions..."
+    maxlength="80"
+>
+
+
+<button
+    class="shopping-add"
+    id="addShopping"
+>
++ Add Item
+</button>
+
+</div>
+
+
+<div
+    class="shopping-list"
+    id="shoppingList"
+>
+</div>
+
+
+</section>
+
+
+
+<!-- =========================================================
+     COOKING TIPS
+========================================================= -->
+
+<section class="tips-box">
+
+<div class="section-title">
+
+<h2>
+💡 Plan with your cooking routine in mind
+</h2>
+
+<p>
+A meal plan can also help you understand your normal cooking
+pattern and gas usage.
+</p>
+
+</div>
+
+
+<div class="tip-grid">
+
+
+<div class="tip-card">
+
+<div class="tip-icon">
+📅
+</div>
+
+<h3>
+Plan ahead
+</h3>
+
+<p>
+Knowing what you want to cook can make your cooking routine
+more organized.
+</p>
+
+</div>
+
+
+
+<div class="tip-card">
+
+<div class="tip-icon">
+🔥
+</div>
+
+<h3>
+Consider cooking time
+</h3>
+
+<p>
+Some meals take longer to prepare than others, which can affect
+your cooking routine.
+</p>
+
+</div>
+
+
+
+<div class="tip-card">
+
+<div class="tip-icon">
+🥘
+</div>
+
+<h3>
+Group similar meals
+</h3>
+
+<p>
+Planning related ingredients together can make shopping and
+meal preparation easier.
+</p>
+
+</div>
+
+
+
+<div class="tip-card">
+
+<div class="tip-icon">
+💰
+</div>
+
+<h3>
+Consider your budget
+</h3>
+
+<p>
+Choose meals and ingredients that fit your household's food
+and cooking budget.
+</p>
+
+</div>
+
+
+
+<div class="tip-card">
+
+<div class="tip-icon">
+🛒
+</div>
+
+<h3>
+Check your shopping list
+</h3>
+
+<p>
+Review what you already have before buying everything on your
+list.
+</p>
+
+</div>
+
+
+
+<div class="tip-card">
+
+<div class="tip-icon">
+📊
+</div>
+
+<h3>
+Learn your pattern
+</h3>
+
+<p>
+Over time, your meal plans can help you understand your normal
+cooking habits.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section class="tracker-box">
+
+<h2>
+Want to connect your meal planning with your gas routine?
+</h2>
+
+<p>
+
+Use the Cooking Gas Tracker to monitor your gas cycle, or ask
+the Cooking Gas Assistant for ideas and help with your cooking.
+
+</p>
+
+
+<div class="buttons">
+
+<a
+    href="tracker.html"
+    class="btn btn-primary"
+>
+🔥 Open Gas Tracker
+</a>
+
+
+<a
+    href="assistant.html"
+    class="btn btn-secondary"
+>
+🤖 Ask the Assistant
+</a>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+
+<div class="footer-brand">
+
+Cooking Gas
+<span>Tracker & Manager</span>
+
+</div>
+
+
+<p>
+Helping you track your gas usage, plan refills and cook smarter.
+</p>
+
+
+<div class="footer-links">
+
+<a
+    href="https://policies-privacy-8c085d.netlify.app/"
+    target="_blank"
+    rel="noopener"
+>
+Privacy Policy
+</a>
+
+
+<a
+    href="https://about-us-a9f8d5.netlify.app/"
+    target="_blank"
+    rel="noopener"
+>
+About Us
+</a>
+
+
+<a
+    href="https://terms-condition-36816f.netlify.app/"
+    target="_blank"
+    rel="noopener"
+>
+Terms & Conditions
+</a>
+
+</div>
+
+
+</footer>
+
+
+
+<!-- =========================================================
+     MOBILE NAV
+========================================================= -->
+
+<nav class="mobile-nav">
+
+
+<a href="index.html">
+
+<span>🏠</span>
+
+<span>Home</span>
+
+</a>
+
+
+<a href="tracker.html">
+
+<span>🔥</span>
+
+<span>Tracker</span>
+
+</a>
+
+
+<a href="assistant.html">
+
+<span>🤖</span>
+
+<span>Assistant</span>
+
+</a>
+
+
+<a href="guides.html">
+
+<span>📚</span>
+
+<span>Guides</span>
+
+</a>
+
+
+<a
+    href="more.html"
+    class="active"
+>
+
+<span>☰</span>
+
+<span>More</span>
+
+</a>
+
+
+</nav>
+
+
+
+<!-- =========================================================
+     SCRIPT
+========================================================= -->
+
+<script>
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+const themeBtn =
+    document.getElementById("themeBtn");
+
+
+const savedTheme =
+    localStorage.getItem("cgtTheme");
+
+
+if(savedTheme === "dark"){
+
+    document.body.classList.add("dark");
+
+    themeBtn.textContent = "☀️";
+
+}
+
+
+themeBtn.addEventListener("click",()=>{
+
+    document.body.classList.toggle("dark");
+
+
+    const isDark =
+        document.body.classList.contains("dark");
+
+
+    localStorage.setItem(
+        "cgtTheme",
+        isDark ? "dark" : "light"
+    );
+
+
+    themeBtn.textContent =
+        isDark ? "☀️" : "🌙";
+
+});
+
+
+/* =========================================================
+   MEAL PLANNER DATA
+========================================================= */
+
+const plannerKey =
+    "cgtMealPlanner";
+
+
+const defaultDays = [
+
+    {
+        id:"monday",
+        name:"Monday",
+        icon:"🌿"
+    },
+
+    {
+        id:"tuesday",
+        name:"Tuesday",
+        icon:"💙"
+    },
+
+    {
+        id:"wednesday",
+        name:"Wednesday",
+        icon:"🌱"
+    },
+
+    {
+        id:"thursday",
+        name:"Thursday",
+        icon:"☀️"
+    },
+
+    {
+        id:"friday",
+        name:"Friday",
+        icon:"✨"
+    },
+
+    {
+        id:"saturday",
+        name:"Saturday",
+        icon:"🍳"
+    },
+
+    {
+        id:"sunday",
+        name:"Sunday",
+        icon:"🌸"
+    }
+
+];
+
+
+let plannerData =
+    JSON.parse(
+        localStorage.getItem(plannerKey) || "{}"
+    );
+
+
+/* =========================================================
+   SHOPPING DATA
+========================================================= */
+
+const shoppingKey =
+    "cgtMealShoppingList";
+
+
+let shoppingData =
+    JSON.parse(
+        localStorage.getItem(shoppingKey) || "[]"
+    );
+
+
+/* =========================================================
+   SAVE PLANNER
+========================================================= */
+
+function savePlanner(){
+
+    localStorage.setItem(
+        plannerKey,
+        JSON.stringify(plannerData)
+    );
+
+}
+
+
+/* =========================================================
+   RENDER PLANNER
+========================================================= */
+
+function renderPlanner(){
+
+    const dayGrid =
+        document.getElementById("dayGrid");
+
+
+    dayGrid.innerHTML = "";
+
+
+    defaultDays.forEach(day => {
+
+        if(!plannerData[day.id]){
+
+            plannerData[day.id] = [];
+
+        }
+
+
+        const card =
+            document.createElement("article");
+
+
+        card.className =
+            "day-card";
+
+
+        card.innerHTML = `
+
+            <div class="day-header">
+
+                <div class="day-title">
+
+                    <div class="day-icon">
+                        ${day.icon}
+                    </div>
+
+                    <span>
+                        ${day.name}
+                    </span>
+
+                </div>
+
+                <span class="day-count">
+                    ${plannerData[day.id].length} meal(s)
+                </span>
+
+            </div>
+
+
+            <div class="meals">
+
+                <div
+                    class="meal-list"
+                    data-day="${day.id}"
+                >
+                </div>
+
+
+                <div class="add-meal-row">
+
+                    <input
+                        type="text"
+                        class="add-meal-input"
+                        placeholder="Add a meal..."
+                        maxlength="80"
+                    >
+
+                    <button
+                        class="add-btn"
+                        type="button"
+                    >
+                        Add
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        const mealList =
+            card.querySelector(".meal-list");
+
+
+        const addInput =
+            card.querySelector(".add-meal-input");
+
+
+        const addButton =
+            card.querySelector(".add-btn");
+
+
+        plannerData[day.id].forEach(
+            (meal,index) => {
+
+                createMealRow(
+                    mealList,
+                    day.id,
+                    meal,
+                    index
+                );
+
+            }
+        );
+
+
+        addButton.addEventListener(
+            "click",
+            () => {
+
+                addMeal(
+                    day.id,
+                    addInput.value
+                );
+
+                addInput.value = "";
+
+            }
+        );
+
+
+        addInput.addEventListener(
+            "keydown",
+            event => {
+
+                if(event.key === "Enter"){
+
+                    event.preventDefault();
+
+                    addMeal(
+                        day.id,
+                        addInput.value
+                    );
+
+                    addInput.value = "";
+
+                }
+
+            }
+        );
+
+
+        dayGrid.appendChild(card);
+
+    });
+
+
+    savePlanner();
+
+}
+
+
+/* =========================================================
+   CREATE MEAL ROW
+========================================================= */
+
+function createMealRow(
+    container,
+    dayId,
+    meal,
+    index
+){
+
+    const row =
+        document.createElement("div");
+
+
+    row.className =
+        "meal-row";
+
+
+    row.innerHTML = `
+
+        <span class="meal-label">
+            Meal ${index + 1}
+        </span>
+
+
+        <input
+            type="text"
+            class="meal-input"
+            value="${escapeHtml(meal)}"
+            maxlength="80"
+        >
+
+
+        <button
+            class="remove-meal"
+            type="button"
+            title="Remove meal"
+        >
+            ×
+        </button>
+
+    `;
+
+
+    const input =
+        row.querySelector(".meal-input");
+
+
+    const removeButton =
+        row.querySelector(".remove-meal");
+
+
+    input.addEventListener(
+        "input",
+        () => {
+
+            plannerData[dayId][index] =
+                input.value;
+
+            savePlanner();
+
+            updateDayCount(dayId);
+
+        }
+    );
+
+
+    removeButton.addEventListener(
+        "click",
+        () => {
+
+            plannerData[dayId].splice(
+                index,
+                1
+            );
+
+            savePlanner();
+
+            renderPlanner();
+
+        }
+    );
+
+
+    container.appendChild(row);
+
+}
+
+
+/* =========================================================
+   ADD MEAL
+========================================================= */
+
+function addMeal(
+    dayId,
+    meal
+){
+
+    const cleaned =
+        meal.trim();
+
+
+    if(!cleaned){
+
+        return;
+
+    }
+
+
+    if(!plannerData[dayId]){
+
+        plannerData[dayId] = [];
+
+    }
+
+
+    plannerData[dayId].push(
+        cleaned
+    );
+
+
+    savePlanner();
+
+    renderPlanner();
+
+}
+
+
+/* =========================================================
+   UPDATE DAY COUNT
+========================================================= */
+
+function updateDayCount(dayId){
+
+    const cards =
+        document.querySelectorAll(".day-card");
+
+
+    const dayIndex =
+        defaultDays.findIndex(
+            day => day.id === dayId
+        );
+
+
+    if(dayIndex === -1){
+        return;
+    }
+
+
+    const card =
+        cards[dayIndex];
+
+
+    if(!card){
+        return;
+    }
+
+
+    const count =
+        card.querySelector(".day-count");
+
+
+    if(count){
+
+        count.textContent =
+            `${plannerData[dayId].length} meal(s)`;
+
+    }
+
+}
+
+
+/* =========================================================
+   CLEAR PLANNER
+========================================================= */
+
+document
+    .getElementById("clearPlanner")
+    .addEventListener(
+        "click",
+        () => {
+
+            const confirmed =
+                confirm(
+                    "Clear your entire weekly meal plan?"
+                );
+
+
+            if(!confirmed){
+                return;
+            }
+
+
+            plannerData = {};
+
+
+            savePlanner();
+
+            renderPlanner();
+
+        }
+    );
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+    return String(value)
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   SAVE SHOPPING LIST
+========================================================= */
+
+function saveShopping(){
+
+    localStorage.setItem(
+        shoppingKey,
+        JSON.stringify(shoppingData)
+    );
+
+}
+
+
+/* =========================================================
+   RENDER SHOPPING LIST
+========================================================= */
+
+function renderShopping(){
+
+    const list =
+        document.getElementById("shoppingList");
+
+
+    list.innerHTML = "";
+
+
+    if(shoppingData.length === 0){
+
+        list.innerHTML = `
+
+            <div
+                style="
+                    grid-column:1/-1;
+                    padding:18px;
+                    border-radius:14px;
+                    background:rgba(255,255,255,.45);
+                    color:var(--muted);
+                    text-align:center;
+                    font-size:13px;
+                "
+            >
+                Your shopping list is empty.
+                Add ingredients above.
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    shoppingData.forEach(
+        (item,index) => {
+
+            const row =
+                document.createElement("div");
+
+
+            row.className =
+                "shopping-item";
+
+
+            if(item.checked){
+
+                row.classList.add(
+                    "checked"
+                );
+
+            }
+
+
+            row.innerHTML = `
+
+                <input
+                    type="checkbox"
+                    ${item.checked ? "checked" : ""}
+                >
+
+                <span>
+                    ${escapeHtml(item.name)}
+                </span>
+
+                <button
+                    class="delete-shopping"
+                    type="button"
+                    title="Delete item"
+                >
+                    ×
+                </button>
+
+            `;
+
+
+            const checkbox =
+                row.querySelector(
+                    'input[type="checkbox"]'
+                );
+
+
+            const deleteButton =
+                row.querySelector(
+                    ".delete-shopping"
+                );
+
+
+            checkbox.addEventListener(
+                "change",
+                () => {
+
+                    shoppingData[index].checked =
+                        checkbox.checked;
+
+                    saveShopping();
+
+                    renderShopping();
+
+                }
+            );
+
+
+            deleteButton.addEventListener(
+                "click",
+                () => {
+
+                    shoppingData.splice(
+                        index,
+                        1
+                    );
+
+                    saveShopping();
+
+                    renderShopping();
+
+                }
+            );
+
+
+            list.appendChild(row);
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ADD SHOPPING ITEM
+========================================================= */
+
+function addShoppingItem(){
+
+    const input =
+        document.getElementById(
+            "shoppingInput"
+        );
+
+
+    const value =
+        input.value.trim();
+
+
+    if(!value){
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    shoppingData.push({
+
+        name:value,
+
+        checked:false
+
+    });
+
+
+    saveShopping();
+
+    renderShopping();
+
+    input.value = "";
+
+    input.focus();
+
+}
+
+
+/* =========================================================
+   SHOPPING BUTTON
+========================================================= */
+
+document
+    .getElementById("addShopping")
+    .addEventListener(
+        "click",
+        addShoppingItem
+    );
+
+
+document
+    .getElementById("shoppingInput")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if(event.key === "Enter"){
+
+                event.preventDefault();
+
+                addShoppingItem();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   INITIAL RENDER
+========================================================= */
+
+renderPlanner();
+
+renderShopping();
+
+</script>
+
+
+</body>
+</html>
