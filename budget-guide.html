@@ -1,0 +1,2646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gas & Budget Tips | Cooking Gas Tracker & Manager</title>
+
+<meta
+    name="description"
+    content="Learn practical ways to plan your cooking gas budget, prepare for refills and understand how cooking habits can affect your household gas expenses."
+>
+
+<link rel="stylesheet" href="style.css">
+
+
+<style>
+
+/* =========================================================
+   GAS & BUDGET TIPS
+   SAME DESIGN SYSTEM AS THE OTHER GUIDE PAGES
+========================================================= */
+
+:root{
+
+    --purple:#6d28d9;
+    --purple2:#7c3aed;
+    --purple3:#8b5cf6;
+
+    --green:#16a34a;
+    --green-light:#f0fdf4;
+
+    --orange:#ea580c;
+    --orange-light:#fff7ed;
+
+    --blue:#2563eb;
+    --blue-light:#eff6ff;
+
+    --yellow:#ca8a04;
+    --yellow-light:#fefce8;
+
+    --red:#dc2626;
+    --red-light:#fef2f2;
+
+    --cyan:#0891b2;
+    --cyan-light:#ecfeff;
+
+    --pink:#db2777;
+    --pink-light:#fdf2f8;
+
+    --bg:#f7f7fb;
+    --card:#ffffff;
+    --text:#171717;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+
+    --shadow:0 10px 28px rgba(0,0,0,.07);
+}
+
+
+body.dark{
+
+    --bg:#11111a;
+    --card:#1b1b28;
+    --text:#f5f5f5;
+    --muted:#aaaab8;
+    --border:#30303d;
+
+    --green-light:#12301d;
+    --orange-light:#321e12;
+    --blue-light:#172642;
+    --yellow-light:#332b12;
+    --red-light:#351717;
+    --cyan-light:#10363c;
+    --pink-light:#351827;
+
+    --shadow:0 12px 30px rgba(0,0,0,.28);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+    padding-bottom:80px;
+    transition:.3s ease;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header{
+
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    background:rgba(255,255,255,.94);
+
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid var(--border);
+}
+
+body.dark header{
+    background:rgba(17,17,26,.94);
+}
+
+
+.navbar{
+
+    max-width:1180px;
+    margin:auto;
+
+    min-height:72px;
+
+    padding:11px 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:20px;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand{
+
+    display:flex;
+    align-items:center;
+
+    gap:11px;
+
+    text-decoration:none;
+
+    color:var(--text);
+
+    font-weight:800;
+}
+
+
+.brand-logo{
+
+    width:46px;
+    height:46px;
+
+    object-fit:cover;
+
+    border-radius:12px;
+
+    box-shadow:
+        0 5px 15px rgba(109,40,217,.2);
+}
+
+
+.brand-name{
+
+    font-size:15px;
+    line-height:1.1;
+}
+
+
+.brand-name span{
+    color:var(--purple);
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.nav-links{
+
+    display:flex;
+    align-items:center;
+
+    gap:6px;
+}
+
+
+.nav-links a{
+
+    text-decoration:none;
+
+    color:var(--muted);
+
+    padding:10px 13px;
+
+    border-radius:10px;
+
+    font-size:14px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+
+.nav-links a:hover,
+.nav-links a.active{
+
+    background:#ede9fe;
+    color:var(--purple);
+}
+
+
+body.dark .nav-links a:hover,
+body.dark .nav-links a.active{
+
+    background:#2b2144;
+    color:#c4b5fd;
+}
+
+
+/* =========================================================
+   THEME BUTTON
+========================================================= */
+
+.theme-btn{
+
+    width:40px;
+    height:40px;
+
+    border:0;
+    border-radius:50%;
+
+    background:#f1f1f5;
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-size:18px;
+}
+
+
+body.dark .theme-btn{
+    background:#292936;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+
+    max-width:1180px;
+
+    margin:auto;
+
+    padding:55px 20px 25px;
+}
+
+
+.hero-box{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:48px 40px;
+
+    border-radius:30px;
+
+    background:
+
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(34,211,238,.24),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(250,204,21,.20),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 55% 105%,
+            rgba(22,163,74,.18),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            135deg,
+            #312e81,
+            #6d28d9 52%,
+            #7c3aed
+        );
+
+    color:white;
+
+    box-shadow:
+        0 20px 50px rgba(76,29,149,.24);
+}
+
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:800px;
+}
+
+
+/* IMPORTANT:
+   Page-specific badge styling prevents the global
+   .badge rule from hiding the text.
+*/
+
+.hero .badge{
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:7px;
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.16);
+
+    border:1px solid rgba(255,255,255,.35);
+
+    color:#ffffff !important;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    margin-bottom:18px;
+
+    text-decoration:none;
+
+    opacity:1 !important;
+}
+
+
+.hero .badge *{
+    color:#ffffff !important;
+}
+
+
+.hero h1{
+
+    font-size:clamp(34px,5vw,54px);
+
+    line-height:1.05;
+
+    margin-bottom:18px;
+}
+
+
+.hero p{
+
+    color:rgba(255,255,255,.91);
+
+    font-size:17px;
+
+    max-width:720px;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.container{
+
+    max-width:1180px;
+
+    margin:auto;
+
+    padding:20px;
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.intro{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:25px;
+}
+
+
+.intro h2{
+    margin-bottom:9px;
+}
+
+
+.intro p{
+    color:var(--muted);
+}
+
+
+/* =========================================================
+   BUDGET BASICS
+========================================================= */
+
+.budget-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:20px;
+}
+
+
+.budget-card{
+
+    position:relative;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:25px;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+}
+
+
+.budget-card:hover{
+
+    transform:translateY(-4px);
+}
+
+
+.budget-number{
+
+    position:absolute;
+
+    top:18px;
+    right:18px;
+
+    width:34px;
+    height:34px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#ede9fe;
+
+    color:var(--purple);
+
+    font-size:13px;
+
+    font-weight:900;
+}
+
+
+.budget-icon{
+
+    width:58px;
+    height:58px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:17px;
+
+    font-size:27px;
+
+    margin-bottom:17px;
+}
+
+
+.budget-card h2{
+
+    font-size:20px;
+
+    margin-bottom:8px;
+}
+
+
+.budget-card p{
+
+    color:var(--muted);
+}
+
+
+/* CARD COLORS */
+
+.budget-card.purple .budget-icon{
+    background:#ede9fe;
+}
+
+.budget-card.green .budget-icon{
+    background:var(--green-light);
+}
+
+.budget-card.blue .budget-icon{
+    background:var(--blue-light);
+}
+
+.budget-card.orange .budget-icon{
+    background:var(--orange-light);
+}
+
+.budget-card.yellow .budget-icon{
+    background:var(--yellow-light);
+}
+
+.budget-card.cyan .budget-icon{
+    background:var(--cyan-light);
+}
+
+.budget-card.pink .budget-icon{
+    background:var(--pink-light);
+}
+
+.budget-card.red .budget-icon{
+    background:var(--red-light);
+}
+
+
+/* =========================================================
+   BUDGET PLANNING
+========================================================= */
+
+.planning-box{
+
+    margin-top:25px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+}
+
+
+.section-title{
+
+    margin-bottom:20px;
+}
+
+
+.section-title h2{
+
+    font-size:25px;
+
+    margin-bottom:6px;
+}
+
+
+.section-title p{
+
+    color:var(--muted);
+}
+
+
+.planning-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:13px;
+}
+
+
+.planning-item{
+
+    padding:20px 15px;
+
+    text-align:center;
+
+    background:var(--bg);
+
+    border:1px solid var(--border);
+
+    border-radius:17px;
+}
+
+
+.planning-icon{
+
+    width:50px;
+    height:50px;
+
+    margin:0 auto 12px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:15px;
+
+    font-size:22px;
+}
+
+
+.planning-item:nth-child(1)
+.planning-icon{
+    background:#ede9fe;
+}
+
+.planning-item:nth-child(2)
+.planning-icon{
+    background:var(--green-light);
+}
+
+.planning-item:nth-child(3)
+.planning-icon{
+    background:var(--orange-light);
+}
+
+.planning-item:nth-child(4)
+.planning-icon{
+    background:var(--blue-light);
+}
+
+
+.planning-item h3{
+
+    font-size:15px;
+
+    margin-bottom:5px;
+}
+
+
+.planning-item p{
+
+    color:var(--muted);
+
+    font-size:12px;
+}
+
+
+/* =========================================================
+   REFILL PLANNING
+========================================================= */
+
+.refill-box{
+
+    margin-top:25px;
+
+    padding:30px;
+
+    border-radius:24px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--green-light),
+            var(--blue-light)
+        );
+
+    border:1px solid #bfdbfe;
+}
+
+
+body.dark .refill-box{
+    border-color:#29455d;
+}
+
+
+.refill-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:13px;
+}
+
+
+.refill-item{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:12px;
+
+    padding:17px;
+
+    background:rgba(255,255,255,.62);
+
+    border:1px solid rgba(37,99,235,.10);
+
+    border-radius:15px;
+}
+
+
+body.dark .refill-item{
+    background:rgba(0,0,0,.15);
+}
+
+
+.refill-mark{
+
+    width:34px;
+    height:34px;
+
+    flex:0 0 34px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+    font-weight:900;
+}
+
+
+body.dark .refill-mark{
+
+    background:#12301d;
+
+    color:#86efac;
+}
+
+
+.refill-item h3{
+
+    font-size:14px;
+
+    margin-bottom:3px;
+}
+
+
+.refill-item p{
+
+    color:var(--muted);
+
+    font-size:13px;
+}
+
+
+/* =========================================================
+   COST AWARENESS
+========================================================= */
+
+.cost-box{
+
+    margin-top:25px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+}
+
+
+.cost-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:13px;
+}
+
+
+.cost-card{
+
+    padding:20px;
+
+    border-radius:17px;
+
+    background:var(--bg);
+
+    border:1px solid var(--border);
+}
+
+
+.cost-icon{
+
+    font-size:25px;
+
+    margin-bottom:9px;
+}
+
+
+.cost-card h3{
+
+    font-size:15px;
+
+    margin-bottom:5px;
+}
+
+
+.cost-card p{
+
+    color:var(--muted);
+
+    font-size:13px;
+}
+
+
+/* =========================================================
+   SMART BUDGET HABITS
+========================================================= */
+
+.smart-box{
+
+    margin-top:25px;
+
+    padding:30px;
+
+    border-radius:24px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #f5f3ff,
+            #fff7ed
+        );
+
+    border:1px solid #ddd6fe;
+}
+
+
+body.dark .smart-box{
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #251d3a,
+            #321e12
+        );
+
+    border-color:#4a3658;
+}
+
+
+.smart-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:13px;
+}
+
+
+.smart-item{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:12px;
+
+    padding:17px;
+
+    background:rgba(255,255,255,.62);
+
+    border:1px solid rgba(109,40,217,.10);
+
+    border-radius:15px;
+}
+
+
+body.dark .smart-item{
+    background:rgba(0,0,0,.15);
+}
+
+
+.smart-mark{
+
+    width:34px;
+    height:34px;
+
+    flex:0 0 34px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    background:#ede9fe;
+
+    color:var(--purple);
+
+    font-weight:900;
+}
+
+
+.smart-item h3{
+
+    font-size:14px;
+
+    margin-bottom:3px;
+}
+
+
+.smart-item p{
+
+    color:var(--muted);
+
+    font-size:13px;
+}
+
+
+/* =========================================================
+   IMPORTANT REMINDER
+========================================================= */
+
+.reminder{
+
+    margin-top:25px;
+
+    padding:30px;
+
+    border-radius:24px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--yellow-light),
+            var(--orange-light)
+        );
+
+    border:1px solid #fed7aa;
+}
+
+
+body.dark .reminder{
+    border-color:#5a3823;
+}
+
+
+.reminder h2{
+    margin-bottom:8px;
+}
+
+
+.reminder > p{
+
+    color:var(--muted);
+
+    margin-bottom:20px;
+}
+
+
+.reminder-list{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:13px;
+}
+
+
+.reminder-item{
+
+    background:rgba(255,255,255,.58);
+
+    padding:17px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(234,88,12,.12);
+}
+
+
+body.dark .reminder-item{
+    background:rgba(0,0,0,.15);
+}
+
+
+.reminder-item strong{
+
+    display:block;
+
+    margin-bottom:4px;
+}
+
+
+.reminder-item span{
+
+    color:var(--muted);
+
+    font-size:13px;
+}
+
+
+/* =========================================================
+   SAFETY
+========================================================= */
+
+.safety-note{
+
+    margin-top:25px;
+
+    padding:28px;
+
+    border-radius:24px;
+
+    background:var(--red-light);
+
+    border:1px solid #fecaca;
+}
+
+
+body.dark .safety-note{
+    border-color:#572525;
+}
+
+
+.safety-note h2{
+    margin-bottom:7px;
+}
+
+
+.safety-note p{
+    color:var(--muted);
+}
+
+
+/* =========================================================
+   TRACKER CTA
+========================================================= */
+
+.tracker-box{
+
+    margin-top:25px;
+
+    padding:32px;
+
+    border-radius:25px;
+
+    background:
+
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(22,163,74,.13),
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #f5f3ff,
+            #f0fdf4
+        );
+
+    border:1px solid #ddd6fe;
+}
+
+
+body.dark .tracker-box{
+
+    background:
+
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(22,163,74,.14),
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #251d3a,
+            #12301d
+        );
+
+    border-color:#3b3157;
+}
+
+
+.tracker-box h2{
+    margin-bottom:8px;
+}
+
+
+.tracker-box p{
+
+    color:var(--muted);
+
+    max-width:760px;
+}
+
+
+.buttons{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin-top:20px;
+}
+
+
+.btn{
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:13px 20px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    transition:.2s;
+}
+
+
+.btn-primary{
+
+    color:white;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--purple),
+            var(--purple2)
+        );
+
+    box-shadow:
+        0 8px 20px rgba(109,40,217,.24);
+}
+
+
+.btn-secondary{
+
+    color:var(--purple);
+
+    background:var(--card);
+
+    border:1px solid #c4b5fd;
+}
+
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    max-width:1180px;
+
+    margin:55px auto 0;
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    border-top:1px solid var(--border);
+}
+
+
+.footer-brand{
+
+    font-weight:800;
+
+    margin-bottom:9px;
+}
+
+
+.footer-brand span{
+    color:var(--purple);
+}
+
+
+footer p{
+
+    color:var(--muted);
+
+    font-size:13px;
+}
+
+
+.footer-links{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    margin-top:15px;
+}
+
+
+.footer-links a{
+
+    color:var(--purple);
+
+    text-decoration:none;
+
+    font-size:13px;
+
+    font-weight:700;
+}
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-nav{
+    display:none;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:850px){
+
+    .nav-links{
+        display:none;
+    }
+
+
+    .hero{
+        padding:25px 15px 15px;
+    }
+
+
+    .hero-box{
+
+        padding:38px 25px;
+
+        border-radius:24px;
+    }
+
+
+    .container{
+        padding:15px;
+    }
+
+
+    .budget-grid{
+        grid-template-columns:1fr;
+    }
+
+
+    .planning-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+
+    .refill-grid{
+        grid-template-columns:1fr;
+    }
+
+
+    .cost-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+
+    .smart-grid{
+        grid-template-columns:1fr;
+    }
+
+
+    .reminder-list{
+        grid-template-columns:1fr;
+    }
+
+
+    .mobile-nav{
+
+        position:fixed;
+
+        display:flex;
+
+        left:0;
+        right:0;
+        bottom:0;
+
+        z-index:2000;
+
+        background:rgba(255,255,255,.96);
+
+        backdrop-filter:blur(16px);
+
+        border-top:1px solid var(--border);
+
+        padding:
+            8px 7px
+            calc(8px + env(safe-area-inset-bottom));
+
+        justify-content:space-around;
+    }
+
+
+    body.dark .mobile-nav{
+        background:rgba(25,25,36,.97);
+    }
+
+
+    .mobile-nav a{
+
+        flex:1;
+
+        max-width:90px;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+
+        gap:4px;
+
+        text-decoration:none;
+
+        color:var(--muted);
+
+        font-size:10px;
+
+        font-weight:700;
+    }
+
+
+    .mobile-nav a span:first-child{
+        font-size:20px;
+    }
+
+
+    .mobile-nav a.active{
+        color:var(--purple);
+    }
+
+}
+
+
+@media(max-width:500px){
+
+    .brand-name{
+        font-size:13px;
+    }
+
+
+    .brand-logo{
+
+        width:42px;
+        height:42px;
+    }
+
+
+    .hero h1{
+        font-size:35px;
+    }
+
+
+    .hero p{
+        font-size:15px;
+    }
+
+
+    .intro,
+    .planning-box,
+    .refill-box,
+    .cost-box,
+    .smart-box,
+    .reminder,
+    .safety-note,
+    .tracker-box{
+
+        padding:23px;
+    }
+
+
+    .planning-grid{
+        grid-template-columns:1fr;
+    }
+
+
+    .cost-grid{
+        grid-template-columns:1fr;
+    }
+
+
+    .buttons{
+        flex-direction:column;
+    }
+
+
+    .btn{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header>
+
+<div class="navbar">
+
+
+<a href="index.html" class="brand">
+
+<img
+    src="https://i.imgur.com/QzPFczP.png"
+    alt="Cooking Gas Tracker & Manager"
+    class="brand-logo"
+>
+
+<div class="brand-name">
+
+Cooking Gas<br>
+
+<span>Tracker & Manager</span>
+
+</div>
+
+</a>
+
+
+<nav class="nav-links">
+
+<a href="index.html">
+Home
+</a>
+
+<a href="tracker.html">
+Tracker
+</a>
+
+<a href="assistant.html">
+Assistant
+</a>
+
+<a
+    href="guides.html"
+    class="active"
+>
+Guides
+</a>
+
+<a href="more.html">
+More
+</a>
+
+</nav>
+
+
+<button
+    class="theme-btn"
+    id="themeBtn"
+    aria-label="Toggle dark mode"
+>
+🌙
+</button>
+
+
+</div>
+
+</header>
+
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+<div class="hero-box">
+
+<div class="hero-content">
+
+
+<div class="badge">
+
+💰 Gas & Budget Tips
+
+</div>
+
+
+<h1>
+
+Plan your gas.<br>
+
+Manage your budget.
+
+</h1>
+
+
+<p>
+
+Understand your cooking gas spending, prepare for refills
+and build a more organized household gas budget without
+guessing every time you need to buy gas.
+
+</p>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<section class="intro">
+
+<h2>
+Make your gas budget easier to manage
+</h2>
+
+<p>
+
+Cooking gas is part of the regular household cooking expense
+for many families. Planning ahead can make it easier to prepare
+for your next refill and understand how your cooking habits
+affect your spending.
+
+</p>
+
+</section>
+
+
+
+<!-- =========================================================
+     BUDGET BASICS
+========================================================= -->
+
+<section class="budget-grid">
+
+
+<article class="budget-card purple">
+
+<div class="budget-number">
+01
+</div>
+
+<div class="budget-icon">
+💰
+</div>
+
+<h2>
+Know your normal spending
+</h2>
+
+<p>
+
+Keep track of what you normally spend when refilling your
+cooking gas. Your own refill history can become a useful
+reference for future planning.
+
+</p>
+
+</article>
+
+
+
+<article class="budget-card green">
+
+<div class="budget-number">
+02
+</div>
+
+<div class="budget-icon">
+📊
+</div>
+
+<h2>
+Track your refill pattern
+</h2>
+
+<p>
+
+Pay attention to how often you normally need to refill.
+Knowing your refill pattern can help you plan your household
+budget more realistically.
+
+</p>
+
+</article>
+
+
+
+<article class="budget-card blue">
+
+<div class="budget-number">
+03
+</div>
+
+<div class="budget-icon">
+📅
+</div>
+
+<h2>
+Plan before refill day
+</h2>
+
+<p>
+
+Avoid waiting until the last moment before thinking about your
+next refill. Your expected consumption date can help you prepare
+ahead of time.
+
+</p>
+
+</article>
+
+
+
+<article class="budget-card orange">
+
+<div class="budget-number">
+04
+</div>
+
+<div class="budget-icon">
+🛒
+</div>
+
+<h2>
+Prepare for changing prices
+</h2>
+
+<p>
+
+Gas refill prices can change over time and may also differ
+between locations and suppliers. Keep your budget flexible
+rather than assuming the price will always stay the same.
+
+</p>
+
+</article>
+
+
+
+<article class="budget-card yellow">
+
+<div class="budget-number">
+05
+</div>
+
+<div class="budget-icon">
+🍳
+</div>
+
+<h2>
+Understand your cooking habits
+</h2>
+
+<p>
+
+The number of meals you prepare, cooking time and household
+routine can affect how frequently you use your cooking gas.
+
+</p>
+
+</article>
+
+
+
+<article class="budget-card cyan">
+
+<div class="budget-number">
+06
+</div>
+
+<div class="budget-icon">
+🧾
+</div>
+
+<h2>
+Keep useful records
+</h2>
+
+<p>
+
+Recording your refill dates and spending can help you see
+patterns that may not be obvious when you rely only on memory.
+
+</p>
+
+</article>
+
+
+
+<article class="budget-card pink">
+
+<div class="budget-number">
+07
+</div>
+
+<div class="budget-icon">
+🎯
+</div>
+
+<h2>
+Set a realistic gas goal
+</h2>
+
+<p>
+
+Your goal could be better planning, understanding your usage,
+reducing unnecessary cooking time or simply avoiding unexpected
+refill situations.
+
+</p>
+
+</article>
+
+
+
+<article class="budget-card red">
+
+<div class="budget-number">
+08
+</div>
+
+<div class="budget-icon">
+🔔
+</div>
+
+<h2>
+Use reminders
+</h2>
+
+<p>
+
+Timely reminders can give you an opportunity to prepare for
+your next refill instead of discovering too late that you
+need gas.
+
+</p>
+
+</article>
+
+
+</section>
+
+
+
+<!-- =========================================================
+     BUDGET PLANNING
+========================================================= -->
+
+<section class="planning-box">
+
+<div class="section-title">
+
+<h2>
+Build a simple gas budget plan
+</h2>
+
+<p>
+
+You do not need a complicated financial system. Start by
+understanding four simple parts of your normal refill routine.
+
+</p>
+
+</div>
+
+
+<div class="planning-grid">
+
+
+<div class="planning-item">
+
+<div class="planning-icon">
+💵
+</div>
+
+<h3>
+Refill cost
+</h3>
+
+<p>
+How much do you normally spend on a refill?
+</p>
+
+</div>
+
+
+
+<div class="planning-item">
+
+<div class="planning-icon">
+📆
+</div>
+
+<h3>
+Refill frequency
+</h3>
+
+<p>
+How often do you normally need another refill?
+</p>
+
+</div>
+
+
+
+<div class="planning-item">
+
+<div class="planning-icon">
+🔥
+</div>
+
+<h3>
+Cooking usage
+</h3>
+
+<p>
+How does your household normally use gas?
+</p>
+
+</div>
+
+
+
+<div class="planning-item">
+
+<div class="planning-icon">
+🎯
+</div>
+
+<h3>
+Budget goal
+</h3>
+
+<p>
+What do you want your gas budget to help you achieve?
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     REFILL PREPARATION
+========================================================= -->
+
+<section class="refill-box">
+
+<div class="section-title">
+
+<h2>
+Prepare for your next refill
+</h2>
+
+<p>
+
+A little preparation can make refill day less stressful.
+
+</p>
+
+</div>
+
+
+<div class="refill-grid">
+
+
+<div class="refill-item">
+
+<div class="refill-mark">
+✓
+</div>
+
+<div>
+
+<h3>
+Know your expected date
+</h3>
+
+<p>
+Keep your expected consumption date updated so you know when
+your next refill may be approaching.
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="refill-item">
+
+<div class="refill-mark">
+✓
+</div>
+
+<div>
+
+<h3>
+Set aside a refill budget
+</h3>
+
+<p>
+Where practical, prepare part of your household budget for
+the next expected refill.
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="refill-item">
+
+<div class="refill-mark">
+✓
+</div>
+
+<div>
+
+<h3>
+Check your recent refill cost
+</h3>
+
+<p>
+Use your previous refill information as a reference while
+remembering that prices can change.
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="refill-item">
+
+<div class="refill-mark">
+✓
+</div>
+
+<div>
+
+<h3>
+Avoid emergency planning
+</h3>
+
+<p>
+Preparing early can give you more time to arrange your refill
+before your supply becomes a problem.
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     COST AWARENESS
+========================================================= -->
+
+<section class="cost-box">
+
+<div class="section-title">
+
+<h2>
+What can affect your gas expenses?
+</h2>
+
+<p>
+
+Your gas spending can change from one period to another for
+several reasons.
+
+</p>
+
+</div>
+
+
+<div class="cost-grid">
+
+
+<div class="cost-card">
+
+<div class="cost-icon">
+👨‍👩‍👧‍👦
+</div>
+
+<h3>
+Household size
+</h3>
+
+<p>
+More people being cooked for can change the quantity and
+frequency of meals prepared.
+</p>
+
+</div>
+
+
+
+<div class="cost-card">
+
+<div class="cost-icon">
+🍽️
+</div>
+
+<h3>
+Meals prepared
+</h3>
+
+<p>
+Changes in how many meals you prepare can affect cooking
+frequency.
+</p>
+
+</div>
+
+
+
+<div class="cost-card">
+
+<div class="cost-icon">
+⏱️
+</div>
+
+<h3>
+Cooking duration
+</h3>
+
+<p>
+Longer cooking sessions can change how much gas is used over
+time.
+</p>
+
+</div>
+
+
+
+<div class="cost-card">
+
+<div class="cost-icon">
+🥘
+</div>
+
+<h3>
+Food choices
+</h3>
+
+<p>
+Different foods can require different preparation and cooking
+times.
+</p>
+
+</div>
+
+
+
+<div class="cost-card">
+
+<div class="cost-icon">
+🔥
+</div>
+
+<h3>
+Cooking habits
+</h3>
+
+<p>
+Flame level, cookware and everyday cooking habits can affect
+usage.
+</p>
+
+</div>
+
+
+
+<div class="cost-card">
+
+<div class="cost-icon">
+🛒
+</div>
+
+<h3>
+Refill price
+</h3>
+
+<p>
+The price you pay for gas may change depending on location,
+supplier and market conditions.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SMART BUDGET HABITS
+========================================================= -->
+
+<section class="smart-box">
+
+<div class="section-title">
+
+<h2>
+Smart gas budget habits
+</h2>
+
+<p>
+
+Simple habits can help you become more aware of where your gas
+budget is going.
+
+</p>
+
+</div>
+
+
+<div class="smart-grid">
+
+
+<div class="smart-item">
+
+<div class="smart-mark">
+1
+</div>
+
+<div>
+
+<h3>
+Record your refill information
+</h3>
+
+<p>
+Keep track of dates, amounts and other useful refill details.
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="smart-item">
+
+<div class="smart-mark">
+2
+</div>
+
+<div>
+
+<h3>
+Compare your own history
+</h3>
+
+<p>
+Look at your previous cycles instead of relying only on
+general assumptions.
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="smart-item">
+
+<div class="smart-mark">
+3
+</div>
+
+<div>
+
+<h3>
+Plan around your household routine
+</h3>
+
+<p>
+Consider your normal cooking schedule when planning your gas
+budget.
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="smart-item">
+
+<div class="smart-mark">
+4
+</div>
+
+<div>
+
+<h3>
+Leave room for changes
+</h3>
+
+<p>
+Your actual usage and refill price may not be exactly the same
+every cycle.
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     REMINDER
+========================================================= -->
+
+<section class="reminder">
+
+<h2>
+💡 Keep this in mind
+</h2>
+
+<p>
+
+A gas budget is a planning tool. It should help you prepare,
+not create pressure when your actual household usage changes.
+
+</p>
+
+
+<div class="reminder-list">
+
+
+<div class="reminder-item">
+
+<strong>
+Plan ahead
+</strong>
+
+<span>
+Preparing before refill day can make your household routine
+easier to manage.
+</span>
+
+</div>
+
+
+
+<div class="reminder-item">
+
+<strong>
+Use your own records
+</strong>
+
+<span>
+Your refill history can become more useful than a general
+estimate.
+</span>
+
+</div>
+
+
+
+<div class="reminder-item">
+
+<strong>
+Stay flexible
+</strong>
+
+<span>
+Cooking needs, gas usage and refill prices can change from
+cycle to cycle.
+</span>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SAFETY
+========================================================= -->
+
+<section class="safety-note">
+
+<h2>
+🚨 Budget should never come before safety
+</h2>
+
+<p>
+
+Do not ignore gas leaks, damaged equipment or other safety
+problems simply to avoid an expense. Cooking gas safety should
+always come first. If you notice a serious safety issue,
+move away from the danger area and seek appropriate qualified
+help.
+
+</p>
+
+</section>
+
+
+
+<!-- =========================================================
+     TRACKER CTA
+========================================================= -->
+
+<section class="tracker-box">
+
+<h2>
+Start planning your gas better
+</h2>
+
+<p>
+
+Use the Cooking Gas Tracker to keep your refill information
+organized and receive reminders as your expected consumption
+date approaches. You can also use the Cooking Gas Assistant
+for help with cooking and gas-related questions.
+
+</p>
+
+
+<div class="buttons">
+
+<a
+    href="tracker.html"
+    class="btn btn-primary"
+>
+🔥 Start Tracking
+</a>
+
+
+<a
+    href="assistant.html"
+    class="btn btn-secondary"
+>
+🤖 Ask the Assistant
+</a>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+
+<div class="footer-brand">
+
+Cooking Gas
+<span>Tracker & Manager</span>
+
+</div>
+
+
+<p>
+Helping you track your gas usage, plan refills and cook smarter.
+</p>
+
+
+<div class="footer-links">
+
+<a
+    href="https://policies-privacy-8c085d.netlify.app/"
+    target="_blank"
+    rel="noopener"
+>
+Privacy Policy
+</a>
+
+
+<a
+    href="https://about-us-a9f8d5.netlify.app/"
+    target="_blank"
+    rel="noopener"
+>
+About Us
+</a>
+
+
+<a
+    href="https://terms-condition-36816f.netlify.app/"
+    target="_blank"
+    rel="noopener"
+>
+Terms & Conditions
+</a>
+
+</div>
+
+
+</footer>
+
+
+
+<!-- =========================================================
+     MOBILE NAV
+========================================================= -->
+
+<nav class="mobile-nav">
+
+
+<a href="index.html">
+
+<span>🏠</span>
+
+<span>Home</span>
+
+</a>
+
+
+<a href="tracker.html">
+
+<span>🔥</span>
+
+<span>Tracker</span>
+
+</a>
+
+
+<a href="assistant.html">
+
+<span>🤖</span>
+
+<span>Assistant</span>
+
+</a>
+
+
+<a
+    href="guides.html"
+    class="active"
+>
+
+<span>📚</span>
+
+<span>Guides</span>
+
+</a>
+
+
+<a href="more.html">
+
+<span>☰</span>
+
+<span>More</span>
+
+</a>
+
+
+</nav>
+
+
+
+<!-- =========================================================
+     SCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+const themeBtn =
+    document.getElementById("themeBtn");
+
+
+const savedTheme =
+    localStorage.getItem("cgtTheme");
+
+
+if(savedTheme === "dark"){
+
+    document.body.classList.add("dark");
+
+    themeBtn.textContent = "☀️";
+
+}
+
+
+themeBtn.addEventListener("click",()=>{
+
+    document.body.classList.toggle("dark");
+
+
+    const isDark =
+        document.body.classList.contains("dark");
+
+
+    localStorage.setItem(
+        "cgtTheme",
+        isDark ? "dark" : "light"
+    );
+
+
+    themeBtn.textContent =
+        isDark ? "☀️" : "🌙";
+
+});
+
+
+</script>
+
+
+</body>
+</html>
