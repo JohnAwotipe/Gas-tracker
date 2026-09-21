@@ -1,0 +1,2423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FAQ | Cooking Gas Tracker & Manager</title>
+
+<meta
+    name="description"
+    content="Find answers to common questions about Cooking Gas Tracker & Manager, gas tracking, reminders, cooking usage and refill planning."
+>
+
+<link rel="stylesheet" href="style.css">
+
+
+<style>
+
+/* =========================================================
+   FAQ PAGE
+   SAME DESIGN SYSTEM AS THE OTHER GUIDE PAGES
+========================================================= */
+
+:root{
+
+    --purple:#6d28d9;
+    --purple2:#7c3aed;
+
+    --green:#16a34a;
+    --green-light:#f0fdf4;
+
+    --orange:#ea580c;
+    --orange-light:#fff7ed;
+
+    --blue:#2563eb;
+    --blue-light:#eff6ff;
+
+    --yellow:#ca8a04;
+    --yellow-light:#fefce8;
+
+    --red:#dc2626;
+    --red-light:#fef2f2;
+
+    --cyan:#0891b2;
+    --cyan-light:#ecfeff;
+
+    --pink:#db2777;
+    --pink-light:#fdf2f8;
+
+    --bg:#f7f7fb;
+    --card:#ffffff;
+    --text:#171717;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+
+    --shadow:0 10px 28px rgba(0,0,0,.07);
+}
+
+
+body.dark{
+
+    --bg:#11111a;
+    --card:#1b1b28;
+    --text:#f5f5f5;
+    --muted:#aaaab8;
+    --border:#30303d;
+
+    --green-light:#12301d;
+    --orange-light:#321e12;
+    --blue-light:#172642;
+    --yellow-light:#332b12;
+    --red-light:#351717;
+    --cyan-light:#10363c;
+    --pink-light:#351827;
+
+    --shadow:0 12px 30px rgba(0,0,0,.28);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:Inter,Arial,Helvetica,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    line-height:1.65;
+
+    padding-bottom:80px;
+
+    transition:.3s ease;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    background:rgba(255,255,255,.94);
+
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid var(--border);
+}
+
+
+body.dark header{
+    background:rgba(17,17,26,.94);
+}
+
+
+.navbar{
+
+    max-width:1180px;
+
+    margin:auto;
+
+    min-height:72px;
+
+    padding:11px 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    text-decoration:none;
+
+    color:var(--text);
+
+    font-weight:800;
+}
+
+
+.brand-logo{
+
+    width:46px;
+
+    height:46px;
+
+    object-fit:cover;
+
+    border-radius:12px;
+
+    box-shadow:
+        0 5px 15px rgba(109,40,217,.2);
+}
+
+
+.brand-name{
+
+    font-size:15px;
+
+    line-height:1.1;
+}
+
+
+.brand-name span{
+    color:var(--purple);
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.nav-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+}
+
+
+.nav-links a{
+
+    text-decoration:none;
+
+    color:var(--muted);
+
+    padding:10px 13px;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    transition:.2s;
+}
+
+
+.nav-links a:hover,
+.nav-links a.active{
+
+    background:#ede9fe;
+
+    color:var(--purple);
+}
+
+
+body.dark .nav-links a:hover,
+body.dark .nav-links a.active{
+
+    background:#2b2144;
+
+    color:#c4b5fd;
+}
+
+
+/* =========================================================
+   THEME BUTTON
+========================================================= */
+
+.theme-btn{
+
+    width:40px;
+
+    height:40px;
+
+    border:0;
+
+    border-radius:50%;
+
+    background:#f1f1f5;
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-size:18px;
+}
+
+
+body.dark .theme-btn{
+    background:#292936;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+
+    max-width:1180px;
+
+    margin:auto;
+
+    padding:55px 20px 25px;
+}
+
+
+.hero-box{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:48px 40px;
+
+    border-radius:30px;
+
+    background:
+
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(34,211,238,.25),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(250,204,21,.20),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 55% 105%,
+            rgba(22,163,74,.18),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            135deg,
+            #312e81,
+            #6d28d9 52%,
+            #7c3aed
+        );
+
+    color:white;
+
+    box-shadow:
+        0 20px 50px rgba(76,29,149,.24);
+}
+
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:800px;
+}
+
+
+/* IMPORTANT: FIXED HERO BADGE */
+
+.hero .badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:7px;
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.16);
+
+    border:1px solid rgba(255,255,255,.35);
+
+    color:#ffffff !important;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    margin-bottom:18px;
+
+    text-decoration:none;
+
+    opacity:1 !important;
+}
+
+
+.hero .badge *{
+    color:#ffffff !important;
+}
+
+
+.hero h1{
+
+    font-size:clamp(34px,5vw,54px);
+
+    line-height:1.05;
+
+    margin-bottom:18px;
+}
+
+
+.hero p{
+
+    color:rgba(255,255,255,.91);
+
+    font-size:17px;
+
+    max-width:720px;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.container{
+
+    max-width:1180px;
+
+    margin:auto;
+
+    padding:20px;
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.intro{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:25px;
+}
+
+
+.intro h2{
+    margin-bottom:9px;
+}
+
+
+.intro p{
+    color:var(--muted);
+}
+
+
+/* =========================================================
+   FAQ CATEGORY
+========================================================= */
+
+.faq-section{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+
+    margin-top:25px;
+}
+
+
+.section-title{
+
+    margin-bottom:20px;
+}
+
+
+.section-title h2{
+
+    font-size:25px;
+
+    margin-bottom:6px;
+}
+
+
+.section-title p{
+    color:var(--muted);
+}
+
+
+/* =========================================================
+   FAQ ITEMS
+========================================================= */
+
+.faq-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+}
+
+
+.faq-item{
+
+    border:1px solid var(--border);
+
+    border-radius:17px;
+
+    overflow:hidden;
+
+    background:var(--bg);
+
+    transition:.2s;
+}
+
+
+.faq-item:hover{
+
+    border-color:#c4b5fd;
+}
+
+
+.faq-question{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding:18px 20px;
+
+    border:0;
+
+    background:transparent;
+
+    color:var(--text);
+
+    text-align:left;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:800;
+}
+
+
+.faq-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+
+.faq-icon{
+
+    width:36px;
+
+    height:36px;
+
+    flex:0 0 36px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:11px;
+
+    font-size:17px;
+}
+
+
+.faq-arrow{
+
+    font-size:18px;
+
+    color:var(--muted);
+
+    transition:.25s;
+}
+
+
+.faq-answer{
+
+    display:none;
+
+    padding:0 20px 19px 68px;
+
+    color:var(--muted);
+
+    font-size:14px;
+
+    line-height:1.7;
+}
+
+
+.faq-item.open .faq-answer{
+    display:block;
+}
+
+
+.faq-item.open .faq-arrow{
+
+    transform:rotate(180deg);
+
+    color:var(--purple);
+}
+
+
+/* =========================================================
+   FAQ COLORS
+========================================================= */
+
+.faq-purple .faq-icon{
+    background:#ede9fe;
+}
+
+.faq-blue .faq-icon{
+    background:var(--blue-light);
+}
+
+.faq-green .faq-icon{
+    background:var(--green-light);
+}
+
+.faq-orange .faq-icon{
+    background:var(--orange-light);
+}
+
+.faq-yellow .faq-icon{
+    background:var(--yellow-light);
+}
+
+.faq-cyan .faq-icon{
+    background:var(--cyan-light);
+}
+
+.faq-pink .faq-icon{
+    background:var(--pink-light);
+}
+
+.faq-red .faq-icon{
+    background:var(--red-light);
+}
+
+
+/* =========================================================
+   QUICK HELP
+========================================================= */
+
+.help-box{
+
+    margin-top:25px;
+
+    padding:30px;
+
+    border-radius:24px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--blue-light),
+            var(--green-light)
+        );
+
+    border:1px solid #bfdbfe;
+}
+
+
+body.dark .help-box{
+    border-color:#29455d;
+}
+
+
+.help-box h2{
+    margin-bottom:8px;
+}
+
+
+.help-box p{
+
+    color:var(--muted);
+
+    max-width:760px;
+}
+
+
+.help-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:13px;
+
+    margin-top:20px;
+}
+
+
+.help-card{
+
+    padding:20px;
+
+    border-radius:17px;
+
+    background:rgba(255,255,255,.62);
+
+    border:1px solid rgba(37,99,235,.10);
+}
+
+
+body.dark .help-card{
+    background:rgba(0,0,0,.15);
+}
+
+
+.help-icon{
+
+    width:50px;
+
+    height:50px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:15px;
+
+    font-size:23px;
+
+    margin-bottom:12px;
+}
+
+
+.help-card:nth-child(1) .help-icon{
+    background:#ede9fe;
+}
+
+.help-card:nth-child(2) .help-icon{
+    background:var(--green-light);
+}
+
+.help-card:nth-child(3) .help-icon{
+    background:var(--orange-light);
+}
+
+
+.help-card h3{
+
+    font-size:15px;
+
+    margin-bottom:5px;
+}
+
+
+.help-card p{
+
+    font-size:13px;
+
+    color:var(--muted);
+}
+
+
+/* =========================================================
+   NOTE
+========================================================= */
+
+.note-box{
+
+    margin-top:25px;
+
+    padding:28px;
+
+    border-radius:24px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--yellow-light),
+            var(--orange-light)
+        );
+
+    border:1px solid #fed7aa;
+}
+
+
+body.dark .note-box{
+    border-color:#5a3823;
+}
+
+
+.note-box h2{
+    margin-bottom:7px;
+}
+
+
+.note-box p{
+    color:var(--muted);
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.tracker-box{
+
+    margin-top:25px;
+
+    padding:32px;
+
+    border-radius:25px;
+
+    background:
+
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(22,163,74,.13),
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #f5f3ff,
+            #f0fdf4
+        );
+
+    border:1px solid #ddd6fe;
+}
+
+
+body.dark .tracker-box{
+
+    background:
+
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(22,163,74,.14),
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #251d3a,
+            #12301d
+        );
+
+    border-color:#3b3157;
+}
+
+
+.tracker-box h2{
+    margin-bottom:8px;
+}
+
+
+.tracker-box p{
+
+    color:var(--muted);
+
+    max-width:760px;
+}
+
+
+.buttons{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin-top:20px;
+}
+
+
+.btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:13px 20px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    transition:.2s;
+}
+
+
+.btn-primary{
+
+    color:white;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--purple),
+            var(--purple2)
+        );
+
+    box-shadow:
+        0 8px 20px rgba(109,40,217,.24);
+}
+
+
+.btn-secondary{
+
+    color:var(--purple);
+
+    background:var(--card);
+
+    border:1px solid #c4b5fd;
+}
+
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    max-width:1180px;
+
+    margin:55px auto 0;
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    border-top:1px solid var(--border);
+}
+
+
+.footer-brand{
+
+    font-weight:800;
+
+    margin-bottom:9px;
+}
+
+
+.footer-brand span{
+    color:var(--purple);
+}
+
+
+footer p{
+
+    color:var(--muted);
+
+    font-size:13px;
+}
+
+
+.footer-links{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    margin-top:15px;
+}
+
+
+.footer-links a{
+
+    color:var(--purple);
+
+    text-decoration:none;
+
+    font-size:13px;
+
+    font-weight:700;
+}
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-nav{
+    display:none;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:850px){
+
+    .nav-links{
+        display:none;
+    }
+
+
+    .hero{
+        padding:25px 15px 15px;
+    }
+
+
+    .hero-box{
+
+        padding:38px 25px;
+
+        border-radius:24px;
+    }
+
+
+    .container{
+        padding:15px;
+    }
+
+
+    .help-grid{
+        grid-template-columns:1fr;
+    }
+
+
+    .mobile-nav{
+
+        position:fixed;
+
+        display:flex;
+
+        left:0;
+        right:0;
+        bottom:0;
+
+        z-index:2000;
+
+        background:rgba(255,255,255,.96);
+
+        backdrop-filter:blur(16px);
+
+        border-top:1px solid var(--border);
+
+        padding:
+            8px 7px
+            calc(8px + env(safe-area-inset-bottom));
+
+        justify-content:space-around;
+    }
+
+
+    body.dark .mobile-nav{
+        background:rgba(25,25,36,.97);
+    }
+
+
+    .mobile-nav a{
+
+        flex:1;
+
+        max-width:90px;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+
+        gap:4px;
+
+        text-decoration:none;
+
+        color:var(--muted);
+
+        font-size:10px;
+
+        font-weight:700;
+    }
+
+
+    .mobile-nav a span:first-child{
+        font-size:20px;
+    }
+
+
+    .mobile-nav a.active{
+        color:var(--purple);
+    }
+
+}
+
+
+@media(max-width:500px){
+
+    .brand-name{
+        font-size:13px;
+    }
+
+
+    .brand-logo{
+
+        width:42px;
+        height:42px;
+    }
+
+
+    .hero h1{
+        font-size:35px;
+    }
+
+
+    .hero p{
+        font-size:15px;
+    }
+
+
+    .intro,
+    .faq-section,
+    .help-box,
+    .note-box,
+    .tracker-box{
+
+        padding:23px;
+    }
+
+
+    .faq-question{
+        padding:16px;
+    }
+
+
+    .faq-answer{
+
+        padding:
+
+            0 16px
+            17px 64px;
+    }
+
+
+    .buttons{
+        flex-direction:column;
+    }
+
+
+    .btn{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header>
+
+<div class="navbar">
+
+
+<a href="index.html" class="brand">
+
+<img
+    src="https://i.imgur.com/QzPFczP.png"
+    alt="Cooking Gas Tracker & Manager"
+    class="brand-logo"
+>
+
+<div class="brand-name">
+
+Cooking Gas<br>
+
+<span>Tracker & Manager</span>
+
+</div>
+
+</a>
+
+
+<nav class="nav-links">
+
+<a href="index.html">
+Home
+</a>
+
+<a href="tracker.html">
+Tracker
+</a>
+
+<a href="assistant.html">
+Assistant
+</a>
+
+<a
+    href="guides.html"
+    class="active"
+>
+Guides
+</a>
+
+<a href="more.html">
+More
+</a>
+
+</nav>
+
+
+<button
+    class="theme-btn"
+    id="themeBtn"
+    aria-label="Toggle dark mode"
+>
+🌙
+</button>
+
+
+</div>
+
+</header>
+
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+<div class="hero-box">
+
+<div class="hero-content">
+
+
+<div class="badge">
+
+❓ Frequently Asked Questions
+
+</div>
+
+
+<h1>
+
+Got questions?<br>
+
+Let's clear them up.
+
+</h1>
+
+
+<p>
+
+Find answers to common questions about tracking your cooking
+gas usage, setting consumption dates, reminders, refills and
+using the Cooking Gas Tracker & Manager website.
+
+</p>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<section class="intro">
+
+<h2>
+Quick answers to common questions
+</h2>
+
+<p>
+
+We've gathered some of the questions users may have while
+using the Cooking Gas Tracker & Manager. Open any question
+below to see the answer.
+
+</p>
+
+</section>
+
+
+
+<!-- =========================================================
+     TRACKER QUESTIONS
+========================================================= -->
+
+<section class="faq-section">
+
+<div class="section-title">
+
+<h2>
+🔥 Gas Tracker
+</h2>
+
+<p>
+Questions about tracking your cooking gas.
+</p>
+
+</div>
+
+
+<div class="faq-list">
+
+
+<div class="faq-item faq-purple">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+🔥
+</span>
+
+<span>
+What is Cooking Gas Tracker & Manager?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+Cooking Gas Tracker & Manager is a planning and awareness
+tool designed to help you keep track of your cooking gas
+usage, expected consumption date and refill planning.
+
+</div>
+
+</div>
+
+
+
+<div class="faq-item faq-blue">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+📊
+</span>
+
+<span>
+Is the tracker an exact measurement of my gas?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+No. The tracker is designed to help you plan and understand
+your gas usage. Actual gas consumption can vary depending on
+your cooking habits, meals, cooking time, household size and
+other factors.
+
+</div>
+
+</div>
+
+
+
+<div class="faq-item faq-green">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+📅
+</span>
+
+<span>
+What is the consumption date?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+The consumption date is the date you expect your current gas
+supply to be used up based on your normal cooking pattern.
+You provide this date when setting up your tracker information.
+
+</div>
+
+</div>
+
+
+
+<div class="faq-item faq-orange">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+🔄
+</span>
+
+<span>
+Can I update my information?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+Yes. Keeping your information updated is useful when your
+cooking routine, gas supply or expected consumption pattern
+changes.
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     NOTIFICATION QUESTIONS
+========================================================= -->
+
+<section class="faq-section">
+
+<div class="section-title">
+
+<h2>
+🔔 Notifications & Reminders
+</h2>
+
+<p>
+Questions about reminder timing and refill preparation.
+</p>
+
+</div>
+
+
+<div class="faq-list">
+
+
+<div class="faq-item faq-purple">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+🔔
+</span>
+
+<span>
+When do reminders appear?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+The reminder system is designed to provide advance notice
+as your expected consumption date approaches. Reminders can
+be provided 2 days before, 1 day before and on your expected
+consumption date.
+
+</div>
+
+</div>
+
+
+
+<div class="faq-item faq-blue">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+⏰
+</span>
+
+<span>
+What times are reminders scheduled?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+The scheduled reminder times are 12:00 AM, 6:00 AM,
+12:00 PM and 6:00 PM according to the user's local time.
+
+</div>
+
+</div>
+
+
+
+<div class="faq-item faq-green">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+🌍
+</span>
+
+<span>
+Do reminders work according to my local timezone?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+The website is designed for users worldwide. Reminder timing
+should be based on the user's local timezone rather than
+assuming one specific country or region.
+
+</div>
+
+</div>
+
+
+
+<div class="faq-item faq-orange">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+📱
+</span>
+
+<span>
+What should I do when I receive a refill reminder?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+A reminder is simply an opportunity to prepare. You can check
+your current gas situation and make arrangements for your next
+refill if necessary.
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     USAGE QUESTIONS
+========================================================= -->
+
+<section class="faq-section">
+
+<div class="section-title">
+
+<h2>
+🍳 Cooking & Usage
+</h2>
+
+<p>
+Questions about everyday cooking habits and gas consumption.
+</p>
+
+</div>
+
+
+<div class="faq-list">
+
+
+<div class="faq-item faq-yellow">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+🍳
+</span>
+
+<span>
+What can affect how quickly I use gas?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+Household size, number of meals, cooking duration, food type,
+flame level, cookware and everyday cooking habits can all
+affect gas usage.
+
+</div>
+
+</div>
+
+
+
+<div class="faq-item faq-cyan">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+👨‍👩‍👧‍👦
+</span>
+
+<span>
+Does the number of people in my household matter?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+It can. A larger household may prepare more food or cook more
+frequently. However, every household is different, so your own
+cooking pattern is the most useful reference.
+
+</div>
+
+</div>
+
+
+
+<div class="faq-item faq-pink">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+⏱️
+</span>
+
+<span>
+Does cooking time affect gas usage?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+Cooking for longer periods can affect gas usage. Different
+foods and cooking methods can also require different amounts
+of cooking time.
+
+</div>
+
+</div>
+
+
+
+<div class="faq-item faq-green">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+📈
+</span>
+
+<span>
+Why might my gas usage change from one cycle to another?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+Your meals, cooking frequency, household activity, cooking
+duration and other habits may change. These differences can
+make one gas cycle different from another.
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     BUDGET QUESTIONS
+========================================================= -->
+
+<section class="faq-section">
+
+<div class="section-title">
+
+<h2>
+💰 Gas & Budget
+</h2>
+
+<p>
+Questions about refill planning and gas expenses.
+</p>
+
+</div>
+
+
+<div class="faq-list">
+
+
+<div class="faq-item faq-green">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+💰
+</span>
+
+<span>
+Can the tracker help me plan my gas budget?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+It can help you organize your refill information and
+understand your expected consumption pattern. Your own refill
+history can then help you make more informed household plans.
+
+</div>
+
+</div>
+
+
+
+<div class="faq-item faq-orange">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+🧾
+</span>
+
+<span>
+Should I keep my previous refill information?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+Keeping useful refill information can help you compare your
+own cooking and spending patterns over time.
+
+</div>
+
+</div>
+
+
+
+<div class="faq-item faq-blue">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+🛒
+</span>
+
+<span>
+Will my refill price always be the same?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+Not necessarily. Gas prices can vary depending on location,
+supplier and market conditions. It is better to keep your
+budget flexible.
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SAFETY QUESTIONS
+========================================================= -->
+
+<section class="faq-section">
+
+<div class="section-title">
+
+<h2>
+🚨 Safety
+</h2>
+
+<p>
+Important questions about cooking gas safety.
+</p>
+
+</div>
+
+
+<div class="faq-list">
+
+
+<div class="faq-item faq-red">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+🚨
+</span>
+
+<span>
+What if I suspect a gas leak?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+Move away from the suspected danger area, avoid creating
+ignition sources and seek appropriate qualified help. Do not
+attempt unsafe repairs yourself.
+
+</div>
+
+</div>
+
+
+
+<div class="faq-item faq-yellow">
+
+<button class="faq-question">
+
+<span class="faq-left">
+
+<span class="faq-icon">
+🛡️
+</span>
+
+<span>
+Can I ignore safety issues to save money?
+</span>
+
+</span>
+
+<span class="faq-arrow">
+⌄
+</span>
+
+</button>
+
+
+<div class="faq-answer">
+
+No. Safety should always come first. Damaged equipment,
+suspected leaks and other serious safety problems should be
+handled appropriately rather than ignored because of cost.
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     QUICK HELP
+========================================================= -->
+
+<section class="help-box">
+
+<h2>
+Need more help?
+</h2>
+
+<p>
+
+If your question isn't answered here, you can explore the
+guides or speak with the Cooking Gas Assistant.
+
+</p>
+
+
+<div class="help-grid">
+
+
+<div class="help-card">
+
+<div class="help-icon">
+📚
+</div>
+
+<h3>
+Explore Guides
+</h3>
+
+<p>
+Read our cooking, gas usage, safety and budget guides.
+</p>
+
+</div>
+
+
+
+<div class="help-card">
+
+<div class="help-icon">
+🤖
+</div>
+
+<h3>
+Ask the Assistant
+</h3>
+
+<p>
+Have an ongoing conversation about cooking and gas-related
+questions.
+</p>
+
+</div>
+
+
+
+<div class="help-card">
+
+<div class="help-icon">
+🔥
+</div>
+
+<h3>
+Start Tracking
+</h3>
+
+<p>
+Set up your gas information and begin planning your next
+refill.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     NOTE
+========================================================= -->
+
+<section class="note-box">
+
+<h2>
+💡 Remember
+</h2>
+
+<p>
+
+The information on this website is intended to help with
+planning, awareness and everyday decision-making. Actual gas
+usage can vary between households and from one cooking cycle
+to another.
+
+</p>
+
+</section>
+
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section class="tracker-box">
+
+<h2>
+Still have questions?
+</h2>
+
+<p>
+
+Open the Cooking Gas Assistant for a more detailed conversation,
+or start tracking your gas information so you can learn more
+about your own household cooking pattern.
+
+</p>
+
+
+<div class="buttons">
+
+<a
+    href="assistant.html"
+    class="btn btn-primary"
+>
+🤖 Ask the Assistant
+</a>
+
+
+<a
+    href="tracker.html"
+    class="btn btn-secondary"
+>
+🔥 Start Tracking
+</a>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+
+<div class="footer-brand">
+
+Cooking Gas
+<span>Tracker & Manager</span>
+
+</div>
+
+
+<p>
+Helping you track your gas usage, plan refills and cook smarter.
+</p>
+
+
+<div class="footer-links">
+
+<a
+    href="https://policies-privacy-8c085d.netlify.app/"
+    target="_blank"
+    rel="noopener"
+>
+Privacy Policy
+</a>
+
+
+<a
+    href="https://about-us-a9f8d5.netlify.app/"
+    target="_blank"
+    rel="noopener"
+>
+About Us
+</a>
+
+
+<a
+    href="https://terms-condition-36816f.netlify.app/"
+    target="_blank"
+    rel="noopener"
+>
+Terms & Conditions
+</a>
+
+</div>
+
+
+</footer>
+
+
+
+<!-- =========================================================
+     MOBILE NAV
+========================================================= -->
+
+<nav class="mobile-nav">
+
+
+<a href="index.html">
+
+<span>🏠</span>
+
+<span>Home</span>
+
+</a>
+
+
+<a href="tracker.html">
+
+<span>🔥</span>
+
+<span>Tracker</span>
+
+</a>
+
+
+<a href="assistant.html">
+
+<span>🤖</span>
+
+<span>Assistant</span>
+
+</a>
+
+
+<a
+    href="guides.html"
+    class="active"
+>
+
+<span>📚</span>
+
+<span>Guides</span>
+
+</a>
+
+
+<a href="more.html">
+
+<span>☰</span>
+
+<span>More</span>
+
+</a>
+
+
+</nav>
+
+
+
+<!-- =========================================================
+     SCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+const themeBtn =
+    document.getElementById("themeBtn");
+
+
+const savedTheme =
+    localStorage.getItem("cgtTheme");
+
+
+if(savedTheme === "dark"){
+
+    document.body.classList.add("dark");
+
+    themeBtn.textContent = "☀️";
+
+}
+
+
+themeBtn.addEventListener("click",()=>{
+
+    document.body.classList.toggle("dark");
+
+
+    const isDark =
+        document.body.classList.contains("dark");
+
+
+    localStorage.setItem(
+        "cgtTheme",
+        isDark ? "dark" : "light"
+    );
+
+
+    themeBtn.textContent =
+        isDark ? "☀️" : "🌙";
+
+});
+
+
+
+/* =========================================================
+   FAQ ACCORDION
+========================================================= */
+
+const faqQuestions =
+    document.querySelectorAll(".faq-question");
+
+
+faqQuestions.forEach(question => {
+
+    question.addEventListener("click", () => {
+
+        const currentItem =
+            question.closest(".faq-item");
+
+
+        const isOpen =
+            currentItem.classList.contains("open");
+
+
+        document
+            .querySelectorAll(".faq-item.open")
+            .forEach(item => {
+
+                item.classList.remove("open");
+
+            });
+
+
+        if(!isOpen){
+
+            currentItem.classList.add("open");
+
+        }
+
+    });
+
+});
+
+
+</script>
+
+
+</body>
+</html>
