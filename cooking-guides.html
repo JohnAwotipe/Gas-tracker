@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cooking & Usage Guides | Cooking Gas Tracker & Manager</title>
+
+    <meta name="description"
+          content="Practical cooking and gas usage guides to help you understand your cooking habits, manage gas consumption and cook more efficiently.">
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* =========================================
+           COOKING GUIDES PAGE
+        ========================================= */
+
+        .cooking-page {
+            padding: 40px 0 90px;
+        }
+
+        /* HERO */
+
+        .cooking-hero {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(
+                135deg,
+                #6d3fb0,
+                #4b2a82
+            );
+            color: #fff;
+            border-radius: 28px;
+            padding: 55px 30px;
+            text-align: center;
+            box-shadow: 0 18px 45px rgba(91, 53, 145, 0.22);
+        }
+
+        .cooking-hero::before {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            top: -100px;
+            left: -70px;
+        }
+
+        .cooking-hero::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+            bottom: -90px;
+            right: -50px;
+        }
+
+        .hero-logo {
+            position: relative;
+            z-index: 2;
+            width: 82px;
+            height: 82px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.22);
+        }
+
+        .cooking-hero h1 {
+            position: relative;
+            z-index: 2;
+            margin: 0 0 14px;
+            font-size: clamp(32px, 5vw, 50px);
+            line-height: 1.1;
+        }
+
+        .cooking-hero p {
+            position: relative;
+            z-index: 2;
+            max-width: 760px;
+            margin: 0 auto;
+            font-size: 17px;
+            line-height: 1.75;
+            opacity: 0.95;
+        }
+
+        /* SECTION HEADING */
+
+        .section-heading {
+            text-align: center;
+            margin: 50px 0 28px;
+        }
+
+        .section-heading h2 {
+            margin: 0 0 10px;
+            font-size: 30px;
+        }
+
+        .section-heading p {
+            max-width: 720px;
+            margin: 0 auto;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* INTRO */
+
+        .intro-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+
+        .intro-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .intro-card p + p {
+            margin-top: 15px;
+        }
+
+        /* GUIDE GRID */
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .guide-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 23px;
+            padding: 26px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 17px 36px rgba(0,0,0,0.1);
+        }
+
+        .guide-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        .guide-card:nth-child(1) .guide-icon {
+            background: rgba(109,63,176,0.12);
+        }
+
+        .guide-card:nth-child(2) .guide-icon {
+            background: rgba(22,141,226,0.12);
+        }
+
+        .guide-card:nth-child(3) .guide-icon {
+            background: rgba(22,166,106,0.12);
+        }
+
+        .guide-card:nth-child(4) .guide-icon {
+            background: rgba(242,140,40,0.13);
+        }
+
+        .guide-card:nth-child(5) .guide-icon {
+            background: rgba(228,71,123,0.12);
+        }
+
+        .guide-card:nth-child(6) .guide-icon {
+            background: rgba(24,167,160,0.12);
+        }
+
+        .guide-card h3 {
+            margin: 0 0 10px;
+            font-size: 20px;
+        }
+
+        .guide-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        /* HABITS */
+
+        .habits-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .habit-panel {
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .habit-panel.do-panel {
+            background: linear-gradient(
+                135deg,
+                rgba(22,166,106,0.10),
+                rgba(22,166,106,0.03)
+            );
+        }
+
+        .habit-panel.avoid-panel {
+            background: linear-gradient(
+                135deg,
+                rgba(228,71,123,0.10),
+                rgba(228,71,123,0.03)
+            );
+        }
+
+        .habit-panel h3 {
+            margin: 0 0 20px;
+            font-size: 23px;
+        }
+
+        .habit-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .habit-list li {
+            position: relative;
+            padding-left: 34px;
+            margin-bottom: 15px;
+            color: var(--muted);
+            line-height: 1.65;
+            font-size: 14px;
+        }
+
+        .habit-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .habit-list li::before {
+            position: absolute;
+            left: 0;
+            top: 1px;
+            width: 23px;
+            height: 23px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .do-panel .habit-list li::before {
+            content: "✓";
+            background: rgba(22,166,106,0.15);
+            color: #128253;
+        }
+
+        .avoid-panel .habit-list li::before {
+            content: "!";
+            background: rgba(228,71,123,0.15);
+            color: #c23568;
+        }
+
+        /* COOKING PATTERN */
+
+        .pattern-box {
+            border-radius: 25px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .pattern-item {
+            border-radius: 18px;
+            padding: 22px 16px;
+            text-align: center;
+            background: rgba(109,63,176,0.07);
+        }
+
+        .pattern-item:nth-child(2) {
+            background: rgba(22,141,226,0.07);
+        }
+
+        .pattern-item:nth-child(3) {
+            background: rgba(242,140,40,0.09);
+        }
+
+        .pattern-item:nth-child(4) {
+            background: rgba(22,166,106,0.08);
+        }
+
+        .pattern-item .number {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .pattern-item h4 {
+            margin: 0 0 6px;
+            font-size: 16px;
+        }
+
+        .pattern-item p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        /* TRACKING TIP */
+
+        .tracking-tip {
+            margin-top: 28px;
+            padding: 28px;
+            border-radius: 22px;
+            background: linear-gradient(
+                135deg,
+                rgba(109,63,176,0.10),
+                rgba(22,141,226,0.07)
+            );
+            border: 1px solid rgba(109,63,176,0.16);
+        }
+
+        .tracking-tip h3 {
+            margin: 0 0 9px;
+        }
+
+        .tracking-tip p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        /* QUICK CHECKLIST */
+
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 18px;
+        }
+
+        .check-mark {
+            flex: 0 0 auto;
+            width: 29px;
+            height: 29px;
+            border-radius: 10px;
+            background: #6d3fb0;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 13px;
+        }
+
+        .check-item p {
+            margin: 2px 0 0;
+            color: var(--muted);
+            line-height: 1.55;
+            font-size: 14px;
+        }
+
+        /* NOTE */
+
+        .note-box {
+            margin-top: 35px;
+            padding: 28px;
+            border-radius: 22px;
+            background: rgba(255,193,7,0.10);
+            border: 1px solid rgba(242,140,40,0.22);
+        }
+
+        .note-box h3 {
+            margin: 0 0 10px;
+        }
+
+        .note-box p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        /* CTA */
+
+        .cooking-cta {
+            margin-top: 48px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 26px;
+            padding: 38px 25px;
+            text-align: center;
+        }
+
+        .cooking-cta h2 {
+            margin: 0 0 10px;
+            font-size: 29px;
+        }
+
+        .cooking-cta p {
+            max-width: 650px;
+            margin: 0 auto 23px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            padding: 13px 22px;
+            border-radius: 13px;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .primary-btn {
+            background: #6d3fb0;
+            color: #fff;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.92;
+        }
+
+        .secondary-btn {
+            background: rgba(109,63,176,0.10);
+            color: #6d3fb0;
+            border: 1px solid rgba(109,63,176,0.18);
+        }
+
+        .secondary-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 950px) {
+
+            .guide-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pattern-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 750px) {
+
+            .habits-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .checklist {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .cooking-page {
+                padding: 25px 0 75px;
+            }
+
+            .cooking-hero {
+                padding: 42px 20px;
+                border-radius: 22px;
+            }
+
+            .cooking-hero h1 {
+                font-size: 34px;
+            }
+
+            .cooking-hero p {
+                font-size: 15px;
+            }
+
+            .guide-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pattern-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .intro-card,
+            .habit-panel,
+            .pattern-box {
+                padding: 23px;
+            }
+
+            .cooking-cta {
+                padding: 30px 20px;
+            }
+
+        }
+
+        @media (max-width: 430px) {
+
+            .pattern-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="site-header">
+
+    <div class="container header-inner">
+
+        <a href="index.html" class="brand">
+
+            <img
+                src="https://i.imgur.com/QzPFczP.png"
+                alt="Cooking Gas Tracker & Manager"
+                class="brand-logo"
+            >
+
+            <div class="brand-text">
+                <strong>Cooking Gas Tracker</strong>
+                <span>&amp; Manager</span>
+            </div>
+
+        </a>
+
+
+        <nav class="desktop-nav">
+
+            <a href="index.html">Home</a>
+            <a href="tracker.html">Tracker</a>
+            <a href="assistant.html">Assistant</a>
+            <a href="guides.html">Guides</a>
+            <a href="more.html">More</a>
+
+            <button
+                type="button"
+                class="theme-toggle"
+                id="themeToggle"
+                aria-label="Toggle dark mode"
+            >
+                🌙
+            </button>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
+
+<main class="container cooking-page">
+
+
+    <!-- HERO -->
+
+    <section class="cooking-hero">
+
+        <img
+            src="https://i.imgur.com/QzPFczP.png"
+            alt="Cooking Gas Tracker"
+            class="hero-logo"
+        >
+
+        <h1>Cooking &amp; Usage Guides</h1>
+
+        <p>
+            Learn how everyday cooking habits can affect your gas usage,
+            understand your household cooking pattern and make better
+            decisions when planning your next refill.
+        </p>
+
+    </section>
+
+
+    <!-- INTRO -->
+
+    <div class="section-heading">
+
+        <h2>Cook Smarter. Understand Your Usage.</h2>
+
+        <p>
+            Cooking gas consumption is influenced by many things. The way
+            you cook, how long you cook and how often you cook can all affect
+            how quickly your gas supply is used.
+        </p>
+
+    </div>
+
+
+    <section class="intro-card">
+
+        <p>
+            There is no single cooking pattern that works for every household.
+            Two homes using the same cylinder size may consume gas at different
+            rates because their meals, cooking frequency, household size and
+            cooking habits are different.
+        </p>
+
+        <p>
+            These guides are designed to help you understand those patterns so
+            you can use the information together with the Cooking Gas Tracker
+            when planning your next refill.
+        </p>
+
+    </section>
+
+
+    <!-- GUIDE CARDS -->
+
+    <div class="section-heading">
+
+        <h2>Useful Cooking Habits</h2>
+
+        <p>
+            Small changes in the way you prepare and cook food can make your
+            cooking routine more organized and easier to track.
+        </p>
+
+    </div>
+
+
+    <section class="guide-grid">
+
+
+        <article class="guide-card">
+
+            <div class="guide-icon">🔥</div>
+
+            <h3>Use the Right Flame</h3>
+
+            <p>
+                Use a flame that suits the size of your cookware and the
+                cooking task. A very high flame is not automatically better
+                or faster for every meal.
+            </p>
+
+        </article>
+
+
+        <article class="guide-card">
+
+            <div class="guide-icon">🍲</div>
+
+            <h3>Use Suitable Cookware</h3>
+
+            <p>
+                Choose cookware that fits the burner and the amount of food
+                you are preparing. Properly sized cookware can make cooking
+                more controlled and convenient.
+            </p>
+
+        </article>
+
+
+        <article class="guide-card">
+
+            <div class="guide-icon">⏱️</div>
+
+            <h3>Watch Cooking Time</h3>
+
+            <p>
+                Pay attention to how long different meals normally take.
+                Understanding your usual cooking time can help you understand
+                your household's gas-use pattern.
+            </p>
+
+        </article>
+
+
+        <article class="guide-card">
+
+            <div class="guide-icon">🥘</div>
+
+            <h3>Plan Your Cooking</h3>
+
+            <p>
+                Organizing meals before you start cooking can help reduce
+                unnecessary delays, repeated heating and forgotten pots.
+            </p>
+
+        </article>
+
+
+        <article class="guide-card">
+
+            <div class="guide-icon">🫕</div>
+
+            <h3>Use Lids When Appropriate</h3>
+
+            <p>
+                Covering suitable pots during cooking can help retain heat
+                and may make some cooking tasks more efficient. Use lids
+                appropriately for the food being prepared.
+            </p>
+
+        </article>
+
+
+        <article class="guide-card">
+
+            <div class="guide-icon">🧅</div>
+
+            <h3>Prepare Ingredients First</h3>
+
+            <p>
+                Have ingredients ready before turning on the burner whenever
+                practical. This keeps the cooking process more organized and
+                reduces unnecessary waiting.
+            </p>
+
+        </article>
+
+
+    </section>
+
+
+    <!-- DO AND AVOID -->
+
+    <div class="section-heading">
+
+        <h2>Good Cooking Habits</h2>
+
+        <p>
+            Use these simple habits as a practical checklist for your everyday
+            cooking routine.
+        </p>
+
+    </div>
+
+
+    <section class="habits-wrapper">
+
+
+        <article class="habit-panel do-panel">
+
+            <h3>✓ Good Habits to Practice</h3>
+
+            <ul class="habit-list">
+
+                <li>
+                    Plan what you want to cook before starting.
+                </li>
+
+                <li>
+                    Keep commonly used ingredients organized and accessible.
+                </li>
+
+                <li>
+                    Use cookware that suits the burner and quantity of food.
+                </li>
+
+                <li>
+                    Use an appropriate flame instead of automatically using
+                    the highest setting.
+                </li>
+
+                <li>
+                    Keep an eye on food while it is cooking.
+                </li>
+
+                <li>
+                    Record your gas information regularly when using the
+                    tracker.
+                </li>
+
+            </ul>
+
+        </article>
+
+
+        <article class="habit-panel avoid-panel">
+
+            <h3>! Habits to Avoid</h3>
+
+            <ul class="habit-list">
+
+                <li>
+                    Do not leave cooking unattended.
+                </li>
+
+                <li>
+                    Avoid keeping a burner running when it is not needed.
+                </li>
+
+                <li>
+                    Do not ignore unusual smells, damaged equipment or
+                    other safety concerns.
+                </li>
+
+                <li>
+                    Avoid using cookware that is unsuitable for the burner.
+                </li>
+
+                <li>
+                    Do not assume an estimate will be exactly the same every
+                    time you cook.
+                </li>
+
+                <li>
+                    Never compromise basic cooking-gas safety in an attempt
+                    to save gas.
+                </li>
+
+            </ul>
+
+        </article>
+
+
+    </section>
+
+
+    <!-- COOKING PATTERN -->
+
+    <div class="section-heading">
+
+        <h2>Understand Your Cooking Pattern</h2>
+
+        <p>
+            Your household's cooking pattern can tell you a lot about how
+            your gas supply is being used.
+        </p>
+
+    </div>
+
+
+    <section class="pattern-box">
+
+        <p style="
+            margin:0;
+            color:var(--muted);
+            line-height:1.75;
+            text-align:center;
+        ">
+            Think about these four areas when trying to understand your
+            normal gas usage.
+        </p>
+
+
+        <div class="pattern-grid">
+
+
+            <article class="pattern-item">
+
+                <div class="number">01</div>
+
+                <h4>People</h4>
+
+                <p>
+                    How many people are normally cooked for?
+                </p>
+
+            </article>
+
+
+            <article class="pattern-item">
+
+                <div class="number">02</div>
+
+                <h4>Meals</h4>
+
+                <p>
+                    How many meals are normally prepared each day?
+                </p>
+
+            </article>
+
+
+            <article class="pattern-item">
+
+                <div class="number">03</div>
+
+                <h4>Duration</h4>
+
+                <p>
+                    How long does cooking normally take?
+                </p>
+
+            </article>
+
+
+            <article class="pattern-item">
+
+                <div class="number">04</div>
+
+                <h4>Food Type</h4>
+
+                <p>
+                    Which foods do you cook most often?
+                </p>
+
+            </article>
+
+
+        </div>
+
+
+        <div class="tracking-tip">
+
+            <h3>💡 Why This Matters</h3>
+
+            <p>
+                A household that cooks several meals every day may use gas
+                differently from a household that cooks less frequently.
+                Understanding your own pattern gives you better information
+                when planning and tracking your gas consumption.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- GAS USAGE FACTORS -->
+
+    <div class="section-heading">
+
+        <h2>What Can Affect Gas Usage?</h2>
+
+        <p>
+            Your gas consumption can change from one period to another.
+            These are some of the factors worth paying attention to.
+        </p>
+
+    </div>
+
+
+    <section class="checklist">
+
+
+        <div class="check-item">
+
+            <div class="check-mark">1</div>
+
+            <p>
+                <strong>Household size:</strong>
+                more people may mean more meals and more cooking.
+            </p>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <div class="check-mark">2</div>
+
+            <p>
+                <strong>Number of meals:</strong>
+                cooking frequency affects how often the burner is used.
+            </p>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <div class="check-mark">3</div>
+
+            <p>
+                <strong>Cooking duration:</strong>
+                meals that take longer can result in more burner usage.
+            </p>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <div class="check-mark">4</div>
+
+            <p>
+                <strong>Food type:</strong>
+                different meals can require different preparation and
+                cooking times.
+            </p>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <div class="check-mark">5</div>
+
+            <p>
+                <strong>Flame level:</strong>
+                the flame setting used during cooking can affect how gas
+                is consumed.
+            </p>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <div class="check-mark">6</div>
+
+            <p>
+                <strong>Cookware:</strong>
+                the type, size and condition of cookware can affect the
+                cooking process.
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- NOTE -->
+
+    <section class="note-box">
+
+        <h3>Important Reminder</h3>
+
+        <p>
+            Gas usage estimates are not exact measurements. Actual consumption
+            can vary because cooking habits and conditions change. Use the
+            Cooking Gas Tracker as a planning and awareness tool, and always
+            prioritize safe cooking practices.
+        </p>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section class="cooking-cta">
+
+        <h2>Want to Track Your Cooking Pattern?</h2>
+
+        <p>
+            Use the tracker to record your gas information and plan your next
+            refill, or ask the Cooking Gas Assistant for help with cooking
+            and gas-related questions.
+        </p>
+
+
+        <div class="cta-buttons">
+
+            <a href="tracker.html" class="primary-btn">
+                Start Tracking
+            </a>
+
+            <a href="assistant.html" class="secondary-btn">
+                Ask the Assistant
+            </a>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer class="site-footer">
+
+    <div class="container">
+
+        <div class="footer-inner">
+
+            <div>
+
+                <strong>
+                    Cooking Gas Tracker &amp; Manager
+                </strong>
+
+                <p>
+                    Track your gas usage, plan your refill and cook with
+                    better awareness.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <a
+                    href="https://policies-privacy-8c085d.netlify.app/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Privacy Policy
+                </a>
+
+                <a
+                    href="https://about-us-a9f8d5.netlify.app/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    About Us
+                </a>
+
+                <a
+                    href="https://terms-condition-36816f.netlify.app/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Terms &amp; Conditions
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            © <span id="currentYear"></span>
+            Cooking Gas Tracker &amp; Manager.
+            All rights reserved.
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================
+     MOBILE NAVIGATION
+========================================= -->
+
+<nav class="mobile-bottom-nav">
+
+    <a href="index.html">
+        <span>⌂</span>
+        <small>Home</small>
+    </a>
+
+    <a href="tracker.html">
+        <span>⛽</span>
+        <small>Tracker</small>
+    </a>
+
+    <a href="assistant.html">
+        <span>💬</span>
+        <small>Assistant</small>
+    </a>
+
+    <a href="guides.html">
+        <span>📚</span>
+        <small>Guides</small>
+    </a>
+
+    <a href="more.html">
+        <span>☰</span>
+        <small>More</small>
+    </a>
+
+</nav>
+
+
+<!-- =========================================
+     SCRIPT
+========================================= -->
+
+<script>
+
+    /* =========================================
+       DARK / LIGHT MODE
+    ========================================= */
+
+    const themeToggle =
+        document.getElementById("themeToggle");
+
+
+    function applyTheme(theme) {
+
+        if (theme === "dark") {
+
+            document.body.classList.add("dark");
+
+            if (themeToggle) {
+                themeToggle.textContent = "☀️";
+            }
+
+        } else {
+
+            document.body.classList.remove("dark");
+
+            if (themeToggle) {
+                themeToggle.textContent = "🌙";
+            }
+
+        }
+
+    }
+
+
+    const savedTheme =
+        localStorage.getItem("cgtTheme") || "light";
+
+
+    applyTheme(savedTheme);
+
+
+    if (themeToggle) {
+
+        themeToggle.addEventListener("click", function () {
+
+            const isDark =
+                document.body.classList.contains("dark");
+
+            const newTheme =
+                isDark ? "light" : "dark";
+
+            localStorage.setItem(
+                "cgtTheme",
+                newTheme
+            );
+
+            applyTheme(newTheme);
+
+        });
+
+    }
+
+
+    /* =========================================
+       CURRENT YEAR
+    ========================================= */
+
+    const currentYear =
+        document.getElementById("currentYear");
+
+
+    if (currentYear) {
+
+        currentYear.textContent =
+            new Date().getFullYear();
+
+    }
+
+</script>
+
+</body>
+</html>
