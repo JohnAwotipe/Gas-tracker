@@ -26,7 +26,7 @@
 @media(max-width:650px){.page-hero{border-radius:0 0 22px 22px}.main-card{border-radius:20px !important}}
 
 /* Backup cylinder is optional: never show the empty placeholder when no backup is selected. */
-.backup-empty { display:none !important; }
+
 #backupCylinderCard[style="display:none;"] { display:none !important; }
 </style>
 
@@ -95,23 +95,23 @@ body.dark .cylinder-stage,body.dark-mode .cylinder-stage{background:linear-gradi
 body.dark .cylinder-meter,body.dark-mode .cylinder-meter{background:#30303d!important}
 .cylinder-meter-fill{height:100%!important;border-radius:99px!important;background:linear-gradient(90deg,var(--purple),var(--green))!important}
 .cylinder-days{font-size:14px!important;color:var(--muted)!important}.cylinder-days strong{color:var(--text)!important}.cylinder-note{font-size:12px!important;color:var(--muted)!important;margin-top:8px!important}
-.backup-empty{display:flex!important;align-items:center!important;justify-content:center!important;min-height:120px!important;padding:22px!important;border-radius:20px!important;border:1px dashed #c4b5fd!important;background:#faf8ff!important;color:var(--purple)!important;text-align:center!important}.backup-empty span{display:block!important;color:var(--muted)!important;font-size:13px!important;margin-top:5px!important}
+.backup-empty{width:100%!important;display:flex!important;align-items:center!important;justify-content:center!important;min-height:120px!important;padding:22px!important;margin-top:18px!important;border-radius:20px!important;border:1px dashed #c4b5fd!important;background:#faf8ff!important;color:var(--purple)!important;text-align:center!important;cursor:pointer!important;font:inherit!important;transition:.2s ease!important}.backup-empty:hover{background:#f3edff!important;border-color:#a78bfa!important;transform:translateY(-1px)!important}.backup-empty strong{display:block!important;font-weight:900!important}.backup-empty span{display:block!important;color:var(--muted)!important;font-size:13px!important;margin-top:5px!important}
 body.dark .backup-empty,body.dark-mode .backup-empty{background:#211a32!important;border-color:#4c3c6d!important}
 .notification-permission{padding:20px 22px!important;border-radius:20px!important;margin:0 0 20px!important;background:linear-gradient(135deg,#f5f3ff,#f0fdf4)!important;border-color:#ddd6fe!important;text-align:left!important}
 .notification-permission p{margin:0!important;color:var(--text)!important}.notification-permission button,.test-alarm-btn{display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:12px 18px!important;border:0!important;border-radius:12px!important;background:linear-gradient(135deg,var(--purple),var(--purple2))!important;color:#fff!important;font-weight:800!important;cursor:pointer!important;box-shadow:0 8px 20px rgba(109,40,217,.22)!important}.notification-permission button{margin-top:12px!important}
 .date-section{margin-bottom:20px!important}.section-title{font-size:23px!important;font-weight:900!important;color:var(--text)!important;margin-bottom:18px!important}.date-inputs{display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:15px!important;margin-bottom:15px!important}.kg-input-group,.price-input-group{margin-bottom:15px!important}.price-row{display:grid!important;grid-template-columns:1fr 150px!important;gap:10px!important}
 .save-btn{width:100%!important;padding:14px 20px!important;border:0!important;border-radius:12px!important;background:linear-gradient(135deg,var(--purple),var(--purple2))!important;color:#fff!important;font-weight:900!important;font-size:15px!important;cursor:pointer!important;box-shadow:0 8px 20px rgba(109,40,217,.22)!important}
-.status-section{display:flex!important;align-items:center!important;gap:20px!important;flex-wrap:wrap!important;background:linear-gradient(135deg,#f5f3ff,#eff6ff)!important;border-color:#ddd6fe!important}.countdown{font-size:56px!important;font-weight:900!important;line-height:1!important;color:var(--purple)!important}.countdown-label{font-size:14px!important;color:var(--muted)!important;font-weight:700!important}.status-indicator{padding:10px 14px!important;border-radius:12px!important;background:var(--bg)!important;color:var(--text)!important;font-weight:800!important;margin-left:auto!important}
+.status-section{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;gap:8px!important;min-height:155px!important;background:linear-gradient(135deg,#f5f3ff,#eff6ff)!important;border-color:#ddd6fe!important}.countdown{font-size:56px!important;font-weight:900!important;line-height:1!important;color:var(--purple)!important;text-align:center!important}.countdown-label{font-size:14px!important;color:var(--muted)!important;font-weight:700!important;text-align:center!important}.status-indicator{padding:10px 14px!important;border-radius:12px!important;background:var(--bg)!important;color:var(--text)!important;font-weight:800!important;margin:6px 0 0!important}
 .benefit-grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:15px!important;margin-bottom:20px!important}.benefit-card{border-radius:20px!important;padding:20px!important}.benefit-icon{width:48px!important;height:48px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:15px!important;background:#ede9fe!important;font-size:23px!important;margin-bottom:12px!important}.benefit-card strong{display:block!important;font-size:16px!important;margin-bottom:4px!important;color:var(--text)!important}.benefit-card span{display:block!important;color:var(--muted)!important;font-size:13px!important}
 .cooking-profile{background:var(--card)!important}.profile-head h2{font-size:27px!important;margin:4px 0 7px!important;color:var(--text)!important}.profile-lead{color:var(--muted)!important;margin:0!important}.profile-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:15px!important;margin-top:22px!important}.profile-field{padding:17px!important;background:var(--bg)!important;border:1px solid var(--border)!important;border-radius:16px!important}.profile-field.full{grid-column:1/-1!important}.profile-field small{display:block!important;color:var(--muted)!important;font-size:12px!important;margin-top:7px!important}.profile-actions{display:flex!important;flex-wrap:wrap!important;gap:10px!important;margin-top:18px!important}.profile-btn{padding:12px 17px!important;border:0!important;border-radius:12px!important;background:linear-gradient(135deg,var(--purple),var(--purple2))!important;color:#fff!important;font-weight:800!important;cursor:pointer!important}.profile-btn.secondary{background:var(--bg)!important;color:var(--purple)!important;border:1px solid #c4b5fd!important}.profile-status{margin-top:12px!important;color:var(--muted)!important;font-weight:700!important}
 .notice-box{background:linear-gradient(135deg,var(--orange-light),var(--yellow-light))!important;border-color:#fed7aa!important}.notice-box h3{color:#9a3412!important}.notice-box p{line-height:1.75!important}
 .notification-section,.history-section{min-height:80px!important}.notification-section{background:linear-gradient(135deg,#f5f3ff,#eff6ff)!important}.history-section{background:linear-gradient(135deg,#f0fdf4,#ecfeff)!important}
 .test-alarm-btn{width:100%!important;margin:0 0 20px!important;font-size:15px!important}
-.site-footer{border-top:1px solid var(--border)!important;margin-top:35px!important;padding:35px 0 20px!important;text-align:center!important;color:var(--muted)!important}.site-footer a{color:var(--purple)!important;text-decoration:none!important;font-weight:700!important}.footer-brand{font-weight:900!important;color:var(--text)!important;margin-bottom:8px!important}.footer-note{font-size:12px!important}.footer-copyright{font-size:12px!important;margin-top:12px!important}
+.toast{position:fixed!important;left:50%!important;top:50%!important;bottom:auto!important;z-index:99999!important;max-width:min(420px,calc(100vw - 36px))!important;padding:16px 22px!important;border-radius:16px!important;background:rgba(28,20,45,.96)!important;color:#fff!important;text-align:center!important;font-size:15px!important;font-weight:800!important;line-height:1.45!important;box-shadow:0 18px 45px rgba(0,0,0,.25)!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important;transform:translate(-50%,-44%) scale(.96)!important;transition:opacity .2s ease,transform .2s ease,visibility .2s ease!important}.toast.show{opacity:1!important;visibility:visible!important;transform:translate(-50%,-50%) scale(1)!important}body.dark .toast,body.dark-mode .toast{background:rgba(45,35,65,.98)!important}.site-footer{border-top:1px solid var(--border)!important;margin-top:35px!important;padding:35px 0 20px!important;text-align:center!important;color:var(--muted)!important}.site-footer a{color:var(--purple)!important;text-decoration:none!important;font-weight:700!important}.footer-brand{font-weight:900!important;color:var(--text)!important;margin-bottom:8px!important}.footer-note{font-size:12px!important}.footer-copyright{font-size:12px!important;margin-top:12px!important}
 .mobile-bottom-nav{position:fixed!important;display:none!important;left:0!important;right:0!important;bottom:0!important;z-index:2000!important;background:rgba(255,255,255,.96)!important;backdrop-filter:blur(16px)!important;border-top:1px solid var(--border)!important;padding:8px 7px calc(8px + env(safe-area-inset-bottom))!important;justify-content:space-around!important}.mobile-bottom-nav a{flex:1!important;max-width:90px!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:4px!important;text-decoration:none!important;color:var(--muted)!important;font-size:10px!important;font-weight:700!important}.mobile-bottom-nav a strong{font-size:20px!important}.mobile-bottom-nav a.active{color:var(--purple)!important}
 body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(25,25,36,.97)!important}
 @media(max-width:850px){.page-container{padding:0 15px 85px!important}.site-header{flex-wrap:wrap!important}.top-nav{display:none!important}.mobile-bottom-nav{display:flex!important}.page-hero{margin-top:25px!important;padding:38px 25px!important;border-radius:24px!important}.cylinder-grid,.benefit-grid{grid-template-columns:1fr!important}.cylinder-settings{grid-template-columns:1fr!important}.cylinder-card{grid-template-columns:120px 1fr!important}.profile-grid{grid-template-columns:1fr!important}.profile-field.full{grid-column:auto!important}}
-@media(max-width:600px){.site-header{padding:11px 0!important}.brand-mark{width:42px!important;height:42px!important;flex-basis:42px!important}.brand-name{font-size:13px!important}.brand-tagline{font-size:11px!important}.theme-toggle{margin-left:auto!important}.page-hero{padding:32px 22px!important;margin-top:20px!important}.page-hero h1{font-size:35px!important}.page-hero p{font-size:15px!important}.tracker-intro{display:block!important;padding:23px!important}.tracker-pill{margin-top:14px!important}.cylinder-panel,.date-section,.status-section,.notification-section,.history-section,.cooking-profile,.notice-box{padding:22px!important}.cylinder-card{grid-template-columns:1fr!important}.cylinder-stage{height:190px!important}.date-inputs,.price-row{grid-template-columns:1fr!important}.status-section{display:block!important}.countdown{font-size:50px!important;margin-bottom:5px}.status-indicator{display:inline-block!important;margin:14px 0 0!important}.benefit-grid{grid-template-columns:1fr!important}.profile-actions{flex-direction:column!important}.profile-btn{width:100%!important}.notification-permission button{width:100%!important}}
+@media(max-width:600px){.site-header{padding:11px 0!important}.brand-mark{width:42px!important;height:42px!important;flex-basis:42px!important}.brand-name{font-size:13px!important}.brand-tagline{font-size:11px!important}.theme-toggle{margin-left:auto!important}.page-hero{padding:32px 22px!important;margin-top:20px!important}.page-hero h1{font-size:35px!important}.page-hero p{font-size:15px!important}.tracker-intro{display:block!important;padding:23px!important}.tracker-pill{margin-top:14px!important}.cylinder-panel,.date-section,.status-section,.notification-section,.history-section,.cooking-profile,.notice-box{padding:22px!important}.cylinder-card{grid-template-columns:1fr!important}.cylinder-stage{height:190px!important}.date-inputs,.price-row{grid-template-columns:1fr!important}.status-section{display:flex!important;flex-direction:column!important}.countdown{font-size:50px!important;margin-bottom:5px}.status-indicator{display:inline-block!important;margin:14px 0 0!important}.benefit-grid{grid-template-columns:1fr!important}.profile-actions{flex-direction:column!important}.profile-btn{width:100%!important}.notification-permission button{width:100%!important}}
 </style>
 
 </head><body><div class="page-container"><header class="site-header"><a href="index.html" class="brand-row" style="text-decoration:none;color:inherit"><div class="brand-mark"><img src="https://i.imgur.com/QzPFczP.png" alt="Cooking Gas Tracker & Manager logo"></div><div><div class="brand-name">Cooking Gas Tracker & Manager</div><div class="brand-tagline">Track smarter. Refill on time.</div></div></a><nav class="top-nav" aria-label="Main navigation"><a href="index.html" class="">⌂ Home</a><a href="tracker.html" class="active">🔥 Tracker</a><a href="assistant.html" class="">🤖 Assistant</a><a href="guides.html" class="">📚 Guides</a><a href="more.html" class="">☰ More</a></nav><button class="theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark mode" title="Switch to dark mode">🌙</button></header><div class="page-hero"><a class="page-back" href="index.html">← Home</a><div class="section-eyebrow">GAS TRACKER</div><h1>Track your cooking gas and plan your next refill.</h1><p>Enter your refill and expected consumption dates, then use the countdown, cylinder dashboard, reminders and refill history to plan ahead.</p></div><div class="main-card">
@@ -291,15 +291,12 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
 <option value="3">3 KG</option><option value="4">4 KG</option><option value="5">5 KG</option><option value="6">6 KG</option><option value="10">10 KG</option><option value="12">12 KG</option><option value="60">60 KG</option>
 </select>
 </div>
-<div class="cylinder-setting backup-toggle-setting">
-<button type="button" class="backup-toggle-btn" id="addBackupCylinderBtn" onclick="toggleBackupCylinderSetup()">＋ Add backup cylinder</button>
 </div>
 <div class="cylinder-setting backup-setting" id="backupCylinderSetting" style="display:none;">
 <label for="backupCylinderSize">Backup cylinder</label>
 <select id="backupCylinderSize" onchange="saveCylinderSetup()">
 <option value="none">No backup cylinder</option><option value="3">3 KG</option><option value="4">4 KG</option><option value="5">5 KG</option><option value="6">6 KG</option><option value="10">10 KG</option><option value="12">12 KG</option><option value="60">60 KG</option>
 </select>
-</div>
 </div>
 <div class="cylinder-grid">
 <article class="cylinder-card main">
@@ -327,8 +324,10 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
 <div class="cylinder-note">Your backup cylinder is stored as a separate household cylinder.</div>
 </div>
 </article>
-<div class="backup-empty" id="backupEmpty"><div><strong>+ Add a backup cylinder</strong><span>Useful when you want a second cylinder ready before the main one runs out.</span></div></div>
 </div>
+<button type="button" class="backup-empty" id="backupEmpty" onclick="toggleBackupCylinderSetup()" aria-controls="backupCylinderSetting" aria-expanded="false">
+<div><strong id="backupEmptyTitle">＋ Add a backup cylinder</strong><span id="backupEmptyText">Useful when you want a second cylinder ready before the main one runs out.</span></div>
+</button>
 </section>
 <!-- Notification Permission -->
 <div class="notification-permission" id="notifPermission">
@@ -1187,7 +1186,7 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
 
             await saveToLocalStorage();
             renderHistory();
-            showToast('Dates saved! Notifications will be set.');
+            showToast('✓ Dates saved successfully! Your reminders are now set.');
             updateStatus();
             checkNotifications();
             // No scheduleNotifications here – only on app load (disabled)
@@ -1611,28 +1610,57 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
         function toggleBackupCylinderSetup() {
             const setting = document.getElementById('backupCylinderSetting');
             const select = document.getElementById('backupCylinderSize');
-            const button = document.getElementById('addBackupCylinderBtn');
-            if (!setting || !select || !button) return;
-            const showing = setting.style.display !== 'none';
-            if (showing) {
+            const box = document.getElementById('backupEmpty');
+            const title = document.getElementById('backupEmptyTitle');
+            const text = document.getElementById('backupEmptyText');
+            if (!setting || !select || !box) return;
+
+            const hasBackup = select.value !== 'none';
+
+            if (hasBackup) {
                 select.value = 'none';
                 setting.style.display = 'none';
-                button.textContent = '＋ Add backup cylinder';
+                if (title) title.textContent = '＋ Add a backup cylinder';
+                if (text) text.textContent = 'Useful when you want a second cylinder ready before the main one runs out.';
+                box.setAttribute('aria-expanded', 'false');
             } else {
+                // Open the backup selector first. Do not run saveCylinderSetup()
+                // here because the selector is still "none" and that would
+                // immediately close it again.
                 setting.style.display = 'block';
-                button.textContent = '− Remove backup cylinder';
+                if (title) title.textContent = '− Remove backup cylinder';
+                if (text) text.textContent = 'Choose the backup cylinder size above, or click here again to remove it.';
+                box.setAttribute('aria-expanded', 'true');
+
+                const main = document.getElementById('mainCylinderSize')?.value || '12';
+                localStorage.setItem(CYLINDER_STORAGE_KEY, JSON.stringify({ main, backup: 'none' }));
             }
-            saveCylinderSetup();
+
+            if (hasBackup) {
+                saveCylinderSetup();
+            } else {
+                updateCylinderDashboard();
+            }
         }
 
         function syncBackupCylinderControl() {
             const setting = document.getElementById('backupCylinderSetting');
             const select = document.getElementById('backupCylinderSize');
-            const button = document.getElementById('addBackupCylinderBtn');
-            if (!setting || !select || !button) return;
+            const box = document.getElementById('backupEmpty');
+            const title = document.getElementById('backupEmptyTitle');
+            const text = document.getElementById('backupEmptyText');
+            if (!setting || !select || !box) return;
+
             const hasBackup = select.value !== 'none';
+
             setting.style.display = hasBackup ? 'block' : 'none';
-            button.textContent = hasBackup ? '− Remove backup cylinder' : '＋ Add backup cylinder';
+            box.style.display = 'flex';
+            box.setAttribute('aria-expanded', hasBackup ? 'true' : 'false');
+
+            if (title) title.textContent = hasBackup ? '− Remove backup cylinder' : '＋ Add a backup cylinder';
+            if (text) text.textContent = hasBackup
+                ? 'Your backup cylinder is enabled. Click here if you want to remove it.'
+                : 'Useful when you want a second cylinder ready before the main one runs out.';
         }
 
         function saveCylinderSetup() {
