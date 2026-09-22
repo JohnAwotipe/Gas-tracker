@@ -119,62 +119,6 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
 </div>
 <div class="tracker-pill">🔔 Timely reminders</div>
 </div>
-<!-- Cylinder Dashboard -->
-<section aria-labelledby="cylinderTitle" class="cylinder-panel">
-<div class="cylinder-head">
-<div>
-<h3 id="cylinderTitle">🔥 My Cylinders</h3>
-<p>Add your main cylinder and, if you have one, a backup cylinder. Your cylinder display updates automatically as your estimated consumption date gets closer.</p>
-</div>
-</div>
-<div class="cylinder-settings">
-<div class="cylinder-setting">
-<label for="mainCylinderSize">Main cylinder</label>
-<select id="mainCylinderSize" onchange="saveCylinderSetup()">
-<option value="3">3 KG</option><option value="4">4 KG</option><option value="5">5 KG</option><option value="6">6 KG</option><option value="10">10 KG</option><option value="12">12 KG</option><option value="60">60 KG</option>
-</select>
-</div>
-<div class="cylinder-setting">
-<label for="backupCylinderSize">Backup cylinder</label>
-<select id="backupCylinderSize" onchange="saveCylinderSetup()">
-<option value="none">No backup cylinder</option><option value="3">3 KG</option><option value="4">4 KG</option><option value="5">5 KG</option><option value="6">6 KG</option><option value="10">10 KG</option><option value="12">12 KG</option><option value="60">60 KG</option>
-</select>
-</div>
-</div>
-<div class="cylinder-grid">
-<article class="cylinder-card main">
-<div aria-hidden="true" class="cylinder-stage">
-<img alt="12 KG cooking gas cylinder" class="cylinder-image" id="mainCylinderImage" src="https://i.imgur.com/UZGV7Qg.png"/>
-</div>
-<div class="cylinder-info">
-<div class="cylinder-role">Main cylinder</div>
-<h4 id="mainCylinderDisplay">12 KG</h4>
-<div class="cylinder-status" id="mainCylinderStatus">🟢 On track</div>
-<div class="cylinder-meter"><div class="cylinder-meter-fill" id="mainCylinderMeter"></div></div>
-<div class="cylinder-days">Estimated remaining: <strong id="mainCylinderDays">Set your dates</strong></div>
-<div class="cylinder-note">Estimated from your refill and consumption dates — not a physical gas-level measurement.</div>
-</div>
-</article>
-<article class="cylinder-card" id="backupCylinderCard" style="display:none;">
-<div aria-hidden="true" class="cylinder-stage">
-<img alt="12 KG backup cooking gas cylinder" class="cylinder-image" id="backupCylinderImage" src="https://i.imgur.com/UZGV7Qg.png"/>
-</div>
-<div class="cylinder-info">
-<div class="cylinder-role">Backup cylinder</div>
-<h4 id="backupCylinderDisplay">6 KG</h4>
-<div class="cylinder-status">⚪ Backup ready</div>
-<div class="cylinder-days">Keep it available for your next refill.</div>
-<div class="cylinder-note">Your backup cylinder is stored as a separate household cylinder.</div>
-</div>
-</article>
-<div class="backup-empty" id="backupEmpty"><div><strong>+ Add a backup cylinder</strong><span>Useful when you want a second cylinder ready before the main one runs out.</span></div></div>
-</div>
-</section>
-<!-- Notification Permission -->
-<div class="notification-permission" id="notifPermission">
-<p>🔔 <strong>Enable notifications</strong> to receive pop-up alerts on your phone.</p>
-<button onclick="requestPermission()">Enable Notifications</button><small style="display:block;margin-top:8px;opacity:.75">Reminders use your device local time: <strong id="localTimeZoneLabel">detecting…</strong></small>
-</div>
 <!-- Date Section -->
 <div class="date-section">
 <div class="section-title">📅 Set Consumption Dates</div>
@@ -326,6 +270,66 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
 </div>
 </div>
 <button class="save-btn" onclick="saveDates()">💾 Save Dates</button>
+</div>
+
+<!-- Cylinder Dashboard -->
+<section aria-labelledby="cylinderTitle" class="cylinder-panel">
+<div class="cylinder-head">
+<div>
+<h3 id="cylinderTitle">🔥 My Cylinders</h3>
+<p>Add your main cylinder and, if you have one, a backup cylinder. Your cylinder display updates automatically as your estimated consumption date gets closer.</p>
+</div>
+</div>
+<div class="cylinder-settings">
+<div class="cylinder-setting">
+<label for="mainCylinderSize">Main cylinder</label>
+<select id="mainCylinderSize" onchange="saveCylinderSetup()">
+<option value="3">3 KG</option><option value="4">4 KG</option><option value="5">5 KG</option><option value="6">6 KG</option><option value="10">10 KG</option><option value="12">12 KG</option><option value="60">60 KG</option>
+</select>
+</div>
+<div class="cylinder-setting backup-toggle-setting">
+<button type="button" class="backup-toggle-btn" id="addBackupCylinderBtn" onclick="toggleBackupCylinderSetup()">＋ Add backup cylinder</button>
+</div>
+<div class="cylinder-setting backup-setting" id="backupCylinderSetting" style="display:none;">
+<label for="backupCylinderSize">Backup cylinder</label>
+<select id="backupCylinderSize" onchange="saveCylinderSetup()">
+<option value="none">No backup cylinder</option><option value="3">3 KG</option><option value="4">4 KG</option><option value="5">5 KG</option><option value="6">6 KG</option><option value="10">10 KG</option><option value="12">12 KG</option><option value="60">60 KG</option>
+</select>
+</div>
+</div>
+<div class="cylinder-grid">
+<article class="cylinder-card main">
+<div aria-hidden="true" class="cylinder-stage">
+<img alt="12 KG cooking gas cylinder" class="cylinder-image" id="mainCylinderImage" src="https://i.imgur.com/UZGV7Qg.png"/>
+</div>
+<div class="cylinder-info">
+<div class="cylinder-role">Main cylinder</div>
+<h4 id="mainCylinderDisplay">12 KG</h4>
+<div class="cylinder-status" id="mainCylinderStatus">🟢 On track</div>
+<div class="cylinder-meter"><div class="cylinder-meter-fill" id="mainCylinderMeter"></div></div>
+<div class="cylinder-days">Estimated remaining: <strong id="mainCylinderDays">Set your dates</strong></div>
+<div class="cylinder-note">Estimated from your refill and consumption dates — not a physical gas-level measurement.</div>
+</div>
+</article>
+<article class="cylinder-card" id="backupCylinderCard" style="display:none;">
+<div aria-hidden="true" class="cylinder-stage">
+<img alt="12 KG backup cooking gas cylinder" class="cylinder-image" id="backupCylinderImage" src="https://i.imgur.com/UZGV7Qg.png"/>
+</div>
+<div class="cylinder-info">
+<div class="cylinder-role">Backup cylinder</div>
+<h4 id="backupCylinderDisplay">6 KG</h4>
+<div class="cylinder-status">⚪ Backup ready</div>
+<div class="cylinder-days">Keep it available for your next refill.</div>
+<div class="cylinder-note">Your backup cylinder is stored as a separate household cylinder.</div>
+</div>
+</article>
+<div class="backup-empty" id="backupEmpty"><div><strong>+ Add a backup cylinder</strong><span>Useful when you want a second cylinder ready before the main one runs out.</span></div></div>
+</div>
+</section>
+<!-- Notification Permission -->
+<div class="notification-permission" id="notifPermission">
+<p>🔔 <strong>Enable notifications</strong> to receive pop-up alerts on your phone.</p>
+<button onclick="requestPermission()">Enable Notifications</button><small style="display:block;margin-top:8px;opacity:.75">Reminders use your device local time: <strong id="localTimeZoneLabel">detecting…</strong></small>
 </div>
 <!-- Status / Countdown -->
 <div class="status-section">
@@ -862,7 +866,7 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
             if (!detected) {
                 const lang = navigator.language || navigator.userLanguage || 'en-US';
                 const country = (lang.split('-')[1] || lang.split('_')[1] || '').toUpperCase();
-                detected = countryCurrencyMap[country] || 'NGN'; // Default to NGN
+                detected = countryCurrencyMap[country] || 'USD'; // Generic fallback only when the device provides no recognizable region
             }
 
             console.log('Detected currency:', detected);
@@ -894,7 +898,7 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
                     consumptionDateInput.value = saved.dates.consumption;
                     kgInput.value = saved.dates.kg || '';
                     priceInput.value = saved.dates.price || '';
-                    currencySelect.value = saved.dates.currency || 'NGN';
+                    currencySelect.value = saved.dates.currency || currencySelect.value || detectCurrency();
                 }
                 if (saved.history) history = saved.history;
                 if (saved.sentNotifications) sentNotifications = saved.sentNotifications;
@@ -1597,6 +1601,33 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
                 document.getElementById('backupCylinderSize').value = backup;
             } catch (e) { console.warn('Cylinder setup could not be loaded:', e); }
             updateCylinderDashboard();
+        }
+
+        function toggleBackupCylinderSetup() {
+            const setting = document.getElementById('backupCylinderSetting');
+            const select = document.getElementById('backupCylinderSize');
+            const button = document.getElementById('addBackupCylinderBtn');
+            if (!setting || !select || !button) return;
+            const showing = setting.style.display !== 'none';
+            if (showing) {
+                select.value = 'none';
+                setting.style.display = 'none';
+                button.textContent = '＋ Add backup cylinder';
+            } else {
+                setting.style.display = 'block';
+                button.textContent = '− Remove backup cylinder';
+            }
+            saveCylinderSetup();
+        }
+
+        function syncBackupCylinderControl() {
+            const setting = document.getElementById('backupCylinderSetting');
+            const select = document.getElementById('backupCylinderSize');
+            const button = document.getElementById('addBackupCylinderBtn');
+            if (!setting || !select || !button) return;
+            const hasBackup = select.value !== 'none';
+            setting.style.display = hasBackup ? 'block' : 'none';
+            button.textContent = hasBackup ? '− Remove backup cylinder' : '＋ Add backup cylinder';
         }
 
         function saveCylinderSetup() {
