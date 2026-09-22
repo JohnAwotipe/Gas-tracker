@@ -2,40 +2,80 @@ importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js'
 importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js');
 
 firebase.initializeApp({
-  apiKey: "AIzaSyAjir7zq8PIzXbDZqfvpRvoWqqYd9udnTU",
-  authDomain: "gas-tracker-8e098.firebaseapp.com",
-  projectId: "gas-tracker-8e098",
-  storageBucket: "gas-tracker-8e098.firebasestorage.app",
-  messagingSenderId: "265524187379",
-  appId: "1:265524187379:web:d987da967ae8aadc582786"
+    apiKey: 'AIzaSyAjir7zq8PIzXbDZqfvpRvoWqqYd9udnTU',
+    authDomain: 'gas-tracker-8e098.firebaseapp.com',
+    projectId: 'gas-tracker-8e098',
+    storageBucket: 'gas-tracker-8e098.firebasestorage.app',
+    messagingSenderId: '265524187379',
+    appId: '1:265524187379:web:d987da967ae8aadc582786'
 });
 
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  console.log('Received background message ', payload);
+    console.log('[firebase-messaging-sw.js] Background message:', payload);
 
-  const notificationTitle =
-    payload.notification?.title || 'Cooking Gas Alert';
+    const notification = payload.notification || {};
+    const data = payload.data || {};
 
-  const notificationBody =
-    payload.notification?.body || 'Check your cooking gas tracker.';
+    const title =
+        notification.title ||
+        data.title ||
+        'Cooking Gas Alert';
 
-  const notificationOptions = {
-    body: notificationBody,
+    const body =
+        notification.body ||
+        data.body ||
+        'You have a new cooking gas reminder.';
 
-    // Cooking Gas Tracker icon
-    icon: 'https://i.imgur.com/OkIJfE2.png',
+    self.registration.showNotification(title, {
+        body: body,
 
-    // Small notification badge
-    badge: 'https://i.imgur.com/OkIJfE2.png',
+        icon: 'https://i.imgur.com/QzPFczP.png',
+        badge: 'https://i.imgur.com/QzPFczP.png',
 
-    // Keep the notification visible
-    requireInteraction: false
-  };
+        data: {
+            url: './tracker.html'
+        }
+    });
+});
 
-  self.registration.showNotification(
-    notificationTitle,
-    notificationOptions
-  );
+
+self.addEventListener('notificationclick', (event) => {
+
+    event.notification.close();
+
+    const url =
+        event.notification.data?.url ||
+        './tracker.html';
+
+    event.waitUntil(
+
+        clients.matchAll({
+            type: 'window',
+            includeUncontrolled: true
+        })
+
+        .then((clientList) => {
+
+            for (const client of clientList) {
+
+                if ('focus' in client) {
+
+                    client.navigate(url);
+
+                    return client.focus();
+                }
+            }
+
+            if (clients.openWindow) {
+
+                return clients.openWindow(url);
+
+            }
+
+        })
+
+    );
+
 });
