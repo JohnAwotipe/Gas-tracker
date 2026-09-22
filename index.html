@@ -44,8 +44,6 @@
 
     --shadow:0 18px 50px rgba(25,18,45,.09);
     --shadow-hover:0 25px 60px rgba(25,18,45,.15);
-
-    --radius:26px;
 }
 
 *{
@@ -108,7 +106,6 @@ header{
     z-index:1000;
 
     background:rgba(255,255,255,.92);
-
     backdrop-filter:blur(18px);
 
     border-bottom:1px solid var(--border);
@@ -144,7 +141,6 @@ body.dark header{
     height:50px;
 
     object-fit:contain;
-
     border-radius:14px;
 
     flex-shrink:0;
@@ -193,7 +189,6 @@ body.dark header{
     place-items:center;
 
     border:1px solid var(--border);
-
     border-radius:13px;
 
     background:var(--card);
@@ -212,7 +207,6 @@ body.dark header{
     overflow:hidden;
 
     max-width:1200px;
-
     min-height:650px;
 
     margin:20px auto 0;
@@ -299,7 +293,6 @@ body.dark .hero{
     z-index:2;
 
     max-width:1100px;
-
     min-height:650px;
 
     margin:auto;
@@ -329,7 +322,6 @@ body.dark .hero{
     border-radius:999px;
 
     background:var(--purple-light);
-
     color:var(--purple);
 
     font-size:12px;
@@ -360,7 +352,6 @@ body.dark .hero{
     max-width:650px;
 
     font-size:18px;
-
     line-height:1.75;
 
     color:#3f3f3f;
@@ -376,9 +367,7 @@ body.dark .hero-description{
 
 .hero-buttons{
     display:flex;
-
     flex-wrap:wrap;
-
     gap:12px;
 }
 
@@ -391,14 +380,12 @@ body.dark .hero-description{
     border-radius:15px;
 
     display:inline-flex;
-
     align-items:center;
     justify-content:center;
 
     gap:8px;
 
     font-size:14px;
-
     font-weight:900;
 
     transition:.25s;
@@ -406,7 +393,6 @@ body.dark .hero-description{
 
 .primary-btn{
     background:var(--purple);
-
     color:#fff;
 
     box-shadow:
@@ -415,13 +401,11 @@ body.dark .hero-description{
 
 .primary-btn:hover{
     background:var(--purple-dark);
-
     transform:translateY(-2px);
 }
 
 .secondary-btn{
     background:var(--white);
-
     color:var(--black);
 
     border:1px solid var(--border);
@@ -434,7 +418,6 @@ body.dark .secondary-btn{
 
 .secondary-btn:hover{
     border-color:var(--orange);
-
     color:var(--orange);
 
     transform:translateY(-2px);
@@ -443,6 +426,7 @@ body.dark .secondary-btn{
 
 /* =========================================================
    HERO VIDEO
+   VIDEO ORIGINAL RATIO = 984 / 710
 ========================================================= */
 
 .hero-visual{
@@ -451,9 +435,7 @@ body.dark .secondary-btn{
     min-height:430px;
 
     display:flex;
-
     align-items:center;
-
     justify-content:center;
 }
 
@@ -507,21 +489,21 @@ body.dark .secondary-btn{
 }
 
 
-/* THE WHITE VIDEO FRAME */
+/* VIDEO FRAME */
 
 .hero-video-card{
     position:relative;
-
     z-index:3;
 
-    width:310px;
-    height:390px;
+    width:min(100%,430px);
 
-    padding:10px;
+    aspect-ratio:984 / 710;
+
+    padding:9px;
 
     overflow:hidden;
 
-    border-radius:48px;
+    border-radius:38px;
 
     background:
         linear-gradient(
@@ -536,7 +518,7 @@ body.dark .secondary-btn{
         0 30px 70px rgba(50,30,80,.18),
         inset 0 1px 0 rgba(255,255,255,.95);
 
-    transform:rotate(-3deg);
+    transform:rotate(-2deg);
 }
 
 body.dark .hero-video-card{
@@ -550,11 +532,12 @@ body.dark .hero-video-card{
 
     display:block;
 
-    object-fit:cover;
+    object-fit:contain;
+    object-position:center;
 
-    border-radius:39px;
+    border-radius:30px;
 
-    background:#f5f5f5;
+    background:#ffffff;
 }
 
 
@@ -564,11 +547,9 @@ body.dark .hero-video-card{
 
 .floating-card{
     position:absolute;
-
     z-index:5;
 
     display:flex;
-
     align-items:center;
 
     gap:9px;
@@ -585,7 +566,6 @@ body.dark .hero-video-card{
         0 15px 35px rgba(0,0,0,.10);
 
     font-size:12px;
-
     font-weight:900;
 }
 
@@ -614,7 +594,6 @@ body.dark .floating-card{
     height:34px;
 
     display:grid;
-
     place-items:center;
 
     border-radius:10px;
@@ -649,7 +628,6 @@ body.dark .floating-card{
 
 .app-box{
     position:relative;
-
     overflow:hidden;
 
     padding:38px;
@@ -701,18 +679,18 @@ body.dark .floating-card{
 
 .app-content h2{
     font-size:30px;
-
     line-height:1.2;
 
     margin-bottom:8px;
 }
 
 .app-content p{
-    color:rgba(255,255,255,.88);
+    color:rgba(255,255,255,.90);
 
     max-width:600px;
 
     font-size:14px;
+    line-height:1.6;
 }
 
 .store-buttons{
@@ -721,13 +699,14 @@ body.dark .floating-card{
 
     display:flex;
 
-    align-items:center;
+    align-items:flex-start;
 
-    gap:10px;
+    gap:12px;
 }
 
 .store-button{
     display:block;
+    position:relative;
 }
 
 .store-button img{
@@ -739,13 +718,17 @@ body.dark .floating-card{
     transition:.2s;
 }
 
-.store-button:hover img{
+
+/* ONLY GOOGLE PLAY IS CLICKABLE */
+
+.google-store:hover img{
     transform:translateY(-3px);
 }
 
-.apple-store{
-    position:relative;
 
+/* APPLE STORE */
+
+.apple-store{
     cursor:default;
 }
 
@@ -753,27 +736,28 @@ body.dark .floating-card{
     opacity:.95;
 }
 
-.coming-soon{
+
+/* COMING SOON ONLY UNDER APPLE */
+
+.apple-store .coming-soon{
     position:absolute;
 
     left:50%;
-
-    bottom:-20px;
+    bottom:-23px;
 
     transform:translateX(-50%);
 
     white-space:nowrap;
 
-    color:rgba(255,255,255,.92);
+    color:#fff;
 
     font-size:10px;
-
     font-weight:900;
 }
 
 
 /* =========================================================
-   SECTIONS
+   COMMON SECTIONS
 ========================================================= */
 
 .section{
@@ -796,7 +780,6 @@ body.dark .floating-card{
     color:var(--orange);
 
     font-size:12px;
-
     font-weight:900;
 
     letter-spacing:1.5px;
@@ -838,7 +821,6 @@ body.dark .floating-card{
 
 .feature-card{
     position:relative;
-
     overflow:hidden;
 
     min-height:235px;
@@ -883,7 +865,6 @@ body.dark .floating-card{
     height:54px;
 
     display:grid;
-
     place-items:center;
 
     border-radius:16px;
@@ -985,7 +966,6 @@ body.dark .floating-card{
     height:48px;
 
     display:grid;
-
     place-items:center;
 
     border-radius:15px;
@@ -995,7 +975,6 @@ body.dark .floating-card{
     color:#fff;
 
     font-size:14px;
-
     font-weight:900;
 
     margin-bottom:15px;
@@ -1019,13 +998,11 @@ body.dark .floating-card{
     position:absolute;
 
     right:-18px;
-
     top:18px;
 
     color:var(--orange);
 
     font-size:24px;
-
     font-weight:900;
 }
 
@@ -1036,7 +1013,6 @@ body.dark .floating-card{
 
 .assistant-showcase{
     position:relative;
-
     overflow:hidden;
 
     display:grid;
@@ -1087,7 +1063,6 @@ body.dark .floating-card{
 
 .assistant-text{
     position:relative;
-
     z-index:2;
 }
 
@@ -1146,7 +1121,6 @@ body.dark .floating-card{
 
 .chat-preview{
     position:relative;
-
     z-index:2;
 
     max-width:390px;
@@ -1185,7 +1159,6 @@ body.dark .floating-card{
     height:38px;
 
     display:grid;
-
     place-items:center;
 
     border-radius:12px;
@@ -1260,7 +1233,6 @@ body.dark .floating-card{
     flex-shrink:0;
 
     display:grid;
-
     place-items:center;
 
     border-radius:17px;
@@ -1303,7 +1275,6 @@ body.dark .floating-card{
 
 .final-box{
     position:relative;
-
     overflow:hidden;
 
     padding:55px 35px;
@@ -1350,7 +1321,6 @@ body.dark .floating-card{
 
 .final-box .primary-btn{
     background:#fff;
-
     color:var(--purple);
 }
 
@@ -1467,7 +1437,7 @@ footer p{
     }
 
     .hero-visual{
-        min-height:430px;
+        min-height:400px;
     }
 
     .hero-orbit{
@@ -1476,8 +1446,9 @@ footer p{
     }
 
     .hero-video-card{
-        width:285px;
-        height:365px;
+        width:min(90%,400px);
+
+        aspect-ratio:984 / 710;
     }
 
     .feature-grid{
@@ -1493,11 +1464,9 @@ footer p{
         content:"↓";
 
         right:auto;
-
         left:28px;
 
         top:auto;
-
         bottom:-17px;
     }
 
@@ -1572,7 +1541,6 @@ footer p{
     .mobile-nav a.active{
         color:var(--purple);
     }
-
 }
 
 
@@ -1653,30 +1621,33 @@ footer p{
     }
 
 
-    /* VIDEO */
+    /* HERO VIDEO */
 
     .hero-visual{
-        min-height:355px;
+        min-height:330px;
 
         margin-top:5px;
     }
 
     .hero-orbit{
-        width:280px;
-        height:280px;
+        width:285px;
+        height:285px;
     }
 
     .hero-video-card{
-        width:220px;
-        height:300px;
+        width:min(92vw,390px);
 
-        padding:8px;
+        aspect-ratio:984 / 710;
 
-        border-radius:36px;
+        height:auto;
+
+        padding:7px;
+
+        border-radius:30px;
     }
 
     .hero-video{
-        border-radius:29px;
+        border-radius:23px;
     }
 
     .floating-card{
@@ -1695,71 +1666,90 @@ footer p{
     }
 
     .float-one{
-        top:30px;
-        left:-3px;
+        top:22px;
+        left:-4px;
     }
 
     .float-two{
-        right:-5px;
-        bottom:45px;
+        right:-4px;
+        bottom:35px;
     }
 
     .float-three{
         left:-4px;
-        bottom:8px;
+        bottom:4px;
     }
 
 
-    /* APP */
+    /* APP SECTION */
 
-    .app-section,
-    .section,
-    .final-cta{
+    .app-section{
         padding:0 13px;
+
+        margin-top:50px;
     }
 
     .app-box{
-        padding:29px 21px;
+        padding:28px 18px 34px;
 
         border-radius:23px;
 
-        text-align:left;
+        display:block;
+
+        text-align:center;
     }
 
     .app-content h2{
-        font-size:24px;
+        font-size:23px;
 
         line-height:1.25;
 
-        max-width:100%;
+        letter-spacing:-.3px;
+
+        max-width:310px;
+
+        margin:0 auto 10px;
     }
 
     .app-content p{
         font-size:13px;
 
         line-height:1.6;
+
+        max-width:330px;
+
+        margin:0 auto;
     }
 
     .store-buttons{
-        width:100%;
+        margin-top:28px;
+
+        display:flex;
 
         justify-content:center;
 
-        gap:8px;
+        align-items:flex-start;
+
+        gap:9px;
     }
 
     .store-button img{
-        width:137px;
+        width:135px;
     }
 
-    .coming-soon{
-        font-size:9px;
+    .apple-store .coming-soon{
+        bottom:-19px;
 
-        bottom:-18px;
+        font-size:9px;
     }
 
 
     /* FEATURES */
+
+    .section,
+    .final-cta{
+        padding:0 13px;
+    }
 
     .feature-grid{
         grid-template-columns:1fr;
@@ -1790,12 +1780,11 @@ footer p{
     }
 
 
-    /* FINAL */
+    /* FINAL CTA */
 
     .final-box{
         padding:45px 22px;
     }
-
 }
 
 </style>
@@ -1807,7 +1796,7 @@ footer p{
 
 <!-- =====================================================
      HEADER
-====================================================== -->
+========================================================= -->
 
 <header>
 
@@ -1873,7 +1862,7 @@ aria-label="Toggle dark mode"
 
 <!-- =====================================================
      HERO
-====================================================== -->
+========================================================= -->
 
 <section class="hero">
 
@@ -1929,10 +1918,7 @@ class="secondary-btn"
 </div>
 
 
-
-<!-- =====================================================
-     HERO VIDEO
-====================================================== -->
+<!-- HERO VIDEO -->
 
 <div class="hero-visual">
 
@@ -1991,7 +1977,7 @@ aria-hidden="true"
 >
 
 <source
-src="videoplayback.mp4"
+src="IMG_20260922_133441_566.mp4"
 type="video/mp4"
 >
 
@@ -2009,21 +1995,23 @@ type="video/mp4"
 
 <!-- =====================================================
      APP DOWNLOAD
-====================================================== -->
+========================================================= -->
 
 <section class="app-section">
 
 <div class="app-box">
 
+
 <div class="app-content">
 
 <h2>
-Take Cooking Gas Tracker With You.
+Get the App on App Stores
 </h2>
 
 <p>
-Track your cooking gas and stay prepared wherever you are.
-Download the app and keep your gas management tools close at hand.
+Take Cooking Gas Tracker & Manager with you.
+Download the app and keep your gas management tools
+close at hand wherever you are.
 </p>
 
 </div>
@@ -2032,35 +2020,41 @@ Download the app and keep your gas management tools close at hand.
 <div class="store-buttons">
 
 
-<!-- APPLE — COMING SOON -->
+<!-- =====================================================
+     APPLE APP STORE — COMING SOON
+===================================================== -->
 
-<div class="store-button apple-store">
+<div
+class="store-button apple-store"
+>
 
 <img
 src="https://i.imgur.com/dKWBWpV.png"
-alt="Download on the App Store"
+alt="Cooking Gas Tracker on the Apple App Store"
 >
 
-<div class="coming-soon">
+<span class="coming-soon">
 Coming Soon
-</div>
+</span>
 
 </div>
 
 
-<!-- GOOGLE PLAY — ACTUAL LINK -->
+<!-- =====================================================
+     GOOGLE PLAY — CLICKABLE
+===================================================== -->
 
 <a
 href="https://play.google.com/store/apps/details?id=com.john.gastracker"
 target="_blank"
 rel="noopener"
-class="store-button"
+class="store-button google-store"
 aria-label="Download Cooking Gas Tracker on Google Play"
 >
 
 <img
 src="https://i.imgur.com/4QKNprk.png"
-alt="Get it on Google Play"
+alt="Get Cooking Gas Tracker on Google Play"
 >
 
 </a>
@@ -2076,7 +2070,7 @@ alt="Get it on Google Play"
 
 <!-- =====================================================
      CORE FEATURES
-====================================================== -->
+========================================================= -->
 
 <section
 class="section"
@@ -2104,8 +2098,6 @@ your everyday cooking, gas management and household planning.
 <div class="feature-grid">
 
 
-<!-- TRACKER -->
-
 <a
 href="tracker.html"
 class="feature-card feature-purple"
@@ -2130,8 +2122,6 @@ Open Tracker →
 
 </a>
 
-
-<!-- HOW IT WORKS -->
 
 <a
 href="how-it-works.html"
@@ -2158,8 +2148,6 @@ Learn More →
 </a>
 
 
-<!-- COOKING PROFILE -->
-
 <a
 href="cooking-profile.html"
 class="feature-card feature-green"
@@ -2184,8 +2172,6 @@ Build Profile →
 
 </a>
 
-
-<!-- MEAL PLANNER -->
 
 <a
 href="meal-planner.html"
@@ -2212,8 +2198,6 @@ Plan My Meals →
 </a>
 
 
-<!-- GAS SAVING -->
-
 <a
 href="gas-saving-tips.html"
 class="feature-card feature-orange"
@@ -2239,8 +2223,6 @@ Save More Gas →
 </a>
 
 
-<!-- ASSISTANT -->
-
 <a
 href="assistant.html"
 class="feature-card feature-pink"
@@ -2265,6 +2247,7 @@ Ask Assistant →
 
 </a>
 
+
 </div>
 
 </section>
@@ -2273,7 +2256,7 @@ Ask Assistant →
 
 <!-- =====================================================
      HOW IT WORKS
-====================================================== -->
+========================================================= -->
 
 <section class="section">
 
@@ -2363,8 +2346,8 @@ and Assistant whenever you need them.
 
 
 <!-- =====================================================
-     ASSISTANT
-====================================================== -->
+     ASSISTANT SHOWCASE
+========================================================= -->
 
 <section class="section">
 
@@ -2423,7 +2406,6 @@ class="primary-btn"
 </div>
 
 
-
 <div class="chat-preview">
 
 <div class="chat-title">
@@ -2464,7 +2446,7 @@ plan your meals around your gas-saving goal.
 
 <!-- =====================================================
      SMART TOOLS
-====================================================== -->
+========================================================= -->
 
 <section class="section">
 
@@ -2496,10 +2478,7 @@ class="tool-card"
 
 <div
 class="tool-icon"
-style="
-background:#cffafe;
-color:#0891b2;
-"
+style="background:#cffafe;color:#0891b2;"
 >
 🛒
 </div>
@@ -2531,10 +2510,7 @@ class="tool-card"
 
 <div
 class="tool-icon"
-style="
-background:#fee2e2;
-color:#dc2626;
-"
+style="background:#fee2e2;color:#dc2626;"
 >
 🛡️
 </div>
@@ -2566,10 +2542,7 @@ class="tool-card"
 
 <div
 class="tool-icon"
-style="
-background:#fef3c7;
-color:#d97706;
-"
+style="background:#fef3c7;color:#d97706;"
 >
 📚
 </div>
@@ -2601,10 +2574,7 @@ class="tool-card"
 
 <div
 class="tool-icon"
-style="
-background:#fce7f3;
-color:#db2777;
-"
+style="background:#fce7f3;color:#db2777;"
 >
 🛍️
 </div>
@@ -2628,6 +2598,7 @@ platform continues to grow.
 
 </a>
 
+
 </div>
 
 </section>
@@ -2636,7 +2607,7 @@ platform continues to grow.
 
 <!-- =====================================================
      FINAL CTA
-====================================================== -->
+========================================================= -->
 
 <section class="final-cta">
 
@@ -2667,7 +2638,7 @@ class="primary-btn"
 
 <!-- =====================================================
      FOOTER
-====================================================== -->
+========================================================= -->
 
 <footer>
 
@@ -2721,7 +2692,7 @@ All rights reserved.
 
 <!-- =====================================================
      MOBILE NAV
-====================================================== -->
+========================================================= -->
 
 <nav class="mobile-nav">
 
@@ -2731,7 +2702,6 @@ class="active"
 >
 
 <span>🏠</span>
-
 <span>Home</span>
 
 </a>
@@ -2740,7 +2710,6 @@ class="active"
 <a href="tracker.html">
 
 <span>🔥</span>
-
 <span>Tracker</span>
 
 </a>
@@ -2749,7 +2718,6 @@ class="active"
 <a href="assistant.html">
 
 <span>🤖</span>
-
 <span>Assistant</span>
 
 </a>
@@ -2758,7 +2726,6 @@ class="active"
 <a href="guides.html">
 
 <span>📚</span>
-
 <span>Guides</span>
 
 </a>
@@ -2767,7 +2734,6 @@ class="active"
 <a href="more.html">
 
 <span>☰</span>
-
 <span>More</span>
 
 </a>
@@ -2779,7 +2745,7 @@ class="active"
 <script>
 
 /* =========================================================
-   THEME
+   DARK / LIGHT MODE
 ========================================================= */
 
 const themeBtn =
@@ -2817,7 +2783,7 @@ themeBtn.addEventListener("click",()=>{
 
 
 /* =========================================================
-   YEAR
+   CURRENT YEAR
 ========================================================= */
 
 document.getElementById("year").textContent =
