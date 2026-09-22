@@ -61,4 +61,5 @@ const toggle=document.getElementById('themeToggle');
 function setTheme(){const dark=localStorage.getItem('cgtTheme')==='dark';document.body.classList.toggle('dark',dark);toggle.textContent=dark?'☀️':'🌙';}
 toggle.addEventListener('click',()=>{const dark=!document.body.classList.contains('dark');document.body.classList.toggle('dark',dark);localStorage.setItem('cgtTheme',dark?'dark':'light');toggle.textContent=dark?'☀️':'🌙';});setTheme();
 </script>
+  <script src="auth-nav.js"></script>
 </body></html>
