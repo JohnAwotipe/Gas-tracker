@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#6d28d9">
+<meta name="description" content="Explore Cooking Gas Tracker & Manager products and upcoming tools designed to make everyday cooking and household management easier.">
+<title>Our Products | Cooking Gas Tracker & Manager</title>
+<link rel="icon" type="image/png" href="https://i.imgur.com/QzPFczP.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --purple:#6d28d9;--purple2:#7c3aed;--purple3:#8b5cf6;
+  --green:#16a34a;--orange:#ea580c;--blue:#2563eb;--cyan:#0891b2;
+  --pink:#db2777;--yellow:#ca8a04;--red:#dc2626;
+  --bg:#f7f7fb;--card:#fff;--text:#171717;--muted:#6b7280;--border:#e5e7eb;
+  --shadow:0 12px 32px rgba(0,0,0,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);
+  line-height:1.65;padding-bottom:80px;overflow-x:hidden;
+}
+body.dark,body.dark-mode{
+  --bg:#11111a;--card:#1b1b28;--text:#f5f5f5;--muted:#aaaab8;--border:#30303d;
+  --shadow:0 14px 34px rgba(0,0,0,.28);
+}
+.page-container{max-width:1180px;margin:0 auto;padding:0 20px 90px}
+.site-header{
+  position:sticky;top:0;z-index:1000;min-height:72px;padding:11px 0;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  background:rgba(255,255,255,.94);backdrop-filter:blur(15px);border-bottom:1px solid var(--border);
+}
+body.dark .site-header,body.dark-mode .site-header{background:rgba(17,17,26,.94)}
+.brand-row{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--text);font-weight:800;min-width:0}
+.brand-mark{width:46px;height:46px;flex:0 0 46px;border-radius:12px;overflow:hidden;box-shadow:0 5px 15px rgba(109,40,217,.2)}
+.brand-mark img{width:100%;height:100%;object-fit:cover;display:block}
+.brand-name{font-size:15px;line-height:1.1}
+.brand-tagline{font-size:12px;color:var(--muted);margin-top:3px;font-weight:600}
+.top-nav{display:flex;align-items:center;gap:6px}
+.top-nav a{text-decoration:none;color:var(--muted);padding:10px 13px;border-radius:10px;font-size:14px;font-weight:700;transition:.2s}
+.top-nav a:hover,.top-nav a.active{background:#ede9fe;color:var(--purple)}
+body.dark .top-nav a:hover,body.dark .top-nav a.active,body.dark-mode .top-nav a:hover,body.dark-mode .top-nav a.active{background:#2b2144;color:#c4b5fd}
+.theme-toggle{
+  width:40px;height:40px;border:0;border-radius:50%;background:#f1f1f5;color:var(--text);
+  cursor:pointer;font-size:18px;flex:0 0 40px;
+}
+body.dark .theme-toggle,body.dark-mode .theme-toggle{background:#292936;color:#fff}
+
+.hero{
+  position:relative;overflow:hidden;margin:35px 0 25px;padding:52px 42px;border-radius:30px;
+  background:
+    radial-gradient(circle at 88% 15%,rgba(22,163,74,.26),transparent 27%),
+    radial-gradient(circle at 8% 90%,rgba(249,115,22,.22),transparent 30%),
+    radial-gradient(circle at 65% 110%,rgba(37,99,235,.22),transparent 30%),
+    linear-gradient(135deg,#4c1d95,#6d28d9 55%,#7c3aed);
+  color:#fff;box-shadow:0 20px 50px rgba(76,29,149,.22);
+}
+.hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.14);border-radius:50%;pointer-events:none}
+.hero:before{width:370px;height:370px;right:-170px;top:-195px}
+.hero:after{width:220px;height:220px;right:65px;top:-105px}
+.hero>*{position:relative;z-index:2}
+.back{display:inline-flex;color:#fff;text-decoration:none;font-size:14px;font-weight:700;margin-bottom:18px;opacity:.9}
+.eyebrow{
+  display:inline-flex;padding:8px 13px;border-radius:30px;background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.22);font-size:12px;font-weight:900;letter-spacing:.04em;margin-bottom:16px;
+}
+.hero h1{font-size:clamp(36px,5vw,56px);line-height:1.04;margin:0 0 17px;max-width:850px}
+.hero p{font-size:17px;color:rgba(255,255,255,.92);max-width:770px;margin:0}
+
+.intro{
+  background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);
+  border-radius:24px;padding:28px;margin-bottom:22px;
+}
+.intro-kicker{font-size:12px;font-weight:900;letter-spacing:.11em;color:var(--purple);text-transform:uppercase}
+.intro h2{font-size:28px;line-height:1.15;margin:6px 0 8px}
+.intro p{margin:0;color:var(--muted);max-width:820px}
+
+.products-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.product-card{
+  position:relative;overflow:hidden;background:var(--card);border:1px solid var(--border);
+  border-radius:25px;padding:28px;box-shadow:var(--shadow);transition:transform .2s ease,box-shadow .2s ease;
+}
+.product-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.10)}
+.product-card.featured{grid-column:1/-1}
+.product-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.product-icon{
+  width:64px;height:64px;flex:0 0 64px;border-radius:19px;display:flex;align-items:center;justify-content:center;
+  font-size:31px;background:#ede9fe;color:var(--purple);
+}
+.product-card.green .product-icon{background:#dcfce7;color:var(--green)}
+.product-card.blue .product-icon{background:#dbeafe;color:var(--blue)}
+.product-card.orange .product-icon{background:#ffedd5;color:var(--orange)}
+.product-card.pink .product-icon{background:#fce7f3;color:var(--pink)}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:30px;
+  font-size:11px;font-weight:900;white-space:nowrap;
+}
+.badge.available{background:#dcfce7;color:#166534}
+.badge.coming{background:#fff7ed;color:#9a3412}
+body.dark .badge.available{background:#143a22;color:#86efac}
+body.dark .badge.coming{background:#3a2516;color:#fdba74}
+.product-card h3{font-size:25px;line-height:1.15;margin:22px 0 8px}
+.product-card p{color:var(--muted);margin:0 0 18px}
+.product-features{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px;padding:0;list-style:none}
+.product-features li{
+  padding:7px 10px;border-radius:10px;background:var(--bg);border:1px solid var(--border);
+  color:var(--muted);font-size:12px;font-weight:700;
+}
+.product-action{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:45px;padding:11px 18px;border-radius:13px;text-decoration:none;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;font-weight:900;font-size:14px;
+  box-shadow:0 9px 20px rgba(109,40,217,.20);
+}
+.product-action.disabled{background:var(--bg);color:var(--muted);box-shadow:none;border:1px solid var(--border);cursor:default}
+.product-card.featured .product-icon{width:74px;height:74px;flex-basis:74px;font-size:36px}
+.featured-content{display:grid;grid-template-columns:1fr auto;gap:25px;align-items:center}
+.featured .product-copy{max-width:780px}
+.featured .product-copy h3{font-size:31px;margin-top:18px}
+.featured-side{
+  min-width:210px;padding:20px;border-radius:20px;background:linear-gradient(145deg,#faf7ff,#fff7ed);
+  border:1px solid #ddd6fe;text-align:center;
+}
+.featured-side strong{display:block;font-size:13px;color:var(--purple);margin-bottom:8px}
+.featured-side span{display:block;color:var(--muted);font-size:12px}
+.section-note{
+  margin-top:22px;border-radius:22px;padding:22px 25px;background:linear-gradient(135deg,#eff6ff,#ecfeff);
+  border:1px solid #bae6fd;color:var(--text);box-shadow:var(--shadow);
+}
+.section-note strong{display:block;margin-bottom:4px}
+.section-note span{color:var(--muted);font-size:13px}
+
+.site-footer{border-top:1px solid var(--border);margin-top:35px;padding:35px 0 20px;text-align:center;color:var(--muted)}
+.site-footer a{color:var(--purple);text-decoration:none;font-weight:700}
+.footer-brand{font-weight:900;color:var(--text);margin-bottom:8px}
+.footer-note{font-size:12px}.footer-copyright{font-size:12px;margin-top:12px}
+
+.mobile-bottom-nav{
+  position:fixed;display:none;left:0;right:0;bottom:0;z-index:2000;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(16px);border-top:1px solid var(--border);
+  padding:8px 7px calc(8px + env(safe-area-inset-bottom));justify-content:space-around;
+}
+.mobile-bottom-nav a{
+  flex:1;max-width:90px;display:flex;flex-direction:column;align-items:center;gap:4px;
+  text-decoration:none;color:var(--muted);font-size:10px;font-weight:700;
+}
+.mobile-bottom-nav a strong{font-size:20px}.mobile-bottom-nav a.active{color:var(--purple)}
+body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(25,25,36,.97)}
+
+@media(max-width:850px){
+  .page-container{padding:0 15px 85px}.site-header{flex-wrap:wrap}.top-nav{display:none}.mobile-bottom-nav{display:flex}
+  .hero{margin-top:25px;padding:40px 27px;border-radius:24px}
+  .products-grid{grid-template-columns:1fr}.product-card.featured{grid-column:auto}
+  .featured-content{grid-template-columns:1fr}.featured-side{min-width:0}
+}
+@media(max-width:600px){
+  .site-header{padding:11px 0}.brand-mark{width:42px;height:42px;flex-basis:42px}.brand-name{font-size:13px}.brand-tagline{font-size:11px}
+  .theme-toggle{margin-left:auto}.hero{padding:33px 22px;margin-top:20px}.hero h1{font-size:35px}.hero p{font-size:15px}
+  .intro,.product-card{padding:22px}.product-top{gap:10px}.product-icon{width:56px;height:56px;flex-basis:56px;font-size:27px}
+  .product-card h3{font-size:23px}.featured .product-copy h3{font-size:27px}.featured .product-icon{width:62px;height:62px;flex-basis:62px}
+}
+</style>
+</head>
+<body>
+<div class="page-container">
+
+<header class="site-header">
+  <a href="index.html" class="brand-row">
+    <div class="brand-mark"><img src="https://i.imgur.com/QzPFczP.png" alt="Cooking Gas Tracker & Manager logo"></div>
+    <div>
+      <div class="brand-name">Cooking Gas Tracker & Manager</div>
+      <div class="brand-tagline">Track smarter. Refill on time.</div>
+    </div>
+  </a>
+  <nav class="top-nav" aria-label="Main navigation">
+    <a href="index.html">⌂ Home</a>
+    <a href="tracker.html">🔥 Tracker</a>
+    <a href="assistant.html">🤖 Assistant</a>
+    <a href="guides.html">📚 Guides</a>
+    <a href="more.html" class="active">☰ More</a>
+  </nav>
+  <button class="theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark mode" title="Switch to dark mode">🌙</button>
+</header>
+
+<section class="hero">
+  <a href="more.html" class="back">← More</a>
+  <div class="eyebrow">OUR PRODUCTS</div>
+  <h1>Useful tools for smarter everyday living.</h1>
+  <p>Explore the products we're building around cooking, household planning and everyday management — starting with Cooking Gas Tracker & Manager.</p>
+</section>
+
+<section class="intro">
+  <div class="intro-kicker">ONE PROJECT, MORE POSSIBILITIES</div>
+  <h2>Tools designed to work around real everyday needs.</h2>
+  <p>We are building practical tools that can make planning, tracking and managing everyday household tasks simpler. Some are available now, while others are being developed.</p>
+</section>
+
+<section class="products-grid" aria-label="Our products">
+
+  <article class="product-card featured">
+    <div class="featured-content">
+      <div class="product-copy">
+        <div class="product-top">
+          <div class="product-icon">🔥</div>
+          <span class="badge available">● Available now</span>
+        </div>
+        <h3>Cooking Gas Tracker & Manager</h3>
+        <p>Track your cooking gas usage, plan your next refill, receive timely reminders, manage your cooking profile, create meal plans, build shopping lists and get practical gas and food guidance.</p>
+        <ul class="product-features">
+          <li>Gas tracking</li><li>Refill reminders</li><li>Meal planning</li><li>Smart shopping</li><li>Gas safety</li><li>Smart Assistant</li>
+        </ul>
+        <a href="tracker.html" class="product-action">Open Gas Tracker →</a>
+      </div>
+      <div class="featured-side">
+        <strong>START HERE</strong>
+        <span>Your everyday gas & food management hub.</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="product-card green">
+    <div class="product-top">
+      <div class="product-icon">🏠</div>
+      <span class="badge coming">Coming soon</span>
+    </div>
+    <h3>HomeStock</h3>
+    <p>A simple household inventory tool for keeping track of what you have, what is running low and what needs to be restocked.</p>
+    <ul class="product-features">
+      <li>Household inventory</li><li>Restock reminders</li><li>Simple tracking</li>
+    </ul>
+    <span class="product-action disabled">Coming Soon</span>
+  </article>
+
+  <article class="product-card blue">
+    <div class="product-top">
+      <div class="product-icon">🛠️</div>
+      <span class="badge coming">Coming soon</span>
+    </div>
+    <h3>HomeCare</h3>
+    <p>Keep important home and appliance maintenance tasks organized so routine checks and care don't get forgotten.</p>
+    <ul class="product-features">
+      <li>Maintenance planning</li><li>Task reminders</li><li>Home care</li>
+    </ul>
+    <span class="product-action disabled">Coming Soon</span>
+  </article>
+
+  <article class="product-card orange">
+    <div class="product-top">
+      <div class="product-icon">💰</div>
+      <span class="badge coming">Coming soon</span>
+    </div>
+    <h3>Price Memory</h3>
+    <p>Keep a personal record of what you paid for everyday household items, making it easier to compare future purchases with your own history.</p>
+    <ul class="product-features">
+      <li>Price history</li><li>Purchase records</li><li>Easy comparison</li>
+    </ul>
+    <span class="product-action disabled">Coming Soon</span>
+  </article>
+
+  <article class="product-card pink">
+    <div class="product-top">
+      <div class="product-icon">✨</div>
+      <span class="badge coming">In development</span>
+    </div>
+    <h3>More practical tools</h3>
+    <p>We're exploring additional tools that fit naturally with the Cooking Gas Tracker & Manager ecosystem. New products will be added here as they become ready.</p>
+    <ul class="product-features">
+      <li>Practical</li><li>Simple</li><li>Built for everyday use</li>
+    </ul>
+    <span class="product-action disabled">More Coming Soon</span>
+  </article>
+
+</section>
+
+<div class="section-note">
+  <strong>💡 Why we're building more than one tool</strong>
+  <span>The goal is to create a collection of useful, focused tools rather than one overloaded app. Each product can solve a specific everyday problem while working naturally alongside the others.</span>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-brand">⛽ Cooking Gas Tracker & Manager</div>
+  <p>Helping everyday cooks plan ahead and avoid unexpected gas shortages.</p>
+  <p>
+    <a href="https://policies-privacy-8c085d.netlify.app/" target="_blank" rel="noopener">Privacy Policy</a> ·
+    <a href="https://about-us-a9f8d5.netlify.app/" target="_blank" rel="noopener">About Us</a> ·
+    <a href="https://terms-condition-36816f.netlify.app/" target="_blank" rel="noopener">Terms & Conditions</a>
+  </p>
+  <p class="footer-note">Reminder estimates depend on the information and cooking habits you provide.</p>
+  <div class="footer-copyright">© 2026 Cooking Gas Tracker & Manager</div>
+</footer>
+
+<nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+  <a href="index.html"><strong>⌂</strong>Home</a>
+  <a href="tracker.html"><strong>🔥</strong>Tracker</a>
+  <a href="assistant.html"><strong>🤖</strong>Assistant</a>
+  <a href="guides.html"><strong>📚</strong>Guides</a>
+  <a href="more.html" class="active"><strong>☰</strong>More</a>
+</nav>
+
+</div>
+
+<script>
+function applyTheme(){
+  const theme=localStorage.getItem('cgtTheme') || 'light';
+  document.body.classList.toggle('dark',theme==='dark');
+  document.body.classList.toggle('dark-mode',theme==='dark');
+  const btn=document.getElementById('themeToggle');
+  if(btn){
+    btn.textContent=theme==='dark'?'☀️':'🌙';
+    btn.setAttribute('aria-label',theme==='dark'?'Switch to light mode':'Switch to dark mode');
+    btn.setAttribute('title',theme==='dark'?'Switch to light mode':'Switch to dark mode');
+  }
+}
+function toggleTheme(){
+  const isDark=document.body.classList.contains('dark') || document.body.classList.contains('dark-mode');
+  localStorage.setItem('cgtTheme',isDark?'light':'dark');
+  applyTheme();
+}
+applyTheme();
+</script>
+</body>
+</html>
