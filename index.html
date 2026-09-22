@@ -6,7 +6,7 @@
 
 <title>Cooking Gas Tracker & Manager | Manage Your Gas & Food Smarter</title>
 
-<meta name="description" content="Track your cooking gas, plan refills, save money, reduce waste, plan meals, manage shopping and get personalized cooking guidance.">
+<meta name="description" content="Track your gas, plan refills, save money, reduce waste, plan meals, manage shopping and get personalized cooking guidance.">
 
 <link rel="icon" href="https://i.imgur.com/QzPFczP.png">
 
@@ -31,9 +31,11 @@
     --bg:#fafafa;
     --card:#ffffff;
     --soft:#f5f5f7;
-    --text:#171717;
-    --muted:#686868;
-    --border:#e8e8ec;
+
+    --text:#161616;
+    --muted:#565656;
+
+    --border:#e6e6eb;
 
     --green:#16a34a;
     --blue:#2563eb;
@@ -62,16 +64,18 @@ body{
     color:var(--text);
     line-height:1.6;
     overflow-x:hidden;
-    padding-bottom:0;
 }
 
 body.dark{
     --bg:#0d0d14;
     --card:#171720;
     --soft:#22222d;
+
     --text:#f5f5f5;
-    --muted:#a5a5b0;
+    --muted:#b0b0ba;
+
     --border:#30303b;
+
     --purple-light:#291b48;
     --orange-light:#351e11;
 
@@ -103,14 +107,15 @@ header{
     top:0;
     z-index:1000;
 
-    background:rgba(255,255,255,.90);
+    background:rgba(255,255,255,.92);
+
     backdrop-filter:blur(18px);
 
     border-bottom:1px solid var(--border);
 }
 
 body.dark header{
-    background:rgba(13,13,20,.92);
+    background:rgba(13,13,20,.94);
 }
 
 .navbar{
@@ -130,14 +135,18 @@ body.dark header{
     display:flex;
     align-items:center;
     gap:11px;
+
     min-width:0;
 }
 
 .brand-logo{
     width:50px;
     height:50px;
+
     object-fit:contain;
+
     border-radius:14px;
+
     flex-shrink:0;
 }
 
@@ -159,6 +168,7 @@ body.dark header{
 
 .nav-links a{
     padding:9px 13px;
+
     border-radius:12px;
 
     color:var(--muted);
@@ -183,6 +193,7 @@ body.dark header{
     place-items:center;
 
     border:1px solid var(--border);
+
     border-radius:13px;
 
     background:var(--card);
@@ -201,6 +212,7 @@ body.dark header{
     overflow:hidden;
 
     max-width:1200px;
+
     min-height:650px;
 
     margin:20px auto 0;
@@ -287,6 +299,7 @@ body.dark .hero{
     z-index:2;
 
     max-width:1100px;
+
     min-height:650px;
 
     margin:auto;
@@ -294,7 +307,8 @@ body.dark .hero{
     padding:75px 55px;
 
     display:grid;
-    grid-template-columns:1.1fr .9fr;
+
+    grid-template-columns:1.08fr .92fr;
 
     align-items:center;
 
@@ -315,6 +329,7 @@ body.dark .hero{
     border-radius:999px;
 
     background:var(--purple-light);
+
     color:var(--purple);
 
     font-size:12px;
@@ -325,6 +340,7 @@ body.dark .hero{
 
 .hero h1{
     font-size:clamp(45px,6vw,76px);
+
     line-height:1.02;
 
     letter-spacing:-3px;
@@ -344,16 +360,25 @@ body.dark .hero{
     max-width:650px;
 
     font-size:18px;
+
     line-height:1.75;
 
-    color:var(--muted);
+    color:#3f3f3f;
+
+    font-weight:600;
 
     margin-bottom:30px;
 }
 
+body.dark .hero-description{
+    color:#d2d2d8;
+}
+
 .hero-buttons{
     display:flex;
+
     flex-wrap:wrap;
+
     gap:12px;
 }
 
@@ -366,11 +391,14 @@ body.dark .hero{
     border-radius:15px;
 
     display:inline-flex;
+
     align-items:center;
     justify-content:center;
+
     gap:8px;
 
     font-size:14px;
+
     font-weight:900;
 
     transition:.25s;
@@ -378,18 +406,22 @@ body.dark .hero{
 
 .primary-btn{
     background:var(--purple);
+
     color:#fff;
 
-    box-shadow:0 12px 25px rgba(109,40,217,.25);
+    box-shadow:
+        0 12px 25px rgba(109,40,217,.25);
 }
 
 .primary-btn:hover{
     background:var(--purple-dark);
+
     transform:translateY(-2px);
 }
 
 .secondary-btn{
     background:var(--white);
+
     color:var(--black);
 
     border:1px solid var(--border);
@@ -402,13 +434,15 @@ body.dark .secondary-btn{
 
 .secondary-btn:hover{
     border-color:var(--orange);
+
     color:var(--orange);
+
     transform:translateY(-2px);
 }
 
 
 /* =========================================================
-   HERO VISUAL
+   HERO VIDEO
 ========================================================= */
 
 .hero-visual{
@@ -417,7 +451,9 @@ body.dark .secondary-btn{
     min-height:430px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 }
 
@@ -447,7 +483,8 @@ body.dark .secondary-btn{
 
     background:var(--orange);
 
-    box-shadow:0 15px 30px rgba(249,115,22,.28);
+    box-shadow:
+        0 15px 30px rgba(249,115,22,.28);
 }
 
 .hero-orbit::after{
@@ -465,72 +502,90 @@ body.dark .secondary-btn{
 
     background:var(--purple);
 
-    box-shadow:0 15px 30px rgba(109,40,217,.25);
+    box-shadow:
+        0 15px 30px rgba(109,40,217,.25);
 }
 
-.hero-logo-card{
+
+/* THE WHITE VIDEO FRAME */
+
+.hero-video-card{
     position:relative;
+
     z-index:3;
 
-    width:280px;
-    height:280px;
+    width:310px;
+    height:390px;
 
-    display:grid;
-    place-items:center;
+    padding:10px;
 
-    border-radius:55px;
+    overflow:hidden;
+
+    border-radius:48px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,.95),
-            rgba(255,255,255,.70)
+            rgba(255,255,255,.98),
+            rgba(255,255,255,.78)
         );
 
-    border:1px solid rgba(255,255,255,.8);
+    border:1px solid rgba(255,255,255,.9);
 
     box-shadow:
         0 30px 70px rgba(50,30,80,.18),
-        inset 0 1px 0 rgba(255,255,255,.9);
+        inset 0 1px 0 rgba(255,255,255,.95);
 
     transform:rotate(-3deg);
 }
 
-body.dark .hero-logo-card{
-    background:rgba(35,35,48,.92);
+body.dark .hero-video-card{
+    background:#22222d;
     border-color:#3a3a48;
 }
 
-.hero-logo-card img{
-    width:205px;
-    height:205px;
+.hero-video{
+    width:100%;
+    height:100%;
 
-    object-fit:contain;
+    display:block;
 
-    filter:drop-shadow(
-        0 15px 20px rgba(0,0,0,.12)
-    );
+    object-fit:cover;
+
+    border-radius:39px;
+
+    background:#f5f5f5;
 }
+
+
+/* =========================================================
+   FLOATING HERO LABELS
+========================================================= */
 
 .floating-card{
     position:absolute;
+
     z-index:5;
 
     display:flex;
+
     align-items:center;
+
     gap:9px;
 
     padding:12px 15px;
 
     border-radius:15px;
 
-    background:rgba(255,255,255,.93);
+    background:rgba(255,255,255,.95);
 
-    border:1px solid rgba(255,255,255,.8);
+    border:1px solid rgba(255,255,255,.85);
 
-    box-shadow:0 15px 35px rgba(0,0,0,.10);
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.10);
 
     font-size:12px;
+
     font-weight:900;
 }
 
@@ -541,16 +596,16 @@ body.dark .floating-card{
 
 .float-one{
     top:45px;
-    left:10px;
+    left:0;
 }
 
 .float-two{
-    right:0;
-    bottom:60px;
+    right:-5px;
+    bottom:65px;
 }
 
 .float-three{
-    left:0;
+    left:-5px;
     bottom:20px;
 }
 
@@ -559,6 +614,7 @@ body.dark .floating-card{
     height:34px;
 
     display:grid;
+
     place-items:center;
 
     border-radius:10px;
@@ -580,7 +636,7 @@ body.dark .floating-card{
 
 
 /* =========================================================
-   DOWNLOAD APP
+   APP DOWNLOAD
 ========================================================= */
 
 .app-section{
@@ -593,6 +649,7 @@ body.dark .floating-card{
 
 .app-box{
     position:relative;
+
     overflow:hidden;
 
     padding:38px;
@@ -610,6 +667,7 @@ body.dark .floating-card{
     color:#fff;
 
     display:grid;
+
     grid-template-columns:1fr auto;
 
     align-items:center;
@@ -643,12 +701,17 @@ body.dark .floating-card{
 
 .app-content h2{
     font-size:30px;
-    margin-bottom:7px;
+
+    line-height:1.2;
+
+    margin-bottom:8px;
 }
 
 .app-content p{
-    color:rgba(255,255,255,.86);
+    color:rgba(255,255,255,.88);
+
     max-width:600px;
+
     font-size:14px;
 }
 
@@ -657,11 +720,17 @@ body.dark .floating-card{
     z-index:3;
 
     display:flex;
+
     align-items:center;
+
     gap:10px;
 }
 
-.store-buttons img{
+.store-button{
+    display:block;
+}
+
+.store-button img{
     width:150px;
     height:auto;
 
@@ -670,35 +739,41 @@ body.dark .floating-card{
     transition:.2s;
 }
 
-.store-buttons a:hover img{
+.store-button:hover img{
     transform:translateY(-3px);
 }
 
-.store-coming{
+.apple-store{
     position:relative;
+
+    cursor:default;
 }
 
-.store-coming::after{
-    content:"Coming soon";
+.apple-store img{
+    opacity:.95;
+}
 
+.coming-soon{
     position:absolute;
 
     left:50%;
+
     bottom:-20px;
 
     transform:translateX(-50%);
 
     white-space:nowrap;
 
-    font-size:10px;
-    font-weight:800;
+    color:rgba(255,255,255,.92);
 
-    color:rgba(255,255,255,.8);
+    font-size:10px;
+
+    font-weight:900;
 }
 
 
 /* =========================================================
-   SECTION COMMON
+   SECTIONS
 ========================================================= */
 
 .section{
@@ -721,6 +796,7 @@ body.dark .floating-card{
     color:var(--orange);
 
     font-size:12px;
+
     font-weight:900;
 
     letter-spacing:1.5px;
@@ -740,12 +816,15 @@ body.dark .floating-card{
 
 .section-heading p{
     color:var(--muted);
+
     font-size:15px;
+
+    font-weight:500;
 }
 
 
 /* =========================================================
-   CORE FEATURES
+   FEATURES
 ========================================================= */
 
 .feature-grid{
@@ -759,6 +838,7 @@ body.dark .floating-card{
 
 .feature-card{
     position:relative;
+
     overflow:hidden;
 
     min-height:235px;
@@ -778,6 +858,7 @@ body.dark .floating-card{
 
 .feature-card:hover{
     transform:translateY(-5px);
+
     box-shadow:var(--shadow-hover);
 }
 
@@ -802,6 +883,7 @@ body.dark .floating-card{
     height:54px;
 
     display:grid;
+
     place-items:center;
 
     border-radius:16px;
@@ -817,12 +899,15 @@ body.dark .floating-card{
 
 .feature-card h3{
     font-size:19px;
+
     margin-bottom:7px;
 }
 
 .feature-card p{
     color:var(--muted);
+
     font-size:13px;
+
     line-height:1.65;
 }
 
@@ -834,6 +919,7 @@ body.dark .floating-card{
     color:var(--feature-color);
 
     font-size:12px;
+
     font-weight:900;
 }
 
@@ -860,11 +946,6 @@ body.dark .floating-card{
 .feature-pink{
     --feature-bg:#fce7f3;
     --feature-color:#db2777;
-}
-
-.feature-cyan{
-    --feature-bg:#cffafe;
-    --feature-color:#0891b2;
 }
 
 
@@ -904,6 +985,7 @@ body.dark .floating-card{
     height:48px;
 
     display:grid;
+
     place-items:center;
 
     border-radius:15px;
@@ -913,6 +995,7 @@ body.dark .floating-card{
     color:#fff;
 
     font-size:14px;
+
     font-weight:900;
 
     margin-bottom:15px;
@@ -920,11 +1003,13 @@ body.dark .floating-card{
 
 .step h3{
     font-size:17px;
+
     margin-bottom:7px;
 }
 
 .step p{
     color:var(--muted);
+
     font-size:13px;
 }
 
@@ -934,21 +1019,24 @@ body.dark .floating-card{
     position:absolute;
 
     right:-18px;
+
     top:18px;
 
     color:var(--orange);
 
     font-size:24px;
+
     font-weight:900;
 }
 
 
 /* =========================================================
-   ASSISTANT SHOWCASE
+   ASSISTANT
 ========================================================= */
 
 .assistant-showcase{
     position:relative;
+
     overflow:hidden;
 
     display:grid;
@@ -999,6 +1087,7 @@ body.dark .floating-card{
 
 .assistant-text{
     position:relative;
+
     z-index:2;
 }
 
@@ -1008,13 +1097,17 @@ body.dark .floating-card{
 
 .assistant-text h2{
     font-size:42px;
+
     line-height:1.08;
+
     margin-bottom:15px;
 }
 
 .assistant-text p{
-    color:rgba(255,255,255,.72);
+    color:rgba(255,255,255,.76);
+
     font-size:15px;
+
     margin-bottom:22px;
 }
 
@@ -1030,7 +1123,9 @@ body.dark .floating-card{
 
 .assistant-list li{
     display:flex;
+
     align-items:center;
+
     gap:9px;
 
     font-size:13px;
@@ -1041,6 +1136,7 @@ body.dark .floating-card{
     height:25px;
 
     display:grid;
+
     place-items:center;
 
     border-radius:8px;
@@ -1050,6 +1146,7 @@ body.dark .floating-card{
 
 .chat-preview{
     position:relative;
+
     z-index:2;
 
     max-width:390px;
@@ -1069,7 +1166,9 @@ body.dark .floating-card{
 
 .chat-title{
     display:flex;
+
     align-items:center;
+
     gap:10px;
 
     padding-bottom:14px;
@@ -1086,6 +1185,7 @@ body.dark .floating-card{
     height:38px;
 
     display:grid;
+
     place-items:center;
 
     border-radius:12px;
@@ -1111,6 +1211,7 @@ body.dark .floating-card{
 
 .chat-user{
     margin-left:auto;
+
     background:var(--purple);
 }
 
@@ -1130,7 +1231,9 @@ body.dark .floating-card{
 
 .tool-card{
     display:flex;
+
     align-items:center;
+
     gap:18px;
 
     padding:22px;
@@ -1146,6 +1249,7 @@ body.dark .floating-card{
 
 .tool-card:hover{
     transform:translateY(-3px);
+
     box-shadow:var(--shadow);
 }
 
@@ -1156,6 +1260,7 @@ body.dark .floating-card{
     flex-shrink:0;
 
     display:grid;
+
     place-items:center;
 
     border-radius:17px;
@@ -1165,11 +1270,13 @@ body.dark .floating-card{
 
 .tool-card h3{
     font-size:17px;
+
     margin-bottom:4px;
 }
 
 .tool-card p{
     color:var(--muted);
+
     font-size:12px;
 }
 
@@ -1196,6 +1303,7 @@ body.dark .floating-card{
 
 .final-box{
     position:relative;
+
     overflow:hidden;
 
     padding:55px 35px;
@@ -1224,7 +1332,9 @@ body.dark .floating-card{
 
 .final-box h2{
     font-size:clamp(30px,4vw,46px);
+
     line-height:1.1;
+
     margin-bottom:12px;
 }
 
@@ -1233,13 +1343,14 @@ body.dark .floating-card{
 
     margin:0 auto 25px;
 
-    color:rgba(255,255,255,.82);
+    color:rgba(255,255,255,.86);
 
     font-size:14px;
 }
 
 .final-box .primary-btn{
     background:#fff;
+
     color:var(--purple);
 }
 
@@ -1266,6 +1377,7 @@ footer{
 
 .footer-brand{
     font-weight:900;
+
     margin-bottom:7px;
 }
 
@@ -1275,13 +1387,17 @@ footer{
 
 footer p{
     color:var(--muted);
+
     font-size:12px;
 }
 
 .footer-links{
     display:flex;
+
     justify-content:center;
+
     flex-wrap:wrap;
+
     gap:18px;
 
     margin-top:15px;
@@ -1291,6 +1407,7 @@ footer p{
     color:var(--purple);
 
     font-size:12px;
+
     font-weight:800;
 }
 
@@ -1309,7 +1426,7 @@ footer p{
 
 
 /* =========================================================
-   RESPONSIVE
+   TABLET
 ========================================================= */
 
 @media(max-width:900px){
@@ -1320,7 +1437,9 @@ footer p{
 
     .hero{
         margin:12px;
+
         min-height:auto;
+
         border-radius:28px;
     }
 
@@ -1348,26 +1467,22 @@ footer p{
     }
 
     .hero-visual{
-        min-height:360px;
+        min-height:430px;
     }
 
     .hero-orbit{
-        width:320px;
-        height:320px;
+        width:340px;
+        height:340px;
     }
 
-    .hero-logo-card{
-        width:235px;
-        height:235px;
-    }
-
-    .hero-logo-card img{
-        width:170px;
-        height:170px;
+    .hero-video-card{
+        width:285px;
+        height:365px;
     }
 
     .feature-grid{
-        grid-template-columns:repeat(2,minmax(0,1fr));
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
     }
 
     .steps{
@@ -1378,8 +1493,11 @@ footer p{
         content:"↓";
 
         right:auto;
+
         left:28px;
+
         top:auto;
+
         bottom:-17px;
     }
 
@@ -1429,10 +1547,13 @@ footer p{
 
     .mobile-nav a{
         flex:1;
+
         max-width:90px;
 
         display:flex;
+
         flex-direction:column;
+
         align-items:center;
 
         gap:3px;
@@ -1440,6 +1561,7 @@ footer p{
         color:var(--muted);
 
         font-size:10px;
+
         font-weight:800;
     }
 
@@ -1451,11 +1573,12 @@ footer p{
         color:var(--purple);
     }
 
-    footer{
-        padding-bottom:105px;
-    }
 }
 
+
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:560px){
 
@@ -1477,17 +1600,47 @@ footer p{
         height:39px;
     }
 
+
+    /* HERO */
+
     .hero-inner{
-        padding:45px 20px;
+        padding:43px 18px 40px;
+    }
+
+    .hero-badge{
+        font-size:10px;
+
+        padding:8px 11px;
+
+        margin-bottom:17px;
     }
 
     .hero h1{
-        font-size:42px;
-        letter-spacing:-2px;
+        font-size:40px;
+
+        line-height:1.06;
+
+        letter-spacing:-1.8px;
+
+        margin-bottom:19px;
     }
 
     .hero-description{
         font-size:15px;
+
+        line-height:1.65;
+
+        font-weight:650;
+
+        color:#333333;
+
+        max-width:470px;
+
+        margin-bottom:25px;
+    }
+
+    body.dark .hero-description{
+        color:#ddddE3;
     }
 
     .hero-buttons{
@@ -1499,45 +1652,65 @@ footer p{
         width:100%;
     }
 
+
+    /* VIDEO */
+
     .hero-visual{
-        min-height:310px;
+        min-height:355px;
+
+        margin-top:5px;
     }
 
     .hero-orbit{
-        width:270px;
-        height:270px;
+        width:280px;
+        height:280px;
     }
 
-    .hero-logo-card{
-        width:190px;
-        height:190px;
+    .hero-video-card{
+        width:220px;
+        height:300px;
 
-        border-radius:38px;
+        padding:8px;
+
+        border-radius:36px;
     }
 
-    .hero-logo-card img{
-        width:140px;
-        height:140px;
+    .hero-video{
+        border-radius:29px;
     }
 
     .floating-card{
-        transform:scale(.82);
+        padding:9px 11px;
+
+        font-size:10px;
+
+        gap:6px;
+    }
+
+    .float-icon{
+        width:29px;
+        height:29px;
+
+        font-size:14px;
     }
 
     .float-one{
-        top:25px;
-        left:-5px;
+        top:30px;
+        left:-3px;
     }
 
     .float-two{
-        right:-8px;
-        bottom:35px;
+        right:-5px;
+        bottom:45px;
     }
 
     .float-three{
-        left:-8px;
-        bottom:0;
+        left:-4px;
+        bottom:8px;
     }
+
+
+    /* APP */
 
     .app-section,
     .section,
@@ -1546,21 +1719,47 @@ footer p{
     }
 
     .app-box{
-        padding:27px 22px;
+        padding:29px 21px;
+
         border-radius:23px;
+
+        text-align:left;
     }
 
     .app-content h2{
-        font-size:25px;
+        font-size:24px;
+
+        line-height:1.25;
+
+        max-width:100%;
+    }
+
+    .app-content p{
+        font-size:13px;
+
+        line-height:1.6;
     }
 
     .store-buttons{
-        flex-wrap:wrap;
+        width:100%;
+
+        justify-content:center;
+
+        gap:8px;
     }
 
-    .store-buttons img{
-        width:140px;
+    .store-button img{
+        width:137px;
     }
+
+    .coming-soon{
+        font-size:9px;
+
+        bottom:-18px;
+    }
+
+
+    /* FEATURES */
 
     .feature-grid{
         grid-template-columns:1fr;
@@ -1570,18 +1769,28 @@ footer p{
         min-height:auto;
     }
 
+
+    /* HOW IT WORKS */
+
     .how-box{
         padding:22px;
     }
 
+
+    /* ASSISTANT */
+
     .assistant-showcase{
         padding:30px 22px;
+
         border-radius:25px;
     }
 
     .assistant-text h2{
         font-size:34px;
     }
+
+
+    /* FINAL */
 
     .final-box{
         padding:45px 22px;
@@ -1622,7 +1831,10 @@ Cooking Gas<br>
 
 <nav class="nav-links">
 
-<a href="index.html" class="active">
+<a
+href="index.html"
+class="active"
+>
 Home
 </a>
 
@@ -1671,7 +1883,7 @@ aria-label="Toggle dark mode"
 <div class="hero-content">
 
 <div class="hero-badge">
-✨ SMARTER COOKING. SMARTER PLANNING.
+✨ SMARTER COOKING • SMARTER PLANNING
 </div>
 
 
@@ -1718,7 +1930,9 @@ class="secondary-btn"
 
 
 
-<!-- HERO VISUAL -->
+<!-- =====================================================
+     HERO VIDEO
+====================================================== -->
 
 <div class="hero-visual">
 
@@ -1764,12 +1978,24 @@ Save Money
 </div>
 
 
-<div class="hero-logo-card">
+<div class="hero-video-card">
 
-<img
-src="https://i.imgur.com/QzPFczP.png"
-alt="Cooking Gas Tracker & Manager"
+<video
+class="hero-video"
+autoplay
+muted
+loop
+playsinline
+preload="auto"
+aria-hidden="true"
 >
+
+<source
+src="videoplayback.mp4"
+type="video/mp4"
+>
+
+</video>
 
 </div>
 
@@ -1805,11 +2031,31 @@ Download the app and keep your gas management tools close at hand.
 
 <div class="store-buttons">
 
+
+<!-- APPLE — COMING SOON -->
+
+<div class="store-button apple-store">
+
+<img
+src="https://i.imgur.com/dKWBWpV.png"
+alt="Download on the App Store"
+>
+
+<div class="coming-soon">
+Coming Soon
+</div>
+
+</div>
+
+
+<!-- GOOGLE PLAY — ACTUAL LINK -->
+
 <a
 href="https://play.google.com/store/apps/details?id=com.john.gastracker"
 target="_blank"
 rel="noopener"
-aria-label="Download on Google Play"
+class="store-button"
+aria-label="Download Cooking Gas Tracker on Google Play"
 >
 
 <img
@@ -1819,15 +2065,6 @@ alt="Get it on Google Play"
 
 </a>
 
-
-<div class="store-coming">
-
-<img
-src="https://i.imgur.com/dKWBWpV.png"
-alt="Download on the App Store"
->
-
-</div>
 
 </div>
 
@@ -2126,7 +2363,7 @@ and Assistant whenever you need them.
 
 
 <!-- =====================================================
-     ASSISTANT SHOWCASE
+     ASSISTANT
 ====================================================== -->
 
 <section class="section">
@@ -2493,65 +2730,45 @@ href="index.html"
 class="active"
 >
 
-<span>
-🏠
-</span>
+<span>🏠</span>
 
-<span>
-Home
-</span>
+<span>Home</span>
 
 </a>
 
 
 <a href="tracker.html">
 
-<span>
-🔥
-</span>
+<span>🔥</span>
 
-<span>
-Tracker
-</span>
+<span>Tracker</span>
 
 </a>
 
 
 <a href="assistant.html">
 
-<span>
-🤖
-</span>
+<span>🤖</span>
 
-<span>
-Assistant
-</span>
+<span>Assistant</span>
 
 </a>
 
 
 <a href="guides.html">
 
-<span>
-📚
-</span>
+<span>📚</span>
 
-<span>
-Guides
-</span>
+<span>Guides</span>
 
 </a>
 
 
 <a href="more.html">
 
-<span>
-☰
-</span>
+<span>☰</span>
 
-<span>
-More
-</span>
+<span>More</span>
 
 </a>
 
