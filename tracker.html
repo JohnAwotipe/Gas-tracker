@@ -24,6 +24,10 @@
 .notification-permission button{background:#6d28d9 !important;color:#fff !important;border:0 !important}
 .cylinder-card.main{border-color:rgba(109,40,217,.18) !important}
 @media(max-width:650px){.page-hero{border-radius:0 0 22px 22px}.main-card{border-radius:20px !important}}
+
+/* Backup cylinder is optional: never show the empty placeholder when no backup is selected. */
+.backup-empty { display:none !important; }
+#backupCylinderCard[style="display:none;"] { display:none !important; }
 </style>
 
 <style id="tracker-elegant-style">
@@ -1600,6 +1604,7 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
                 document.getElementById('mainCylinderSize').value = main;
                 document.getElementById('backupCylinderSize').value = backup;
             } catch (e) { console.warn('Cylinder setup could not be loaded:', e); }
+            syncBackupCylinderControl();
             updateCylinderDashboard();
         }
 
@@ -1631,6 +1636,7 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
         }
 
         function saveCylinderSetup() {
+            syncBackupCylinderControl();
             const main = document.getElementById('mainCylinderSize').value;
             const backup = document.getElementById('backupCylinderSize').value;
             localStorage.setItem(CYLINDER_STORAGE_KEY, JSON.stringify({main, backup}));
@@ -1680,11 +1686,16 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
             const backupCard = document.getElementById('backupCylinderCard');
             const empty = document.getElementById('backupEmpty');
             if (backup !== 'none') {
-                backupCard.style.display = 'flex'; empty.style.display = 'none';
+                backupCard.style.display = 'flex';
+                if (empty) empty.style.display = 'none';
                 const text = backup + ' KG';
                 setCylinderImage('backupCylinderImage', backup);
                 document.getElementById('backupCylinderDisplay').textContent = text;
-            } else { backupCard.style.display = 'none'; empty.style.display = 'flex'; setCylinderImage('backupCylinderImage', ''); }
+            } else {
+                backupCard.style.display = 'none';
+                if (empty) empty.style.display = 'none';
+                setCylinderImage('backupCylinderImage', '');
+            }
         }
 
 
