@@ -6,7 +6,7 @@
 
 <title>Cooking Gas Tracker & Manager | Manage Your Gas & Food Smarter</title>
 
-<meta name="description" content="Track your gas, plan refills, save money, reduce waste, plan meals, manage shopping and get personalized cooking guidance.">
+<meta name="description" content="Track your gas, plan refills, save money, reduce waste, create meal plans, manage shopping and get personalized cooking guidance.">
 
 <link rel="icon" href="https://i.imgur.com/QzPFczP.png">
 
@@ -426,7 +426,7 @@ body.dark .secondary-btn{
 
 /* =========================================================
    HERO VIDEO
-   VIDEO ORIGINAL RATIO = 984 / 710
+   NEW VIDEO = 984 x 710
 ========================================================= */
 
 .hero-visual{
@@ -693,20 +693,31 @@ body.dark .floating-card{
     line-height:1.6;
 }
 
+
+/* STORE BUTTON CONTAINER */
+
 .store-buttons{
     position:relative;
-    z-index:3;
+    z-index:5;
 
     display:flex;
 
     align-items:flex-start;
 
     gap:12px;
+
+    padding-bottom:24px;
 }
 
+
+/* EACH BADGE */
+
 .store-button{
-    display:block;
     position:relative;
+
+    display:block;
+
+    flex-shrink:0;
 }
 
 .store-button img{
@@ -719,40 +730,57 @@ body.dark .floating-card{
 }
 
 
-/* ONLY GOOGLE PLAY IS CLICKABLE */
+/* =========================================================
+   GOOGLE PLAY
+   ONLY THIS ONE IS CLICKABLE
+========================================================= */
+
+.google-store{
+    cursor:pointer;
+}
 
 .google-store:hover img{
     transform:translateY(-3px);
 }
 
 
-/* APPLE STORE */
+/* =========================================================
+   APPLE APP STORE
+   NOT CLICKABLE
+========================================================= */
 
 .apple-store{
     cursor:default;
 }
 
 .apple-store img{
-    opacity:.95;
+    opacity:.96;
 }
 
 
-/* COMING SOON ONLY UNDER APPLE */
+/* =========================================================
+   COMING SOON
+   ONLY APPLE
+========================================================= */
 
 .apple-store .coming-soon{
     position:absolute;
 
     left:50%;
-    bottom:-23px;
+
+    bottom:-18px;
 
     transform:translateX(-50%);
 
     white-space:nowrap;
 
-    color:#fff;
+    color:#ffffff;
 
     font-size:10px;
+
     font-weight:900;
+
+    line-height:1;
 }
 
 
@@ -1111,7 +1139,6 @@ body.dark .floating-card{
     height:25px;
 
     display:grid;
-
     place-items:center;
 
     border-radius:8px;
@@ -1483,7 +1510,7 @@ footer p{
     }
 
     .store-buttons{
-        justify-content:flex-start;
+        justify-content:center;
     }
 
     .mobile-nav{
@@ -1681,7 +1708,9 @@ footer p{
     }
 
 
-    /* APP SECTION */
+    /* =====================================================
+       APP DOWNLOAD — MOBILE
+    ===================================================== */
 
     .app-section{
         padding:0 13px;
@@ -1690,7 +1719,7 @@ footer p{
     }
 
     .app-box{
-        padding:28px 18px 34px;
+        padding:28px 18px 38px;
 
         border-radius:23px;
 
@@ -1723,6 +1752,8 @@ footer p{
 
     .store-buttons{
         margin-top:28px;
+
+        padding-bottom:25px;
 
         display:flex;
 
@@ -1785,6 +1816,7 @@ footer p{
     .final-box{
         padding:45px 22px;
     }
+
 }
 
 </style>
@@ -1918,7 +1950,10 @@ class="secondary-btn"
 </div>
 
 
-<!-- HERO VIDEO -->
+
+<!-- =====================================================
+     HERO VIDEO
+========================================================= -->
 
 <div class="hero-visual">
 
@@ -1976,6 +2011,7 @@ preload="auto"
 aria-hidden="true"
 >
 
+<!-- YOUR NEW GITHUB VIDEO -->
 <source
 src="IMG_20260922_133441_566.mp4"
 type="video/mp4"
@@ -2021,8 +2057,30 @@ close at hand wherever you are.
 
 
 <!-- =====================================================
-     APPLE APP STORE — COMING SOON
-===================================================== -->
+     GOOGLE PLAY
+     ONLY THIS BADGE IS CLICKABLE
+========================================================= -->
+
+<a
+href="https://play.google.com/store/apps/details?id=com.john.gastracker"
+target="_blank"
+rel="noopener noreferrer"
+class="store-button google-store"
+aria-label="Download Cooking Gas Tracker on Google Play"
+>
+
+<img
+src="https://i.imgur.com/4QKNprk.png"
+alt="Get it on Google Play"
+>
+
+</a>
+
+
+<!-- =====================================================
+     APPLE APP STORE
+     COMING SOON — NOT CLICKABLE
+========================================================= -->
 
 <div
 class="store-button apple-store"
@@ -2030,43 +2088,17 @@ class="store-button apple-store"
 
 <img
 src="https://i.imgur.com/dKWBWpV.png"
-alt="Cooking Gas Tracker on the Apple App Store"
+alt="Download on the App Store — Coming Soon"
 >
 
 <span class="coming-soon">
 Coming Soon
 </span>
 
-<div class="store-buttons">
-
-    <!-- GOOGLE PLAY — CLICKABLE -->
-    <a
-        href="https://play.google.com/store/apps/details?id=com.john.gastracker"
-        target="_blank"
-        rel="noopener"
-        class="store-button google-store"
-        aria-label="Download Cooking Gas Tracker on Google Play"
-    >
-        <img
-            src="https://i.imgur.com/4QKNprk.png"
-            alt="Get it on Google Play"
-        >
-    </a>
+</div>
 
 
-    <!-- APPLE APP STORE — COMING SOON -->
-    <div class="store-button apple-store">
-
-        <img
-            src="https://i.imgur.com/dKWBWpV.png"
-            alt="Cooking Gas Tracker on the Apple App Store"
-        >
-
-        <span class="coming-soon">
-            Coming Soon
-        </span>
-
-    </div>
+</div>
 
 </div>
 
@@ -2104,6 +2136,8 @@ your everyday cooking, gas management and household planning.
 <div class="feature-grid">
 
 
+<!-- TRACKER -->
+
 <a
 href="tracker.html"
 class="feature-card feature-purple"
@@ -2128,6 +2162,8 @@ Open Tracker →
 
 </a>
 
+
+<!-- HOW IT WORKS -->
 
 <a
 href="how-it-works.html"
@@ -2154,6 +2190,8 @@ Learn More →
 </a>
 
 
+<!-- COOKING PROFILE -->
+
 <a
 href="cooking-profile.html"
 class="feature-card feature-green"
@@ -2178,6 +2216,8 @@ Build Profile →
 
 </a>
 
+
+<!-- MEAL PLANNER -->
 
 <a
 href="meal-planner.html"
@@ -2204,6 +2244,8 @@ Plan My Meals →
 </a>
 
 
+<!-- GAS SAVING -->
+
 <a
 href="gas-saving-tips.html"
 class="feature-card feature-orange"
@@ -2228,6 +2270,8 @@ Save More Gas →
 
 </a>
 
+
+<!-- ASSISTANT -->
 
 <a
 href="assistant.html"
@@ -2697,7 +2741,7 @@ All rights reserved.
 
 
 <!-- =====================================================
-     MOBILE NAV
+     MOBILE NAVIGATION
 ========================================================= -->
 
 <nav class="mobile-nav">
@@ -2706,42 +2750,32 @@ All rights reserved.
 href="index.html"
 class="active"
 >
-
 <span>🏠</span>
 <span>Home</span>
-
 </a>
 
 
 <a href="tracker.html">
-
 <span>🔥</span>
 <span>Tracker</span>
-
 </a>
 
 
 <a href="assistant.html">
-
 <span>🤖</span>
 <span>Assistant</span>
-
 </a>
 
 
 <a href="guides.html">
-
 <span>📚</span>
 <span>Guides</span>
-
 </a>
 
 
 <a href="more.html">
-
 <span>☰</span>
 <span>More</span>
-
 </a>
 
 </nav>
