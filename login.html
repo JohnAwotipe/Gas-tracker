@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In | Cooking Gas Tracker & Manager</title>
+<meta name="description" content="Sign in to your Cooking Gas Tracker & Manager account.">
+<style>
+:root{
+  --purple:#6d28d9;--purple-dark:#4c1d95;--purple-soft:#f5f0ff;
+  --text:#171321;--muted:#6b6477;--card:#fff;--line:#e9e3f2;--bg:#f7f5fb;
+}
+body.dark{--text:#f6f2ff;--muted:#bdb4cc;--card:#17131f;--line:#30283d;--bg:#0e0b13;--purple-soft:#241d36}
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+ color:var(--text);background:
+ radial-gradient(circle at 10% 10%,rgba(109,40,217,.12),transparent 28%),
+ radial-gradient(circle at 90% 20%,rgba(37,99,235,.10),transparent 25%),
+ radial-gradient(circle at 50% 100%,rgba(22,163,74,.08),transparent 30%),var(--bg);
+ min-height:100vh
+}
+body.dark{background:
+ radial-gradient(circle at 10% 10%,rgba(109,40,217,.22),transparent 28%),
+ radial-gradient(circle at 90% 20%,rgba(37,99,235,.15),transparent 25%),#0e0b13}
+header{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);background:rgba(255,255,255,.78);border-bottom:1px solid rgba(120,90,160,.12)}
+body.dark header{background:rgba(14,11,19,.82)}
+.nav{max-width:1180px;margin:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none;font-weight:900}
+.brand img{width:44px;height:44px;object-fit:contain;border-radius:12px}
+.navlinks{display:flex;gap:6px}
+.navlinks a{color:var(--muted);text-decoration:none;padding:10px 13px;border-radius:12px;font-weight:750;font-size:14px}
+.navlinks a:hover{background:var(--purple-soft);color:var(--purple)}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.btn{border:0;border-radius:12px;padding:10px 15px;font-weight:850;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.btn-outline{background:transparent;color:var(--purple);border:1px solid rgba(109,40,217,.3)}
+.btn-primary{background:var(--purple);color:#fff;box-shadow:0 8px 20px rgba(109,40,217,.2)}
+.btn-primary:hover{background:var(--purple-dark)}
+.theme-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;font-size:17px}
+main{min-height:calc(100vh - 75px);display:flex;align-items:center;padding:50px 20px 70px}
+.auth-wrap{width:min(100%,1040px);margin:auto;display:grid;grid-template-columns:.95fr 1.05fr;background:var(--card);border:1px solid var(--line);border-radius:30px;overflow:hidden;box-shadow:0 24px 70px rgba(46,25,75,.13)}
+.visual{position:relative;padding:52px;color:#fff;background:
+ radial-gradient(circle at 15% 20%,rgba(255,255,255,.22),transparent 23%),
+ radial-gradient(circle at 85% 75%,rgba(34,197,94,.30),transparent 25%),
+ linear-gradient(145deg,#2563eb 0%,#6d28d9 50%,#4c1d95 100%);overflow:hidden}
+.visual:after{content:"";position:absolute;width:230px;height:230px;border:35px solid rgba(255,255,255,.08);border-radius:50%;right:-80px;top:-70px}
+.visual-logo{width:76px;height:76px;border-radius:22px;background:rgba(255,255,255,.13);padding:8px;backdrop-filter:blur(8px)}
+.visual h1{font-size:42px;line-height:1.05;margin:32px 0 16px;letter-spacing:-1.5px}
+.visual p{font-size:17px;line-height:1.7;color:rgba(255,255,255,.88);max-width:480px}
+.feature-list{margin-top:32px;display:grid;gap:14px}
+.feature{display:flex;gap:12px;align-items:center;font-weight:700}
+.feature span{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.14);display:grid;place-items:center}
+.form-side{padding:48px}
+.form-side h2{font-size:32px;margin:0 0 8px;letter-spacing:-.8px}
+.form-sub{color:var(--muted);margin:0 0 28px;line-height:1.6}
+label{display:block;font-size:14px;font-weight:800;margin:16px 0 7px}
+.field{position:relative}
+input{width:100%;height:50px;padding:0 15px;border:1px solid var(--line);border-radius:13px;background:transparent;color:var(--text);outline:none;font:inherit}
+input:focus{border-color:var(--purple);box-shadow:0 0 0 4px rgba(109,40,217,.10)}
+.password-toggle{position:absolute;right:8px;top:6px;height:38px;border:0;background:var(--purple-soft);color:var(--purple);border-radius:9px;padding:0 10px;font-weight:800;cursor:pointer}
+.forgot{display:block;text-align:right;margin:9px 0;color:var(--purple);font-size:13px;font-weight:800;text-decoration:none}
+.form-error,.form-success{display:none;margin:14px 0;padding:12px 14px;border-radius:12px;font-size:14px;line-height:1.5}
+.form-error{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+.form-success{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0}
+body.dark .form-error{background:#35171a;color:#fca5a5;border-color:#633036}
+body.dark .form-success{background:#10291a;color:#86efac;border-color:#1d5530}
+.submit{width:100%;height:52px;margin-top:14px;font-size:15px}
+.small-note{font-size:12px;color:var(--muted);line-height:1.55;margin-top:14px}
+.bottom-link{text-align:center;margin-top:22px;color:var(--muted);font-size:14px}
+.bottom-link a{color:var(--purple);font-weight:850;text-decoration:none}
+.loading{opacity:.7;pointer-events:none}
+footer{text-align:center;padding:0 20px 25px;color:var(--muted);font-size:12px}
+@media(max-width:850px){
+ .navlinks{display:none}.nav-actions .btn-outline{display:none}
+ .auth-wrap{grid-template-columns:1fr;max-width:620px}.visual{padding:34px 30px}
+ .visual h1{font-size:34px;margin-top:22px}.feature-list{grid-template-columns:1fr 1fr}.form-side{padding:34px 28px}
+}
+@media(max-width:520px){
+ main{padding:25px 14px 45px}.nav{padding:10px 14px}.brand span{display:none}
+ .visual{padding:28px 22px}.visual-logo{width:62px;height:62px}.visual h1{font-size:30px}
+ .visual p{font-size:15px}.feature-list{grid-template-columns:1fr}.form-side{padding:28px 20px}.form-side h2{font-size:27px}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="nav">
+  <a class="brand" href="index.html">
+   <img src="https://i.imgur.com/QzPFczP.png" alt="Cooking Gas Tracker & Manager">
+   <span>Cooking Gas Tracker & Manager</span>
+  </a>
+  <div class="navlinks">
+   <a href="index.html">Home</a><a href="tracker.html">Tracker</a><a href="assistant.html">Assistant</a>
+   <a href="guides.html">Guides</a><a href="more.html">More</a>
+  </div>
+  <div class="nav-actions">
+   <a class="btn btn-outline" href="signup.html">Create Account</a>
+   <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle theme">🌙</button>
+  </div>
+ </div>
+</header>
+
+<main>
+ <section class="auth-wrap">
+  <div class="visual">
+   <img class="visual-logo" src="https://i.imgur.com/QzPFczP.png" alt="Cooking Gas Tracker">
+   <h1>Welcome back.</h1>
+   <p>Sign in to continue managing your gas usage, meal planning, shopping and other smart tools in one place.</p>
+   <div class="feature-list">
+    <div class="feature"><span>🔥</span> Continue your gas tracking</div>
+    <div class="feature"><span>🍲</span> Access your meal plans</div>
+    <div class="feature"><span>🛒</span> Keep your shopping tools</div>
+    <div class="feature"><span>🔔</span> Stay connected to reminders</div>
+   </div>
+  </div>
+
+  <div class="form-side">
+   <h2>Sign in</h2>
+   <p class="form-sub">Enter your account details to continue.</p>
+
+   <form id="loginForm">
+    <label for="email">Email address</label>
+    <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+
+    <label for="password">Password</label>
+    <div class="field">
+     <input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+     <button class="password-toggle" type="button" id="passwordToggle">Show</button>
+    </div>
+
+    <a class="forgot" href="forgot-password.html">Forgot your password?</a>
+
+    <div class="form-error" id="errorBox"></div>
+    <div class="form-success" id="successBox"></div>
+
+    <button class="btn btn-primary submit" id="submitBtn" type="submit">Sign In</button>
+
+    <p class="small-note">Your Firebase account session is remembered securely by Firebase so you can return without creating a new account each time.</p>
+
+    <div class="bottom-link">Don't have an account? <a href="signup.html">Create one</a></div>
+   </form>
+  </div>
+ </section>
+</main>
+
+<footer>© <span id="year"></span> Cooking Gas Tracker & Manager</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+const firebaseConfig={
+ apiKey:"AIzaSyAjir7zq8PIzXbDZqfvpRvoWqqYd9udnTU",
+ authDomain:"gas-tracker-8e098.firebaseapp.com",
+ projectId:"gas-tracker-8e098",
+ storageBucket:"gas-tracker-8e098.firebasestorage.app",
+ messagingSenderId:"265524187379",
+ appId:"1:265524187379:web:d987da967ae8aadc582786"
+};
+firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth();
+
+const themeBtn=document.getElementById("themeBtn");
+if(localStorage.getItem("cgtTheme")==="dark") document.body.classList.add("dark");
+function updateThemeIcon(){themeBtn.textContent=document.body.classList.contains("dark")?"☀️":"🌙"}
+updateThemeIcon();
+themeBtn.addEventListener("click",()=>{
+ document.body.classList.toggle("dark");
+ localStorage.setItem("cgtTheme",document.body.classList.contains("dark")?"dark":"light");
+ updateThemeIcon();
+});
+
+const password=document.getElementById("password");
+document.getElementById("passwordToggle").addEventListener("click",()=>{
+ const showing=password.type==="text";password.type=showing?"password":"text";
+ document.getElementById("passwordToggle").textContent=showing?"Show":"Hide";
+});
+
+const form=document.getElementById("loginForm");
+const errorBox=document.getElementById("errorBox");
+const successBox=document.getElementById("successBox");
+const submitBtn=document.getElementById("submitBtn");
+
+function showError(message){errorBox.textContent=message;errorBox.style.display="block";successBox.style.display="none"}
+function showSuccess(message){successBox.textContent=message;successBox.style.display="block";errorBox.style.display="none"}
+function firebaseMessage(error){
+ const map={
+  "auth/invalid-email":"Please enter a valid email address.",
+  "auth/user-not-found":"No account was found with this email address.",
+  "auth/wrong-password":"The email or password is incorrect.",
+  "auth/invalid-credential":"The email or password is incorrect.",
+  "auth/too-many-requests":"Too many unsuccessful attempts. Please wait a while and try again.",
+  "auth/network-request-failed":"Network error. Please check your internet connection and try again.",
+  "auth/user-disabled":"This account has been disabled."
+ };
+ return map[error.code]||error.message||"We could not sign you in. Please try again.";
+}
+
+form.addEventListener("submit",async e=>{
+ e.preventDefault();
+ errorBox.style.display="none";successBox.style.display="none";
+ const email=document.getElementById("email").value.trim();
+ const pass=password.value;
+ if(!email)return showError("Please enter your email address.");
+ if(!pass)return showError("Please enter your password.");
+ submitBtn.classList.add("loading");submitBtn.textContent="Signing in...";
+ try{
+  const credential=await auth.signInWithEmailAndPassword(email,pass);
+  const user=credential.user;
+  showSuccess("Welcome back"+(user.displayName?", "+user.displayName:"")+"! Opening your account...");
+  setTimeout(()=>window.location.href="account.html",900);
+ }catch(error){
+  showError(firebaseMessage(error));
+  submitBtn.classList.remove("loading");submitBtn.textContent="Sign In";
+ }
+});
+document.getElementById("year").textContent=new Date().getFullYear();
+
+auth.onAuthStateChanged(user=>{
+ if(user){
+   // Keep the page accessible; successful sign-in redirects to account.html.
+ }
+});
+</script>
+</body>
+</html>
