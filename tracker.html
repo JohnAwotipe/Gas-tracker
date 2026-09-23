@@ -104,6 +104,14 @@ body.dark .backup-empty,body.dark-mode .backup-empty{background:#211a32!importan
 .status-section{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;gap:8px!important;min-height:155px!important;background:linear-gradient(135deg,#f5f3ff,#eff6ff)!important;border-color:#ddd6fe!important}.countdown{font-size:56px!important;font-weight:900!important;line-height:1!important;color:var(--purple)!important;text-align:center!important}.countdown-label{font-size:14px!important;color:var(--muted)!important;font-weight:700!important;text-align:center!important}.status-indicator{padding:10px 14px!important;border-radius:12px!important;background:var(--bg)!important;color:var(--text)!important;font-weight:800!important;margin:6px 0 0!important}
 .benefit-grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:15px!important;margin-bottom:20px!important}.benefit-card{border-radius:20px!important;padding:20px!important}.benefit-icon{width:48px!important;height:48px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:15px!important;background:#ede9fe!important;font-size:23px!important;margin-bottom:12px!important}.benefit-card strong{display:block!important;font-size:16px!important;margin-bottom:4px!important;color:var(--text)!important}.benefit-card span{display:block!important;color:var(--muted)!important;font-size:13px!important}
 .cooking-profile{background:var(--card)!important}.profile-head h2{font-size:27px!important;margin:4px 0 7px!important;color:var(--text)!important}.profile-lead{color:var(--muted)!important;margin:0!important}.profile-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:15px!important;margin-top:22px!important}.profile-field{padding:17px!important;background:var(--bg)!important;border:1px solid var(--border)!important;border-radius:16px!important}.profile-field.full{grid-column:1/-1!important}.profile-field small{display:block!important;color:var(--muted)!important;font-size:12px!important;margin-top:7px!important}.profile-actions{display:flex!important;flex-wrap:wrap!important;gap:10px!important;margin-top:18px!important}.profile-btn{padding:12px 17px!important;border:0!important;border-radius:12px!important;background:linear-gradient(135deg,var(--purple),var(--purple2))!important;color:#fff!important;font-weight:800!important;cursor:pointer!important}.profile-btn.secondary{background:var(--bg)!important;color:var(--purple)!important;border:1px solid #c4b5fd!important}.profile-status{margin-top:12px!important;color:var(--muted)!important;font-weight:700!important}
+.profile-redirect-card{display:flex!important;align-items:center!important;gap:20px!important;margin-top:22px!important;padding:22px!important;border:1px solid #ddd6fe!important;border-radius:20px!important;background:linear-gradient(135deg,#faf7ff,#eff6ff)!important}
+.profile-redirect-icon{width:64px!important;height:64px!important;flex:0 0 64px!important;display:grid!important;place-items:center!important;border-radius:18px!important;background:#ede9fe!important;font-size:30px!important}
+.profile-redirect-content h3{margin:0 0 6px!important;font-size:20px!important;color:var(--text)!important}
+.profile-redirect-content p{margin:0 0 15px!important;color:var(--muted)!important;max-width:720px!important;font-size:14px!important;line-height:1.65!important}
+.profile-redirect-card .profile-btn{display:inline-flex!important;text-decoration:none!important}
+body.dark .profile-redirect-card,body.dark-mode .profile-redirect-card{background:linear-gradient(135deg,#211a32,#172642)!important;border-color:#4c3c6d!important}
+body.dark .profile-redirect-icon,body.dark-mode .profile-redirect-icon{background:#30234a!important}
+@media(max-width:650px){.profile-redirect-card{align-items:flex-start!important;flex-direction:column!important;padding:20px!important}.profile-redirect-icon{width:56px!important;height:56px!important;flex-basis:56px!important;font-size:27px!important}.profile-redirect-card .profile-btn{width:100%!important}}
 .notice-box{background:linear-gradient(135deg,var(--orange-light),var(--yellow-light))!important;border-color:#fed7aa!important}.notice-box h3{color:#9a3412!important}.notice-box p{line-height:1.75!important}
 .notification-section,.history-section{min-height:80px!important}.notification-section{background:linear-gradient(135deg,#f5f3ff,#eff6ff)!important}.history-section{background:linear-gradient(135deg,#f0fdf4,#ecfeff)!important}
 .test-alarm-btn{width:100%!important;margin:0 0 20px!important;font-size:15px!important}
@@ -455,25 +463,30 @@ body.dark .account-gate-secondary,body.dark-mode .account-gate-secondary{backgro
 <!-- SMART GAS & FOOD ASSISTANT -->
 <!-- My Cooking Profile -->
 <section aria-labelledby="profileTitle" class="cooking-profile" id="cooking-profile">
-<div class="profile-head"><div><div class="section-eyebrow">MY COOKING PROFILE</div><h2 id="profileTitle">Tell us how you cook</h2><p class="profile-lead">Save your normal cooking habits so Cooking Gas Tracker &amp; Manager can give you more useful gas, food, budget and meal-planning suggestions.</p></div></div>
-<div class="profile-editor" id="profileEditor">
-<div class="profile-grid">
-<div class="profile-field"><label for="profileHighestKg">Highest gas amount you normally fill (KG)</label><input id="profileHighestKg" max="100" min="1" placeholder="e.g. 12" step="0.1" type="number"/><small>Your usual maximum refill amount.</small></div>
-<div class="profile-field"><label for="profileLowestKg">Lowest gas amount you normally fill (KG)</label><input id="profileLowestKg" max="100" min="1" placeholder="e.g. 5" step="0.1" type="number"/><small>Your usual minimum refill amount.</small></div>
-<div class="profile-field"><label for="profileCurrentKg">Current gas amount (KG)</label><input id="profileCurrentKg" max="100" min="0" placeholder="e.g. 8" step="0.1" type="number"/><small>How much gas you currently have, if known.</small></div>
-<div class="profile-field"><label for="profilePeople">How many people do you cook for?</label><input id="profilePeople" max="30" min="1" placeholder="e.g. 4" type="number"/><small>Helps estimate practical meal portions.</small></div>
-<div class="profile-field"><label for="profileMeals">Meals normally cooked each day</label><select id="profileMeals"><option value="1">1 meal</option><option selected="" value="2">2 meals</option><option value="3">3 meals</option><option value="4">4+ meals</option></select></div>
-<div class="profile-field"><label for="profileDuration">Typical cooking time per meal</label><select id="profileDuration"><option value="under30">Under 30 minutes</option><option selected="" value="30to60">30–60 minutes</option><option value="60to90">60–90 minutes</option><option value="over90">Over 90 minutes</option></select></div>
-<div class="profile-field full"><label for="profileFoods">Foods you often eat</label><textarea id="profileFoods" placeholder="e.g. rice, beans, yam, eggs, stew, noodles" rows="2"></textarea><small>Separate foods with commas. You can include foods not in the meal planner list.</small></div>
-<div class="profile-field"><label for="profileBudget">Budget level</label><select id="profileBudget"><option value="low">Limited budget</option><option selected="" value="medium">Moderate budget</option><option value="high">Flexible budget</option></select><small>This describes how tightly you want the food plan to manage spending.</small></div>
-<div class="profile-field"><label for="profileBudgetAmount">Actual food budget <span id="profileCurrencyLabel"></span></label><input id="profileBudgetAmount" min="0" placeholder="Enter your budget" step="0.01" type="number"/><small>Your currency is detected from your device region. You can enter the amount you normally want to spend.</small></div>
-<div class="profile-field"><label for="profileBudgetPeriod">Budget period</label><select id="profileBudgetPeriod"><option value="day">Per day</option><option selected="" value="week">Per week</option><option value="month">Per month</option></select><small>The period used when comparing your shopping plan with your budget.</small></div>
-<div class="profile-field"><label for="profileGoal">Main cooking goal</label><select id="profileGoal"><option value="save-gas">Save gas</option><option selected="" value="balanced">Balance gas, food and cost</option><option value="save-money">Save money and gas</option><option value="convenience">Convenience and simple cooking</option></select></div>
-<div class="profile-field full"><label for="profileAvoid">Foods you do not eat or prefer to avoid</label><textarea id="profileAvoid" placeholder="e.g. fish, very spicy food, okra" rows="2"></textarea><small>This helps the assistant avoid suggesting foods you don't want.</small></div>
-</div>
-</div>
-<div class="profile-actions"><button class="profile-btn" id="saveCookingProfileBtn" type="button">💾 Save My Cooking Profile</button><button class="profile-btn secondary" id="resetCookingProfileBtn" type="button">Reset</button><button class="profile-btn secondary profile-cancel-btn" hidden="" id="cancelCookingProfileBtn" type="button">Cancel</button></div>
-<div aria-live="polite" class="profile-status" id="profileStatus"></div>
+  <div class="profile-head">
+    <div>
+      <div class="section-eyebrow">MY COOKING PROFILE</div>
+      <h2 id="profileTitle">Tell us how you cook</h2>
+      <p class="profile-lead">
+        Your cooking profile is managed on its own page. Tell us about your cooking habits,
+        food preferences and budget there so we can personalize your gas, meal and food guidance.
+      </p>
+    </div>
+  </div>
+
+  <div class="profile-redirect-card">
+    <div class="profile-redirect-icon">👨‍🍳</div>
+    <div class="profile-redirect-content">
+      <h3>My Cooking Profile</h3>
+      <p>
+        Set up or update your cooking profile, including household size, meals, cooking time,
+        common foods, budget and cooking goals.
+      </p>
+      <a class="profile-btn" href="cooking-profile.html">
+        👨‍🍳 Go to My Cooking Profile →
+      </a>
+    </div>
+  </div>
 </section></div><div class="notice-box" id="tips">
 <h3>🔥 Gas Usage Tips</h3>
 <p>
@@ -2181,120 +2194,7 @@ body.dark .account-gate-secondary,body.dark-mode .account-gate-secondary{backgro
 })();
 </script>
 
-<script>
-(function(){
-  const saveBtn=document.getElementById('saveCookingProfileBtn');
-  const resetBtn=document.getElementById('resetCookingProfileBtn');
-  const cancelBtn=document.getElementById('cancelCookingProfileBtn');
-  const status=document.getElementById('profileStatus');
-  const gate=document.getElementById('accountGate');
-  const gateClose=document.getElementById('accountGateClose');
-  const gateTitle=document.getElementById('accountGateTitle');
-  const gateMessage=document.getElementById('accountGateMessage');
 
-  function set(id,value){const el=document.getElementById(id);if(el&&value!==undefined&&value!==null)el.value=value;}
-
-  function showAccountGate(feature,message){
-    if(!gate)return;
-    if(gateTitle) gateTitle.textContent='Create an account to continue';
-    if(gateMessage){
-      gateMessage.textContent=message || ('Create a free account or sign in to use ' + feature + '. You can still use the Gas Tracker without an account.');
-    }
-    gate.classList.add('open');
-    gate.setAttribute('aria-hidden','false');
-    document.body.classList.add('account-gate-open');
-  }
-  window.showAccountGate=showAccountGate;
-
-  function closeGate(){
-    if(!gate)return;
-    gate.classList.remove('open');
-    gate.setAttribute('aria-hidden','true');
-    document.body.classList.remove('account-gate-open');
-  }
-  gateClose?.addEventListener('click',closeGate);
-  gate?.addEventListener('click',e=>{if(e.target===gate)closeGate();});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&gate?.classList.contains('open'))closeGate();});
-
-  function getProfileData(){
-    return {
-      highestKg:Number(document.getElementById('profileHighestKg')?.value)||null,
-      lowestKg:Number(document.getElementById('profileLowestKg')?.value)||null,
-      currentKg:Number(document.getElementById('profileCurrentKg')?.value)||null,
-      householdSize:Number(document.getElementById('profilePeople')?.value)||null,
-      mealsPerDay:document.getElementById('profileMeals')?.value||'2',
-      cookingDuration:document.getElementById('profileDuration')?.value||'30to60',
-      commonFoodsText:(document.getElementById('profileFoods')?.value||'').trim(),
-      budgetLevel:document.getElementById('profileBudget')?.value||'medium',
-      budgetAmount:Number(document.getElementById('profileBudgetAmount')?.value)||null,
-      budgetPeriod:document.getElementById('profileBudgetPeriod')?.value||'week',
-      goal:document.getElementById('profileGoal')?.value||'balanced',
-      avoidFoodsText:(document.getElementById('profileAvoid')?.value||'').trim(),
-      currency:detectProfileCurrency(),
-      ownerUid:window.getCurrentFirebaseUserUid ? window.getCurrentFirebaseUserUid() : null,
-      savedAt:new Date().toISOString()
-    };
-  }
-
-  function detectProfileCurrency(){
-    try{
-      const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
-      const map={'Africa/Lagos':'NGN','Africa/Accra':'GHS','Africa/Nairobi':'KES','Africa/Johannesburg':'ZAR','Europe/London':'GBP','Europe/Zurich':'CHF','Asia/Kolkata':'INR','Asia/Tokyo':'JPY','Asia/Shanghai':'CNY','America/New_York':'USD','America/Toronto':'CAD'};
-      if(map[tz])return map[tz];
-      const region=(navigator.language||'en-US').split(/[-_]/)[1]?.toUpperCase();
-      const regionMap={NG:'NGN',US:'USD',GB:'GBP',GH:'GHS',KE:'KES',ZA:'ZAR',IN:'INR',CA:'CAD',AU:'AUD'};
-      return regionMap[region]||'USD';
-    }catch(e){return 'USD'}
-  }
-
-  function loadProfile(){
-    try{
-      const d=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null');
-      if(!d)return;
-      set('profileHighestKg',d.highestKg);set('profileLowestKg',d.lowestKg);set('profileCurrentKg',d.currentKg);
-      set('profilePeople',d.householdSize);set('profileMeals',d.mealsPerDay||'2');set('profileDuration',d.cookingDuration||'30to60');
-      set('profileFoods',d.commonFoodsText);set('profileBudget',d.budgetLevel||'medium');set('profileBudgetAmount',d.budgetAmount);
-      set('profileBudgetPeriod',d.budgetPeriod||'week');set('profileGoal',d.goal||'balanced');set('profileAvoid',d.avoidFoodsText);
-      if(status)status.textContent='Your cooking profile is saved on this device.';
-    }catch(e){console.warn('Could not load cooking profile:',e)}
-  }
-
-  async function saveProfile(){
-    if(!(await requireAccountForFeature('your Cooking Profile')))return;
-    const data=getProfileData();
-    localStorage.setItem('cgtCookingProfile',JSON.stringify(data));
-    if(status)status.textContent='✓ Cooking profile saved to your account on this device.';
-    showToast('Cooking profile saved successfully.');
-  }
-
-  async function resetProfile(){
-    if(!(await requireAccountForFeature('your Cooking Profile')))return;
-    localStorage.removeItem('cgtCookingProfile');
-    ['profileHighestKg','profileLowestKg','profileCurrentKg','profilePeople','profileFoods','profileAvoid','profileBudgetAmount'].forEach(id=>set(id,''));
-    set('profileMeals','2');set('profileDuration','30to60');set('profileBudget','medium');set('profileBudgetPeriod','week');set('profileGoal','balanced');
-    if(status)status.textContent='Cooking profile reset.';
-    showToast('Cooking profile reset.');
-  }
-
-  async function requireAccountForFeature(featureName){
-    if(typeof window.requireAccountForFeature==='function' && window.requireAccountForFeature!==requireAccountForFeature){
-      return window.requireAccountForFeature(featureName);
-    }
-    if(typeof auth==='undefined' || !auth){showAccountGate(featureName);return false;}
-    try{
-      if(typeof authReady!=='undefined')await authReady;
-    }catch(e){}
-    if(auth.currentUser)return true;
-    showAccountGate(featureName);
-    return false;
-  }
-
-  saveBtn?.addEventListener('click',saveProfile);
-  resetBtn?.addEventListener('click',resetProfile);
-  cancelBtn?.addEventListener('click',loadProfile);
-  loadProfile();
-})();
-</script>
 
   <script src="auth-nav.js"></script>
   
