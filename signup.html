@@ -175,6 +175,11 @@ input:focus{border-color:var(--purple);box-shadow:0 0 0 4px rgba(109,40,217,.10)
 .bottom-link{text-align:center;margin-top:22px;color:var(--muted);font-size:14px}
 .bottom-link a{color:var(--purple);font-weight:850;text-decoration:none}
 .loading{opacity:.7;pointer-events:none}
+.or-divider{display:flex;align-items:center;gap:12px;margin:20px 0 14px;color:var(--muted);font-size:12px;font-weight:800}
+.or-divider:before,.or-divider:after{content:"";height:1px;background:var(--line);flex:1}
+.google-btn{width:100%;height:52px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);font:inherit;font-weight:850;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:.18s}
+.google-btn:hover{border-color:rgba(109,40,217,.35);box-shadow:0 8px 20px rgba(40,20,70,.07);transform:translateY(-1px)}
+.google-icon{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;background:#fff;color:#4285f4;font-weight:950;font-family:Arial,sans-serif;font-size:17px}
 footer{text-align:center;padding:0 20px 25px;color:var(--muted);font-size:12px}
 @media(max-width:850px){
   .navlinks{display:none}
@@ -261,6 +266,8 @@ footer{text-align:center;padding:0 20px 25px;color:var(--muted);font-size:12px}
         <div class="form-success" id="successBox"></div>
 
         <button class="btn btn-primary submit" id="submitBtn" type="submit">Create Account</button>
+        <div class="or-divider"><span>or</span></div>
+        <button class="google-btn" id="googleSignUpBtn" type="button"><span class="google-icon">G</span> Continue with Google</button>
 
         <p class="small-note">
           By creating an account, you agree that your account information can be used to provide the website's account, synchronization and notification features.
@@ -318,6 +325,7 @@ const form=document.getElementById("signupForm");
 const errorBox=document.getElementById("errorBox");
 const successBox=document.getElementById("successBox");
 const submitBtn=document.getElementById("submitBtn");
+const googleSignUpBtn=document.getElementById("googleSignUpBtn");
 
 function showError(message){
   errorBox.textContent=message;
@@ -335,11 +343,28 @@ function firebaseMessage(error){
     "auth/invalid-email":"Please enter a valid email address.",
     "auth/weak-password":"Your password is too weak. Please use at least 6 characters.",
     "auth/network-request-failed":"Network error. Please check your internet connection and try again.",
-    "auth/operation-not-allowed":"Email/password sign-up is not enabled in Firebase Authentication yet."
+    "auth/operation-not-allowed":"Email/password sign-up is not enabled in Firebase Authentication yet.",
+    "auth/popup-blocked":"Your browser blocked the Google sign-in window. Please allow pop-ups and try again.",
+    "auth/account-exists-with-different-credential":"An account already exists with this email using a different sign-in method. Sign in with that method first."
   };
   return map[error.code] || error.message || "We could not create your account. Please try again.";
 }
 
+googleSignUpBtn.addEventListener("click",async()=>{
+ errorBox.style.display="none";successBox.style.display="none";
+ googleSignUpBtn.classList.add("loading");googleSignUpBtn.textContent="Opening Google...";
+ try{
+  const provider=new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({prompt:"select_account"});
+  const result=await auth.signInWithPopup(provider);
+  showSuccess("Google account connected successfully! Opening your account...");
+  setTimeout(()=>window.location.href="account.html",700);
+ }catch(error){
+  if(error.code!=="auth/popup-closed-by-user")showError(firebaseMessage(error));
+  googleSignUpBtn.classList.remove("loading");
+  googleSignUpBtn.innerHTML='<span class="google-icon">G</span> Continue with Google';
+ }
+});
 form.addEventListener("submit",async(e)=>{
   e.preventDefault();
   errorBox.style.display="none";
