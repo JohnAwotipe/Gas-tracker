@@ -977,6 +977,129 @@ footer{
 
 
 /* =========================================
+   VOICE + LANGUAGE TOOLS
+========================================= */
+
+.chat-tools{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    padding:10px 18px 0;
+}
+
+.language-control{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--muted);
+    font-size:12px;
+    font-weight:800;
+}
+
+.language-control select{
+    border:1px solid var(--border);
+    background:var(--bg);
+    color:var(--text);
+    border-radius:10px;
+    padding:8px 10px;
+    outline:none;
+    cursor:pointer;
+    min-width:150px;
+}
+
+.language-control select:focus{
+    border-color:var(--purple2);
+    box-shadow:0 0 0 3px rgba(124,58,237,.10);
+}
+
+.voice-input-button{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:11px;
+    padding:8px 12px;
+    font-size:12px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.voice-input-button:hover{
+    border-color:var(--purple3);
+    color:var(--purple2);
+    background:var(--soft-purple);
+}
+
+.voice-input-button.listening{
+    background:#fee2e2;
+    border-color:#fca5a5;
+    color:#b91c1c;
+}
+
+.voice-input-button:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+}
+
+.voice-status{
+    color:var(--muted);
+    font-size:11px;
+    min-height:17px;
+}
+
+.message-listen-button{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:10px;
+    border:1px solid var(--border);
+    background:transparent;
+    color:inherit;
+    border-radius:10px;
+    padding:7px 10px;
+    font-size:11px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.message-listen-button:hover{
+    background:rgba(124,58,237,.08);
+}
+
+body.dark .voice-input-button.listening{
+    background:#3a1d24;
+    border-color:#6d3340;
+    color:#ffb4c0;
+}
+
+@media(max-width:600px){
+    .chat-tools{
+        align-items:stretch;
+        padding:10px 14px 0;
+    }
+
+    .language-control{
+        width:100%;
+        justify-content:space-between;
+    }
+
+    .language-control select{
+        flex:1;
+        min-width:0;
+    }
+
+    .voice-input-button{
+        width:100%;
+        padding:10px 12px;
+    }
+
+    .voice-status{
+        width:100%;
+    }
+}
+
+
+/* =========================================
    MOBILE NAV
 ========================================= */
 
@@ -1862,6 +1985,30 @@ footer{
 
         <div class="chat-input-area">
 
+            <div class="chat-tools" aria-label="Assistant voice and language tools">
+
+                <label class="language-control" for="chatLanguage">
+                    <span>🌐 Language</span>
+                    <select id="chatLanguage" aria-label="Choose assistant language">
+                        <option value="English" data-voice="en-NG">English</option>
+                        <option value="Nigerian Pidgin" data-voice="en-NG">Nigerian Pidgin</option>
+                        <option value="Yoruba" data-voice="yo-NG">Yoruba</option>
+                        <option value="Igbo" data-voice="ig-NG">Igbo</option>
+                        <option value="Hausa" data-voice="ha-NG">Hausa</option>
+                        <option value="French" data-voice="fr-FR">French</option>
+                        <option value="Spanish" data-voice="es-ES">Spanish</option>
+                        <option value="Arabic" data-voice="ar-SA">Arabic</option>
+                    </select>
+                </label>
+
+                <button type="button" class="voice-input-button" id="voiceInputButton" aria-label="Speak your question" title="Speak your question">
+                    🎤 Speak
+                </button>
+
+                <span class="voice-status" id="voiceStatus" aria-live="polite"></span>
+
+            </div>
+
             <form
                 class="chat-form"
                 id="chatForm"
@@ -1903,7 +2050,42 @@ footer{
 </div>
 
 
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
 <script>
+
+/* =========================================
+   COOKING GAS ASSISTANT — AI CONNECTED
+========================================= */
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAjir7zq8PIzXbDZqfvpRvoWqqYd9udnTU",
+    authDomain: "gas-tracker-8e098.firebaseapp.com",
+    projectId: "gas-tracker-8e098",
+    storageBucket: "gas-tracker-8e098.firebasestorage.app",
+    messagingSenderId: "265524187379",
+    appId: "1:265524187379:web:d987da967ae8aadc582786"
+};
+
+const ASSISTANT_ENDPOINT =
+    "https://gas-notifier.johnawotipe9.workers.dev/assistant";
+
+const CHAT_STORAGE_KEY = "cgtAssistantConversation";
+
+let firebaseAuth = null;
+
+try {
+    if (window.firebase) {
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        firebaseAuth = firebase.auth();
+    }
+} catch (error) {
+    console.warn("Firebase Auth could not be initialized:", error);
+}
+
 
 /* =========================================
    THEME
@@ -1911,7 +2093,6 @@ footer{
 
 const themeButton =
     document.getElementById("themeButton");
-
 
 function loadTheme(){
 
@@ -1921,17 +2102,15 @@ function loadTheme(){
     if(saved === "dark"){
 
         document.body.classList.add("dark");
-
         themeButton.textContent = "☀️";
 
     }else{
 
+        document.body.classList.remove("dark");
         themeButton.textContent = "🌙";
 
     }
-
 }
-
 
 themeButton.addEventListener(
     "click",
@@ -1952,7 +2131,6 @@ themeButton.addEventListener(
 
     }
 );
-
 
 loadTheme();
 
@@ -1982,12 +2160,360 @@ const chatForm =
 const chatMessages =
     document.getElementById("chatMessages");
 
+const languageSelect =
+    document.getElementById("chatLanguage");
+
+const voiceInputButton =
+    document.getElementById("voiceInputButton");
+
+const voiceStatus =
+    document.getElementById("voiceStatus");
+
+let recognition = null;
+let isListening = false;
+let conversation = [];
+let previousFocus = null;
+let assistantBusy = false;
+
+
+/* =========================================
+   HELPERS
+========================================= */
+
+function escapeHtml(text){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        String(text ?? "");
+
+    return div.innerHTML;
+}
+
+function formatBotText(text){
+
+    return escapeHtml(text)
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/(^|\n)[•*-]\s+/g, "$1• ")
+        .replace(/\n/g, "<br>");
+}
+
+function saveConversation(){
+
+    try{
+        const trimmed =
+            conversation.slice(-20);
+
+        sessionStorage.setItem(
+            CHAT_STORAGE_KEY,
+            JSON.stringify(trimmed)
+        );
+    }catch(e){}
+}
+
+function loadConversation(){
+
+    try{
+        const saved =
+            JSON.parse(
+                sessionStorage.getItem(CHAT_STORAGE_KEY) || "[]"
+            );
+
+        if(!Array.isArray(saved)) return;
+
+        conversation =
+            saved.filter(function(item){
+                return item &&
+                    (item.role === "user" || item.role === "assistant") &&
+                    typeof item.text === "string";
+            }).slice(-20);
+
+        conversation.forEach(function(item){
+            addMessage(
+                item.text,
+                item.role === "user" ? "user" : "bot",
+                false,
+                false
+            );
+        });
+    }catch(e){}
+}
+
+function getLanguage(){
+    return languageSelect?.value || "English";
+}
+
+function getVoiceLocale(){
+    const option =
+        languageSelect?.selectedOptions?.[0];
+
+    return option?.dataset?.voice || "en-NG";
+}
+
+function getConversationContext(){
+
+    if(!conversation.length) return "";
+
+    const recent =
+        conversation.slice(-8);
+
+    let context =
+        recent.map(function(item){
+            const speaker =
+                item.role === "user" ? "User" : "Assistant";
+
+            return speaker + ": " + item.text;
+        }).join("\n\n");
+
+    /* Keep the request comfortably below the Worker question limit. */
+    if(context.length > 1250){
+        context = context.slice(-1250);
+    }
+
+    return context;
+}
+
+function getStoredUserData(){
+
+    let tracker = null;
+    let profile = null;
+    let planner = null;
+    let cylinder = null;
+
+    try{
+        tracker = JSON.parse(
+            localStorage.getItem("gasTrackerData") || "null"
+        );
+    }catch(e){}
+
+    try{
+        profile = JSON.parse(
+            localStorage.getItem("cgtCookingProfile") || "null"
+        );
+    }catch(e){}
+
+    try{
+        planner = JSON.parse(
+            localStorage.getItem("cgtMealPlanner") || "null"
+        );
+    }catch(e){}
+
+    try{
+        cylinder = JSON.parse(
+            localStorage.getItem("cgtCylinderSetup") || "null"
+        );
+    }catch(e){}
+
+    const dates =
+        tracker?.dates || {};
+
+    return {
+        cylinderSize:
+            cylinder?.main
+                ? String(cylinder.main) + "kg"
+                : (dates.kg ? String(dates.kg) + "kg" : null),
+
+        refillDate:
+            dates.refill || null,
+
+        consumptionDate:
+            dates.consumption || null,
+
+        gasAmountKg:
+            dates.kg || null,
+
+        refillPrice:
+            dates.price || null,
+
+        currency:
+            dates.currency || null,
+
+        householdSize:
+            profile?.householdSize || planner?.people || null,
+
+        mealsPerDay:
+            profile?.mealsPerDay || planner?.meals || null,
+
+        budgetLevel:
+            profile?.budgetLevel || planner?.budget || null,
+
+        gasGoal:
+            profile?.goal || planner?.gas || null,
+
+        commonFoods:
+            Array.isArray(planner?.foods)
+                ? planner.foods
+                : [],
+
+        customFoods:
+            Array.isArray(planner?.customFoods)
+                ? planner.customFoods
+                : [],
+
+        highestFillKg:
+            profile?.highestKg || null,
+
+        lowestFillKg:
+            profile?.lowestKg || null,
+
+        currentGasKg:
+            profile?.currentKg || null,
+
+        cookingDuration:
+            profile?.cookingDuration || null,
+
+        foodsOftenEaten:
+            profile?.commonFoodsText || null,
+
+        foodsToAvoid:
+            profile?.avoidFoodsText || null,
+
+        cookingGoal:
+            profile?.goal || null
+    };
+}
+
+
+/* =========================================
+   MESSAGE RENDERING
+========================================= */
+
+function addMessage(text, type, thinking = false, saveHistory = true){
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "chat-message " +
+        type +
+        (thinking ? " thinking" : "");
+
+    if(type === "bot"){
+
+        message.innerHTML =
+            formatBotText(text);
+
+        if(!thinking && text){
+
+            const listenButton =
+                document.createElement("button");
+
+            listenButton.type = "button";
+            listenButton.className = "message-listen-button";
+            listenButton.textContent = "🔊 Listen";
+            listenButton.setAttribute(
+                "aria-label",
+                "Listen to this assistant answer"
+            );
+
+            listenButton.addEventListener(
+                "click",
+                function(){
+                    speakText(
+                        text,
+                        listenButton
+                    );
+                }
+            );
+
+            message.appendChild(listenButton);
+        }
+
+    }else{
+
+        message.innerHTML =
+            escapeHtml(text).replace(/\n/g,"<br>");
+    }
+
+    chatMessages.appendChild(
+        message
+    );
+
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+
+    if(saveHistory && !thinking){
+        conversation.push({
+            role: type === "user" ? "user" : "assistant",
+            text: String(text || "")
+        });
+
+        conversation =
+            conversation.slice(-20);
+
+        saveConversation();
+    }
+
+    return message;
+}
+
+
+/* =========================================
+   WELCOME / RESTORE CHAT
+========================================= */
+
+function ensureWelcomeMessage(){
+
+    if(chatMessages.children.length > 0){
+        return;
+    }
+
+    addMessage(
+        "Cooking Gas Assistant 🤖\n\nHi! 👋 Welcome.\n\nYou can ask me about cooking gas, saving gas, meal planning, food budgets, shopping, cooking problems and more.\n\nWhat would you like to know?",
+        "bot",
+        false,
+        false
+    );
+}
+
+loadConversation();
+ensureWelcomeMessage();
+
+
+/* =========================================
+   ACCOUNT CHECK
+========================================= */
+
+function hasSignedInAccount(){
+
+    try{
+        return !!(
+            firebaseAuth &&
+            firebaseAuth.currentUser
+        );
+    }catch(e){
+        return false;
+    }
+}
+
+function showAccountNotice(){
+
+    addMessage(
+        "Please sign in or create a free account to start chatting with Cooking Gas Assistant.",
+        "bot"
+    );
+
+    const note =
+        document.createElement("div");
+
+    note.className = "chat-message bot";
+    note.innerHTML =
+        '<a href="login.html" style="color:var(--purple2);font-weight:900">Sign In</a> &nbsp; or &nbsp; <a href="signup.html" style="color:var(--purple2);font-weight:900">Create Account</a>';
+
+    chatMessages.appendChild(note);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
 
 /* =========================================
    OPEN CHAT
 ========================================= */
 
 function openAssistant(){
+
+    previousFocus =
+        document.activeElement;
 
     chatOverlay.classList.add("open");
 
@@ -1999,19 +2525,14 @@ function openAssistant(){
     document.body.classList.add("no-scroll");
 
     setTimeout(function(){
-
         chatInput.focus();
-
     },150);
-
 }
-
 
 openButton.addEventListener(
     "click",
     openAssistant
 );
-
 
 openButton2.addEventListener(
     "click",
@@ -2025,6 +2546,14 @@ openButton2.addEventListener(
 
 function closeAssistant(){
 
+    if(window.speechSynthesis){
+        window.speechSynthesis.cancel();
+    }
+
+    if(recognition && isListening){
+        try{ recognition.stop(); }catch(e){}
+    }
+
     chatOverlay.classList.remove("open");
 
     chatOverlay.setAttribute(
@@ -2034,8 +2563,10 @@ function closeAssistant(){
 
     document.body.classList.remove("no-scroll");
 
+    if(previousFocus && typeof previousFocus.focus === "function"){
+        previousFocus.focus();
+    }
 }
-
 
 closeButton.addEventListener(
     "click",
@@ -2043,8 +2574,7 @@ closeButton.addEventListener(
 );
 
 
-/* CLOSE WITH ESC */
-
+/* ESCAPE */
 document.addEventListener(
     "keydown",
     function(e){
@@ -2053,549 +2583,368 @@ document.addEventListener(
             e.key === "Escape" &&
             chatOverlay.classList.contains("open")
         ){
-
             closeAssistant();
-
         }
-
     }
 );
 
 
 /* =========================================
-   MESSAGE
+   SPEECH OUTPUT
 ========================================= */
 
-function addMessage(
-    text,
-    type,
-    thinking=false
-){
+function speakText(text, button){
 
-    const message =
-        document.createElement("div");
+    if(!("speechSynthesis" in window)){
 
-    message.className =
-        "chat-message " +
-        type +
-        (thinking ? " thinking" : "");
-
-    message.innerHTML =
-        text;
-
-    chatMessages.appendChild(
-        message
-    );
-
-    chatMessages.scrollTop =
-        chatMessages.scrollHeight;
-
-    return message;
-
-}
-
-
-/* =========================================
-   USER DATA
-========================================= */
-
-function getUserData(){
-
-    let tracker = null;
-    let profile = null;
-    let planner = null;
-    let cylinder = null;
-
-
-    try{
-
-        tracker =
-            JSON.parse(
-                localStorage.getItem(
-                    "gasTrackerData"
-                ) || "null"
-            );
-
-    }catch(e){}
-
-
-    try{
-
-        profile =
-            JSON.parse(
-                localStorage.getItem(
-                    "cgtCookingProfile"
-                ) || "null"
-            );
-
-    }catch(e){}
-
-
-    try{
-
-        planner =
-            JSON.parse(
-                localStorage.getItem(
-                    "cgtMealPlanner"
-                ) || "null"
-            );
-
-    }catch(e){}
-
-
-    try{
-
-        cylinder =
-            JSON.parse(
-                localStorage.getItem(
-                    "cgtCylinderSetup"
-                ) || "null"
-            );
-
-    }catch(e){}
-
-
-    return {
-        tracker,
-        profile,
-        planner,
-        cylinder
-    };
-
-}
-
-
-/* =========================================
-   ASSISTANT RESPONSE
-========================================= */
-
-function getAnswer(question){
-
-    const q =
-        question.toLowerCase();
-
-    const data =
-        getUserData();
-
-    const tracker =
-        data.tracker || {};
-
-    const dates =
-        tracker.dates || {};
-
-
-    /* GAS SAVING */
-
-    if(
-        q.includes("save gas") ||
-        q.includes("gas last") ||
-        q.includes("gas finish") ||
-        q.includes("reduce gas")
-    ){
-
-        return `
-
-        <strong>🔥 Making your cooking gas last longer</strong>
-
-        <br><br>
-
-        Try these habits:
-
-        <br><br>
-
-        • Use an appropriate flame instead of unnecessarily high heat.<br>
-        • Prepare your ingredients before switching on the burner.<br>
-        • Avoid cooking food longer than necessary.<br>
-        • Keep burner openings clean according to your appliance instructions.<br>
-        • Cover pots when appropriate.<br>
-        • Avoid unnecessary reheating.
-
-        <br><br>
-
-        Your actual gas usage can still vary depending on
-        your cooking habits, food and cooking time.
-
-        `;
-
-    }
-
-
-    /* BUDGET */
-
-    if(
-        q.includes("budget") ||
-        q.includes("save money") ||
-        q.includes("cheap") ||
-        q.includes("affordable")
-    ){
-
-        return `
-
-        <strong>💰 Managing your food budget</strong>
-
-        <br><br>
-
-        A simple approach is:
-
-        <br><br>
-
-        1. Decide how much you can spend.<br>
-        2. Plan your meals before shopping.<br>
-        3. Check what food you already have.<br>
-        4. Create a shopping list.<br>
-        5. Avoid unnecessary purchases.<br>
-        6. Reuse ingredients across suitable meals.
-
-        <br><br>
-
-        You can combine this with your
-        <strong>Meal Planner</strong> and
-        <strong>Smart Shopping</strong> tools.
-
-        `;
-
-    }
-
-
-    /* MEALS */
-
-    if(
-        q.includes("meal") ||
-        q.includes("cook today") ||
-        q.includes("what can i cook") ||
-        q.includes("food idea")
-    ){
-
-        return `
-
-        <strong>🍲 Let's plan your meal</strong>
-
-        <br><br>
-
-        First check what ingredients you already have.
-        Then choose something that fits your available
-        time, budget and cooking needs.
-
-        <br><br>
-
-        For a more structured plan, open:
-
-        <br><br>
-
-        <a
-            href="meal-planner.html"
-            style="color:var(--purple2);font-weight:900"
-        >
-            🍲 Open Meal Planner →
-        </a>
-
-        `;
-
-    }
-
-
-    /* SHOPPING */
-
-    if(
-        q.includes("shopping") ||
-        q.includes("shopping list") ||
-        q.includes("buy food")
-    ){
-
-        return `
-
-        <strong>🛒 Smart Shopping</strong>
-
-        <br><br>
-
-        Before shopping:
-
-        <br><br>
-
-        • Check what you already have.<br>
-        • Decide which meals you want to prepare.<br>
-        • Write down only what you need.<br>
-        • Consider your available budget.<br>
-        • Review the list before buying.
-
-        <br><br>
-
-        <a
-            href="smart-shopping.html"
-            style="color:var(--purple2);font-weight:900"
-        >
-            🛒 Open Smart Shopping →
-        </a>
-
-        `;
-
-    }
-
-
-    /* BURNER */
-
-    if(
-        q.includes("burner") ||
-        q.includes("flame") ||
-        q.includes("low flame")
-    ){
-
-        return `
-
-        <strong>🛠️ About a low burner flame</strong>
-
-        <br><br>
-
-        Make sure the appliance is switched off and cool
-        before inspecting or cleaning the burner.
-
-        <br><br>
-
-        A blocked or dirty burner opening can affect the flame.
-        Follow the appliance manufacturer's cleaning
-        instructions.
-
-        <br><br>
-
-        If the problem continues, have the appliance checked
-        by a qualified gas professional.
-
-        <br><br>
-
-        <strong>⚠️ Do not attempt gas-equipment repairs
-        if you are not qualified.</strong>
-
-        `;
-
-    }
-
-
-    /* GAS LEAK */
-
-    if(
-        q.includes("gas leak") ||
-        q.includes("smell gas") ||
-        q.includes("gas smell")
-    ){
-
-        return `
-
-        <strong>⚠️ Possible gas leak</strong>
-
-        <br><br>
-
-        If you suspect a gas leak:
-
-        <br><br>
-
-        • Stop using the appliance.<br>
-        • Avoid flames and sparks.<br>
-        • Do not operate electrical switches if doing so
-          could create a spark.<br>
-        • Move to a safe location.<br>
-        • Contact a qualified gas professional or appropriate
-          emergency service.
-
-        <br><br>
-
-        <strong>Your safety comes first.</strong>
-
-        `;
-
-    }
-
-
-    /* TRACKER */
-
-    if(
-        q.includes("tracker") ||
-        q.includes("consumption date") ||
-        q.includes("refill date") ||
-        q.includes("when will my gas finish")
-    ){
-
-        if(dates.consumption){
-
-            return `
-
-            <strong>🔥 Your Gas Tracker</strong>
-
-            <br><br>
-
-            Your saved expected consumption date is:
-
-            <br><br>
-
-            <strong>
-                ${escapeHtml(
-                    String(dates.consumption)
-                )}
-            </strong>
-
-            <br><br>
-
-            Remember that this is an expected date.
-            Actual gas consumption can vary depending
-            on how the gas is used.
-
-            <br><br>
-
-            <a
-                href="tracker.html"
-                style="color:var(--purple2);font-weight:900"
-            >
-                🔥 Open Gas Tracker →
-            </a>
-
-            `;
-
+        if(voiceStatus){
+            voiceStatus.textContent =
+                "Voice playback is not supported on this device.";
         }
 
-
-        return `
-
-        <strong>🔥 Gas Tracker</strong>
-
-        <br><br>
-
-        You have not entered an expected consumption date
-        in this browser yet.
-
-        <br><br>
-
-        <a
-            href="tracker.html"
-            style="color:var(--purple2);font-weight:900"
-        >
-            Open Gas Tracker →
-        </a>
-
-        `;
-
+        return;
     }
 
+    window.speechSynthesis.cancel();
 
-    /* PROFILE */
+    const utterance =
+        new SpeechSynthesisUtterance(
+            String(text || "")
+                .replace(/[*_#]/g, "")
+        );
 
-    if(
-        q.includes("profile") ||
-        q.includes("my cooking habits")
-    ){
+    utterance.lang =
+        getVoiceLocale();
 
-        return `
+    utterance.rate = 0.96;
+    utterance.pitch = 1;
 
-        <strong>👤 Cooking Profile</strong>
-
-        <br><br>
-
-        Your Cooking Profile can store information about
-        your cooking habits, gas usage, household,
-        foods you often eat, foods you avoid, budget and
-        cooking goals.
-
-        <br><br>
-
-        <a
-            href="cooking-profile.html"
-            style="color:var(--purple2);font-weight:900"
-        >
-            👤 Open Cooking Profile →
-        </a>
-
-        `;
-
+    if(button){
+        button.textContent = "⏹ Stop";
     }
 
+    utterance.onend = function(){
+        if(button){
+            button.textContent = "🔊 Listen";
+        }
+    };
 
-    /* DEFAULT */
+    utterance.onerror = function(){
+        if(button){
+            button.textContent = "🔊 Listen";
+        }
+    };
 
-    return `
-
-    <strong>🤖 I'm here to help.</strong>
-
-    <br><br>
-
-    You can ask me things like:
-
-    <br><br>
-
-    • How can I make my gas last longer?<br>
-    • What can I cook today?<br>
-    • How can I save money on food?<br>
-    • My burner flame is low. What should I do?<br>
-    • How can I plan my shopping?<br>
-    • When is my expected gas consumption date?
-
-    <br><br>
-
-    You can also explore the
-    <strong>Tracker</strong>,
-    <strong>Meal Planner</strong>,
-    <strong>Smart Shopping</strong>
-    and
-    <strong>Cooking Profile</strong>.
-
-    `;
-
+    window.speechSynthesis.speak(
+        utterance
+    );
 }
 
 
 /* =========================================
-   SEND MESSAGE
+   VOICE INPUT
 ========================================= */
 
-async function sendQuestion(question){
+function setupVoiceInput(){
+
+    if(!voiceInputButton) return;
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if(!SpeechRecognition){
+
+        voiceInputButton.disabled = true;
+        voiceInputButton.title =
+            "Voice input is not supported by this browser";
+
+        if(voiceStatus){
+            voiceStatus.textContent =
+                "Voice input is unavailable in this browser.";
+        }
+
+        return;
+    }
+
+    recognition =
+        new SpeechRecognition();
+
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.lang = getVoiceLocale();
+
+    recognition.onstart = function(){
+
+        isListening = true;
+
+        voiceInputButton.classList.add("listening");
+        voiceInputButton.textContent =
+            "🔴 Listening...";
+
+        if(voiceStatus){
+            voiceStatus.textContent =
+                "Speak your question...";
+        }
+    };
+
+    recognition.onresult = function(event){
+
+        const transcript =
+            event.results?.[0]?.[0]?.transcript || "";
+
+        if(transcript.trim()){
+            chatInput.value = transcript.trim();
+            chatInput.focus();
+
+            if(voiceStatus){
+                voiceStatus.textContent =
+                    "Voice captured. Tap Send to ask.";
+            }
+        }
+    };
+
+    recognition.onerror = function(event){
+
+        let message =
+            "I could not hear that. Please try again.";
+
+        if(event.error === "not-allowed" || event.error === "service-not-allowed"){
+            message =
+                "Microphone permission was not granted.";
+        }else if(event.error === "no-speech"){
+            message =
+                "No speech was detected. Please try again.";
+        }
+
+        if(voiceStatus){
+            voiceStatus.textContent =
+                message;
+        }
+    };
+
+    recognition.onend = function(){
+
+        isListening = false;
+
+        voiceInputButton.classList.remove("listening");
+        voiceInputButton.textContent =
+            "🎤 Speak";
+    };
+
+    voiceInputButton.addEventListener(
+        "click",
+        function(){
+
+            if(!chatOverlay.classList.contains("open")){
+                openAssistant();
+            }
+
+            if(isListening){
+                try{ recognition.stop(); }catch(e){}
+                return;
+            }
+
+            recognition.lang =
+                getVoiceLocale();
+
+            if(voiceStatus){
+                voiceStatus.textContent =
+                    "Starting microphone...";
+            }
+
+            try{
+                recognition.start();
+            }catch(e){}
+        }
+    );
+}
+
+setupVoiceInput();
+
+languageSelect?.addEventListener(
+    "change",
+    function(){
+
+        if(recognition){
+            recognition.lang =
+                getVoiceLocale();
+        }
+
+        if(voiceStatus){
+            voiceStatus.textContent =
+                `Assistant language: ${getLanguage()}.`;
+        }
+    }
+);
+
+
+/* =========================================
+   AI REQUEST
+========================================= */
+
+async function askAssistant(question){
 
     question =
         String(question || "").trim();
 
-    if(!question){
+    if(!question || assistantBusy){
         return;
     }
 
+    if(!hasSignedInAccount()){
+        showAccountNotice();
+        return;
+    }
+
+    const language =
+        getLanguage();
+
+    const context =
+        getConversationContext();
+
+    let prompt = "";
+
+    if(language !== "English"){
+        prompt +=
+            `Answer the user's latest question in ${language}. Keep the response natural, clear and practical. If the user uses local expressions, understand the meaning and respond appropriately.\n\n`;
+    }
+
+    if(context){
+        prompt +=
+            "CONVERSATION CONTEXT:\n" +
+            context +
+            "\n\n";
+    }
+
+    prompt +=
+        "LATEST USER QUESTION:\n" +
+        question;
+
+    /* The Worker accepts questions up to 2,000 characters. */
+    if(prompt.length > 1950){
+        prompt =
+            prompt.slice(0,1950);
+    }
 
     addMessage(
-        escapeHtml(question),
+        question,
         "user"
     );
 
-
     chatInput.value = "";
-
     chatInput.disabled = true;
+    assistantBusy = true;
 
+    const sendButton =
+        chatForm.querySelector(".send-button");
+
+    if(sendButton){
+        sendButton.disabled = true;
+        sendButton.textContent = "…";
+    }
 
     const thinking =
         addMessage(
             "Thinking...",
             "bot",
-            true
+            true,
+            false
         );
 
+    try{
 
-    await new Promise(
-        resolve =>
-            setTimeout(resolve,350)
-    );
+        const controller =
+            new AbortController();
 
+        const timeout =
+            setTimeout(
+                function(){ controller.abort(); },
+                45000
+            );
 
-    thinking.remove();
+        const response =
+            await fetch(
+                ASSISTANT_ENDPOINT,
+                {
+                    method: "POST",
 
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-    const answer =
-        getAnswer(question);
+                    body: JSON.stringify({
+                        question: prompt,
+                        profile: getStoredUserData()
+                    }),
 
+                    signal: controller.signal
+                }
+            );
 
-    addMessage(
-        answer,
-        "bot"
-    );
+        clearTimeout(timeout);
 
+        const data =
+            await response.json().catch(
+                function(){ return {}; }
+            );
 
-    chatInput.disabled = false;
+        thinking.remove();
 
-    chatInput.focus();
+        if(!response.ok || !data.answer){
+            console.error(
+                "Assistant server error:",
+                response.status,
+                data
+            );
 
+            throw new Error(
+                data.error ||
+                "The AI assistant could not answer right now."
+            );
+        }
+
+        addMessage(
+            String(data.answer),
+            "bot"
+        );
+
+    }catch(error){
+
+        thinking.remove();
+
+        console.error(
+            "Cooking Gas Assistant error:",
+            error
+        );
+
+        let errorText =
+            "Sorry, I couldn't connect to the Cooking Gas Assistant right now. Please check your internet connection and try again.";
+
+        if(error?.name === "AbortError"){
+            errorText =
+                "The assistant took too long to respond. Please try again.";
+        }
+
+        addMessage(
+            errorText,
+            "bot"
+        );
+
+    }finally{
+
+        assistantBusy = false;
+        chatInput.disabled = false;
+
+        if(sendButton){
+            sendButton.disabled = false;
+            sendButton.textContent = "➤";
+        }
+
+        chatInput.focus();
+    }
 }
 
 
@@ -2609,7 +2958,7 @@ chatForm.addEventListener(
 
         e.preventDefault();
 
-        sendQuestion(
+        askAssistant(
             chatInput.value
         );
 
@@ -2629,31 +2978,13 @@ document.querySelectorAll(
         "click",
         function(){
 
-            sendQuestion(
+            askAssistant(
                 button.dataset.question
             );
 
         }
     );
-
 });
-
-
-/* =========================================
-   ESCAPE HTML
-========================================= */
-
-function escapeHtml(text){
-
-    const div =
-        document.createElement("div");
-
-    div.textContent =
-        text;
-
-    return div.innerHTML;
-
-}
 
 </script>
 <script src="auth-nav.js"></script>
