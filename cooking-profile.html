@@ -781,6 +781,112 @@
       background: var(--primary-light);
     }
 
+
+    /* =========================
+       ACCOUNT REQUIRED MODAL
+    ========================== */
+
+    .account-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      display: none !important;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15, 15, 23, 0.68);
+      backdrop-filter: blur(7px);
+    }
+
+    .account-overlay.show {
+      display: flex !important;
+    }
+
+    .account-modal {
+      width: min(500px, 100%);
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 27px;
+      box-shadow: 0 25px 70px rgba(0,0,0,.25);
+      position: relative;
+    }
+
+    .account-modal-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--primary-light);
+      font-size: 27px;
+      margin-bottom: 15px;
+    }
+
+    .account-modal .eyebrow {
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      margin-bottom: 6px;
+    }
+
+    .account-modal h2 {
+      font-size: 25px;
+      line-height: 1.2;
+      margin-bottom: 9px;
+    }
+
+    .account-modal p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .account-modal-close {
+      position: absolute;
+      top: 13px;
+      right: 13px;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 21px;
+    }
+
+    .account-modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .account-modal-actions a {
+      min-height: 48px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .account-create {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .account-signin {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .account-modal-note {
+      margin: 14px 0 0 !important;
+      text-align: center;
+      font-size: 11px !important;
+    }
+
     /* =========================
        RESPONSIVE
     ========================= */
@@ -948,28 +1054,6 @@
 
 
   <main class="container">
-
-    <!-- =========================
-         NOTICE
-    ========================== -->
-
-    <div class="notice">
-
-      <div class="notice-icon">
-        💡
-      </div>
-
-      <div>
-        <strong>Your profile stays on this device</strong>
-
-        <p>
-          Your cooking profile is saved in your browser so you can use it
-          again with the Meal Planner and Cooking Gas Assistant.
-        </p>
-      </div>
-
-    </div>
-
 
     <!-- =========================
          BASIC COOKING HABITS
@@ -1662,6 +1746,56 @@
   </main>
 
 
+
+  <!-- =========================
+       ACCOUNT REQUIRED
+  ========================== -->
+
+  <div
+    class="account-overlay"
+    id="accountOverlay"
+    aria-hidden="true"
+    style="display:none;"
+  >
+    <div
+      class="account-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="accountModalTitle"
+    >
+
+      <button
+        type="button"
+        class="account-modal-close"
+        id="accountModalClose"
+        aria-label="Close"
+      >×</button>
+
+      <div class="account-modal-icon">🔐</div>
+
+      <div class="eyebrow">ACCOUNT REQUIRED</div>
+
+      <h2 id="accountModalTitle">
+        Create an account to save your profile
+      </h2>
+
+      <p>
+        Your Cooking Profile is a personal feature. Please create a free account
+        or sign in before saving your profile.
+      </p>
+
+      <div class="account-modal-actions">
+        <a href="signup.html" class="account-create">Create Account</a>
+        <a href="login.html" class="account-signin">Sign In</a>
+      </div>
+
+      <p class="account-modal-note">
+        Your general gas tracker can still be used without an account.
+      </p>
+
+    </div>
+  </div>
+
   <!-- =========================
        FOOTER
   ========================== -->
@@ -1741,7 +1875,69 @@
   </nav>
 
 
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
   <script>
+
+
+    /* =========================
+       FIREBASE AUTHENTICATION
+    ========================== */
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAjir7zq8PIzXbDZqfvpRvoWqqYd9udnTU",
+      authDomain: "gas-tracker-8e098.firebaseapp.com",
+      projectId: "gas-tracker-8e098",
+      storageBucket: "gas-tracker-8e098.firebasestorage.app",
+      messagingSenderId: "265524187379",
+      appId: "1:265524187379:web:d987da967ae8aadc582786"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    const auth = firebase.auth();
+    let currentUser = null;
+
+    const accountOverlay = document.getElementById("accountOverlay");
+    const accountModalClose = document.getElementById("accountModalClose");
+
+    function showAccountRequired() {
+      accountOverlay.classList.add("show");
+      accountOverlay.style.display = "flex";
+      accountOverlay.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeAccountRequired() {
+      accountOverlay.classList.remove("show");
+      accountOverlay.style.display = "none";
+      accountOverlay.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    accountModalClose.addEventListener("click", closeAccountRequired);
+
+    accountOverlay.addEventListener("click", function(event) {
+      if (event.target === accountOverlay) {
+        closeAccountRequired();
+      }
+    });
+
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Escape" && accountOverlay.classList.contains("show")) {
+        closeAccountRequired();
+      }
+    });
+
+    auth.onAuthStateChanged(function(user) {
+      currentUser = user || null;
+      if (currentUser) {
+        loadProfile();
+      }
+    });
 
     /* =========================
        THEME
@@ -1970,6 +2166,10 @@
 
     function loadProfile() {
 
+      if (!currentUser) {
+        return;
+      }
+
       let profile = null;
 
       try {
@@ -2060,6 +2260,11 @@
 
     function saveProfile() {
 
+      if (!currentUser) {
+        showAccountRequired();
+        return;
+      }
+
       const peopleCount =
         document.getElementById("peopleCount").value;
 
@@ -2149,8 +2354,10 @@
           ).value.trim(),
 
         updatedAt:
-          new Date().toISOString()
+          new Date().toISOString(),
 
+        userId:
+          currentUser.uid
       };
 
 
@@ -2293,7 +2500,7 @@
        START
     ========================== */
 
-    loadProfile();
+    /* Profile loading begins after Firebase resolves the account state. */
 
   </script>
 <script src="auth-nav.js"></script>
