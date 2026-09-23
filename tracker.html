@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><meta name="theme-color" content="#6d28d9"><meta name="description" content="Track your cooking gas refill dates, expected consumption date, cylinder setup, notifications and refill history."><title>Gas Tracker | Cooking Gas Tracker & Manager</title><link rel="icon" type="image/png" href="https://i.imgur.com/QzPFczP.png"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><meta name="theme-color" content="#6d28d9"><meta name="description" content="Track your cooking gas refill dates, expected consumption date, cylinder setup, notifications and refill history."><title>Gas Tracker | Cooking Gas Tracker & Manager</title><link rel="icon" type="image/png" href="https://i.imgur.com/QzPFczP.png"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
 <style>
 /* Tracker page polish — keeps the shared site style while giving the tracker a stronger visual hierarchy. */
 .page-hero{
@@ -112,6 +112,112 @@ body.dark .backup-empty,body.dark-mode .backup-empty{background:#211a32!importan
 body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(25,25,36,.97)!important}
 @media(max-width:850px){.page-container{padding:0 15px 85px!important}.site-header{flex-wrap:wrap!important}.top-nav{display:none!important}.mobile-bottom-nav{display:flex!important}.page-hero{margin-top:25px!important;padding:38px 25px!important;border-radius:24px!important}.cylinder-grid,.benefit-grid{grid-template-columns:1fr!important}.cylinder-settings{grid-template-columns:1fr!important}.cylinder-card{grid-template-columns:120px 1fr!important}.profile-grid{grid-template-columns:1fr!important}.profile-field.full{grid-column:auto!important}}
 @media(max-width:600px){.site-header{padding:11px 0!important}.brand-mark{width:42px!important;height:42px!important;flex-basis:42px!important}.brand-name{font-size:13px!important}.brand-tagline{font-size:11px!important}.theme-toggle{margin-left:auto!important}.page-hero{padding:32px 22px!important;margin-top:20px!important}.page-hero h1{font-size:35px!important}.page-hero p{font-size:15px!important}.tracker-intro{display:block!important;padding:23px!important}.tracker-pill{margin-top:14px!important}.cylinder-panel,.date-section,.status-section,.notification-section,.history-section,.cooking-profile,.notice-box{padding:22px!important}.cylinder-card{grid-template-columns:1fr!important}.cylinder-stage{height:190px!important}.date-inputs,.price-row{grid-template-columns:1fr!important}.status-section{display:flex!important;flex-direction:column!important}.countdown{font-size:50px!important;margin-bottom:5px}.status-indicator{display:inline-block!important;margin:14px 0 0!important}.benefit-grid{grid-template-columns:1fr!important}.profile-actions{flex-direction:column!important}.profile-btn{width:100%!important}.notification-permission button{width:100%!important}}
+
+
+/* ===== FINAL DARK-MODE VISIBILITY FIX ===== */
+body.dark .notification-section,
+body.dark-mode .notification-section{
+  background:linear-gradient(135deg,#17162a 0%,#182235 100%) !important;
+  border-color:#34304f !important;
+  color:#f5f7ff !important;
+}
+body.dark .history-section,
+body.dark-mode .history-section{
+  background:linear-gradient(135deg,#14251e 0%,#12262c 100%) !important;
+  border-color:#30483f !important;
+  color:#f5f7ff !important;
+}
+body.dark .notification-section h3,
+body.dark-mode .notification-section h3,
+body.dark .history-section h3,
+body.dark-mode .history-section h3{
+  color:#ffffff !important;
+}
+body.dark #notificationList,
+body.dark-mode #notificationList,
+body.dark #historyList,
+body.dark-mode #historyList{
+  color:#e8edf7 !important;
+}
+body.dark #notificationList *,
+body.dark-mode #notificationList *,
+body.dark #historyList *,
+body.dark-mode #historyList *{
+  color:inherit !important;
+}
+body.dark .notification-item,
+body.dark-mode .notification-item{
+  border-radius:14px !important;
+  background:#20263a !important;
+  border-color:#6257b8 !important;
+  color:#e9e6ff !important;
+}
+body.dark .notification-item.alert-none,
+body.dark-mode .notification-item.alert-none{
+  background:#193326 !important;
+  border-color:#4fae79 !important;
+  color:#baf0ca !important;
+}
+body.dark .history-item,
+body.dark-mode .history-item{
+  background:#1b2232 !important;
+  border-color:#303b51 !important;
+  color:#e9eef8 !important;
+  box-shadow:0 8px 20px rgba(0,0,0,.18) !important;
+}
+body.dark .history-item .details,
+body.dark-mode .history-item .details{color:#dbe3f1 !important}
+body.dark .history-item .details .kg,
+body.dark-mode .history-item .details .kg{color:#ffffff !important}
+body.dark .history-item .delete-btn,
+body.dark-mode .history-item .delete-btn{
+  background:#dc2626 !important;color:#fff !important;border-color:transparent !important;
+}
+body.dark .notification-permission,
+body.dark-mode .notification-permission{
+  background:linear-gradient(135deg,#1b1830,#182b25) !important;
+  border-color:#3b3560 !important;
+  color:#edf2fb !important;
+}
+body.dark .notification-permission p,
+body.dark-mode .notification-permission p{color:#edf2fb !important}
+body.dark .profile-field,
+body.dark-mode .profile-field{background:#171d2b !important;border-color:#303a4d !important}
+body.dark .profile-field small,
+body.dark-mode .profile-field small{color:#aeb9ca !important}
+body.dark .profile-status,
+body.dark-mode .profile-status{color:#cbd5e5 !important}
+
+/* ===== ACCOUNT GATE ===== */
+.account-gate-overlay{
+  position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;
+  padding:20px;background:rgba(7,10,20,.72);backdrop-filter:blur(8px);
+}
+.account-gate-overlay.open{display:flex}
+.account-gate-card{
+  width:min(440px,100%);position:relative;padding:30px;border-radius:26px;
+  background:#fff;color:#171717;border:1px solid #e5e7eb;
+  box-shadow:0 30px 90px rgba(0,0,0,.3);text-align:center;
+}
+.account-gate-close{
+  position:absolute;right:14px;top:12px;width:38px;height:38px;border:0;border-radius:12px;
+  background:#f3f4f6;color:#4b5563;font-size:26px;cursor:pointer;line-height:1;
+}
+.account-gate-icon{width:60px;height:60px;margin:0 auto 14px;border-radius:18px;display:grid;place-items:center;background:#ede9fe;font-size:28px}
+.account-gate-card .section-eyebrow{color:#6d28d9 !important;margin-bottom:8px}
+.account-gate-card h2{margin:0 0 10px;font-size:25px;line-height:1.2;color:#171717}
+.account-gate-card p{margin:0;color:#667085;line-height:1.65}
+.account-gate-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.account-gate-actions a{display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:12px;text-decoration:none;font-weight:800}
+.account-gate-primary{background:linear-gradient(135deg,#6d28d9,#7c3aed);color:#fff}
+.account-gate-secondary{background:#f5f3ff;color:#6d28d9;border:1px solid #c4b5fd}
+.account-gate-note{margin-top:16px !important;font-size:12px;color:#8a93a3 !important}
+body.dark .account-gate-card,body.dark-mode .account-gate-card{background:#171b28;color:#f5f7ff;border-color:#303849}
+body.dark .account-gate-card h2,body.dark-mode .account-gate-card h2{color:#fff}
+body.dark .account-gate-card p,body.dark-mode .account-gate-card p{color:#c5cfdd}
+body.dark .account-gate-close,body.dark-mode .account-gate-close{background:#272e3e;color:#e8edf6}
+body.dark .account-gate-secondary,body.dark-mode .account-gate-secondary{background:#282241;color:#d9d1ff;border-color:#51467d}
+@media(max-width:520px){.account-gate-card{padding:26px 20px}.account-gate-actions{grid-template-columns:1fr}.account-gate-primary,.account-gate-secondary{min-height:50px}}
 </style>
 
 </head><body><div class="page-container"><header class="site-header"><a href="index.html" class="brand-row" style="text-decoration:none;color:inherit"><div class="brand-mark"><img src="https://i.imgur.com/QzPFczP.png" alt="Cooking Gas Tracker & Manager logo"></div><div><div class="brand-name">Cooking Gas Tracker & Manager</div><div class="brand-tagline">Track smarter. Refill on time.</div></div></a><nav class="top-nav" aria-label="Main navigation"><a href="index.html" class="">⌂ Home</a><a href="tracker.html" class="active">🔥 Tracker</a><a href="assistant.html" class="">🤖 Assistant</a><a href="guides.html" class="">📚 Guides</a><a href="more.html" class="">☰ More</a></nav><button class="theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark mode" title="Switch to dark mode">🌙</button></header><div class="page-hero"><a class="page-back" href="index.html">← Home</a><div class="section-eyebrow">GAS TRACKER</div><h1>Track your cooking gas and plan your next refill.</h1><p>Enter your refill and expected consumption dates, then use the countdown, cylinder dashboard, reminders and refill history to plan ahead.</p></div><div class="main-card">
@@ -384,7 +490,21 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
 </div><div class="history-section">
 <h3>📊 Refill History</h3>
 <div id="historyList"></div>
-</div><button class="test-alarm-btn" onclick="testWorkerNotification()">🔔 Test Notification</button></div><footer class="site-footer"><div class="footer-brand">⛽ Cooking Gas Tracker & Manager</div><p>Helping everyday cooks plan ahead and avoid unexpected gas shortages.</p><p><a href="https://policies-privacy-8c085d.netlify.app/" target="_blank" rel="noopener">Privacy Policy</a> · <a href="https://about-us-a9f8d5.netlify.app/" target="_blank" rel="noopener">About Us</a> · <a href="https://terms-condition-36816f.netlify.app/" target="_blank" rel="noopener">Terms & Conditions</a></p><p class="footer-note">Reminder estimates depend on the information and cooking habits you provide.</p><div class="footer-copyright">© 2026 Cooking Gas Tracker & Manager</div></footer><nav class="mobile-bottom-nav" aria-label="Mobile navigation"><a href="index.html" class=""><strong>⌂</strong>Home</a><a href="tracker.html" class="active"><strong>🔥</strong>Tracker</a><a href="assistant.html" class=""><strong>🤖</strong>Assistant</a><a href="guides.html" class=""><strong>📚</strong>Guides</a><a href="more.html" class=""><strong>☰</strong>More</a></nav><div id="toast" class="toast" role="status" aria-live="polite"></div><script>
+</div><button class="test-alarm-btn" onclick="testWorkerNotification()">🔔 Test Notification</button></div><footer class="site-footer"><div class="footer-brand">⛽ Cooking Gas Tracker & Manager</div><p>Helping everyday cooks plan ahead and avoid unexpected gas shortages.</p><p><a href="https://policies-privacy-8c085d.netlify.app/" target="_blank" rel="noopener">Privacy Policy</a> · <a href="https://about-us-a9f8d5.netlify.app/" target="_blank" rel="noopener">About Us</a> · <a href="https://terms-condition-36816f.netlify.app/" target="_blank" rel="noopener">Terms & Conditions</a></p><p class="footer-note">Reminder estimates depend on the information and cooking habits you provide.</p><div class="footer-copyright">© 2026 Cooking Gas Tracker & Manager</div></footer><nav class="mobile-bottom-nav" aria-label="Mobile navigation"><a href="index.html" class=""><strong>⌂</strong>Home</a><a href="tracker.html" class="active"><strong>🔥</strong>Tracker</a><a href="assistant.html" class=""><strong>🤖</strong>Assistant</a><a href="guides.html" class=""><strong>📚</strong>Guides</a><a href="more.html" class=""><strong>☰</strong>More</a></nav><div class="account-gate-overlay" id="accountGate" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="accountGateTitle">
+  <div class="account-gate-card">
+    <button type="button" class="account-gate-close" id="accountGateClose" aria-label="Close">&times;</button>
+    <div class="account-gate-icon">🔐</div>
+    <div class="section-eyebrow">ACCOUNT REQUIRED</div>
+    <h2 id="accountGateTitle">Create an account to continue</h2>
+    <p id="accountGateMessage">Create a free account or sign in to save your Cooking Profile. You can still use the Gas Tracker without an account.</p>
+    <div class="account-gate-actions">
+      <a class="account-gate-primary" href="signup.html">Create Account</a>
+      <a class="account-gate-secondary" href="login.html">Sign In</a>
+    </div>
+    <p class="account-gate-note">Your Tracker and gas notifications remain available without an account.</p>
+  </div>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div><script>
 
         // ====== FIREBASE CONFIGURATION ======
         const firebaseConfig = {
@@ -400,20 +520,62 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
         // Cloudflare Worker URL
         const WORKER_URL = 'https://gas-notifier.johnawotipe9.workers.dev/';
 
-        // ====== NOTIFICATION PLATFORM SETUP ======
+        // ====== NOTIFICATION + ACCOUNT SETUP ======
         const isNativeApp = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform());
         let messaging = null;
+        let auth = null;
+        let currentFirebaseUser = null;
+        let authReadyResolve = null;
+        const authReady = new Promise(resolve => { authReadyResolve = resolve; });
 
-        // Firebase Web Messaging is only initialized for the website.
-        // Native Android/iOS uses the Capacitor Firebase Messaging plugin.
-        if (!isNativeApp && window.firebase) {
+        // Firebase Authentication is optional for the Tracker itself.
+        // The tracker remains usable without an account. Authentication is only
+        // used when a user saves a Cooking Profile or uses another gated feature.
+        if (window.firebase) {
             try {
                 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-                messaging = firebase.messaging();
+                auth = firebase.auth();
+
+                auth.onAuthStateChanged(function(user) {
+                    currentFirebaseUser = user || null;
+                    console.log(user ? 'Firebase user connected:' : 'No Firebase user signed in.', user ? user.uid : '');
+
+                    if (authReadyResolve) {
+                        authReadyResolve(currentFirebaseUser);
+                        authReadyResolve = null;
+                    }
+
+                    // If the user signs in after notifications were already enabled,
+                    // register the existing FCM token again using the Firebase UID.
+                    if (user && savedDates) {
+                        setTimeout(function() {
+                            registerCurrentFcmTokenForSignedInUser().catch(function(error) {
+                                console.warn('Signed-in notification registration could not be refreshed:', error);
+                            });
+                        }, 0);
+                    }
+                });
+
+                // Firebase Web Messaging is only initialized for the website.
+                // Native Android/iOS continues to use the Capacitor Firebase Messaging plugin.
+                if (!isNativeApp) {
+                    messaging = firebase.messaging();
+                }
             } catch (firebaseError) {
-                console.error('Firebase Web Messaging initialization failed:', firebaseError);
+                console.error('Firebase initialization failed:', firebaseError);
+                if (authReadyResolve) {
+                    authReadyResolve(null);
+                    authReadyResolve = null;
+                }
             }
+        } else if (authReadyResolve) {
+            authReadyResolve(null);
+            authReadyResolve = null;
         }
+
+        window.getCurrentFirebaseUserUid = function() {
+            return currentFirebaseUser?.uid || auth?.currentUser?.uid || null;
+        };
 
         function getDeviceTimeZone() {
             try {
@@ -1031,11 +1193,33 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
 
         // Send user data to the Cloudflare Worker. The date is kept as YYYY-MM-DD
         // so the Worker can interpret it correctly in each user's local timezone.
+        function getAnonymousDeviceId() {
+            const key = 'cgtAnonymousDeviceId';
+            try {
+                let id = localStorage.getItem(key);
+                if (id) return id;
+                const randomId = (window.crypto && typeof window.crypto.randomUUID === 'function')
+                    ? window.crypto.randomUUID()
+                    : String(Date.now()) + '_' + Math.random().toString(36).slice(2);
+                id = 'device_' + randomId;
+                localStorage.setItem(key, id);
+                return id;
+            } catch (e) {
+                return 'device_' + String(Date.now()) + '_' + Math.random().toString(36).slice(2);
+            }
+        }
+
         async function sendToWorker(fcmToken) {
             if (!savedDates) throw new Error('Save your refill and consumption dates first.');
 
+            // Wait for Firebase to finish restoring any existing session.
+            if (auth) await authReady;
+
+            const signedInUser = auth?.currentUser || currentFirebaseUser;
+            const userId = signedInUser?.uid || getAnonymousDeviceId();
+
             const payload = {
-                userId: fcmToken,
+                userId,
                 fcmToken,
                 consumptionDate: consumptionDateInput.value,
                 timeZone: getDeviceTimeZone()
@@ -1051,6 +1235,7 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
             let result;
             try { result = JSON.parse(text); } catch (_) { result = { message: text }; }
 
+            console.log('Worker registration:', { userId, signedIn: !!signedInUser, timeZone: payload.timeZone });
             console.log('Worker response:', response.status, result);
 
             if (!response.ok || result.ok === false) {
@@ -1058,6 +1243,39 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
             }
 
             return result;
+        }
+
+        // Re-register the existing FCM token when a user signs in.
+        // This does not require the user to sign in just to use the Tracker.
+        async function registerCurrentFcmTokenForSignedInUser() {
+            if (!currentFirebaseUser || !savedDates) return;
+
+            if (isNativeApp && window.Capacitor?.Plugins?.FirebaseMessaging) {
+                const tokenResult = await window.Capacitor.Plugins.FirebaseMessaging.getToken();
+                if (tokenResult?.token) await sendToWorker(tokenResult.token);
+                return;
+            }
+
+            if (messaging && 'Notification' in window && Notification.permission === 'granted') {
+                const token = await getWebFcmToken();
+                if (token) {
+                    isFirebaseReady = true;
+                    await sendToWorker(token);
+                }
+            }
+        }
+
+        async function requireAccountForFeature(featureName) {
+            if (!auth) {
+                showAccountGate(featureName, 'Account sign-in is temporarily unavailable. Please try again shortly.');
+                return false;
+            }
+
+            await authReady;
+            if (auth.currentUser || currentFirebaseUser) return true;
+
+            showAccountGate(featureName);
+            return false;
         }
 
         // Show local notification
@@ -1120,7 +1338,7 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        userId: `test_${token}`,
+                        userId: (auth?.currentUser?.uid || getAnonymousDeviceId()),
                         fcmToken: token,
                         consumptionDate: consumptionDateInput.value || new Date().toISOString().slice(0, 10),
                         timeZone: getDeviceTimeZone(),
@@ -1963,7 +2181,121 @@ body.dark .mobile-bottom-nav,body.dark-mode .mobile-bottom-nav{background:rgba(2
 })();
 </script>
 
+<script>
+(function(){
+  const saveBtn=document.getElementById('saveCookingProfileBtn');
+  const resetBtn=document.getElementById('resetCookingProfileBtn');
+  const cancelBtn=document.getElementById('cancelCookingProfileBtn');
+  const status=document.getElementById('profileStatus');
+  const gate=document.getElementById('accountGate');
+  const gateClose=document.getElementById('accountGateClose');
+  const gateTitle=document.getElementById('accountGateTitle');
+  const gateMessage=document.getElementById('accountGateMessage');
+
+  function set(id,value){const el=document.getElementById(id);if(el&&value!==undefined&&value!==null)el.value=value;}
+
+  function showAccountGate(feature,message){
+    if(!gate)return;
+    if(gateTitle) gateTitle.textContent='Create an account to continue';
+    if(gateMessage){
+      gateMessage.textContent=message || ('Create a free account or sign in to use ' + feature + '. You can still use the Gas Tracker without an account.');
+    }
+    gate.classList.add('open');
+    gate.setAttribute('aria-hidden','false');
+    document.body.classList.add('account-gate-open');
+  }
+  window.showAccountGate=showAccountGate;
+
+  function closeGate(){
+    if(!gate)return;
+    gate.classList.remove('open');
+    gate.setAttribute('aria-hidden','true');
+    document.body.classList.remove('account-gate-open');
+  }
+  gateClose?.addEventListener('click',closeGate);
+  gate?.addEventListener('click',e=>{if(e.target===gate)closeGate();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&gate?.classList.contains('open'))closeGate();});
+
+  function getProfileData(){
+    return {
+      highestKg:Number(document.getElementById('profileHighestKg')?.value)||null,
+      lowestKg:Number(document.getElementById('profileLowestKg')?.value)||null,
+      currentKg:Number(document.getElementById('profileCurrentKg')?.value)||null,
+      householdSize:Number(document.getElementById('profilePeople')?.value)||null,
+      mealsPerDay:document.getElementById('profileMeals')?.value||'2',
+      cookingDuration:document.getElementById('profileDuration')?.value||'30to60',
+      commonFoodsText:(document.getElementById('profileFoods')?.value||'').trim(),
+      budgetLevel:document.getElementById('profileBudget')?.value||'medium',
+      budgetAmount:Number(document.getElementById('profileBudgetAmount')?.value)||null,
+      budgetPeriod:document.getElementById('profileBudgetPeriod')?.value||'week',
+      goal:document.getElementById('profileGoal')?.value||'balanced',
+      avoidFoodsText:(document.getElementById('profileAvoid')?.value||'').trim(),
+      currency:detectProfileCurrency(),
+      ownerUid:window.getCurrentFirebaseUserUid ? window.getCurrentFirebaseUserUid() : null,
+      savedAt:new Date().toISOString()
+    };
+  }
+
+  function detectProfileCurrency(){
+    try{
+      const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+      const map={'Africa/Lagos':'NGN','Africa/Accra':'GHS','Africa/Nairobi':'KES','Africa/Johannesburg':'ZAR','Europe/London':'GBP','Europe/Zurich':'CHF','Asia/Kolkata':'INR','Asia/Tokyo':'JPY','Asia/Shanghai':'CNY','America/New_York':'USD','America/Toronto':'CAD'};
+      if(map[tz])return map[tz];
+      const region=(navigator.language||'en-US').split(/[-_]/)[1]?.toUpperCase();
+      const regionMap={NG:'NGN',US:'USD',GB:'GBP',GH:'GHS',KE:'KES',ZA:'ZAR',IN:'INR',CA:'CAD',AU:'AUD'};
+      return regionMap[region]||'USD';
+    }catch(e){return 'USD'}
+  }
+
+  function loadProfile(){
+    try{
+      const d=JSON.parse(localStorage.getItem('cgtCookingProfile')||'null');
+      if(!d)return;
+      set('profileHighestKg',d.highestKg);set('profileLowestKg',d.lowestKg);set('profileCurrentKg',d.currentKg);
+      set('profilePeople',d.householdSize);set('profileMeals',d.mealsPerDay||'2');set('profileDuration',d.cookingDuration||'30to60');
+      set('profileFoods',d.commonFoodsText);set('profileBudget',d.budgetLevel||'medium');set('profileBudgetAmount',d.budgetAmount);
+      set('profileBudgetPeriod',d.budgetPeriod||'week');set('profileGoal',d.goal||'balanced');set('profileAvoid',d.avoidFoodsText);
+      if(status)status.textContent='Your cooking profile is saved on this device.';
+    }catch(e){console.warn('Could not load cooking profile:',e)}
+  }
+
+  async function saveProfile(){
+    if(!(await requireAccountForFeature('your Cooking Profile')))return;
+    const data=getProfileData();
+    localStorage.setItem('cgtCookingProfile',JSON.stringify(data));
+    if(status)status.textContent='✓ Cooking profile saved to your account on this device.';
+    showToast('Cooking profile saved successfully.');
+  }
+
+  async function resetProfile(){
+    if(!(await requireAccountForFeature('your Cooking Profile')))return;
+    localStorage.removeItem('cgtCookingProfile');
+    ['profileHighestKg','profileLowestKg','profileCurrentKg','profilePeople','profileFoods','profileAvoid','profileBudgetAmount'].forEach(id=>set(id,''));
+    set('profileMeals','2');set('profileDuration','30to60');set('profileBudget','medium');set('profileBudgetPeriod','week');set('profileGoal','balanced');
+    if(status)status.textContent='Cooking profile reset.';
+    showToast('Cooking profile reset.');
+  }
+
+  async function requireAccountForFeature(featureName){
+    if(typeof window.requireAccountForFeature==='function' && window.requireAccountForFeature!==requireAccountForFeature){
+      return window.requireAccountForFeature(featureName);
+    }
+    if(typeof auth==='undefined' || !auth){showAccountGate(featureName);return false;}
+    try{
+      if(typeof authReady!=='undefined')await authReady;
+    }catch(e){}
+    if(auth.currentUser)return true;
+    showAccountGate(featureName);
+    return false;
+  }
+
+  saveBtn?.addEventListener('click',saveProfile);
+  resetBtn?.addEventListener('click',resetProfile);
+  cancelBtn?.addEventListener('click',loadProfile);
+  loadProfile();
+})();
+</script>
+
   <script src="auth-nav.js"></script>
-  <script src="tracker-auth.js"></script>
   
 </body></html>
