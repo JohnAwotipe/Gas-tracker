@@ -1635,10 +1635,9 @@ Your meal plan can become your shopping plan
 
 <p>
 
-Smart Shopping works together with your Meal Planner. When you
-create a 7-day meal plan, this page can use those meals to
-suggest the ingredients and food items you may want to prepare
-for your shopping trip.
+Smart Shopping works directly with your saved Meal Planner. When you
+create and save your 7-day meal plan, this page detects that saved plan
+and can turn every meal into an organized shopping list.
 
 The list is a planning tool, not an exact recipe or quantity
 calculation. Always adjust it to your household needs and what
@@ -1695,8 +1694,9 @@ Your saved meal plan will appear here.
 </h2>
 
 <p>
-Generate a list from your saved 7-day meal plan or add items
-yourself.
+Your saved 7-day Meal Plan is connected to this page. Click
+<strong>Generate from Meal Plan</strong> to turn the saved meals into
+a shopping list, or add items yourself.
 </p>
 
 </div>
@@ -2677,40 +2677,236 @@ function addShoppingItem(
    GENERATE FROM MEAL PLAN
 ========================================================= */
 
+/* =========================================================
+   MEAL PLAN DETECTION
+========================================================= */
+
+function getSavedMealPlan(){
+
+    try{
+
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    PLANNER_KEY
+                ) || "null"
+            );
+
+        if(!saved){
+            return null;
+        }
+
+        /*
+         * NEW FORMAT:
+         * cgtMealPlanner = {
+         *   ...,
+         *   plan: {
+         *      days: [...]
+         *   }
+         * }
+         */
+        if(
+            saved.plan &&
+            Array.isArray(
+                saved.plan.days
+            )
+        ){
+
+            return {
+                wrapper:
+                    saved,
+
+                plan:
+                    saved.plan,
+
+                source:
+                    "saved-plan"
+            };
+
+        }
+
+        /*
+         * OLD FORMAT:
+         * cgtMealPlanner = {
+         *   days: [...]
+         * }
+         */
+        if(
+            Array.isArray(
+                saved.days
+            )
+        ){
+
+            return {
+                wrapper:
+                    saved,
+
+                plan:
+                    saved,
+
+                source:
+                    "legacy-plan"
+            };
+
+        }
+
+        return null;
+
+    }catch(error){
+
+        console.warn(
+            "Saved meal plan could not be read:",
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+function getMealIngredients(
+    mealName
+){
+
+    const cleaned =
+        String(
+            mealName || ""
+        ).trim();
+
+    if(!cleaned){
+        return null;
+    }
+
+    /*
+     * First try the exact key.
+     */
+    if(
+        Array.isArray(
+            foodIngredients[
+                cleaned
+            ]
+        )
+    ){
+
+        return foodIngredients[
+            cleaned
+        ];
+
+    }
+
+    /*
+     * Then try a case-insensitive match.
+     * This matters because the AI may return "Jollof Rice"
+     * while the ingredient table contains "Jollof rice".
+     */
+    const target =
+        normalize(
+            cleaned
+        );
+
+    const matchingKey =
+        Object.keys(
+            foodIngredients
+        ).find(
+            key =>
+                normalize(key) ===
+                target
+        );
+
+    if(
+        matchingKey
+    ){
+
+        return foodIngredients[
+            matchingKey
+        ];
+
+    }
+
+    /*
+     * Some AI meals can contain trailing punctuation.
+     */
+    const simplified =
+        target
+            .replace(/[.!?]+$/g,"")
+            .trim();
+
+    const simplifiedKey =
+        Object.keys(
+            foodIngredients
+        ).find(
+            key =>
+                normalize(key)
+                    .replace(/[.!?]+$/g,"")
+                    .trim() ===
+                simplified
+        );
+
+    if(
+        simplifiedKey
+    ){
+
+        return foodIngredients[
+            simplifiedKey
+        ];
+
+    }
+
+    return null;
+
+}
+
+
+/* =========================================================
+   GENERATE FROM SAVED MEAL PLAN
+========================================================= */
+
 function generateFromMealPlan(){
 
-    const savedPlan =
-        JSON.parse(
-            localStorage.getItem(
-                PLANNER_KEY
-            ) || "null"
-        );
+    const savedMeal =
+        getSavedMealPlan();
 
 
     if(
-        !savedPlan ||
+        !savedMeal ||
         !Array.isArray(
-            savedPlan.days
+            savedMeal.plan.days
         )
     ){
 
         alert(
-            "You don't have a saved 7-day meal plan yet. Please create your meal plan first."
+            "Your saved 7-day meal plan could not be found. Please create your meal plan first."
         );
+
+        updatePlanStatus();
 
         return;
 
     }
 
 
+    const days =
+        savedMeal.plan.days;
+
     let added = 0;
 
-
-    savedPlan.days.forEach(
+    /*
+     * Generate shopping needs from EVERY meal in the 7-day plan.
+     */
+    days.forEach(
         day => {
 
-            if(!Array.isArray(day.meals)){
+            if(
+                !day ||
+                !Array.isArray(
+                    day.meals
+                )
+            ){
+
                 return;
+
             }
 
 
@@ -2719,7 +2915,7 @@ function generateFromMealPlan(){
 
                     const mealName =
                         String(
-                            meal.name || ""
+                            meal?.name || ""
                         ).trim();
 
 
@@ -2729,9 +2925,9 @@ function generateFromMealPlan(){
 
 
                     const ingredients =
-                        foodIngredients[
+                        getMealIngredients(
                             mealName
-                        ];
+                        );
 
 
                     if(
@@ -2743,11 +2939,33 @@ function generateFromMealPlan(){
                         ingredients.forEach(
                             ingredient => {
 
+                                if(
+                                    !Array.isArray(
+                                        ingredient
+                                    ) ||
+                                    ingredient.length < 2
+                                ){
+
+                                    return;
+
+                                }
+
                                 const name =
-                                    ingredient[0];
+                                    String(
+                                        ingredient[0] || ""
+                                    ).trim();
 
                                 const category =
-                                    ingredient[1];
+                                    categories[
+                                        ingredient[1]
+                                    ]
+                                        ? ingredient[1]
+                                        : "other";
+
+
+                                if(!name){
+                                    return;
+                                }
 
 
                                 const before =
@@ -2777,12 +2995,11 @@ function generateFromMealPlan(){
                     else{
 
                         /*
-                         * If the meal was a custom food
-                         * or an unfamiliar meal, keep the
-                         * meal itself visible rather than
-                         * inventing ingredients.
+                         * Custom/AI-generated meal:
+                         * We do NOT invent an ingredient list.
+                         * Keep the meal visible in Other so the user
+                         * can still see that it came from their plan.
                          */
-
                         const before =
                             shoppingData.length;
 
@@ -2817,10 +3034,19 @@ function generateFromMealPlan(){
     renderShopping();
 
 
-    if(added === 0){
+    if(
+        added === 0
+    ){
 
         alert(
-            "Your shopping list already contains the items generated from this meal plan."
+            "Your shopping list already contains the items generated from your saved 7-day meal plan."
+        );
+
+    }
+    else{
+
+        alert(
+            `${added} shopping item${added === 1 ? "" : "s"} added from your saved 7-day meal plan.`
         );
 
     }
@@ -3263,27 +3489,31 @@ function escapeHtml(value){
 
 function updatePlanStatus(){
 
-    const savedPlan =
-        JSON.parse(
-            localStorage.getItem(
-                PLANNER_KEY
-            ) || "null"
-        );
+    const savedMeal =
+        getSavedMealPlan();
 
 
     if(
-        savedPlan &&
+        savedMeal &&
         Array.isArray(
-            savedPlan.days
+            savedMeal.plan.days
         )
     ){
 
+        const dayCount =
+            savedMeal.plan.days.length;
+
+        const title =
+            savedMeal.plan.title ||
+            "Your saved meal plan";
+
+
         statusTitle.textContent =
-            "Your 7-day meal plan is ready";
+            `Your ${dayCount}-day meal plan is ready`;
 
 
         statusText.textContent =
-            "Smart Shopping can use your saved meal plan to prepare a shopping list.";
+            `${title} was detected. Smart Shopping can now turn the meals into a shopping list.`;
 
     }
     else{
@@ -3300,8 +3530,7 @@ function updatePlanStatus(){
 }
 
 
-/* =========================================================
-   CLEAR SHOPPING
+
 ========================================================= */
 
 clearBtn.addEventListener(
