@@ -322,79 +322,50 @@ body.dark .account-signin{background:#2a2140;color:#decaff!important}
     <div class="section-eyebrow meal-timetable-heading">CREATE MY MEAL TIME TABLE</div>
     <h2 id="mealPlannerTitle">Plan your meals around your budget and gas</h2>
     <p class="planner-lead">
-      The planner uses your household size, number of meals, gas preference, selected foods, added foods and special instructions to create a personalized 7-day plan.
+      Your saved Cooking Profile supplies the information for your 7-day plan. Tell us only how you want the meals created, and the planner will build the timetable around your profile.
     </p>
 
-    <div class="planner-grid">
-      <div class="planner-field">
-        <label for="plannerBudget">Your usual food budget</label>
-        <select id="plannerBudget">
-          <option value="low">Limited budget</option>
-          <option value="medium" selected>Moderate budget</option>
-          <option value="high">Flexible budget</option>
-        </select>
-        <small>A limited budget makes the planner prioritize simpler, affordable meals.</small>
+    <div class="profile-connected-card" id="profileConnectedCard">
+      <div class="profile-connected-top">
+        <div class="profile-connected-icon">👨‍🍳</div>
+        <div>
+          <div class="section-eyebrow">MY COOKING PROFILE</div>
+          <h3>Your meal plan will use your saved profile</h3>
+          <p id="profileConnectedText">Your household, budget, cooking habits, foods and food preferences will be used to create your 7-day plan.</p>
+        </div>
       </div>
 
-      <div class="planner-field">
-        <label for="plannerPeople">How many people do you normally cook for?</label>
-        <input id="plannerPeople" type="number" min="1" max="30" value="2">
-        <small>This helps the planner suggest practical portions and batch cooking where it makes sense.</small>
+      <div class="profile-summary-grid" id="profileSummaryGrid">
+        <div class="profile-summary-item"><span>👨‍👩‍👧‍👦 Household</span><strong id="profileSummaryPeople">—</strong></div>
+        <div class="profile-summary-item"><span>🍽️ Meals / day</span><strong id="profileSummaryMeals">—</strong></div>
+        <div class="profile-summary-item"><span>💰 Food budget</span><strong id="profileSummaryBudget">—</strong></div>
+        <div class="profile-summary-item"><span>🔥 Cooking goal</span><strong id="profileSummaryGoal">—</strong></div>
       </div>
 
-      <div class="planner-field">
-        <label for="plannerMeals">How many meals do you normally cook each day?</label>
-        <select id="plannerMeals">
-          <option value="1">1 meal</option>
-          <option value="2" selected>2 meals</option>
-          <option value="3">3 meals</option>
-        </select>
+      <div class="profile-food-summary">
+        <div>
+          <span class="summary-label">🍚 Foods from your profile</span>
+          <div class="food-summary-chips" id="profileFoodChips"></div>
+        </div>
+        <div class="profile-avoid" id="profileAvoidWrap" style="display:none;">
+          <span class="summary-label">🚫 Foods to avoid</span>
+          <p id="profileAvoidText"></p>
+        </div>
       </div>
 
-      <div class="planner-field">
-        <label for="plannerGas">How much gas are you trying to conserve?</label>
-        <select id="plannerGas">
-          <option value="low">Normal cooking</option>
-          <option value="medium" selected>Save some gas</option>
-          <option value="high">Save as much gas as possible</option>
-        </select>
-        <small>Higher gas-saving preference gives more attention to efficient cooking and shorter cooking sessions.</small>
+      <div class="profile-connected-actions">
+        <a href="cooking-profile.html" class="profile-edit-link">✏️ Update My Cooking Profile</a>
       </div>
     </div>
 
     <div class="planner-field preferences-field">
       <label for="plannerPreferences">How do you want your meals created?</label>
-      <textarea id="plannerPreferences" maxlength="1200" rows="6" placeholder="Example: Keep the meals affordable. I prefer Nigerian meals, don't include fish, avoid very spicy food, don't suggest expensive ingredients, use the foods I add, and choose meals that don't take too long to cook."></textarea>
+      <textarea id="plannerPreferences" maxlength="1200" rows="7" placeholder="Example: Keep the meals affordable, use the foods in my Cooking Profile, avoid expensive ingredients, give me familiar meals, and choose meals that don't take too long to cook."></textarea>
       <small>
-        Tell us anything important: foods you love, foods you dislike, foods you cannot eat, ingredients you already have, your preferred cooking style, how simple you want the meals, or how much you are comfortable spending.
+        This is the only thing we ask you to change here. Tell the planner how you want the 7-day plan created. Your saved Cooking Profile supplies the household size, meals per day, budget, cooking habits, foods you eat and foods you avoid.
       </small>
       <div class="preferences-callout">
-        💡 <strong>Be specific.</strong> Your instructions are treated as meal-planning rules, so the planner can avoid meals that are too expensive or uncomfortable for you.
-      </div>
-    </div>
-
-    <div class="planner-field food-field">
-      <label>Foods you commonly eat</label>
-      <div class="food-checks">
-        <label class="food-check"><input checked type="checkbox" value="rice"> Rice</label>
-        <label class="food-check"><input type="checkbox" value="beans"> Beans</label>
-        <label class="food-check"><input type="checkbox" value="yam"> Yam</label>
-        <label class="food-check"><input type="checkbox" value="pasta"> Pasta</label>
-        <label class="food-check"><input checked type="checkbox" value="eggs"> Eggs</label>
-        <label class="food-check"><input type="checkbox" value="oats"> Oats/pap</label>
-        <label class="food-check"><input type="checkbox" value="plantain"> Plantain</label>
-        <label class="food-check"><input type="checkbox" value="soups"> Soups/stew</label>
-        <label class="food-check"><input type="checkbox" value="bread"> Bread</label>
-      </div>
-
-      <div class="custom-food-wrap">
-        <label class="custom-food-label" for="customFoodInput">Can't find your food?</label>
-        <span class="custom-food-help">Add any food you actually eat. Added foods are sent to the planner and are expected to be used in your 7-day plan when practical.</span>
-        <div class="custom-food-form">
-          <input id="customFoodInput" type="text" maxlength="60" autocomplete="off" placeholder="e.g. akara, moi moi, eba, potatoes">
-          <button id="addFoodBtn" type="button">＋ Add food</button>
-        </div>
-        <div class="custom-food-list" id="customFoodList" aria-live="polite"></div>
+        💡 <strong>Your profile is the foundation.</strong> Foods you personally entered in My Cooking Profile are included in the meal-planning request and should be used in your 7-day plan whenever practical.
       </div>
     </div>
 
@@ -417,7 +388,7 @@ body.dark .account-signin{background:#2a2140;color:#decaff!important}
     ·
     <a href="https://terms-condition-36816f.netlify.app/" target="_blank" rel="noopener">Terms &amp; Conditions</a>
   </p>
-  <p class="footer-note">Meal plans are suggestions based on the information and preferences you provide.</p>
+  <p class="footer-note">Meal plans are suggestions based on your saved Cooking Profile and the meal-creation instructions you provide.</p>
   <p>© 2026 Cooking Gas Tracker & Manager</p>
 </footer>
 
@@ -467,24 +438,23 @@ body.dark .account-signin{background:#2a2140;color:#decaff!important}
   let currentUser = null;
 
   const $ = id => document.getElementById(id);
-  const budgetEl = $('plannerBudget');
-  const peopleEl = $('plannerPeople');
-  const mealsEl = $('plannerMeals');
-  const gasEl = $('plannerGas');
   const prefsEl = $('plannerPreferences');
-  const customInput = $('customFoodInput');
-  const customList = $('customFoodList');
-  const addFoodBtn = $('addFoodBtn');
   const createBtn = $('createPlanBtn');
   const resetBtn = $('resetBtn');
   const resultEl = $('planResult');
   const overlay = $('accountOverlay');
 
-  const STORAGE_KEY = 'cgtMealPlanner';
-  const CUSTOM_KEY = 'cgtCustomFoods';
-  const ENDPOINT = 'https://gas-notifier.johnawotipe9.workers.dev/assistant';
+  const peopleSummary = $('profileSummaryPeople');
+  const mealsSummary = $('profileSummaryMeals');
+  const budgetSummary = $('profileSummaryBudget');
+  const goalSummary = $('profileSummaryGoal');
+  const foodChips = $('profileFoodChips');
+  const avoidWrap = $('profileAvoidWrap');
+  const avoidText = $('profileAvoidText');
+  const profileConnectedText = $('profileConnectedText');
 
-  let customFoods = [];
+  const STORAGE_KEY = 'cgtMealPlanner';
+  const ENDPOINT = 'https://gas-notifier.johnawotipe9.workers.dev/assistant';
 
   function clean(value, max=120){
     return String(value || '').trim().replace(/\s+/g,' ').slice(0,max);
@@ -515,142 +485,159 @@ body.dark .account-signin{background:#2a2140;color:#decaff!important}
   overlay.addEventListener('click',e=>{if(e.target===overlay) closeAccountRequired();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape') closeAccountRequired();});
 
-  function saveCustomFoods(){
-    localStorage.setItem(CUSTOM_KEY,JSON.stringify(customFoods));
+  function getCookingProfile(){
+    try{
+      const raw=localStorage.getItem('cgtCookingProfile');
+      if(!raw) return null;
+      const profile=JSON.parse(raw);
+      if(!profile || typeof profile!=='object') return null;
+      if(profile.userId && currentUser && profile.userId!==currentUser.uid) return null;
+      return profile;
+    }catch(e){
+      console.warn('Cooking Profile could not be loaded:',e);
+      return null;
+    }
   }
 
-  function renderCustomFoods(){
-    customList.innerHTML='';
-    if(!customFoods.length) return;
-
-    customFoods.forEach((food,index)=>{
-      const chip=document.createElement('span');
-      chip.className='custom-food-chip';
-      chip.innerHTML='<span>'+escapeHtml(food)+'</span>';
-      const remove=document.createElement('button');
-      remove.type='button';
-      remove.textContent='×';
-      remove.setAttribute('aria-label','Remove '+food);
-      remove.addEventListener('click',()=>{
-        customFoods.splice(index,1);
-        saveCustomFoods();
-        renderCustomFoods();
-      });
-      chip.appendChild(remove);
-      customList.appendChild(chip);
-    });
+  function splitFoods(value){
+    return String(value||'')
+      .split(/[\n,]+/)
+      .map(x=>clean(x,80))
+      .filter(Boolean)
+      .filter((item,index,arr)=>arr.findIndex(x=>x.toLowerCase()===item.toLowerCase())===index)
+      .slice(0,40);
   }
 
-  function addCustomFood(){
-    const value=clean(customInput.value,60);
-    if(!value) return;
+  function formatBudget(profile){
+    const labels={low:'Limited budget',medium:'Moderate budget',high:'Flexible budget'};
+    const level=labels[profile?.budget]||'Not set';
+    if(profile?.budgetAmount){
+      return level+' • '+clean(profile.budgetAmount,40)+(profile?.budgetPeriod?' / '+clean(profile.budgetPeriod,20):'');
+    }
+    return level;
+  }
 
-    const exists=customFoods.some(x=>x.toLowerCase()===value.toLowerCase());
-    if(exists){
-      customInput.value='';
+  function formatGoal(goal){
+    const labels={
+      'save-gas':'Save gas',
+      'balanced':'Balance gas, food and cost',
+      'save-money':'Save money and gas',
+      'convenience':'Convenience and simple cooking'
+    };
+    return labels[goal]||'Not set';
+  }
+
+  function renderProfileSummary(profile){
+    if(!profile){
+      peopleSummary.textContent='—';
+      mealsSummary.textContent='—';
+      budgetSummary.textContent='—';
+      goalSummary.textContent='—';
+      foodChips.innerHTML='<span class="food-summary-chip">No profile saved yet</span>';
+      avoidWrap.style.display='none';
+      profileConnectedText.textContent='Create and save your Cooking Profile first. Your saved profile will supply the details for your 7-day meal plan.';
       return;
     }
 
-    customFoods.push(value);
-    customFoods=customFoods.slice(0,30);
-    saveCustomFoods();
-    renderCustomFoods();
-    customInput.value='';
-    customInput.focus();
-  }
+    const people=Number(profile.people)||0;
+    const meals=Number(profile.meals)||0;
+    const foods=splitFoods(profile.foods);
 
-  addFoodBtn.addEventListener('click',addCustomFood);
-  customInput.addEventListener('keydown',e=>{
-    if(e.key==='Enter'){
-      e.preventDefault();
-      addCustomFood();
+    peopleSummary.textContent=people ? (people+' person'+(people===1?'':'s')) : 'Not set';
+    mealsSummary.textContent=meals ? (meals+' meal'+(meals===1?'':'s')) : 'Not set';
+    budgetSummary.textContent=formatBudget(profile);
+    goalSummary.textContent=formatGoal(profile.goal);
+
+    foodChips.innerHTML='';
+    if(foods.length){
+      foods.forEach(food=>{
+        const chip=document.createElement('span');
+        chip.className='food-summary-chip';
+        chip.textContent=food;
+        foodChips.appendChild(chip);
+      });
+    }else{
+      foodChips.innerHTML='<span class="food-summary-chip">No foods entered in profile</span>';
     }
-  });
 
-  function selectedFoods(){
-    return [...document.querySelectorAll('.food-check input:checked')].map(x=>x.value);
+    const avoid=clean(profile.avoid,600);
+    if(avoid){
+      avoidWrap.style.display='block';
+      avoidText.textContent=avoid;
+    }else{
+      avoidWrap.style.display='none';
+    }
+
+    profileConnectedText.textContent='Your household size, meals per day, budget, cooking habits, foods and food preferences will be used automatically. You only need to tell us how you want the meals created.';
   }
 
-  function loadLocalState(){
-    try{
-      const storedFoods=JSON.parse(localStorage.getItem(CUSTOM_KEY)||'[]');
-      if(Array.isArray(storedFoods)) customFoods=storedFoods.filter(x=>typeof x==='string').map(x=>clean(x,60)).filter(Boolean).slice(0,30);
-    }catch(e){ customFoods=[]; }
-    renderCustomFoods();
+  function loadSavedPlan(){
+    if(!currentUser) return;
+
+    const profile=getCookingProfile();
+    renderProfileSummary(profile);
 
     try{
       const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
-      if(!saved || !currentUser || (saved.userId && saved.userId!==currentUser.uid)) return;
+      if(!saved || (saved.userId && saved.userId!==currentUser.uid)) return;
 
-      budgetEl.value=saved.budget||'medium';
-      peopleEl.value=saved.people||2;
-      mealsEl.value=saved.meals||2;
-      gasEl.value=saved.gas||'medium';
       prefsEl.value=saved.preferences||'';
-
-      if(Array.isArray(saved.foods)){
-        document.querySelectorAll('.food-check input').forEach(input=>{
-          input.checked=saved.foods.includes(input.value);
-        });
+      if(saved.plan){
+        renderPlan(saved.plan,saved);
       }
-
-      if(saved.plan) renderPlan(saved.plan,saved);
     }catch(e){
       console.warn('Meal Planner data could not be loaded:',e);
     }
   }
 
-  function profileForPlanner(){
-    try{
-      const raw=localStorage.getItem('cgtCookingProfile');
-      if(!raw) return null;
-      const profile=JSON.parse(raw);
-      if(profile && profile.userId && currentUser && profile.userId!==currentUser.uid) return null;
-      return profile;
-    }catch(e){ return null; }
+  function getProfileFoods(profile){
+    return splitFoods(profile?.foods||'');
   }
 
   function buildRequest(){
-    const budget=budgetEl.value;
-    const people=Math.max(1,Number(peopleEl.value)||1);
-    const meals=Math.max(1,Math.min(3,Number(mealsEl.value)||2));
-    const gas=gasEl.value;
-    const foods=selectedFoods();
+    const profile=getCookingProfile();
     const prefs=clean(prefsEl.value,1200);
-    const profile=profileForPlanner();
 
-    const prompt=`Create a personalized 7-day meal plan.
+    if(!profile){
+      return {profile:null,prefs,prompt:''};
+    }
 
-Household size: ${people}
-Meals per day: ${meals}
-Food budget level: ${budget}
-Gas conservation preference: ${gas}
-Selected common foods: ${foods.join(', ') || 'none'}
-User-added foods: ${customFoods.join(', ') || 'none'}
-User's special instructions: ${prefs || 'none'}
+    const people=Math.max(1,Number(profile.people)||1);
+    const meals=Math.max(1,Math.min(3,Number(profile.meals)||2));
+    const foods=getProfileFoods(profile);
 
-Cooking profile, if available:
-${JSON.stringify(profile || {},null,2)}
+    const prompt=`Create a personalized 7-day meal plan using the user's saved Cooking Profile.
 
-Rules:
-- Follow the user's special instructions as hard constraints.
-- Respect foods the user avoids, dislikes, cannot eat, or says are uncomfortable.
-- Do not introduce expensive or luxury ingredients when the user wants affordable meals.
-- Use selected foods as the main food pool.
-- User-added foods should appear in the 7-day plan when reasonably practical, not merely in a separate list.
-- Do not replace the user's foods with unrelated foods just to create variety.
-- Consider household size and the requested meals per day.
-- Consider cooking time and gas conservation.
-- If gas saving is important, favor efficient cooking, batch preparation and avoiding unnecessary long cooking.
-- Do not invent exact prices or promise exact gas consumption.
-- Keep the meals practical, familiar and comfortable according to the user's instructions.
+SAVED COOKING PROFILE
+${JSON.stringify(profile,null,2)}
+
+USER'S SAVED FOODS
+${foods.length ? foods.map(x=>'- '+x).join('\n') : '- No foods entered'}
+
+USER'S EXTRA MEAL-PLANNING INSTRUCTIONS
+${prefs || '- No extra instructions'}
+
+IMPORTANT RULES:
+- The saved Cooking Profile is the foundation of the meal plan.
+- Use the household size and meals-per-day from the profile.
+- Respect the saved food budget.
+- Respect foods the user says they avoid, dislike or are uncomfortable eating.
+- Foods personally entered by the user in the Cooking Profile MUST be used in the 7-day plan whenever reasonably practical. Do not ignore them.
+- Do not replace the user's saved foods with unrelated foods simply to create variety.
+- Treat the user's extra instructions as hard constraints.
+- Do not introduce expensive or luxury ingredients when the user asks for affordable meals.
+- Keep meals practical, familiar and realistic for the user's household.
+- Consider the cooking habits, cooking duration and cooking goal in the profile.
+- Consider gas conservation when the profile's goal or the user's instructions call for it.
+- Do not invent exact food prices or promise exact gas consumption.
 - Produce exactly 7 days: Monday through Sunday.
 - Produce exactly ${meals} meal items per day.
+- If a saved food is not practical for one meal, use it at another point in the week rather than silently dropping it.
 
-Return ONLY valid JSON in this structure:
+RETURN ONLY valid JSON in this structure:
 {
   "title":"Personalized 7-day meal plan",
-  "summary":"One short sentence explaining how the user's preferences were respected.",
+  "summary":"One short sentence explaining how the saved Cooking Profile and user's instructions were followed.",
   "days":[
     {
       "name":"Monday",
@@ -659,11 +646,12 @@ Return ONLY valid JSON in this structure:
       ]
     }
   ]
-}`;
+}
 
-    return {
-      budget,people,meals,gas,foods,prefs,profile,prompt
-    };
+There must be exactly 7 day objects in order Monday through Sunday.
+There must be exactly ${meals} meal objects inside each day.`;
+
+    return {profile,prefs,prompt,people,meals,foods};
   }
 
   function parseJson(answer){
@@ -703,13 +691,9 @@ Return ONLY valid JSON in this structure:
   }
 
   function renderPlan(plan,state){
-    let html='<div class="budget-badge">'+(
-      state.budget==='low'?'💰 Budget-friendly mode':
-      state.budget==='medium'?'⚖️ Balanced mode':'🍲 Flexible meal mode'
-    )+'</div>';
-
+    let html='<div class="budget-badge">🍲 Built from My Cooking Profile</div>';
     html+='<h3>'+escapeHtml(plan.title)+'</h3>';
-    html+='<p class="plan-summary">'+escapeHtml(plan.summary || ('Built for '+state.people+' person'+(state.people===1?'':'s')+' and '+state.meals+' meal'+(state.meals===1?'':'s')+' per day.'))+'</p>';
+    html+='<p class="plan-summary">'+escapeHtml(plan.summary || ('Built from your saved Cooking Profile.'))+'</p>';
     html+='<div class="meal-days">';
 
     plan.days.forEach(day=>{
@@ -725,7 +709,7 @@ Return ONLY valid JSON in this structure:
     });
 
     html+='</div>';
-    html+='<div class="planner-tip">💡 <strong>Personalized plan:</strong> Your selected foods, added foods, budget and meal instructions were sent to the planner so it could build the timetable around your preferences.</div>';
+    html+='<div class="planner-tip">💡 <strong>Your Cooking Profile is driving this plan.</strong> The planner used the foods you entered in your profile, your household details and your saved preferences, together with any instructions you added above.</div>';
     resultEl.innerHTML=html;
     resultEl.classList.add('show');
   }
@@ -743,15 +727,22 @@ Return ONLY valid JSON in this structure:
     }
 
     const state=buildRequest();
-    if(!state.foods.length && !customFoods.length){
-      resultEl.innerHTML='<div class="error-box">Please select at least one food or add your own food before creating the plan.</div>';
+
+    if(!state.profile){
+      resultEl.innerHTML='<div class="error-box">Please create and save your Cooking Profile first. Your 7-day meal plan is built from that profile.</div>';
+      resultEl.classList.add('show');
+      return;
+    }
+
+    if(!getProfileFoods(state.profile).length){
+      resultEl.innerHTML='<div class="error-box">Your Cooking Profile does not have any foods entered yet. Please add the foods you normally eat in My Cooking Profile, save it, and then return here.</div>';
       resultEl.classList.add('show');
       return;
     }
 
     setLoading(true);
     resultEl.classList.add('show');
-    resultEl.innerHTML='<div class="loading-box">🍲 <strong>Creating your personalized plan...</strong><br>We are using your foods, budget, gas preference and special instructions.</div>';
+    resultEl.innerHTML='<div class="loading-box">🍲 <strong>Creating your personalized plan...</strong><br>We are using your saved Cooking Profile and the instructions you gave us.</div>';
     resultEl.scrollIntoView({behavior:'smooth',block:'start'});
 
     try{
@@ -761,14 +752,11 @@ Return ONLY valid JSON in this structure:
         body:JSON.stringify({
           question:state.prompt,
           profile:{
+            cookingProfile:state.profile,
             householdSize:state.people,
             mealsPerDay:state.meals,
-            foodBudgetLevel:state.budget,
-            gasConservation:state.gas,
-            selectedFoods:state.foods,
-            customFoods:customFoods,
-            specialInstructions:state.prefs,
-            cookingProfile:state.profile || null
+            foodsFromCookingProfile:state.foods,
+            specialInstructions:state.prefs
           },
           language:'English'
         })
@@ -787,15 +775,17 @@ Return ONLY valid JSON in this structure:
       renderPlan(plan,state);
 
       localStorage.setItem(STORAGE_KEY,JSON.stringify({
-        ...state,
+        userId:currentUser.uid,
+        profile:state.profile,
+        foods:state.foods,
+        preferences:state.prefs,
         plan,
-        createdAt:new Date().toISOString(),
-        userId:currentUser.uid
+        createdAt:new Date().toISOString()
       }));
 
     }catch(error){
       console.error('Meal Planner error:',error);
-      resultEl.innerHTML='<div class="error-box">The personalized planner could not create a plan right now. Please try again. Your food choices and instructions are still here.</div>';
+      resultEl.innerHTML='<div class="error-box">The personalized planner could not create a plan right now. Please try again. Your Cooking Profile and instructions are still saved.</div>';
       resultEl.classList.add('show');
     }finally{
       setLoading(false);
@@ -803,17 +793,7 @@ Return ONLY valid JSON in this structure:
   }
 
   function resetPlanner(){
-    budgetEl.value='medium';
-    peopleEl.value='2';
-    mealsEl.value='2';
-    gasEl.value='medium';
     prefsEl.value='';
-    document.querySelectorAll('.food-check input').forEach(input=>{
-      input.checked=['rice','eggs'].includes(input.value);
-    });
-    customFoods=[];
-    saveCustomFoods();
-    renderCustomFoods();
     resultEl.innerHTML='';
     resultEl.classList.remove('show');
     localStorage.removeItem(STORAGE_KEY);
@@ -838,10 +818,12 @@ Return ONLY valid JSON in this structure:
 
   auth.onAuthStateChanged(user=>{
     currentUser=user||null;
-    if(currentUser) loadLocalState();
+    if(currentUser){
+      loadSavedPlan();
+    }else{
+      renderProfileSummary(null);
+    }
   });
-
-  renderCustomFoods();
 })();
 </script>
 
