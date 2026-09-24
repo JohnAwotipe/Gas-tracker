@@ -277,6 +277,324 @@ body.dark .account-signin{background:#2a2140;color:#decaff!important}
   .planner-btn{width:100%}
   .account-actions{grid-template-columns:1fr}
 }
+
+/* =========================================================
+   COOKING PROFILE SUMMARY — SPACIOUS LAYOUT
+========================================================= */
+
+.profile-connected-card{
+  margin-top:28px !important;
+  padding:24px !important;
+  border:1px solid rgba(109,40,217,.14) !important;
+  border-radius:24px !important;
+  background:
+    radial-gradient(circle at 92% 8%,rgba(34,211,238,.10),transparent 24%),
+    radial-gradient(circle at 8% 90%,rgba(245,158,11,.08),transparent 25%),
+    linear-gradient(145deg,#faf7ff,#f8fbff) !important;
+  box-shadow:0 12px 30px rgba(25,20,50,.05) !important;
+}
+
+.profile-connected-top{
+  display:grid !important;
+  grid-template-columns:58px minmax(0,1fr) !important;
+  gap:16px !important;
+  align-items:start !important;
+}
+
+.profile-connected-icon{
+  width:58px !important;
+  height:58px !important;
+  display:grid !important;
+  place-items:center !important;
+  border-radius:17px !important;
+  background:#ede9fe !important;
+  font-size:28px !important;
+  box-shadow:0 7px 18px rgba(109,40,217,.10) !important;
+}
+
+.profile-connected-top .section-eyebrow{
+  margin-bottom:8px !important;
+}
+
+.profile-connected-top h3{
+  margin:0 0 9px !important;
+  font-size:22px !important;
+  line-height:1.25 !important;
+  letter-spacing:-.02em !important;
+}
+
+.profile-connected-top p{
+  margin:0 !important;
+  color:var(--muted) !important;
+  font-size:13px !important;
+  line-height:1.75 !important;
+  max-width:800px !important;
+}
+
+/* Summary information gets its own roomy grid */
+.profile-summary-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:12px !important;
+  margin-top:22px !important;
+}
+
+.profile-summary-item{
+  min-width:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:13px !important;
+  min-height:76px !important;
+  padding:14px 16px !important;
+  border:1px solid #e5e7ef !important;
+  border-radius:17px !important;
+  background:#fff !important;
+  box-shadow:0 7px 18px rgba(25,20,50,.045) !important;
+}
+
+.profile-summary-item > span{
+  flex:0 0 auto !important;
+  display:grid !important;
+  place-items:center !important;
+  min-width:40px !important;
+  height:40px !important;
+  padding:0 8px !important;
+  border-radius:11px !important;
+  background:#f1eaff !important;
+  font-size:17px !important;
+  line-height:1.2 !important;
+  text-align:center !important;
+}
+
+.profile-summary-item > strong{
+  display:block !important;
+  min-width:0 !important;
+  flex:1 1 auto !important;
+  color:var(--text) !important;
+  font-size:14px !important;
+  line-height:1.45 !important;
+  overflow-wrap:anywhere !important;
+}
+
+/* Foods get a clearly separated area */
+.profile-food-summary{
+  margin-top:20px !important;
+  padding:18px 0 0 !important;
+  border-top:1px solid rgba(109,40,217,.10) !important;
+}
+
+.summary-label{
+  display:block !important;
+  margin-bottom:11px !important;
+  color:var(--text) !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+}
+
+.food-summary-chips{
+  display:flex !important;
+  flex-wrap:wrap !important;
+  gap:8px !important;
+  align-items:flex-start !important;
+}
+
+.food-summary-chip{
+  display:inline-flex !important;
+  align-items:center !important;
+  max-width:100% !important;
+  padding:8px 11px !important;
+  border-radius:999px !important;
+  background:#fff !important;
+  border:1px solid #d9e3f0 !important;
+  color:#44516a !important;
+  font-size:11px !important;
+  font-weight:750 !important;
+  line-height:1.3 !important;
+  overflow-wrap:anywhere !important;
+}
+
+/* Foods to avoid become their own readable block */
+.profile-avoid{
+  margin-top:15px !important;
+  padding:14px 15px !important;
+  border-radius:15px !important;
+  background:#fff5f5 !important;
+  border:1px solid #f1d0d0 !important;
+}
+
+.profile-avoid .summary-label{
+  color:#8b2f2f !important;
+  margin-bottom:5px !important;
+}
+
+.profile-avoid p{
+  margin:0 !important;
+  color:#7e4040 !important;
+  font-size:12px !important;
+  line-height:1.65 !important;
+}
+
+/* Update profile gets its own row */
+.profile-connected-actions{
+  margin-top:19px !important;
+  padding-top:17px !important;
+  border-top:1px solid rgba(109,40,217,.10) !important;
+}
+
+.profile-edit-link{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-height:44px !important;
+  padding:10px 15px !important;
+  border-radius:13px !important;
+  background:#fff !important;
+  border:1px solid #ddd8ef !important;
+  color:var(--primary) !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+  transition:.2s !important;
+}
+
+.profile-edit-link:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 18px rgba(109,40,217,.10);
+}
+
+/* Dark mode */
+body.dark .profile-connected-card{
+  background:
+    radial-gradient(circle at 92% 8%,rgba(34,211,238,.08),transparent 24%),
+    linear-gradient(145deg,#1d1830,#151b23) !important;
+  border-color:#3b3249 !important;
+}
+
+body.dark .profile-summary-item{
+  background:#1a1721 !important;
+  border-color:#363040 !important;
+}
+
+body.dark .profile-summary-item > span{
+  background:#2a2140 !important;
+}
+
+body.dark .profile-food-summary,
+body.dark .profile-connected-actions{
+  border-color:#362f40 !important;
+}
+
+body.dark .food-summary-chip{
+  background:#1b202c !important;
+  border-color:#364357 !important;
+  color:#e3e9f4 !important;
+}
+
+body.dark .profile-avoid{
+  background:#301d23 !important;
+  border-color:#593239 !important;
+}
+
+body.dark .profile-avoid p{
+  color:#efb6b6 !important;
+}
+
+body.dark .profile-avoid .summary-label{
+  color:#ffbaba !important;
+}
+
+body.dark .profile-edit-link{
+  background:#211b29 !important;
+  border-color:#3c3348 !important;
+  color:#d9c5ff !important;
+}
+
+/* Mobile */
+@media(max-width:760px){
+  .profile-connected-card{
+    margin-top:22px !important;
+    padding:18px !important;
+    border-radius:20px !important;
+  }
+
+  .profile-connected-top{
+    grid-template-columns:46px minmax(0,1fr) !important;
+    gap:12px !important;
+  }
+
+  .profile-connected-icon{
+    width:46px !important;
+    height:46px !important;
+    border-radius:14px !important;
+    font-size:23px !important;
+  }
+
+  .profile-connected-top h3{
+    font-size:18px !important;
+    line-height:1.3 !important;
+  }
+
+  .profile-connected-top p{
+    font-size:12px !important;
+    line-height:1.7 !important;
+  }
+
+  .profile-summary-grid{
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+    margin-top:18px !important;
+  }
+
+  .profile-summary-item{
+    min-height:68px !important;
+    padding:13px 14px !important;
+  }
+
+  .profile-summary-item > span{
+    min-width:38px !important;
+    height:38px !important;
+    font-size:16px !important;
+  }
+
+  .profile-summary-item > strong{
+    font-size:13px !important;
+  }
+
+  .profile-food-summary{
+    margin-top:17px !important;
+    padding-top:16px !important;
+  }
+
+  .profile-connected-actions{
+    margin-top:16px !important;
+    padding-top:15px !important;
+  }
+
+  .profile-edit-link{
+    width:100% !important;
+  }
+}
+
+@media(max-width:420px){
+  .profile-connected-card{
+    padding:16px !important;
+  }
+
+  .profile-connected-top{
+    grid-template-columns:42px minmax(0,1fr) !important;
+    gap:10px !important;
+  }
+
+  .profile-connected-icon{
+    width:42px !important;
+    height:42px !important;
+    font-size:21px !important;
+  }
+
+  .profile-connected-top h3{
+    font-size:17px !important;
+  }
+}
+
 </style>
 </head>
 <body>
