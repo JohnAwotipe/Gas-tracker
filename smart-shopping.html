@@ -2685,14 +2685,25 @@ function getSavedMealPlan(){
 
     try{
 
-        const saved =
-            JSON.parse(
-                localStorage.getItem(
-                    PLANNER_KEY
-                ) || "null"
+        const raw =
+            localStorage.getItem(
+                PLANNER_KEY
             );
 
-        if(!saved){
+        if(!raw){
+            return null;
+        }
+
+        let saved = JSON.parse(raw);
+
+        /* Handle an accidentally double-encoded saved plan. */
+        if(typeof saved === "string"){
+            try{
+                saved = JSON.parse(saved);
+            }catch(e){}
+        }
+
+        if(!saved || typeof saved !== "object"){
             return null;
         }
 
@@ -3531,6 +3542,16 @@ function updatePlanStatus(){
 
 
 
+
+function refreshMealPlanStatus(){
+
+    updatePlanStatus();
+
+}
+
+
+/* =========================================================
+   CLEAR SHOPPING
 ========================================================= */
 
 clearBtn.addEventListener(
@@ -3672,6 +3693,25 @@ renderShopping();
 renderInventory();
 
 updatePlanStatus();
+
+/*
+ * Re-check the saved meal plan whenever this page becomes visible again.
+ * This is useful when the user creates a plan in another tab and then
+ * returns to Smart Shopping.
+ */
+document.addEventListener("visibilitychange",()=>{
+    if(!document.hidden){
+        renderShopping();
+        updatePlanStatus();
+    }
+});
+
+window.addEventListener("storage",(event)=>{
+    if(event.key === PLANNER_KEY){
+        renderShopping();
+        updatePlanStatus();
+    }
+});
 
 </script>
 
