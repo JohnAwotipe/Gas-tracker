@@ -1,58 +1,20 @@
 <!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    >
-
-    <meta
-        name="theme-color"
-        content="#667eea"
-    >
-
-    <meta
-        name="description"
-        content="Explore additional Cooking Gas Tracker tools, gas safety resources, meal planning, smart shopping, your cooking profile, FAQ and related products."
-    >
-
-    <meta
-        name="robots"
-        content="index, follow"
-    >
-
-    <title>
-        More | Cooking Gas Tracker & Manager
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<meta content="#667eea" name="theme-color"/>
+<meta content="Explore additional Cooking Gas Tracker tools, gas safety resources, meal planning, smart shopping, your cooking profile, FAQ and related products." name="description"/>
+<meta content="index, follow" name="robots"/>
+<title>
+        More | Cooking Gas Tracker &amp; Manager
     </title>
-
-    <link
-        rel="icon"
-        type="image/png"
-        href="https://i.imgur.com/IkrGaXF.png"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-
-    <style>
+<link href="https://i.imgur.com/IkrGaXF.png" rel="icon" type="image/png"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
 
         /* =====================================
            RESET
@@ -783,539 +745,389 @@
 
         }
 
-    </style>
+    
 
+        /* =====================================
+           MORE PAGE POLISH
+        ===================================== */
+
+        .intro {
+            position: relative;
+            overflow: hidden;
+            padding: 28px 22px 27px;
+            margin-top: 4px;
+            border: 1px solid #e3e5fb;
+            border-radius: 24px;
+            background:
+                radial-gradient(circle at 88% 18%, rgba(102,126,234,.16), transparent 27%),
+                radial-gradient(circle at 8% 92%, rgba(34,197,94,.10), transparent 24%),
+                linear-gradient(135deg, #f8f8ff, #ffffff 58%, #f6f8ff);
+            box-shadow: 0 12px 35px rgba(20,30,60,.055);
+        }
+
+        .intro > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-group {
+            position: relative;
+        }
+
+        .menu-group::before {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 37px;
+            width: 3px;
+            height: 22px;
+            border-radius: 999px;
+            background: #667eea;
+        }
+
+        .food-group::before { background: #16a34a; }
+        .account-group::before { background: #667eea; }
+        .gas-group::before { background: #f97316; }
+        .learn-group::before { background: #0ea5e9; }
+        .products-group::before { background: #eab308; }
+
+        .group-title {
+            padding-left: 7px;
+        }
+
+        .menu-icon {
+            border: 1px solid rgba(102,126,234,.08);
+        }
+
+        .food-group .menu-icon {
+            background: linear-gradient(145deg, #eafaf0, #f7fff9);
+        }
+
+        .account-group .menu-icon {
+            background: linear-gradient(145deg, #eef0ff, #f7f5ff);
+        }
+
+        .gas-group .menu-icon {
+            background: linear-gradient(145deg, #fff1e8, #fffaf6);
+        }
+
+        .learn-group .menu-icon {
+            background: linear-gradient(145deg, #eaf7ff, #f7fcff);
+        }
+
+        .products-group .menu-icon {
+            background: linear-gradient(145deg, #fff8dc, #fffdf4);
+        }
+
+        .account-menu-item {
+            background: linear-gradient(90deg, rgba(102,126,234,.045), transparent 72%);
+        }
+
+        .account-menu-item:hover {
+            background: linear-gradient(90deg, rgba(102,126,234,.09), rgba(102,126,234,.02));
+        }
+
+        @media (max-width: 760px) {
+            .intro {
+                padding: 24px 18px;
+                border-radius: 21px;
+            }
+        }
+
+        body.dark-mode .intro {
+            border-color: #30384d;
+            background:
+                radial-gradient(circle at 88% 18%, rgba(102,126,234,.16), transparent 27%),
+                radial-gradient(circle at 8% 92%, rgba(34,197,94,.08), transparent 24%),
+                linear-gradient(135deg, #171b2b, #151a29 58%, #191d31);
+            box-shadow: none;
+        }
+
+        body.dark-mode .food-group .menu-icon { background: linear-gradient(145deg, #183025, #19261f); }
+        body.dark-mode .account-group .menu-icon { background: linear-gradient(145deg, #29254d, #22233a); }
+        body.dark-mode .gas-group .menu-icon { background: linear-gradient(145deg, #3b2418, #2b2019); }
+        body.dark-mode .learn-group .menu-icon { background: linear-gradient(145deg, #173146, #1c2738); }
+        body.dark-mode .products-group .menu-icon { background: linear-gradient(145deg, #3a3218, #2a271a); }
+        body.dark-mode .account-menu-item {
+            background: linear-gradient(90deg, rgba(102,126,234,.10), transparent 72%);
+        }
+        body.dark-mode .account-menu-item:hover {
+            background: linear-gradient(90deg, rgba(102,126,234,.16), rgba(102,126,234,.04));
+        }
+</style>
 </head>
-
-
 <body>
-
-
 <div class="container">
-
-
-    <!-- =====================================
+<!-- =====================================
          HEADER
     ====================================== -->
-
-    <header class="page-header">
-
-
-        <a
-            href="index.html"
-            class="back-button"
-            aria-label="Back to home"
-        >
+<header class="page-header">
+<a aria-label="Back to home" class="back-button" href="index.html">
             ‹
         </a>
-
-
-        <div class="header-title">
-
-            <h1>
+<div class="header-title">
+<h1>
                 More
             </h1>
-
-            <p>
+<p>
                 More tools and resources
             </p>
-
-        </div>
-
-
-        <button
-            class="theme-toggle"
-            id="themeToggle"
-            type="button"
-            onclick="toggleTheme()"
-            aria-label="Switch to dark mode"
-        >
+</div>
+<button aria-label="Switch to dark mode" class="theme-toggle" id="themeToggle" onclick="toggleTheme()" type="button">
             🌙
         </button>
-
-
-    </header>
-
-
-
-    <!-- =====================================
+</header>
+<!-- =====================================
          INTRO
     ====================================== -->
-
-    <section class="intro">
-
-
-        <div class="intro-badge">
+<section class="intro">
+<div class="intro-badge">
             EXPLORE MORE
         </div>
-
-
-        <h2>
-            More ways to get value from
-            Cooking Gas Tracker.
-        </h2>
-
-
-        <p>
-
-            Explore helpful tools, cooking resources,
-            safety information and other parts of the
-            Cooking Gas Tracker experience.
-
-            Each section opens on its own dedicated
-            page.
-
-        </p>
-
-
-    </section>
-
-
-
-    <!-- =====================================
+<h2>More tools for your cooking journey.</h2>
+<p>Explore meal planning, smart shopping, cooking gas resources, your account and other helpful tools. Each section opens on its own dedicated page.</p>
+</section>
+<!-- =====================================
          COOKING GAS
     ====================================== -->
 
-    <section class="menu-group">
+<!-- =====================================
+         FOOD & PLANNING
+    ====================================== -->
 
+<!-- =====================================
+         LEARN
+    ====================================== -->
 
-        <div class="group-title">
+<!-- =====================================
+         OUR PRODUCTS
+    ====================================== -->
 
-            <span class="group-title-icon">
+<!-- =====================================
+         PRODUCT MESSAGE
+    ====================================== -->
+<section class="menu-group food-group">
+<div class="group-title">
+<span class="group-title-icon">
+                🍳
+            </span>
+
+            Food &amp; Planning
+
+        </div>
+<div class="menu-card">
+<a class="menu-item" href="meal-planner.html">
+<div class="menu-icon">
+                    🍲
+                </div>
+<div class="menu-content">
+<strong>
+                        Smart Meal Planner
+                    </strong>
+<span>
+                        Plan practical meals around
+                        your household needs.
+                    </span>
+</div>
+<div class="menu-arrow">
+                    ›
+                </div>
+</a>
+<a class="menu-item" href="smart-shopping.html">
+<div class="menu-icon">
+                    🛒
+                </div>
+<div class="menu-content">
+<strong>
+                        Smart Shopping
+                    </strong>
+<span>
+                        Organize your food shopping
+                        and keep track of what you need.
+                    </span>
+</div>
+<div class="menu-arrow">
+                    ›
+                </div>
+</a>
+<a class="menu-item" href="cooking-profile.html">
+<div class="menu-icon">
+                    👤
+                </div>
+<div class="menu-content">
+<strong>
+                        My Cooking Profile
+                    </strong>
+<span>
+                        Keep your cooking preferences
+                        and household information together.
+                    </span>
+</div>
+<div class="menu-arrow">
+                    ›
+                </div>
+</a>
+</div>
+</section><section class="menu-group account-group"> <div class="group-title"> <span class="group-title-icon">👤</span>        My Account    </div> <div class="menu-card"> <a class="menu-item account-menu-item" href="account.html"> <div class="menu-icon">👤</div> <div class="menu-content"> <strong>My Account</strong> <span>Manage your account and access your personalized cooking tools.</span> </div> <div class="menu-arrow">›</div> </a> </div></section><section class="menu-group gas-group">
+<div class="group-title">
+<span class="group-title-icon">
                 🔥
             </span>
 
             Cooking Gas
 
         </div>
-
-
-        <div class="menu-card">
-
-
-            <a
-                href="gas-guide.html"
-                class="menu-item"
-            >
-
-                <div class="menu-icon">
+<div class="menu-card">
+<a class="menu-item" href="gas-guide.html">
+<div class="menu-icon">
                     📖
                 </div>
-
-
-                <div class="menu-content">
-
-                    <strong>
+<div class="menu-content">
+<strong>
                         Cooking Gas Guide
                     </strong>
-
-                    <span>
+<span>
                         Learn about gas usage,
                         cylinders and everyday
                         cooking.
                     </span>
-
-                </div>
-
-
-                <div class="menu-arrow">
+</div>
+<div class="menu-arrow">
                     ›
                 </div>
-
-            </a>
-
-
-
-            <a
-                href="gas-saving-tips.html"
-                class="menu-item"
-            >
-
-                <div class="menu-icon">
+</a>
+<a class="menu-item" href="gas-saving-tips.html">
+<div class="menu-icon">
                     💡
                 </div>
-
-
-                <div class="menu-content">
-
-                    <strong>
+<div class="menu-content">
+<strong>
                         Gas Saving Tips
                     </strong>
-
-                    <span>
+<span>
                         Practical habits that can
                         help you reduce unnecessary
                         gas consumption.
                     </span>
-
-                </div>
-
-
-                <div class="menu-arrow">
+</div>
+<div class="menu-arrow">
                     ›
                 </div>
-
-            </a>
-
-
-
-            <a
-                href="gas-safety.html"
-                class="menu-item"
-            >
-
-                <div class="menu-icon">
+</a>
+<a class="menu-item" href="gas-safety.html">
+<div class="menu-icon">
                     🛡️
                 </div>
-
-
-                <div class="menu-content">
-
-                    <strong>
+<div class="menu-content">
+<strong>
                         Gas Safety Center
                     </strong>
-
-                    <span>
+<span>
                         Important safety practices
                         for everyday cooking gas use.
                     </span>
-
-                </div>
-
-
-                <div class="menu-arrow">
+</div>
+<div class="menu-arrow">
                     ›
                 </div>
-
-            </a>
-
-
-
-            <a
-                href="how-it-works.html"
-                class="menu-item"
-            >
-
-                <div class="menu-icon">
+</a>
+<a class="menu-item" href="how-it-works.html">
+<div class="menu-icon">
                     ⚙️
                 </div>
-
-
-                <div class="menu-content">
-
-                    <strong>
+<div class="menu-content">
+<strong>
                         How It Works
                     </strong>
-
-                    <span>
+<span>
                         Understand how Cooking Gas
                         Tracker works.
                     </span>
-
-                </div>
-
-
-                <div class="menu-arrow">
+</div>
+<div class="menu-arrow">
                     ›
                 </div>
-
-            </a>
-
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================
-         FOOD & PLANNING
-    ====================================== -->
-
-    <section class="menu-group">
-
-
-        <div class="group-title">
-
-            <span class="group-title-icon">
-                🍳
-            </span>
-
-            Food & Planning
-
-        </div>
-
-
-        <div class="menu-card">
-
-
-            <a
-                href="meal-planner.html"
-                class="menu-item"
-            >
-
-                <div class="menu-icon">
-                    🍲
-                </div>
-
-
-                <div class="menu-content">
-
-                    <strong>
-                        Smart Meal Planner
-                    </strong>
-
-                    <span>
-                        Plan practical meals around
-                        your household needs.
-                    </span>
-
-                </div>
-
-
-                <div class="menu-arrow">
-                    ›
-                </div>
-
-            </a>
-
-
-
-            <a
-                href="smart-shopping.html"
-                class="menu-item"
-            >
-
-                <div class="menu-icon">
-                    🛒
-                </div>
-
-
-                <div class="menu-content">
-
-                    <strong>
-                        Smart Shopping
-                    </strong>
-
-                    <span>
-                        Organize your food shopping
-                        and keep track of what you need.
-                    </span>
-
-                </div>
-
-
-                <div class="menu-arrow">
-                    ›
-                </div>
-
-            </a>
-
-
-
-            <a
-                href="cooking-profile.html"
-                class="menu-item"
-            >
-
-                <div class="menu-icon">
-                    👤
-                </div>
-
-
-                <div class="menu-content">
-
-                    <strong>
-                        My Cooking Profile
-                    </strong>
-
-                    <span>
-                        Keep your cooking preferences
-                        and household information together.
-                    </span>
-
-                </div>
-
-
-                <div class="menu-arrow">
-                    ›
-                </div>
-
-            </a>
-
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================
-         LEARN
-    ====================================== -->
-
-    <section class="menu-group">
-
-
-        <div class="group-title">
-
-            <span class="group-title-icon">
+</a>
+</div>
+</section><section class="menu-group learn-group">
+<div class="group-title">
+<span class="group-title-icon">
                 📚
             </span>
 
             Learn
 
         </div>
-
-
-        <div class="menu-card">
-
-
-            <a
-                href="guides.html"
-                class="menu-item"
-            >
-
-                <div class="menu-icon">
+<div class="menu-card">
+<a class="menu-item" href="guides.html">
+<div class="menu-icon">
                     📚
                 </div>
-
-
-                <div class="menu-content">
-
-                    <strong>
-                        Guides & Resources
+<div class="menu-content">
+<strong>
+                        Guides &amp; Resources
                     </strong>
-
-                    <span>
+<span>
                         Explore our collection of
                         cooking gas guides.
                     </span>
-
-                </div>
-
-
-                <div class="menu-arrow">
+</div>
+<div class="menu-arrow">
                     ›
                 </div>
-
-            </a>
-
-
-
-            <a
-                href="faq.html"
-                class="menu-item"
-            >
-
-                <div class="menu-icon">
+</a>
+<a class="menu-item" href="faq.html">
+<div class="menu-icon">
                     ❓
                 </div>
-
-
-                <div class="menu-content">
-
-                    <strong>
+<div class="menu-content">
+<strong>
                         Frequently Asked Questions
                     </strong>
-
-                    <span>
+<span>
                         Find answers to common
                         questions about the tracker.
                     </span>
-
-                </div>
-
-
-                <div class="menu-arrow">
+</div>
+<div class="menu-arrow">
                     ›
                 </div>
-
-            </a>
-
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================
-         OUR PRODUCTS
-    ====================================== -->
-
-    <section class="menu-group">
-
-
-        <div class="group-title">
-
-            <span class="group-title-icon">
+</a>
+</div>
+</section><section class="menu-group products-group">
+<div class="group-title">
+<span class="group-title-icon">
                 🚀
             </span>
 
             Our Products
 
         </div>
-
-
-        <div class="menu-card">
-
-
-            <a
-                href="products.html"
-                class="menu-item"
-            >
-
-                <div class="menu-icon">
+<div class="menu-card">
+<a class="menu-item" href="products.html">
+<div class="menu-icon">
                     🚀
                 </div>
-
-
-                <div class="menu-content">
-
-                    <strong>
-                        Products & Tools
+<div class="menu-content">
+<strong>
+                        Products &amp; Tools
                     </strong>
-
-                    <span>
+<span>
                         Discover other useful products
                         and tools from our ecosystem.
                     </span>
-
-                </div>
-
-
-                <div class="menu-arrow">
+</div>
+<div class="menu-arrow">
                     ›
                 </div>
-
-            </a>
-
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================
-         PRODUCT MESSAGE
-    ====================================== -->
-
-    <section class="product-box">
-
-
-        <div class="product-box-label">
+</a>
+</div>
+</section><section class="product-box">
+<div class="product-box-label">
             BUILDING SOMETHING BIGGER
         </div>
-
-
-        <h3>
-            More useful tools are coming.
-        </h3>
-
-
-        <p>
+<h3>More useful tools are coming.</h3>
+<p>
 
             Cooking Gas Tracker can grow beyond
             gas tracking. We can gradually add
@@ -1324,151 +1136,87 @@
             and everyday life.
 
         </p>
-
-
-        <a
-            href="products.html"
-            class="product-link"
-        >
+<a class="product-link" href="products.html">
             Explore Products →
         </a>
-
-
-    </section>
-
-
-
-    <!-- =====================================
+</section>
+<!-- =====================================
          FOOTER
     ====================================== -->
-
-    <footer class="footer">
-
-
-        <div class="footer-brand">
-            🔥 Cooking Gas Tracker & Manager
+<footer class="footer">
+<div class="footer-brand">
+            🔥 Cooking Gas Tracker &amp; Manager
         </div>
-
-
-        <p>
+<p>
             Track smarter. Refill on time.
         </p>
-
-
-        <p>
-
-            <a
-                href="https://policies-privacy-8c085d.netlify.app/"
-                target="_blank"
-                rel="noopener"
-            >
+<p>
+<a href="https://policies-privacy-8c085d.netlify.app/" rel="noopener" target="_blank">
                 Privacy Policy
             </a>
 
-            &nbsp; • &nbsp;
+              •  
 
-            <a
-                href="https://about-us-a9f8d5.netlify.app/"
-                target="_blank"
-                rel="noopener"
-            >
+            <a href="https://about-us-a9f8d5.netlify.app/" rel="noopener" target="_blank">
                 About Us
             </a>
 
-            &nbsp; • &nbsp;
+              •  
 
-            <a
-                href="https://terms-condition-36816f.netlify.app/"
-                target="_blank"
-                rel="noopener"
-            >
-                Terms & Conditions
+            <a href="https://terms-condition-36816f.netlify.app/" rel="noopener" target="_blank">
+                Terms &amp; Conditions
             </a>
-
+</p>
+<p>
+            © 2026 Cooking Gas Tracker &amp; Manager
         </p>
-
-
-        <p>
-            © 2026 Cooking Gas Tracker & Manager
-        </p>
-
-
-    </footer>
-
-
+</footer>
 </div>
-
-
-
 <!-- =====================================
      MOBILE NAV
 ====================================== -->
-
 <nav class="mobile-nav">
-
-
-    <a href="index.html">
-
-        <strong>
+<a href="index.html">
+<strong>
             ⌂
         </strong>
 
         Home
 
     </a>
-
-
-    <a href="tracker.html">
-
-        <strong>
+<a href="tracker.html">
+<strong>
             🔥
         </strong>
 
         Tracker
 
     </a>
-
-
-    <a href="assistant.html">
-
-        <strong>
+<a href="assistant.html">
+<strong>
             🤖
         </strong>
 
         Assistant
 
     </a>
-
-
-    <a href="guides.html">
-
-        <strong>
+<a href="guides.html">
+<strong>
             📚
         </strong>
 
         Guides
 
     </a>
-
-
-    <a
-        href="more.html"
-        class="active"
-    >
-
-        <strong>
+<a class="active" href="more.html">
+<strong>
             ☰
         </strong>
 
         More
 
     </a>
-
-
 </nav>
-
-
-
 <script>
 
     /* =====================================
@@ -1577,9 +1325,6 @@
     );
 
 </script>
-
 <script src="auth-nav.js"></script>
-    
 </body>
-
 </html>
