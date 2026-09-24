@@ -1,1342 +1,849 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><meta name="theme-color" content="#667eea"><meta name="description" content="Plan meals around your food budget, household size, cooking frequency and gas-saving preference."><title>Meal Planner | Cooking Gas Tracker</title><link rel="icon" type="image/png" href="https://i.imgur.com/IkrGaXF.png"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="site.css"><script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#6d28d9">
+<meta name="description" content="Create a personalized 7-day meal plan using your foods, budget, gas-saving preference and cooking preferences.">
+<title>Meal Planner | Cooking Gas Tracker & Manager</title>
+<link rel="icon" type="image/png" href="https://i.imgur.com/QzPFczP.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
 <style>
-/* ===== Personal meal preferences ===== */
-.planner-preferences-field {
-    margin-top: 16px;
-}
-.planner-preferences-field textarea {
-    width: 100%;
-    min-height: 130px;
-    resize: vertical;
-    padding: 13px 14px;
-    border: 1px solid #d8dde6;
-    border-radius: 14px;
-    background: #fff;
-    color: #182238;
-    font: inherit;
-    line-height: 1.6;
-    outline: none;
-}
-.planner-preferences-field textarea:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102,126,234,.12);
-}
-body.dark-mode .planner-preferences-field textarea {
-    background:#111827;
-    color:#fff;
-    border-color:#384153;
-}
-body.dark-mode .planner-preferences-field textarea::placeholder {
-    color:#9ca7ba;
+:root{
+  --primary:#6d28d9;
+  --primary-2:#7c3aed;
+  --primary-soft:#f1eaff;
+  --blue:#2563eb;
+  --green:#16a34a;
+  --orange:#ea580c;
+  --yellow:#d97706;
+  --pink:#db2777;
+  --cyan:#0891b2;
+  --text:#161225;
+  --muted:#657083;
+  --bg:#f6f7fb;
+  --surface:#ffffff;
+  --surface-2:#f8f8fc;
+  --border:#e6e8ef;
+  --shadow:0 16px 38px rgba(25,20,50,.08);
 }
 
-/* ===== Account-required modal ===== */
-.meal-account-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 5000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: rgba(15,15,23,.68);
-    backdrop-filter: blur(8px);
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 10% 10%,rgba(109,40,217,.07),transparent 24%),
+    radial-gradient(circle at 88% 18%,rgba(37,99,235,.06),transparent 24%),
+    var(--bg);
+  overflow-x:hidden;
 }
-.meal-account-overlay.show {
-    display: flex;
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font:inherit}
+
+.page-container{min-height:100vh;padding-bottom:90px}
+
+/* Header */
+.site-header{
+  position:sticky;top:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:12px max(18px,calc((100vw - 1180px)/2));
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(109,40,217,.08);
 }
-.meal-account-modal {
-    width: min(500px, 100%);
-    padding: 28px;
-    border-radius: 24px;
-    background: #fff;
-    color: #182238;
-    border: 1px solid #e3e7ef;
-    box-shadow: 0 25px 80px rgba(0,0,0,.25);
-    position: relative;
+.brand-row{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-mark{width:48px;height:48px;border-radius:14px;overflow:hidden;flex:0 0 48px;box-shadow:0 8px 20px rgba(109,40,217,.16)}
+.brand-mark img{width:100%;height:100%;object-fit:cover}
+.brand-name{font-weight:900;font-size:15px;line-height:1.05;letter-spacing:-.02em}
+.brand-tagline{font-size:11px;color:var(--muted);margin-top:4px}
+.top-nav{display:flex;align-items:center;gap:4px;margin-left:auto}
+.top-nav a{padding:10px 12px;border-radius:12px;font-size:13px;font-weight:800;color:#626b7c;transition:.2s}
+.top-nav a:hover,.top-nav a.active{color:var(--primary);background:var(--primary-soft)}
+.theme-toggle{
+  width:42px;height:42px;border:0;border-radius:13px;background:#f3f1f8;
+  cursor:pointer;font-size:19px;color:var(--primary)
 }
-.meal-account-modal h3 {
-    margin: 0 0 9px;
-    font-size: 25px;
-    line-height: 1.2;
+
+/* Hero */
+.page-hero{
+  position:relative;overflow:hidden;
+  color:#fff;
+  padding:58px 20px 62px;
+  background:
+    radial-gradient(circle at 12% 15%,rgba(255,255,255,.17),transparent 24%),
+    radial-gradient(circle at 87% 12%,rgba(255,190,90,.16),transparent 23%),
+    radial-gradient(circle at 78% 100%,rgba(34,211,238,.14),transparent 27%),
+    linear-gradient(135deg,#4c1d95 0%,#6d28d9 48%,#8b5cf6 78%,#c2410c 135%);
+  border-radius:0 0 30px 30px;
+  box-shadow:0 18px 48px rgba(76,29,149,.15);
 }
-.meal-account-modal p {
-    margin: 0 0 20px;
-    color: #5d6878;
-    line-height: 1.65;
+.page-hero:before,.page-hero:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.13);border-radius:50%;pointer-events:none}
+.page-hero:before{width:360px;height:360px;right:-170px;top:-190px}
+.page-hero:after{width:220px;height:220px;right:70px;top:-105px}
+.page-hero-inner{position:relative;z-index:1;width:min(1120px,calc(100% - 8px));margin:auto}
+.page-back{display:inline-flex;align-items:center;gap:6px;color:#fff;font-weight:800;font-size:13px;opacity:.9;margin-bottom:14px}
+.section-eyebrow{font-size:11px;font-weight:900;letter-spacing:.13em;color:var(--primary)}
+.page-hero .section-eyebrow{color:#fff;opacity:.82}
+.page-hero h1{font-size:clamp(2.15rem,5vw,4rem);line-height:1.04;letter-spacing:-.045em;margin:0 0 15px;max-width:780px}
+.page-hero p{margin:0;max-width:760px;color:#fff;opacity:.94;line-height:1.75;font-size:16px}
+
+/* Main */
+.main-wrap{width:min(1120px,calc(100% - 30px));margin:30px auto 0}
+.meal-planner{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+  padding:30px;
 }
-.meal-account-icon {
-    width: 58px;
-    height: 58px;
-    display: grid;
-    place-items: center;
-    border-radius: 17px;
-    background: #f0ebff;
-    font-size: 28px;
-    margin-bottom: 14px;
+.meal-timetable-heading{color:var(--primary)}
+.meal-planner h2{margin:6px 0 10px;font-size:clamp(1.55rem,3vw,2.15rem);letter-spacing:-.03em}
+.planner-lead{margin:0;max-width:900px;color:var(--muted);line-height:1.75}
+
+.planner-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:23px}
+.planner-field{
+  background:linear-gradient(145deg,#fff,#fafaff);
+  border:1px solid #e5e7ef;
+  border-radius:18px;
+  padding:18px;
 }
-.meal-account-close {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 38px;
-    height: 38px;
-    border: 1px solid #e3e7ef;
-    border-radius: 11px;
-    background: #f7f8fb;
-    color: #273044;
-    font-size: 21px;
-    cursor: pointer;
+.planner-field label{display:block;font-weight:850;font-size:13px;margin-bottom:8px}
+.planner-field small{display:block;color:#707b8b;font-size:11px;line-height:1.55;margin-top:7px}
+.planner-field input,.planner-field select,.planner-field textarea{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid #d7dbe5;
+  border-radius:12px;
+  background:#fff;
+  color:var(--text);
+  outline:0;
+  transition:.2s;
 }
-.meal-account-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+.planner-field input:focus,.planner-field select:focus,.planner-field textarea:focus{
+  border-color:var(--primary-2);
+  box-shadow:0 0 0 4px rgba(124,58,237,.10)
 }
-.meal-account-actions a {
-    min-height: 48px;
-    border-radius: 13px;
-    display: grid;
-    place-items: center;
-    font-weight: 800;
-    text-decoration: none;
+.planner-field textarea{min-height:130px;resize:vertical;line-height:1.6}
+.preferences-field{margin-top:16px}
+.preferences-callout{
+  margin-top:10px;
+  border-left:4px solid #f59e0b;
+  background:linear-gradient(135deg,#fff8df,#fff);
+  border-radius:13px;
+  padding:11px 12px;
+  color:#74540b;
+  font-size:11px;
+  line-height:1.55;
 }
-.meal-create-account {
-    background: #667eea;
-    color: #fff !important;
+
+/* Food */
+.food-field{margin-top:16px}
+.food-checks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:10px}
+.food-check{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 11px;border-radius:11px;
+  border:1px solid #e2e5ec;background:#fafbfd;
+  font-size:13px;font-weight:700;cursor:pointer
 }
-.meal-signin-account {
-    background: #eef0ff;
-    color: #4f46a5 !important;
+.food-check input{width:auto;accent-color:var(--primary)}
+.custom-food-wrap{margin-top:15px;padding-top:15px;border-top:1px dashed #dfe3eb}
+.custom-food-label{display:block;font-weight:850;font-size:13px;margin-bottom:5px}
+.custom-food-help{display:block;color:#6f798a;font-size:11px;line-height:1.55;margin-bottom:9px}
+.custom-food-form{display:flex;gap:9px}
+.custom-food-form input{flex:1;min-width:0}
+.custom-food-form button{
+  border:0;border-radius:12px;padding:0 16px;
+  background:var(--primary-soft);color:var(--primary-dark,#5b21b6);font-weight:850;cursor:pointer
 }
-.meal-account-note {
-    margin-top: 14px !important;
-    margin-bottom: 0 !important;
-    font-size: 11px !important;
-    text-align: center;
+.custom-food-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.custom-food-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;background:#f0f6ff;border:1px solid #d9e7ff;font-size:12px;font-weight:700}
+.custom-food-chip button{border:0;background:transparent;color:#697487;cursor:pointer;padding:0;line-height:1;font-size:14px}
+
+/* Actions */
+.planner-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:22px;padding-top:22px;border-top:1px solid #edf0f5}
+.planner-btn{border:0;border-radius:13px;padding:13px 18px;font-weight:850;cursor:pointer;transition:.2s}
+.planner-btn.primary{background:linear-gradient(135deg,#6d28d9,#7c3aed);color:#fff;box-shadow:0 10px 24px rgba(109,40,217,.22)}
+.planner-btn.primary:hover{transform:translateY(-1px)}
+.planner-btn.secondary{background:#eef0f5;color:#3c4658}
+.planner-btn:disabled{opacity:.65;cursor:not-allowed;transform:none}
+
+/* Result */
+.plan-result{display:none;margin-top:24px;padding-top:24px;border-top:1px solid #edf0f5}
+.plan-result.show{display:block}
+.budget-badge{display:inline-flex;padding:7px 11px;border-radius:999px;background:#fff1d6;color:#875400;font-size:11px;font-weight:900}
+.plan-result h3{margin:13px 0 5px;font-size:22px}
+.plan-summary{color:var(--muted);line-height:1.7;margin:0 0 16px}
+.meal-days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.meal-day{border:1px solid #e5e8ef;border-radius:18px;background:#fbfcff;padding:18px}
+.meal-day h4{margin:0 0 12px;font-size:15px}
+.meal-row{padding:10px 0;border-top:1px solid #edf0f4}
+.meal-row:first-child{border-top:0;padding-top:0}
+.meal-row strong{display:block;color:var(--primary);font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.meal-row span{display:block;font-size:14px;font-weight:800}
+.meal-meta{margin-top:4px;color:#6d7889;font-size:11px;line-height:1.5}
+.planner-tip{margin-top:15px;padding:14px 15px;border-radius:14px;background:#edf8f1;color:#2c6741;font-size:12px;line-height:1.65}
+.loading-box{padding:18px;border-radius:16px;background:#f5f0ff;color:#5b21b6;font-weight:750;line-height:1.6}
+.error-box{padding:16px;border-radius:16px;background:#fff4f4;border:1px solid #f8caca;color:#9a2c2c;line-height:1.6;font-size:13px}
+
+/* Account modal */
+.account-overlay{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(12,10,20,.68);backdrop-filter:blur(8px)}
+.account-overlay.show{display:flex}
+.account-modal{position:relative;width:min(500px,100%);padding:28px;border-radius:24px;background:#fff;border:1px solid #e4e6ee;box-shadow:0 30px 90px rgba(0,0,0,.28)}
+.account-icon{width:58px;height:58px;border-radius:17px;display:grid;place-items:center;background:#f0ebff;font-size:28px;margin-bottom:14px}
+.account-close{position:absolute;top:13px;right:13px;width:38px;height:38px;border:1px solid #e4e7ee;background:#f7f8fb;color:#283246;border-radius:11px;cursor:pointer;font-size:20px}
+.account-modal h3{margin:6px 0 9px;font-size:25px;line-height:1.18}
+.account-modal p{margin:0 0 19px;color:#667184;line-height:1.65;font-size:13px}
+.account-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.account-actions a{min-height:48px;display:grid;place-items:center;border-radius:13px;font-weight:850}
+.account-create{background:var(--primary);color:#fff!important}
+.account-signin{background:var(--primary-soft);color:var(--primary)!important}
+.account-note{font-size:11px!important;text-align:center;margin:13px 0 0!important}
+
+/* Footer */
+.site-footer{margin-top:32px;background:#17121f;color:#fff;padding:42px 20px 95px;text-align:center}
+.footer-brand{font-weight:900;font-size:16px}
+.site-footer p{margin:8px 0;color:#bfb7c8;font-size:11px;line-height:1.55}
+.site-footer a{color:#ddd0ff}
+.footer-note{font-size:10px!important;margin-top:16px!important}
+
+/* Mobile nav */
+.mobile-bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:3000;
+  display:none;grid-template-columns:repeat(5,1fr);
+  padding:7px 4px calc(7px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.97);backdrop-filter:blur(15px);
+  border-top:1px solid #e1e4eb
 }
-body.dark-mode .meal-account-modal {
-    background:#171c2b;
-    color:#fff;
-    border-color:#303849;
+.mobile-bottom-nav a{text-align:center;color:#6e7788;font-size:10px;font-weight:800;padding:5px 2px}
+.mobile-bottom-nav strong{display:block;font-size:19px;line-height:1.1;margin-bottom:3px}
+.mobile-bottom-nav a.active{color:var(--primary)}
+
+/* Dark mode */
+body.dark{--text:#f7f5fb;--muted:#b8b0c2;--bg:#0f0c14;--surface:#191520;--surface-2:#211c29;--border:#30283a}
+body.dark .site-header{background:rgba(15,12,20,.96);border-bottom-color:#272031}
+body.dark .brand-tagline,body.dark .planner-field small,body.dark .custom-food-help{color:#b7afc0}
+body.dark .top-nav a{color:#c2bacb}
+body.dark .top-nav a:hover,body.dark .top-nav a.active{background:#2a2040;color:#dcc9ff}
+body.dark .theme-toggle{background:#251e2d;color:#efe2ff}
+body.dark .planner-field{background:linear-gradient(145deg,#1b1723,#1a1620);border-color:#322b3b}
+body.dark .planner-field input,body.dark .planner-field select,body.dark .planner-field textarea{background:#111018;color:#fff;border-color:#3b3345}
+body.dark .food-check{background:#201b27;border-color:#332c3c}
+body.dark .preferences-callout{background:#2a2418;border-color:#574720;color:#e8d7a4}
+body.dark .custom-food-wrap{border-color:#373043}
+body.dark .custom-food-form button{background:#2a2140;color:#decaff}
+body.dark .custom-food-chip{background:#202a40;border-color:#354b6d;color:#e5ecfb}
+body.dark .planner-btn.secondary{background:#2a2431;color:#eee8f3}
+body.dark .meal-day{background:#17131c;border-color:#322b3b}
+body.dark .meal-meta{color:#aaa1b4}
+body.dark .planner-tip{background:#173124;color:#bfe8ca}
+body.dark .loading-box{background:#281f3a;color:#decaff}
+body.dark .mobile-bottom-nav{background:rgba(15,12,20,.97);border-color:#30283a}
+body.dark .account-modal{background:#191520;border-color:#332c3b}
+body.dark .account-close{background:#251f2d;border-color:#3a3144;color:#fff}
+body.dark .account-signin{background:#2a2140;color:#decaff!important}
+
+/* Responsive */
+@media(max-width:900px){
+  .top-nav{display:none}
+  .site-header{padding:10px 14px}
+  .main-wrap{width:min(100% - 20px,720px);margin-top:18px}
+  .meal-planner{padding:22px;border-radius:22px}
+  .planner-grid{grid-template-columns:1fr}
+  .food-checks{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .meal-days{grid-template-columns:1fr}
+  .mobile-bottom-nav{display:grid}
 }
-body.dark-mode .meal-account-modal p {
-    color:#b7c0cf;
-}
-body.dark-mode .meal-account-icon {
-    background:#29254d;
-}
-body.dark-mode .meal-account-close {
-    background:#222a3a;
-    color:#fff;
-    border-color:#384153;
-}
-body.dark-mode .meal-signin-account {
-    background:#29254d;
-    color:#dcd7ff !important;
-}
-@media(max-width:560px) {
-    .meal-account-actions {
-        grid-template-columns:1fr;
-    }
+@media(max-width:520px){
+  .brand-mark{width:44px;height:44px;flex-basis:44px}
+  .brand-name{font-size:13px}
+  .brand-tagline{font-size:10px}
+  .theme-toggle{width:39px;height:39px}
+  .page-hero{padding:48px 17px 54px;border-radius:0 0 23px 23px}
+  .page-hero h1{font-size:38px}
+  .page-hero p{font-size:14px}
+  .meal-planner{padding:18px}
+  .food-checks{grid-template-columns:1fr 1fr}
+  .custom-food-form{flex-direction:column}
+  .custom-food-form button{min-height:44px}
+  .planner-actions{flex-direction:column}
+  .planner-btn{width:100%}
+  .account-actions{grid-template-columns:1fr}
 }
 </style>
+</head>
+<body>
 
-</head><body><div class="page-container"><header class="site-header"><a href="index.html" class="brand-row" style="text-decoration:none;color:inherit"><div class="brand-mark"><img src="https://i.imgur.com/OkIJfE2.png" alt="Cooking Gas Tracker & Manager logo"></div><div><div class="brand-name">Cooking Gas Tracker & Manager</div><div class="brand-tagline">Track smarter. Refill on time.</div></div></a><nav class="top-nav" aria-label="Main navigation"><a href="index.html" class="">⌂ Home</a><a href="tracker.html" class="">🔥 Tracker</a><a href="assistant.html" class="">🤖 Assistant</a><a href="guides.html" class="">📚 Guides</a><a href="more.html" class="active">☰ More</a></nav><button class="theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark mode" title="Switch to dark mode">🌙</button></header><div class="page-hero"><a class="page-back" href="more.html">← More</a><div class="section-eyebrow">MEAL PLANNER</div><h1>Plan your meals around your budget and gas.</h1><p>Tell the planner about your cooking routine, budget, favourite foods and exactly how you want your meals created. It uses your instructions to build a more personal 7-day plan.</p></div><section aria-labelledby="mealPlannerTitle" class="meal-planner" id="meal-planner">
-<div class="section-eyebrow meal-timetable-heading">CREATE MY MEAL TIME TABLE</div>
-<h2 id="mealPlannerTitle">Plan your meals around your budget and gas</h2>
-<p class="planner-lead">Tell us about your cooking routine, budget and favourite foods. The planner uses those answers to create practical meal ideas that balance food cost, cooking effort and gas use. It does not diagnose your financial situation; it simply adjusts the plan to the budget you provide.</p>
-<div class="planner-grid">
-<div class="planner-field"><label for="plannerBudget">Your usual food budget</label><select id="plannerBudget"><option value="low">Limited budget</option><option selected="" value="medium">Moderate budget</option><option value="high">Flexible budget</option></select><small>A limited budget makes the planner prioritize simpler, affordable meals.</small></div>
-<div class="planner-field"><label for="plannerPeople">How many people do you normally cook for?</label><input id="plannerPeople" max="30" min="1" type="number" value="2"/><small>This helps the planner suggest batch cooking where it makes sense.</small></div>
-<div class="planner-field"><label for="plannerMeals">How many meals do you normally cook each day?</label><select id="plannerMeals"><option value="1">1 meal</option><option selected="" value="2">2 meals</option><option value="3">3 meals</option></select></div>
-<div class="planner-field"><label for="plannerGas">How much gas are you trying to conserve?</label><select id="plannerGas"><option value="low">Normal cooking</option><option selected="" value="medium">Save some gas</option><option value="high">Save as much gas as possible</option></select></div>
-</div>
+<div class="page-container">
 
-<div class="planner-field planner-preferences-field">
-<label for="plannerPreferences">How do you want your meals created?</label>
-<textarea
-  id="plannerPreferences"
-  rows="5"
-  maxlength="1000"
-  placeholder="Tell us what you want. Example: Keep the meals affordable, use the foods I normally eat, avoid fish, avoid very spicy meals, don't suggest expensive ingredients, and give me meals that don't take too long to cook."
-></textarea>
-<small>
-Be as specific as you like. Tell the planner about foods you want included,
-foods you dislike or avoid, meals you find uncomfortable, your spending limits,
-cooking time, ingredients you already have, or any other preference you want us
-to respect.
-</small>
-</div>
+<header class="site-header">
+  <a class="brand-row" href="index.html" aria-label="Cooking Gas Tracker & Manager home">
+    <div class="brand-mark">
+      <img src="https://i.imgur.com/QzPFczP.png" alt="Cooking Gas Tracker & Manager logo">
+    </div>
+    <div>
+      <div class="brand-name">Cooking Gas Tracker & Manager</div>
+      <div class="brand-tagline">Track smarter. Refill on time.</div>
+    </div>
+  </a>
 
-<div class="planner-field" style="margin-top:16px">
-<label>Foods you commonly eat</label>
-<div class="food-checks">
-<label class="food-check"><input checked="" type="checkbox" value="rice"/> Rice</label>
-<label class="food-check"><input type="checkbox" value="beans"/> Beans</label>
-<label class="food-check"><input type="checkbox" value="yam"/> Yam</label>
-<label class="food-check"><input type="checkbox" value="pasta"/> Pasta</label>
-<label class="food-check"><input checked="" type="checkbox" value="eggs"/> Eggs</label>
-<label class="food-check"><input type="checkbox" value="oats"/> Oats/pap</label>
-<label class="food-check"><input type="checkbox" value="plantain"/> Plantain</label>
-<label class="food-check"><input type="checkbox" value="soups"/> Soups/stew</label>
-<label class="food-check"><input type="checkbox" value="bread"/> Bread</label>
-</div>
-<div class="custom-food-wrap">
-<label class="custom-food-label" for="customFoodInput">Can't find your food?</label>
-<span class="custom-food-help">Type a food you commonly eat and add it to your personal list. You can add as many as you need.</span>
-<div class="custom-food-form">
-<input autocomplete="off" id="customFoodInput" maxlength="50" placeholder="e.g. spaghetti, akara, moi moi" type="text"/>
-<button onclick="addCustomFood()" type="button">+ Add food</button>
-</div>
-<div aria-live="polite" class="custom-food-list" id="customFoodList"></div>
-</div>
-</div>
-<div class="planner-actions"><button class="planner-btn" onclick="generateMealPlan()" type="button">🍲 Create my 7-day plan</button><button class="planner-btn secondary" onclick="resetMealPlanner()" type="button">Reset</button></div>
-<div aria-live="polite" class="plan-result" id="planResult"></div>
-</section></div><footer class="site-footer"><div class="footer-brand">⛽ Cooking Gas Tracker & Manager</div><p>Helping everyday cooks plan ahead and avoid unexpected gas shortages.</p><p><a href="https://policies-privacy-8c085d.netlify.app/" target="_blank" rel="noopener">Privacy Policy</a> · <a href="https://about-us-a9f8d5.netlify.app/" target="_blank" rel="noopener">About Us</a> · <a href="https://terms-condition-36816f.netlify.app/" target="_blank" rel="noopener">Terms & Conditions</a></p><p class="footer-note">Reminder estimates depend on the information and cooking habits you provide.</p><div class="footer-copyright">© 2026 Cooking Gas Tracker & Manager</div></footer><nav class="mobile-bottom-nav" aria-label="Mobile navigation"><a href="index.html" class=""><strong>⌂</strong>Home</a><a href="tracker.html" class=""><strong>🔥</strong>Tracker</a><a href="assistant.html" class=""><strong>🤖</strong>Assistant</a><a href="guides.html" class=""><strong>📚</strong>Guides</a><a href="more.html" class="active"><strong>☰</strong>More</a></nav>
-<div
-  class="meal-account-overlay"
-  id="mealAccountOverlay"
-  aria-hidden="true"
->
-  <div
-    class="meal-account-modal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="mealAccountTitle"
-  >
-    <button
-      type="button"
-      class="meal-account-close"
-      id="mealAccountClose"
-      aria-label="Close"
-    >×</button>
+  <nav class="top-nav" aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="tracker.html">Tracker</a>
+    <a href="assistant.html">Assistant</a>
+    <a href="guides.html">Guides</a>
+    <a href="more.html" class="active">More</a>
+  </nav>
 
-    <div class="meal-account-icon">🔐</div>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">🌙</button>
+</header>
 
-    <div class="section-eyebrow">ACCOUNT REQUIRED</div>
-
-    <h3 id="mealAccountTitle">
-      Create an account to create your meal plan
-    </h3>
-
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <a class="page-back" href="more.html">← More</a>
+    <div class="section-eyebrow">MEAL PLANNER</div>
+    <h1>Plan your meals around your budget and gas.</h1>
     <p>
-      Your 7-day meal plan is a personal feature. Please create a free account
-      or sign in before creating and saving your personalized plan.
+      Tell the planner about your cooking routine, budget, favourite foods and exactly how you want your meals created.
+      Your instructions help us make the plan more comfortable, practical and affordable for you.
+    </p>
+  </div>
+</section>
+
+<main class="main-wrap">
+  <section class="meal-planner" aria-labelledby="mealPlannerTitle">
+    <div class="section-eyebrow meal-timetable-heading">CREATE MY MEAL TIME TABLE</div>
+    <h2 id="mealPlannerTitle">Plan your meals around your budget and gas</h2>
+    <p class="planner-lead">
+      The planner uses your household size, number of meals, gas preference, selected foods, added foods and special instructions to create a personalized 7-day plan.
     </p>
 
-    <div class="meal-account-actions">
-      <a href="signup.html" class="meal-create-account">Create Account</a>
-      <a href="login.html" class="meal-signin-account">Sign In</a>
+    <div class="planner-grid">
+      <div class="planner-field">
+        <label for="plannerBudget">Your usual food budget</label>
+        <select id="plannerBudget">
+          <option value="low">Limited budget</option>
+          <option value="medium" selected>Moderate budget</option>
+          <option value="high">Flexible budget</option>
+        </select>
+        <small>A limited budget makes the planner prioritize simpler, affordable meals.</small>
+      </div>
+
+      <div class="planner-field">
+        <label for="plannerPeople">How many people do you normally cook for?</label>
+        <input id="plannerPeople" type="number" min="1" max="30" value="2">
+        <small>This helps the planner suggest practical portions and batch cooking where it makes sense.</small>
+      </div>
+
+      <div class="planner-field">
+        <label for="plannerMeals">How many meals do you normally cook each day?</label>
+        <select id="plannerMeals">
+          <option value="1">1 meal</option>
+          <option value="2" selected>2 meals</option>
+          <option value="3">3 meals</option>
+        </select>
+      </div>
+
+      <div class="planner-field">
+        <label for="plannerGas">How much gas are you trying to conserve?</label>
+        <select id="plannerGas">
+          <option value="low">Normal cooking</option>
+          <option value="medium" selected>Save some gas</option>
+          <option value="high">Save as much gas as possible</option>
+        </select>
+        <small>Higher gas-saving preference gives more attention to efficient cooking and shorter cooking sessions.</small>
+      </div>
     </div>
 
-    <p class="meal-account-note">
-      Your general cooking and gas tools can still be explored without an account.
+    <div class="planner-field preferences-field">
+      <label for="plannerPreferences">How do you want your meals created?</label>
+      <textarea id="plannerPreferences" maxlength="1200" rows="6" placeholder="Example: Keep the meals affordable. I prefer Nigerian meals, don't include fish, avoid very spicy food, don't suggest expensive ingredients, use the foods I add, and choose meals that don't take too long to cook."></textarea>
+      <small>
+        Tell us anything important: foods you love, foods you dislike, foods you cannot eat, ingredients you already have, your preferred cooking style, how simple you want the meals, or how much you are comfortable spending.
+      </small>
+      <div class="preferences-callout">
+        💡 <strong>Be specific.</strong> Your instructions are treated as meal-planning rules, so the planner can avoid meals that are too expensive or uncomfortable for you.
+      </div>
+    </div>
+
+    <div class="planner-field food-field">
+      <label>Foods you commonly eat</label>
+      <div class="food-checks">
+        <label class="food-check"><input checked type="checkbox" value="rice"> Rice</label>
+        <label class="food-check"><input type="checkbox" value="beans"> Beans</label>
+        <label class="food-check"><input type="checkbox" value="yam"> Yam</label>
+        <label class="food-check"><input type="checkbox" value="pasta"> Pasta</label>
+        <label class="food-check"><input checked type="checkbox" value="eggs"> Eggs</label>
+        <label class="food-check"><input type="checkbox" value="oats"> Oats/pap</label>
+        <label class="food-check"><input type="checkbox" value="plantain"> Plantain</label>
+        <label class="food-check"><input type="checkbox" value="soups"> Soups/stew</label>
+        <label class="food-check"><input type="checkbox" value="bread"> Bread</label>
+      </div>
+
+      <div class="custom-food-wrap">
+        <label class="custom-food-label" for="customFoodInput">Can't find your food?</label>
+        <span class="custom-food-help">Add any food you actually eat. Added foods are sent to the planner and are expected to be used in your 7-day plan when practical.</span>
+        <div class="custom-food-form">
+          <input id="customFoodInput" type="text" maxlength="60" autocomplete="off" placeholder="e.g. akara, moi moi, eba, potatoes">
+          <button id="addFoodBtn" type="button">＋ Add food</button>
+        </div>
+        <div class="custom-food-list" id="customFoodList" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="planner-actions">
+      <button class="planner-btn primary" id="createPlanBtn" type="button">🍲 Create my 7-day plan</button>
+      <button class="planner-btn secondary" id="resetBtn" type="button">Reset</button>
+    </div>
+
+    <div class="plan-result" id="planResult" aria-live="polite"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-brand">⛽ Cooking Gas Tracker & Manager</div>
+  <p>Helping everyday cooks plan ahead, manage gas usage and organize meals smarter.</p>
+  <p>
+    <a href="https://policies-privacy-8c085d.netlify.app/" target="_blank" rel="noopener">Privacy Policy</a>
+    ·
+    <a href="https://about-us-a9f8d5.netlify.app/" target="_blank" rel="noopener">About Us</a>
+    ·
+    <a href="https://terms-condition-36816f.netlify.app/" target="_blank" rel="noopener">Terms &amp; Conditions</a>
+  </p>
+  <p class="footer-note">Meal plans are suggestions based on the information and preferences you provide.</p>
+  <p>© 2026 Cooking Gas Tracker & Manager</p>
+</footer>
+
+<nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+  <a href="index.html"><strong>⌂</strong>Home</a>
+  <a href="tracker.html"><strong>🔥</strong>Tracker</a>
+  <a href="assistant.html"><strong>🤖</strong>Assistant</a>
+  <a href="guides.html"><strong>📚</strong>Guides</a>
+  <a href="more.html" class="active"><strong>☰</strong>More</a>
+</nav>
+
+</div>
+
+<!-- Account required -->
+<div class="account-overlay" id="accountOverlay" aria-hidden="true">
+  <div class="account-modal" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
+    <button class="account-close" id="accountClose" type="button" aria-label="Close">×</button>
+    <div class="account-icon">🔐</div>
+    <div class="section-eyebrow">ACCOUNT REQUIRED</div>
+    <h3 id="accountTitle">Create an account to create your meal plan</h3>
+    <p>
+      Your 7-day meal plan is a personal feature. Please create a free account or sign in before creating and saving your personalized plan.
     </p>
+    <div class="account-actions">
+      <a class="account-create" href="signup.html">Create Account</a>
+      <a class="account-signin" href="login.html">Sign In</a>
+    </div>
+    <p class="account-note">Your general gas tracker can still be used without an account.</p>
   </div>
 </div>
 
-<div id="toast" class="toast" role="status" aria-live="polite"></div><script>
-// Website feature functions: cylinders, custom foods, meal planner.
-// Cylinder dashboard
-        const CYLINDER_STORAGE_KEY = 'cookingGasTrackerCylinderSetup';
-        const CYLINDER_IMAGES = {
-            "3": "https://i.imgur.com/dZzOumd.png",
-            "4": "https://i.imgur.com/AWzW1Oc.png",
-            "5": "https://i.imgur.com/6XnSoH3.png",
-            "6": "https://i.imgur.com/BW6TJ3s.png",
-            "10": "https://i.imgur.com/j0DqhAI.png",
-            "12": "https://i.imgur.com/UZGV7Qg.png",
-            "60": "https://i.imgur.com/RmvTIe2.png"
-        };
-
-        function setCylinderImage(id, size) {
-            const img = document.getElementById(id);
-            if (!img) return;
-            const url = CYLINDER_IMAGES[String(size)];
-            if (url) {
-                img.src = url;
-                img.alt = String(size) + ' KG cooking gas cylinder';
-                img.classList.remove('hidden');
-            } else {
-                img.classList.add('hidden');
-            }
-        }
-
-        function loadCylinderSetup() {
-            try {
-                const saved = JSON.parse(localStorage.getItem(CYLINDER_STORAGE_KEY) || '{}');
-                let main = String(saved.main || '12');
-                let backup = String(saved.backup || 'none');
-                // 50 KG is no longer offered. Migrate any older saved 50 KG choice safely.
-                if (main === '50') main = '12';
-                if (backup === '50') backup = 'none';
-                document.getElementById('mainCylinderSize').value = main;
-                document.getElementById('backupCylinderSize').value = backup;
-            } catch (e) { console.warn('Cylinder setup could not be loaded:', e); }
-            updateCylinderDashboard();
-        }
-
-        function saveCylinderSetup() {
-            const main = document.getElementById('mainCylinderSize').value;
-            const backup = document.getElementById('backupCylinderSize').value;
-            localStorage.setItem(CYLINDER_STORAGE_KEY, JSON.stringify({main, backup}));
-            updateCylinderDashboard();
-            showToast('Cylinder setup saved');
-        }
-
-        function cylinderRemainingPercent() {
-            const refill = document.getElementById('refillDate')?.value;
-            const consumption = document.getElementById('consumptionDate')?.value;
-            if (!refill || !consumption) return null;
-            const start = new Date(refill + 'T00:00:00');
-            const end = new Date(consumption + 'T23:59:59');
-            const now = new Date();
-            const total = end - start;
-            if (total <= 0) return null;
-            const remaining = Math.max(0, Math.min(total, end - now));
-            return Math.round((remaining / total) * 100);
-        }
-
-        function cylinderDaysText() {
-            const consumption = document.getElementById('consumptionDate')?.value;
-            if (!consumption) return 'Set your dates';
-            const target = new Date(consumption + 'T23:59:59');
-            const diff = Math.ceil((target - new Date()) / 86400000);
-            if (diff < 0) return 'Past consumption date';
-            if (diff === 0) return 'Today';
-            if (diff === 1) return '1 day';
-            return diff + ' days';
-        }
-
-        function updateCylinderDashboard() {
-            const main = document.getElementById('mainCylinderSize')?.value || '12';
-            const backup = document.getElementById('backupCylinderSize')?.value || 'none';
-            const mainText = main + ' KG';
-            setCylinderImage('mainCylinderImage', main);
-            document.getElementById('mainCylinderDisplay').textContent = mainText;
-            document.getElementById('mainCylinderDays').textContent = cylinderDaysText();
-            const pct = cylinderRemainingPercent();
-            document.getElementById('mainCylinderMeter').style.width = (pct === null ? 0 : pct) + '%';
-            const status = document.getElementById('mainCylinderStatus');
-            if (pct === null) { status.textContent = '⚪ Add your dates'; status.style.background='#f1f3f6'; status.style.color='#657083'; }
-            else if (pct <= 10) { status.textContent = '🔴 Refill now'; status.style.background='#fff0f0'; status.style.color='#b33a3a'; }
-            else if (pct <= 30) { status.textContent = '🟡 Prepare to refill'; status.style.background='#fff8df'; status.style.color='#8a6800'; }
-            else { status.textContent = '🟢 On track'; status.style.background='#eef8f1'; status.style.color='#277646'; }
-
-            const backupCard = document.getElementById('backupCylinderCard');
-            const empty = document.getElementById('backupEmpty');
-            if (backup !== 'none') {
-                backupCard.style.display = 'flex'; empty.style.display = 'none';
-                const text = backup + ' KG';
-                setCylinderImage('backupCylinderImage', backup);
-                document.getElementById('backupCylinderDisplay').textContent = text;
-            } else { backupCard.style.display = 'none'; empty.style.display = 'flex'; setCylinderImage('backupCylinderImage', ''); }
-        }
-
-
-        // Smart Gas & Food Management planner
-        function getCustomFoods() {
-            try {
-                const saved = JSON.parse(localStorage.getItem('cgtCustomFoods') || '[]');
-                return Array.isArray(saved) ? saved.filter(x => typeof x === 'string') : [];
-            } catch (e) {
-                return [];
-            }
-        }
-
-        function saveCustomFoods(foods) {
-            localStorage.setItem('cgtCustomFoods', JSON.stringify(foods));
-        }
-
-        function escapeFoodText(text) {
-            return String(text).replace(/[&<>"']/g, function(ch) {
-                return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch];
-            });
-        }
-
-        function renderCustomFoods() {
-            const list = document.getElementById('customFoodList');
-            if (!list) return;
-            const foods = getCustomFoods();
-
-            if (!foods.length) {
-                list.innerHTML = '';
-                return;
-            }
-
-            list.innerHTML = foods.map(function(food, index) {
-                return '<span class="custom-food-chip">' +
-                    escapeFoodText(food) +
-                    ' <button type="button" aria-label="Remove ' + escapeFoodText(food) +
-                    '" onclick="removeCustomFood(' + index + ')">×</button></span>';
-            }).join('');
-        }
-
-        function addCustomFood() {
-            const input = document.getElementById('customFoodInput');
-            if (!input) return;
-
-            const food = input.value.trim().replace(/\s+/g, ' ');
-            if (!food) return;
-
-            let foods = getCustomFoods();
-
-            const duplicate = foods.some(function(item) {
-                return item.toLowerCase() === food.toLowerCase();
-            });
-
-            if (duplicate) {
-                showToast('That food is already on your list');
-                input.select();
-                return;
-            }
-
-            if (foods.length >= 20) {
-                showToast('You can add up to 20 custom foods');
-                return;
-            }
-
-            foods.push(food);
-            saveCustomFoods(foods);
-            renderCustomFoods();
-            input.value = '';
-            input.focus();
-            showToast('Food added to your list');
-        }
-
-        function removeCustomFood(index) {
-            const foods = getCustomFoods();
-            if (index < 0 || index >= foods.length) return;
-            foods.splice(index, 1);
-            saveCustomFoods(foods);
-            renderCustomFoods();
-        }
-
-        function getSelectedPlannerFoods() {
-            const standardFoods = [...document.querySelectorAll('.food-check input:checked')].map(function(x) {
-                return x.value;
-            });
-            return standardFoods.concat(getCustomFoods());
-        }
-
-        const MEAL_ASSISTANT_ENDPOINT =
-            'https://gas-notifier.johnawotipe9.workers.dev/assistant';
-
-        let mealPlannerUser = null;
-
-        function initMealPlannerAuth() {
-            if (typeof firebase === 'undefined') {
-                console.warn('Firebase Auth could not be loaded for Meal Planner.');
-                return;
-            }
-
-            const firebaseConfig = {
-                apiKey: "AIzaSyAjir7zq8PIzXbDZqfvpRvoWqqYd9udnTU",
-                authDomain: "gas-tracker-8e098.firebaseapp.com",
-                projectId: "gas-tracker-8e098",
-                storageBucket: "gas-tracker-8e098.firebasestorage.app",
-                messagingSenderId: "265524187379",
-                appId: "1:265524187379:web:d987da967ae8aadc582786"
-            };
-
-            if (!firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
-            }
-
-            const auth = firebase.auth();
-
-            auth.onAuthStateChanged(function(user) {
-                mealPlannerUser = user || null;
-                if (mealPlannerUser) {
-                    loadMealPlanner();
-                }
-            });
-        }
-
-        function showMealAccountRequired() {
-            const overlay = document.getElementById('mealAccountOverlay');
-            if (!overlay) return;
-
-            overlay.classList.add('show');
-            overlay.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeMealAccountRequired() {
-            const overlay = document.getElementById('mealAccountOverlay');
-            if (!overlay) return;
-
-            overlay.classList.remove('show');
-            overlay.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-        }
-
-        function getPlannerPreferences() {
-            const el = document.getElementById('plannerPreferences');
-            return el ? el.value.trim() : '';
-        }
-
-        function readCookingProfileForPlanner() {
-            try {
-                const raw = localStorage.getItem('cgtCookingProfile');
-                const profile = raw ? JSON.parse(raw) : null;
-
-                if (!profile || typeof profile !== 'object') {
-                    return null;
-                }
-
-                if (
-                    profile.userId &&
-                    mealPlannerUser &&
-                    profile.userId !== mealPlannerUser.uid
-                ) {
-                    return null;
-                }
-
-                return profile;
-            } catch (e) {
-                return null;
-            }
-        }
-
-        function uniqueCleanFoods(items) {
-            const result = [];
-            const seen = new Set();
-
-            (Array.isArray(items) ? items : []).forEach(function(item) {
-                const clean = String(item || '')
-                    .trim()
-                    .replace(/\s+/g, ' ')
-                    .slice(0, 80);
-
-                if (!clean) return;
-
-                const key = clean.toLowerCase();
-
-                if (!seen.has(key)) {
-                    seen.add(key);
-                    result.push(clean);
-                }
-            });
-
-            return result.slice(0, 30);
-        }
-
-        function extractJsonFromAnswer(answer) {
-            const text = String(answer || '').trim();
-
-            // Remove markdown fences when the AI wraps JSON in ```json ... ```
-            const fenced = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
-
-            if (fenced) {
-                try {
-                    return JSON.parse(fenced[1]);
-                } catch (e) {}
-            }
-
-            try {
-                return JSON.parse(text);
-            } catch (e) {}
-
-            const firstBrace = text.indexOf('{');
-            const lastBrace = text.lastIndexOf('}');
-
-            if (firstBrace !== -1 && lastBrace > firstBrace) {
-                try {
-                    return JSON.parse(
-                        text.slice(firstBrace, lastBrace + 1)
-                    );
-                } catch (e) {}
-            }
-
-            return null;
-        }
-
-        function normalizeAiMealPlan(data) {
-            if (!data || !Array.isArray(data.days)) {
-                return null;
-            }
-
-            const days = data.days
-                .map(function(day) {
-                    if (!day || typeof day !== 'object') return null;
-
-                    const name = String(day.name || '').trim();
-                    if (!name) return null;
-
-                    const meals = Array.isArray(day.meals)
-                        ? day.meals
-                            .map(function(meal) {
-                                if (!meal || typeof meal !== 'object') return null;
-
-                                const type = String(meal.type || '').trim();
-                                const name = String(meal.name || '').trim();
-
-                                if (!type || !name) return null;
-
-                                return {
-                                    type: type.slice(0, 30),
-                                    name: name.slice(0, 160),
-                                    note: String(meal.note || '')
-                                        .trim()
-                                        .slice(0, 220)
-                                };
-                            })
-                            .filter(Boolean)
-                            .slice(0, 4)
-                        : [];
-
-                    return {
-                        name,
-                        meals
-                    };
-                })
-                .filter(Boolean)
-                .slice(0, 7);
-
-            if (days.length !== 7) {
-                return null;
-            }
-
-            return {
-                title: String(data.title || 'Your personalized 7-day meal plan')
-                    .trim()
-                    .slice(0, 120),
-                summary: String(data.summary || '')
-                    .trim()
-                    .slice(0, 500),
-                days
-            };
-        }
-
-        function buildMealPlannerQuestion() {
-            const budget = document.getElementById('plannerBudget').value;
-            const people = Math.max(
-                1,
-                Number(document.getElementById('plannerPeople').value) || 1
-            );
-            const meals = Number(
-                document.getElementById('plannerMeals').value
-            ) || 2;
-            const gas = document.getElementById('plannerGas').value;
-
-            const standardFoods =
-                [...document.querySelectorAll('.food-check input:checked')]
-                    .map(function(input) {
-                        return input.value;
-                    });
-
-            const customFoods =
-                getCustomFoods();
-
-            const selectedFoods =
-                uniqueCleanFoods(
-                    standardFoods.concat(customFoods)
-                );
-
-            const preferences =
-                getPlannerPreferences();
-
-            const cookingProfile =
-                readCookingProfileForPlanner();
-
-            const profile = {
-                householdSize: cookingProfile?.people || people,
-                mealsPerDay: cookingProfile?.meals || meals,
-                foodBudgetLevel:
-                    cookingProfile?.budget || budget,
-                budgetAmount:
-                    cookingProfile?.budgetAmount || null,
-                budgetPeriod:
-                    cookingProfile?.budgetPeriod || null,
-                cookingDuration:
-                    cookingProfile?.duration || null,
-                cookingFrequency:
-                    cookingProfile?.frequency || null,
-                foodsOftenEaten:
-                    cookingProfile?.foods || null,
-                foodsToAvoid:
-                    cookingProfile?.avoid || null,
-                cookingGoal:
-                    cookingProfile?.goal || null,
-
-                plannerSelectedFoods:
-                    selectedFoods,
-
-                plannerCustomFoods:
-                    uniqueCleanFoods(customFoods),
-
-                plannerInstructions:
-                    preferences
-            };
-
-            const prompt = `
-Create a personalized 7-day meal plan for a household using the information below.
-
-HOUSEHOLD
-- People: ${people}
-- Meals cooked per day: ${meals}
-
-BUDGET
-- Budget level: ${budget}
-- Gas preference: ${gas}
-
-FOODS THE USER SELECTED
-${selectedFoods.length ? selectedFoods.map(x => '- ' + x).join('\n') : '- No specific foods selected'}
-
-USER-ADDED FOODS
-${customFoods.length ? customFoods.map(x => '- ' + x).join('\n') : '- None'}
-
-USER'S SPECIAL INSTRUCTIONS
-${preferences || '- No extra instructions'}
-
-COOKING PROFILE, IF AVAILABLE
-${JSON.stringify(profile, null, 2)}
-
-IMPORTANT RULES:
-1. The user's special instructions are constraints, not suggestions. Follow them carefully.
-2. Respect foods the user says they dislike, avoid, cannot afford, or are uncomfortable eating.
-3. Do not deliberately introduce expensive or luxury ingredients when the user asks for affordable meals.
-4. Keep the plan practical for the stated budget.
-5. Use the user's selected foods as the core food pool.
-6. USER-ADDED FOODS MUST ACTUALLY APPEAR IN THE 7-DAY PLAN when they can reasonably be used. Do not merely list them separately.
-7. Do not replace the user's foods with unrelated foods just because they are common.
-8. You may add ordinary complementary ingredients only when necessary to make a selected meal practical.
-9. Consider cooking time and gas use.
-10. When gas saving is important, favor batch cooking, shorter cooking times, leftovers used safely, and meals that do not require unnecessarily long simmering.
-11. Do not promise exact gas consumption.
-12. Provide exactly 7 days.
-13. Each day should contain the number of meals requested by the user.
-14. Keep meals varied, but do not sacrifice the user's comfort, budget or food preferences for variety.
-15. If a selected food is not practical for a particular meal, use it on another day rather than ignoring it.
-16. Do not create meals from foods the user specifically said they do not want.
-17. Do not assume that a food the user did not select is a favourite.
-18. Do not give estimated prices unless the user explicitly provides prices. Use general budget categories such as affordable or moderate rather than inventing exact local prices.
-
-RETURN FORMAT:
-Return ONLY valid JSON. No markdown. No explanation outside the JSON.
-
+<script>
+(function(){
+  'use strict';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAjir7zq8PIzXbDZqfvpRvoWqqYd9udnTU",
+    authDomain: "gas-tracker-8e098.firebaseapp.com",
+    projectId: "gas-tracker-8e098",
+    storageBucket: "gas-tracker-8e098.firebasestorage.app",
+    messagingSenderId: "265524187379",
+    appId: "1:265524187379:web:d987da967ae8aadc582786"
+  };
+
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  let currentUser = null;
+
+  const $ = id => document.getElementById(id);
+  const budgetEl = $('plannerBudget');
+  const peopleEl = $('plannerPeople');
+  const mealsEl = $('plannerMeals');
+  const gasEl = $('plannerGas');
+  const prefsEl = $('plannerPreferences');
+  const customInput = $('customFoodInput');
+  const customList = $('customFoodList');
+  const addFoodBtn = $('addFoodBtn');
+  const createBtn = $('createPlanBtn');
+  const resetBtn = $('resetBtn');
+  const resultEl = $('planResult');
+  const overlay = $('accountOverlay');
+
+  const STORAGE_KEY = 'cgtMealPlanner';
+  const CUSTOM_KEY = 'cgtCustomFoods';
+  const ENDPOINT = 'https://gas-notifier.johnawotipe9.workers.dev/assistant';
+
+  let customFoods = [];
+
+  function clean(value, max=120){
+    return String(value || '').trim().replace(/\s+/g,' ').slice(0,max);
+  }
+
+  function escapeHtml(value){
+    return String(value ?? '')
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;')
+      .replaceAll("'",'&#039;');
+  }
+
+  function showAccountRequired(){
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+
+  function closeAccountRequired(){
+    overlay.classList.remove('show');
+    overlay.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+
+  $('accountClose').addEventListener('click',closeAccountRequired);
+  overlay.addEventListener('click',e=>{if(e.target===overlay) closeAccountRequired();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape') closeAccountRequired();});
+
+  function saveCustomFoods(){
+    localStorage.setItem(CUSTOM_KEY,JSON.stringify(customFoods));
+  }
+
+  function renderCustomFoods(){
+    customList.innerHTML='';
+    if(!customFoods.length) return;
+
+    customFoods.forEach((food,index)=>{
+      const chip=document.createElement('span');
+      chip.className='custom-food-chip';
+      chip.innerHTML='<span>'+escapeHtml(food)+'</span>';
+      const remove=document.createElement('button');
+      remove.type='button';
+      remove.textContent='×';
+      remove.setAttribute('aria-label','Remove '+food);
+      remove.addEventListener('click',()=>{
+        customFoods.splice(index,1);
+        saveCustomFoods();
+        renderCustomFoods();
+      });
+      chip.appendChild(remove);
+      customList.appendChild(chip);
+    });
+  }
+
+  function addCustomFood(){
+    const value=clean(customInput.value,60);
+    if(!value) return;
+
+    const exists=customFoods.some(x=>x.toLowerCase()===value.toLowerCase());
+    if(exists){
+      customInput.value='';
+      return;
+    }
+
+    customFoods.push(value);
+    customFoods=customFoods.slice(0,30);
+    saveCustomFoods();
+    renderCustomFoods();
+    customInput.value='';
+    customInput.focus();
+  }
+
+  addFoodBtn.addEventListener('click',addCustomFood);
+  customInput.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){
+      e.preventDefault();
+      addCustomFood();
+    }
+  });
+
+  function selectedFoods(){
+    return [...document.querySelectorAll('.food-check input:checked')].map(x=>x.value);
+  }
+
+  function loadLocalState(){
+    try{
+      const storedFoods=JSON.parse(localStorage.getItem(CUSTOM_KEY)||'[]');
+      if(Array.isArray(storedFoods)) customFoods=storedFoods.filter(x=>typeof x==='string').map(x=>clean(x,60)).filter(Boolean).slice(0,30);
+    }catch(e){ customFoods=[]; }
+    renderCustomFoods();
+
+    try{
+      const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
+      if(!saved || !currentUser || (saved.userId && saved.userId!==currentUser.uid)) return;
+
+      budgetEl.value=saved.budget||'medium';
+      peopleEl.value=saved.people||2;
+      mealsEl.value=saved.meals||2;
+      gasEl.value=saved.gas||'medium';
+      prefsEl.value=saved.preferences||'';
+
+      if(Array.isArray(saved.foods)){
+        document.querySelectorAll('.food-check input').forEach(input=>{
+          input.checked=saved.foods.includes(input.value);
+        });
+      }
+
+      if(saved.plan) renderPlan(saved.plan,saved);
+    }catch(e){
+      console.warn('Meal Planner data could not be loaded:',e);
+    }
+  }
+
+  function profileForPlanner(){
+    try{
+      const raw=localStorage.getItem('cgtCookingProfile');
+      if(!raw) return null;
+      const profile=JSON.parse(raw);
+      if(profile && profile.userId && currentUser && profile.userId!==currentUser.uid) return null;
+      return profile;
+    }catch(e){ return null; }
+  }
+
+  function buildRequest(){
+    const budget=budgetEl.value;
+    const people=Math.max(1,Number(peopleEl.value)||1);
+    const meals=Math.max(1,Math.min(3,Number(mealsEl.value)||2));
+    const gas=gasEl.value;
+    const foods=selectedFoods();
+    const prefs=clean(prefsEl.value,1200);
+    const profile=profileForPlanner();
+
+    const prompt=`Create a personalized 7-day meal plan.
+
+Household size: ${people}
+Meals per day: ${meals}
+Food budget level: ${budget}
+Gas conservation preference: ${gas}
+Selected common foods: ${foods.join(', ') || 'none'}
+User-added foods: ${customFoods.join(', ') || 'none'}
+User's special instructions: ${prefs || 'none'}
+
+Cooking profile, if available:
+${JSON.stringify(profile || {},null,2)}
+
+Rules:
+- Follow the user's special instructions as hard constraints.
+- Respect foods the user avoids, dislikes, cannot eat, or says are uncomfortable.
+- Do not introduce expensive or luxury ingredients when the user wants affordable meals.
+- Use selected foods as the main food pool.
+- User-added foods should appear in the 7-day plan when reasonably practical, not merely in a separate list.
+- Do not replace the user's foods with unrelated foods just to create variety.
+- Consider household size and the requested meals per day.
+- Consider cooking time and gas conservation.
+- If gas saving is important, favor efficient cooking, batch preparation and avoiding unnecessary long cooking.
+- Do not invent exact prices or promise exact gas consumption.
+- Keep the meals practical, familiar and comfortable according to the user's instructions.
+- Produce exactly 7 days: Monday through Sunday.
+- Produce exactly ${meals} meal items per day.
+
+Return ONLY valid JSON in this structure:
 {
-  "title": "Personalized 7-day meal plan",
-  "summary": "One short sentence describing how the plan followed the user's preferences.",
-  "days": [
+  "title":"Personalized 7-day meal plan",
+  "summary":"One short sentence explaining how the user's preferences were respected.",
+  "days":[
     {
-      "name": "Monday",
-      "meals": [
-        {
-          "type": "Breakfast",
-          "name": "Meal name",
-          "note": "Short practical note"
-        }
+      "name":"Monday",
+      "meals":[
+        {"type":"Meal","name":"Meal name","note":"Short practical note"}
       ]
     }
   ]
-}
-
-There must be exactly 7 day objects in order Monday through Sunday.
-There must be exactly ${meals} meal objects inside each day.
-`;
-
-            return {
-                profile,
-                prompt
-            };
-        }
-
-        function renderAiMealPlan(plan, people, meals, budget, gas) {
-            let html =
-                '<div class="budget-badge">' +
-                (
-                    budget === 'low'
-                        ? '💰 Budget-friendly mode'
-                        : budget === 'medium'
-                            ? '⚖️ Balanced mode'
-                            : '🍲 Flexible meal mode'
-                ) +
-                '</div>';
-
-            html +=
-                '<h3 style="margin:12px 0 4px">' +
-                escapeFoodText(
-                    plan.title || 'Your personalized 7-day meal plan'
-                ) +
-                '</h3>';
-
-            html +=
-                '<p class="planner-lead">' +
-                escapeFoodText(
-                    plan.summary ||
-                    (
-                        'Designed for ' +
-                        people +
-                        ' person' +
-                        (people === 1 ? '' : 's') +
-                        ', with ' +
-                        meals +
-                        ' meal' +
-                        (meals === 1 ? '' : 's') +
-                        ' per day.'
-                    )
-                ) +
-                '</p>';
-
-            html += '<div class="meal-days">';
-
-            plan.days.forEach(function(day) {
-                html +=
-                    '<article class="meal-day">' +
-                    '<h4>' + escapeFoodText(day.name) + '</h4>';
-
-                day.meals.forEach(function(meal) {
-                    html +=
-                        '<div class="meal-row">' +
-                        '<strong>' + escapeFoodText(meal.type) + '</strong>' +
-                        '<span>' + escapeFoodText(meal.name) + '</span>' +
-                        (
-                            meal.note
-                                ? '<div class="meal-meta">' +
-                                  escapeFoodText(meal.note) +
-                                  '</div>'
-                                : ''
-                        ) +
-                        '</div>';
-                });
-
-                html += '</article>';
-            });
-
-            html += '</div>';
-
-            html +=
-                '<div class="planner-tip">' +
-                '💡 <strong>Personalized plan:</strong> This plan was created from your selected foods, added foods and special meal instructions. ' +
-                (
-                    gas === 'high'
-                        ? 'Because you asked to save as much gas as possible, the plan gives extra attention to efficient cooking and batch preparation.'
-                        : 'The plan balances your food choices, budget and cooking effort.'
-                ) +
-                '</div>';
-
-            return html;
-        }
-
-        function renderFallbackMealPlan(people, meals, budget, gas) {
-            const foods =
-                uniqueCleanFoods(
-                    getSelectedPlannerFoods()
-                );
-
-            const customFoods =
-                uniqueCleanFoods(
-                    getCustomFoods()
-                );
-
-            /*
-             * Keep selected foods and user-added foods visible in the fallback.
-             * The real AI generator is used first.
-             */
-            const base =
-                foods.length
-                    ? foods
-                    : ['Simple familiar meal'];
-
-            const days =
-                [
-                    'Monday',
-                    'Tuesday',
-                    'Wednesday',
-                    'Thursday',
-                    'Friday',
-                    'Saturday',
-                    'Sunday'
-                ];
-
-            const mealLabels =
-                meals === 1
-                    ? ['Meal']
-                    : meals === 2
-                        ? ['First meal', 'Second meal']
-                        : ['Breakfast', 'Lunch', 'Dinner'];
-
-            const recipes = {
-                rice: [
-                    'Rice & eggs',
-                    'Jollof rice',
-                    'Rice & vegetables',
-                    'Rice & egg sauce'
-                ],
-                beans: [
-                    'Beans & plantain',
-                    'Beans porridge',
-                    'Beans & bread',
-                    'Beans & eggs'
-                ],
-                yam: [
-                    'Boiled yam & eggs',
-                    'Yam & sauce',
-                    'Yam porridge',
-                    'Fried yam & eggs'
-                ],
-                pasta: [
-                    'Pasta & vegetables',
-                    'Spaghetti & eggs',
-                    'Tomato pasta',
-                    'Pasta & chicken'
-                ],
-                eggs: [
-                    'Eggs & bread',
-                    'Eggs & plantain',
-                    'Eggs & vegetables',
-                    'Egg sauce & rice'
-                ],
-                oats: [
-                    'Oats & fruit',
-                    'Pap & eggs',
-                    'Oats & eggs',
-                    'Pap & bread'
-                ],
-                plantain: [
-                    'Plantain & eggs',
-                    'Beans & plantain',
-                    'Boiled plantain & sauce',
-                    'Plantain & vegetables'
-                ],
-                soups: [
-                    'Soup & swallow',
-                    'Stew & rice',
-                    'Soup & yam',
-                    'Stew & plantain'
-                ],
-                bread: [
-                    'Bread & eggs',
-                    'Bread & beans',
-                    'Bread & vegetables',
-                    'Toast & eggs'
-                ]
-            };
-
-            function mealName(food, index) {
-                const options =
-                    recipes[String(food).toLowerCase()];
-
-                if (options && options.length) {
-                    return options[index % options.length];
-                }
-
-                return String(food);
-            }
-
-            let html =
-                '<div class="budget-badge">' +
-                (
-                    budget === 'low'
-                        ? '💰 Budget-friendly mode'
-                        : budget === 'medium'
-                            ? '⚖️ Balanced mode'
-                            : '🍲 Flexible meal mode'
-                ) +
-                '</div>';
-
-            html +=
-                '<h3 style="margin:12px 0 4px">Your 7-day starter plan</h3>' +
-                '<p class="planner-lead">Designed for ' +
-                people +
-                ' person' +
-                (people === 1 ? '' : 's') +
-                ', with ' +
-                meals +
-                ' meal' +
-                (meals === 1 ? '' : 's') +
-                ' per day.</p>';
-
-            html += '<div class="meal-days">';
-
-            days.forEach(function(day, dayIndex) {
-                html +=
-                    '<article class="meal-day">' +
-                    '<h4>' + day + '</h4>';
-
-                for (let mealIndex = 0; mealIndex < meals; mealIndex++) {
-                    let food;
-
-                    /*
-                     * Give custom foods priority in fallback mode so a user's
-                     * own additions are not silently ignored.
-                     */
-                    if (customFoods.length) {
-                        food =
-                            customFoods[
-                                (dayIndex + mealIndex) %
-                                customFoods.length
-                            ];
-                    } else {
-                        food =
-                            base[
-                                (dayIndex + mealIndex) %
-                                base.length
-                            ];
-                    }
-
-                    html +=
-                        '<div class="meal-row">' +
-                        '<strong>' +
-                        mealLabels[mealIndex] +
-                        '</strong>' +
-                        '<span>' +
-                        escapeFoodText(
-                            mealName(food, dayIndex + mealIndex)
-                        ) +
-                        '</span>' +
-                        '<div class="meal-meta">' +
-                        (
-                            gas === 'high'
-                                ? 'Keep preparation simple and avoid unnecessary long cooking.'
-                                : 'Use the cooking method that fits your routine and available ingredients.'
-                        ) +
-                        '</div>' +
-                        '</div>';
-                }
-
-                html += '</article>';
-            });
-
-            html +=
-                '</div>' +
-                '<div class="planner-tip">' +
-                '💡 <strong>Note:</strong> The personalized AI planner could not be reached, so a simple local starter plan was created. Your added foods were still included.' +
-                '</div>';
-
-            return html;
-        }
-
-        async function generateMealPlan() {
-            /*
-             * Account requirement comes BEFORE generating or saving a plan.
-             */
-            if (!mealPlannerUser) {
-                showMealAccountRequired();
-                return;
-            }
-
-            const budget =
-                document.getElementById('plannerBudget').value;
-
-            const people =
-                Math.max(
-                    1,
-                    Number(
-                        document.getElementById('plannerPeople').value
-                    ) || 1
-                );
-
-            const meals =
-                Number(
-                    document.getElementById('plannerMeals').value
-                ) || 2;
-
-            const gas =
-                document.getElementById('plannerGas').value;
-
-            const preferences =
-                getPlannerPreferences();
-
-            const foods =
-                getSelectedPlannerFoods();
-
-            const customFoods =
-                getCustomFoods();
-
-            if (!foods.length) {
-                showToast(
-                    'Please select or add at least one food.'
-                );
-                return;
-            }
-
-            const result =
-                document.getElementById('planResult');
-
-            result.classList.add('show');
-            result.innerHTML =
-                '<div class="planner-tip">' +
-                '⏳ <strong>Creating your personalized plan...</strong> ' +
-                'We are using your food choices, added foods, budget, gas preference and special instructions.' +
-                '</div>';
-
-            result.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-
-            const plannerData =
-                buildMealPlannerQuestion();
-
-            try {
-                const response =
-                    await fetch(
-                        MEAL_ASSISTANT_ENDPOINT,
-                        {
-                            method: 'POST',
-
-                            headers: {
-                                'Content-Type':
-                                    'application/json'
-                            },
-
-                            body:
-                                JSON.stringify({
-                                    question:
-                                        plannerData.prompt,
-
-                                    profile:
-                                        plannerData.profile,
-
-                                    language:
-                                        'English'
-                                })
-                        }
-                    );
-
-                const data =
-                    await response
-                        .json()
-                        .catch(function() {
-                            return {};
-                        });
-
-                if (
-                    !response.ok ||
-                    !data.answer
-                ) {
-                    throw new Error(
-                        data.error ||
-                        'The AI planner could not create a plan.'
-                    );
-                }
-
-                const plan =
-                    normalizeAiMealPlan(
-                        extractJsonFromAnswer(
-                            data.answer
-                        )
-                    );
-
-                if (!plan) {
-                    throw new Error(
-                        'The AI planner returned an invalid meal plan.'
-                    );
-                }
-
-                result.innerHTML =
-                    renderAiMealPlan(
-                        plan,
-                        people,
-                        meals,
-                        budget,
-                        gas
-                    );
-
-                localStorage.setItem(
-                    'cgtMealPlanner',
-                    JSON.stringify({
-                        budget,
-                        people,
-                        meals,
-                        gas,
-                        foods,
-                        customFoods,
-                        preferences,
-                        plan,
-                        createdAt:
-                            new Date().toISOString(),
-                        userId:
-                            mealPlannerUser.uid
-                    })
-                );
-
-                showToast(
-                    'Your personalized 7-day meal plan is ready'
-                );
-
-                if (
-                    typeof maybeShowInterstitialAtNaturalBreak ===
-                    'function'
-                ) {
-                    maybeShowInterstitialAtNaturalBreak();
-                }
-
-            } catch (error) {
-                console.error(
-                    'AI Meal Planner error:',
-                    error
-                );
-
-                /*
-                 * Keep the feature useful even if the AI service is temporarily
-                 * unavailable.
-                 */
-                result.innerHTML =
-                    renderFallbackMealPlan(
-                        people,
-                        meals,
-                        budget,
-                        gas
-                    );
-
-                localStorage.setItem(
-                    'cgtMealPlanner',
-                    JSON.stringify({
-                        budget,
-                        people,
-                        meals,
-                        gas,
-                        foods,
-                        customFoods,
-                        preferences,
-                        plan: null,
-                        createdAt:
-                            new Date().toISOString(),
-                        userId:
-                            mealPlannerUser.uid,
-                        fallback:
-                            true
-                    })
-                );
-
-                showToast(
-                    'A starter plan was created. You can try again for a more personalized AI plan.'
-                );
-            }
-        }
-
-        function resetMealPlanner() {
-            document.getElementById('plannerBudget').value='medium';
-            document.getElementById('plannerPeople').value='2';
-            document.getElementById('plannerMeals').value='2';
-            document.getElementById('plannerGas').value='medium';
-            document.getElementById('plannerPreferences').value='';
-            document.querySelectorAll('.food-check input').forEach(function(x) {
-                x.checked=['rice','eggs'].includes(x.value);
-            });
-            document.getElementById('planResult').classList.remove('show');
-            document.getElementById('planResult').innerHTML='';
-            localStorage.removeItem('cgtMealPlanner');
-            localStorage.removeItem('cgtCustomFoods');
-            renderCustomFoods();
-        }
-
-        function loadMealPlanner() {
-            try {
-                const x=JSON.parse(localStorage.getItem('cgtMealPlanner')||'null');
-
-                if (
-                    x &&
-                    mealPlannerUser &&
-                    (!x.userId || x.userId === mealPlannerUser.uid)
-                ) {
-                    document.getElementById('plannerBudget').value=x.budget||'medium';
-                    document.getElementById('plannerPeople').value=x.people||2;
-                    document.getElementById('plannerMeals').value=x.meals||2;
-                    document.getElementById('plannerGas').value=x.gas||'medium';
-                    document.getElementById('plannerPreferences').value=x.preferences||'';
-
-                    if (Array.isArray(x.foods)) {
-                        document.querySelectorAll('.food-check input').forEach(function(c) {
-                            c.checked=x.foods.includes(c.value);
-                        });
-                    }
-
-                    if (Array.isArray(x.customFoods)) {
-                        const cleaned = x.customFoods
-                            .filter(function(food){ return typeof food === 'string'; })
-                            .map(function(food){ return food.trim().replace(/\s+/g,' '); })
-                            .filter(Boolean)
-                            .slice(0,20);
-                        saveCustomFoods(cleaned);
-                    }
-                }
-
-                renderCustomFoods();
-
-                if (x && x.plan && mealPlannerUser) {
-                    const restoredPlan =
-                        normalizeAiMealPlan(x.plan);
-
-                    if (restoredPlan) {
-                        const result =
-                            document.getElementById('planResult');
-
-                        if (result) {
-                            result.innerHTML =
-                                renderAiMealPlan(
-                                    restoredPlan,
-                                    Number(x.people)||2,
-                                    Number(x.meals)||2,
-                                    x.budget||'medium',
-                                    x.gas||'medium'
-                                );
-
-                            result.classList.add('show');
-                        }
-                    }
-                }
-            } catch(e) {
-                console.warn('Meal planner data could not be loaded:',e);
-                renderCustomFoods();
-            }
-        }
-
-        const mealAccountClose =
-            document.getElementById('mealAccountClose');
-
-        const mealAccountOverlay =
-            document.getElementById('mealAccountOverlay');
-
-        if (mealAccountClose) {
-            mealAccountClose.addEventListener(
-                'click',
-                closeMealAccountRequired
-            );
-        }
-
-        if (mealAccountOverlay) {
-            mealAccountOverlay.addEventListener(
-                'click',
-                function(event) {
-                    if (event.target === mealAccountOverlay) {
-                        closeMealAccountRequired();
-                    }
-                }
-            );
-        }
-
-        document.addEventListener(
-            'keydown',
-            function(event) {
-                if (
-                    event.key === 'Escape' &&
-                    mealAccountOverlay &&
-                    mealAccountOverlay.classList.contains('show')
-                ) {
-                    closeMealAccountRequired();
-                }
-            }
-        );
-
-        initMealPlannerAuth();
-
-
-        const customFoodInput = document.getElementById('customFoodInput');
-        if (customFoodInput) {
-            customFoodInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    addCustomFood();
-                }
-            });
-        }
-
-        
-</script><script src="site.js"></script></body></html>
+}`;
+
+    return {
+      budget,people,meals,gas,foods,prefs,profile,prompt
+    };
+  }
+
+  function parseJson(answer){
+    const text=String(answer||'').trim();
+    const fenced=text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+    if(fenced){try{return JSON.parse(fenced[1]);}catch(e){}}
+    try{return JSON.parse(text);}catch(e){}
+    const a=text.indexOf('{');
+    const b=text.lastIndexOf('}');
+    if(a>=0 && b>a){try{return JSON.parse(text.slice(a,b+1));}catch(e){}}
+    return null;
+  }
+
+  function validatePlan(data, requestedMeals){
+    if(!data || !Array.isArray(data.days) || data.days.length!==7) return null;
+
+    const days=data.days.map(day=>{
+      if(!day) return null;
+      const name=clean(day.name,40);
+      const meals=Array.isArray(day.meals) ? day.meals.slice(0,requestedMeals).map(meal=>{
+        if(!meal) return null;
+        const type=clean(meal.type,30);
+        const name=clean(meal.name,160);
+        if(!type||!name) return null;
+        return {type,name,note:clean(meal.note,220)};
+      }).filter(Boolean) : [];
+      if(!name || meals.length!==requestedMeals) return null;
+      return {name,meals};
+    });
+
+    if(days.some(x=>!x)) return null;
+    return {
+      title:clean(data.title||'Personalized 7-day meal plan',120),
+      summary:clean(data.summary||'',400),
+      days
+    };
+  }
+
+  function renderPlan(plan,state){
+    let html='<div class="budget-badge">'+(
+      state.budget==='low'?'💰 Budget-friendly mode':
+      state.budget==='medium'?'⚖️ Balanced mode':'🍲 Flexible meal mode'
+    )+'</div>';
+
+    html+='<h3>'+escapeHtml(plan.title)+'</h3>';
+    html+='<p class="plan-summary">'+escapeHtml(plan.summary || ('Built for '+state.people+' person'+(state.people===1?'':'s')+' and '+state.meals+' meal'+(state.meals===1?'':'s')+' per day.'))+'</p>';
+    html+='<div class="meal-days">';
+
+    plan.days.forEach(day=>{
+      html+='<article class="meal-day"><h4>'+escapeHtml(day.name)+'</h4>';
+      day.meals.forEach(meal=>{
+        html+='<div class="meal-row">';
+        html+='<strong>'+escapeHtml(meal.type)+'</strong>';
+        html+='<span>'+escapeHtml(meal.name)+'</span>';
+        if(meal.note) html+='<div class="meal-meta">'+escapeHtml(meal.note)+'</div>';
+        html+='</div>';
+      });
+      html+='</article>';
+    });
+
+    html+='</div>';
+    html+='<div class="planner-tip">💡 <strong>Personalized plan:</strong> Your selected foods, added foods, budget and meal instructions were sent to the planner so it could build the timetable around your preferences.</div>';
+    resultEl.innerHTML=html;
+    resultEl.classList.add('show');
+  }
+
+  function setLoading(isLoading){
+    createBtn.disabled=isLoading;
+    resetBtn.disabled=isLoading;
+    createBtn.textContent=isLoading?'⏳ Creating your plan...':'🍲 Create my 7-day plan';
+  }
+
+  async function createPlan(){
+    if(!currentUser){
+      showAccountRequired();
+      return;
+    }
+
+    const state=buildRequest();
+    if(!state.foods.length && !customFoods.length){
+      resultEl.innerHTML='<div class="error-box">Please select at least one food or add your own food before creating the plan.</div>';
+      resultEl.classList.add('show');
+      return;
+    }
+
+    setLoading(true);
+    resultEl.classList.add('show');
+    resultEl.innerHTML='<div class="loading-box">🍲 <strong>Creating your personalized plan...</strong><br>We are using your foods, budget, gas preference and special instructions.</div>';
+    resultEl.scrollIntoView({behavior:'smooth',block:'start'});
+
+    try{
+      const response=await fetch(ENDPOINT,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          question:state.prompt,
+          profile:{
+            householdSize:state.people,
+            mealsPerDay:state.meals,
+            foodBudgetLevel:state.budget,
+            gasConservation:state.gas,
+            selectedFoods:state.foods,
+            customFoods:customFoods,
+            specialInstructions:state.prefs,
+            cookingProfile:state.profile || null
+          },
+          language:'English'
+        })
+      });
+
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok || !data.answer){
+        throw new Error(data.error || 'The meal planner could not create your plan.');
+      }
+
+      const plan=validatePlan(parseJson(data.answer),state.meals);
+      if(!plan){
+        throw new Error('The AI returned an invalid meal plan. Please try again.');
+      }
+
+      renderPlan(plan,state);
+
+      localStorage.setItem(STORAGE_KEY,JSON.stringify({
+        ...state,
+        plan,
+        createdAt:new Date().toISOString(),
+        userId:currentUser.uid
+      }));
+
+    }catch(error){
+      console.error('Meal Planner error:',error);
+      resultEl.innerHTML='<div class="error-box">The personalized planner could not create a plan right now. Please try again. Your food choices and instructions are still here.</div>';
+      resultEl.classList.add('show');
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  function resetPlanner(){
+    budgetEl.value='medium';
+    peopleEl.value='2';
+    mealsEl.value='2';
+    gasEl.value='medium';
+    prefsEl.value='';
+    document.querySelectorAll('.food-check input').forEach(input=>{
+      input.checked=['rice','eggs'].includes(input.value);
+    });
+    customFoods=[];
+    saveCustomFoods();
+    renderCustomFoods();
+    resultEl.innerHTML='';
+    resultEl.classList.remove('show');
+    localStorage.removeItem(STORAGE_KEY);
+  }
+
+  createBtn.addEventListener('click',createPlan);
+  resetBtn.addEventListener('click',resetPlanner);
+
+  /* Theme */
+  const themeBtn=$('themeToggle');
+  function applyTheme(){
+    const dark=localStorage.getItem('cgtTheme')==='dark';
+    document.body.classList.toggle('dark',dark);
+    themeBtn.textContent=dark?'☀️':'🌙';
+  }
+  themeBtn.addEventListener('click',()=>{
+    const dark=!document.body.classList.contains('dark');
+    localStorage.setItem('cgtTheme',dark?'dark':'light');
+    applyTheme();
+  });
+  applyTheme();
+
+  auth.onAuthStateChanged(user=>{
+    currentUser=user||null;
+    if(currentUser) loadLocalState();
+  });
+
+  renderCustomFoods();
+})();
+</script>
+
+</body>
+</html>
