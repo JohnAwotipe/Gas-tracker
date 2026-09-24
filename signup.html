@@ -130,12 +130,6 @@ main{min-height:calc(100vh - 75px);display:flex;align-items:center;padding:50px 
   border-radius:50%;
   right:-80px;top:-70px;
 }
-.visual-logo{
-  width:76px;height:76px;border-radius:22px;
-  background:rgba(255,255,255,.13);
-  padding:8px;
-  backdrop-filter:blur(8px);
-}
 .visual h1{font-size:42px;line-height:1.05;margin:32px 0 16px;letter-spacing:-1.5px}
 .visual p{font-size:17px;line-height:1.7;color:rgba(255,255,255,.88);max-width:480px}
 .feature-list{margin-top:32px;display:grid;gap:14px}
@@ -193,7 +187,7 @@ footer{text-align:center;padding:0 20px 25px;color:var(--muted);font-size:12px}
 @media(max-width:520px){
   main{padding:25px 14px 45px}
   .nav{padding:10px 14px}
-  .brand span{display:none}
+  .brand span{display:block}
   .visual{padding:28px 22px}
   .visual-logo{width:62px;height:62px}
   .visual h1{font-size:30px}
@@ -202,6 +196,119 @@ footer{text-align:center;padding:0 20px 25px;color:var(--muted);font-size:12px}
   .form-side{padding:28px 20px}
   .form-side h2{font-size:27px}
 }
+
+/* =========================================================
+   SIGN-UP ACCESS OVERVIEW
+========================================================= */
+
+.visual-label{
+  display:inline-flex;
+  align-items:center;
+  padding:7px 11px;
+  border-radius:999px;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.20);
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.11em;
+}
+
+.access-heading{
+  margin-top:27px;
+  padding-top:20px;
+  border-top:1px solid rgba(255,255,255,.16);
+}
+
+.access-heading strong{
+  display:block;
+  font-size:14px;
+  margin-bottom:3px;
+}
+
+.access-heading span{
+  display:block;
+  color:rgba(255,255,255,.70);
+  font-size:11px;
+}
+
+.feature-list{
+  margin-top:14px;
+  display:grid;
+  gap:10px;
+}
+
+.feature{
+  display:flex !important;
+  align-items:flex-start !important;
+  gap:11px !important;
+  padding:11px 12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.10);
+}
+
+.feature > span{
+  width:38px !important;
+  height:38px !important;
+  flex:0 0 38px;
+  background:rgba(255,255,255,.14) !important;
+  border:1px solid rgba(255,255,255,.10);
+  display:grid !important;
+  place-items:center !important;
+  border-radius:11px !important;
+}
+
+.feature > div{
+  min-width:0;
+}
+
+.feature strong{
+  display:block;
+  font-size:12px;
+  line-height:1.35;
+  margin-bottom:2px;
+}
+
+.feature small{
+  display:block;
+  color:rgba(255,255,255,.72);
+  font-size:10px;
+  line-height:1.45;
+}
+
+.form-sub strong{
+  color:var(--purple);
+}
+
+.account-note{
+  margin-top:12px;
+  padding:12px 13px;
+  border-radius:12px;
+  background:var(--purple-soft);
+  border:1px solid rgba(109,40,217,.12);
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.55;
+}
+
+body.dark .account-note{
+  background:#241d36;
+  border-color:#3a2e4b;
+}
+
+@media(max-width:850px){
+  .feature-list{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:520px){
+  .feature-list{
+    grid-template-columns:1fr;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -228,20 +335,52 @@ footer{text-align:center;padding:0 20px 25px;color:var(--muted);font-size:12px}
 <main>
   <section class="auth-wrap">
     <div class="visual">
-      <img class="visual-logo" src="https://i.imgur.com/QzPFczP.png" alt="Cooking Gas Tracker">
-      <h1>Manage your gas & food smarter.</h1>
-      <p>Create your account and keep your Cooking Gas Tracker & Manager experience connected as we build more smart tools for you.</p>
+      <div class="visual-label">COOKING GAS TRACKER &amp; MANAGER</div>
+      <h1>One account.<br>More personalized tools.</h1>
+      <p>
+        Create a free account to unlock the personalized parts of Cooking Gas Tracker &amp; Manager.
+        Your general Gas Tracker can still be used without an account.
+      </p>
+
+      <div class="access-heading">
+        <strong>What you will be able to access</strong>
+        <span>Personal features connected to your account</span>
+      </div>
+
       <div class="feature-list">
-        <div class="feature"><span>🔥</span> Track your cooking gas</div>
-        <div class="feature"><span>🍲</span> Build smarter meal plans</div>
-        <div class="feature"><span>🛒</span> Manage your shopping</div>
-        <div class="feature"><span>🔔</span> Receive timely reminders</div>
+        <div class="feature">
+          <span>🤖</span>
+          <div><strong>Cooking Gas Assistant</strong><small>Chat for personalized cooking, gas and household guidance.</small></div>
+        </div>
+
+        <div class="feature">
+          <span>👨‍🍳</span>
+          <div><strong>My Cooking Profile</strong><small>Save your household, food preferences, budget and cooking goals.</small></div>
+        </div>
+
+        <div class="feature">
+          <span>🍲</span>
+          <div><strong>7-Day Meal Planner</strong><small>Create a weekly meal plan using your saved Cooking Profile.</small></div>
+        </div>
+
+        <div class="feature">
+          <span>🛒</span>
+          <div><strong>Smart Shopping</strong><small>Turn your saved meal plan into an organized shopping list.</small></div>
+        </div>
       </div>
     </div>
 
     <div class="form-side">
       <h2>Create your account</h2>
-      <p class="form-sub">Join Cooking Gas Tracker & Manager. Your account will become the foundation for your website and app experience.</p>
+      <p class="form-sub">
+        Create your free account to use the personalized features of Cooking Gas Tracker &amp; Manager.
+        Your account keeps these features connected to you across your website experience.
+      </p>
+
+      <div class="account-note">
+        🔒 <strong>Your account is used for personalized features.</strong>
+        The general Gas Tracker can still be used without an account.
+      </div>
 
       <form id="signupForm">
         <label for="name">Full name</label>
@@ -270,7 +409,7 @@ footer{text-align:center;padding:0 20px 25px;color:var(--muted);font-size:12px}
         <button class="google-btn" id="googleSignUpBtn" type="button"><span class="google-icon">G</span> Continue with Google</button>
 
         <p class="small-note">
-          By creating an account, you agree that your account information can be used to provide the website's account, synchronization and notification features.
+          By creating an account, you agree that your account information can be used to provide your account, personalized features, synchronization and notification-related features.
         </p>
 
         <div class="bottom-link">
