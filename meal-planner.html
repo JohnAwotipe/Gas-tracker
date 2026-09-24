@@ -435,7 +435,10 @@ body.dark .account-signin{background:#2a2140;color:#decaff!important}
 
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
-  let currentUser = null;
+
+  const ENDPOINT = 'https://gas-notifier.johnawotipe9.workers.dev/assistant';
+  const STORAGE_KEY = 'cgtMealPlanner';
+  const PROFILE_KEY = 'cgtCookingProfile';
 
   const $ = id => document.getElementById(id);
   const prefsEl = $('plannerPreferences');
@@ -443,7 +446,7 @@ body.dark .account-signin{background:#2a2140;color:#decaff!important}
   const resetBtn = $('resetBtn');
   const resultEl = $('planResult');
   const overlay = $('accountOverlay');
-
+  const profileConnectedCard = $('profileConnectedCard');
   const peopleSummary = $('profileSummaryPeople');
   const mealsSummary = $('profileSummaryMeals');
   const budgetSummary = $('profileSummaryBudget');
@@ -453,11 +456,11 @@ body.dark .account-signin{background:#2a2140;color:#decaff!important}
   const avoidText = $('profileAvoidText');
   const profileConnectedText = $('profileConnectedText');
 
-  const STORAGE_KEY = 'cgtMealPlanner';
-  const ENDPOINT = 'https://gas-notifier.johnawotipe9.workers.dev/assistant';
+  let currentUser = null;
+  let currentProfile = null;
 
-  function clean(value, max=120){
-    return String(value || '').trim().replace(/\s+/g,' ').slice(0,max);
+  function clean(value, max=1200){
+    return String(value ?? '').trim().replace(/\s+/g,' ').slice(0,max);
   }
 
   function escapeHtml(value){
@@ -469,52 +472,165 @@ body.dark .account-signin{background:#2a2140;color:#decaff!important}
       .replaceAll("'",'&#039;');
   }
 
-  function showAccountRequired(){
-    overlay.classList.add('show');
-    overlay.setAttribute('aria-hidden','false');
-    document.body.style.overflow='hidden';
+  function splitFoods(value){
+    if(Array.isArray(value)){
+      return uniqueFoods(value.flatMap(splitFoods));
+    }
+    return String(value || '')
+      .split(/[,;\n]+/)
+      .map(x => clean(x,80))
+      .filter(Boolean);
   }
 
-  function closeAccountRequired(){
-    overlay.classList.remove('show');
-    overlay.setAttribute('aria-hidden','true');
-    document.body.style.overflow='';
+  function uniqueFoods(values){
+    const result=[];
+    const seen=new Set();
+    (Array.isArray(values) ? values : []).forEach(value=>{
+      const item=clean(value,80);
+      if(!item) return;
+      const key=item.toLowerCase();
+      if(!seen.has(key)){
+        seen.add(key);
+        result.push(item);
+      }
+    });
+    return result.slice(0,40);
   }
 
-  $('accountClose').addEventListener('click',closeAccountRequired);
-  overlay.addEventListener('click',e=>{if(e.target===overlay) closeAccountRequired();});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape') closeAccountRequired();});
+  /*
+   * Normalize every Cooking Profile shape used by the project.
+   * The current Cooking Profile saves:
+   * peopleCount, mealsPerDay, budgetLevel, gasGoal,
+   * commonFoods, customFoods, cookingTimePerMeal,
+   * foodBudget, budgetPeriod, cookingGoal, foodsToAvoid, userId.
+   */
+  function normalizeCookingProfile(raw){
+    if(!raw || typeof raw !== 'object') return null;
+
+    const source =
+      raw.profile && typeof raw.profile === 'object'
+        ? raw.profile
+        : raw;
+
+    const commonFoods = uniqueFoods([
+      ...splitFoods(source.commonFoods),
+      ...splitFoods(source.foods),
+      ...splitFoods(source.foodsOftenEaten),
+      ...splitFoods(source.commonFoodsText)
+    ]);
+
+    const customFoods = uniqueFoods([
+      ...splitFoods(source.customFoods),
+      ...splitFoods(source.userAddedFoods)
+    ]);
+
+    const userId =
+      source.userId ||
+      source.uid ||
+      source.accountUid ||
+      null;
+
+    return {
+      ...source,
+      userId,
+      peopleCount:
+        source.peopleCount ?? source.people ?? source.householdSize ?? null,
+      mealsPerDay:
+        source.mealsPerDay ?? source.meals ?? null,
+      budgetLevel:
+        source.budgetLevel ?? source.budget ?? source.foodBudgetLevel ?? null,
+      gasGoal:
+        source.gasGoal ?? source.gasConservation ?? source.gas ?? null,
+      commonFoods,
+      customFoods,
+      cookingTimePerMeal:
+        source.cookingTimePerMeal ?? source.cookingDuration ?? source.duration ?? '',
+      foodBudget:
+        source.foodBudget ?? source.budgetAmount ?? null,
+      budgetPeriod:
+        source.budgetPeriod ?? source.period ?? '',
+      cookingGoal:
+        source.cookingGoal ?? source.goal ?? '',
+      foodsToAvoid:
+        source.foodsToAvoid ?? source.avoid ?? source.avoidFoodsText ?? ''
+    };
+  }
 
   function getCookingProfile(){
     try{
-      const raw=localStorage.getItem('cgtCookingProfile');
+      const raw=localStorage.getItem(PROFILE_KEY);
       if(!raw) return null;
-      const profile=JSON.parse(raw);
-      if(!profile || typeof profile!=='object') return null;
-      if(profile.userId && currentUser && profile.userId!==currentUser.uid) return null;
+
+      const parsed=JSON.parse(raw);
+      const profile=normalizeCookingProfile(parsed);
+      if(!profile) return null;
+
+      /*
+       * A profile without userId may have been saved before account binding.
+       * It remains usable on the same device. A profile with a userId is only
+       * used for that same signed-in account.
+       */
+      if(
+        profile.userId &&
+        currentUser &&
+        profile.userId !== currentUser.uid
+      ){
+        /*
+         * Keep account separation. If a profile is explicitly tied to a
+         * different UID, do not silently merge it into another account.
+         */
+        return null;
+      }
+
+      /* Legacy profiles saved before UID binding can still be used on this
+       * device and are upgraded to the current signed-in account on read. */
+      if(!profile.userId && currentUser){
+        profile.userId=currentUser.uid;
+        try{
+          localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));
+        }catch(e){}
+      }
+
       return profile;
-    }catch(e){
-      console.warn('Cooking Profile could not be loaded:',e);
+    }catch(error){
+      console.warn('Cooking Profile could not be loaded:',error);
       return null;
     }
   }
 
-  function splitFoods(value){
-    return String(value||'')
-      .split(/[\n,]+/)
-      .map(x=>clean(x,80))
-      .filter(Boolean)
-      .filter((item,index,arr)=>arr.findIndex(x=>x.toLowerCase()===item.toLowerCase())===index)
-      .slice(0,40);
+  function profileHasCoreData(profile){
+    if(!profile) return false;
+
+    const people=Number(profile.peopleCount);
+    const meals=Number(profile.mealsPerDay);
+    const foods=uniqueFoods([
+      ...profile.commonFoods,
+      ...profile.customFoods
+    ]);
+
+    return Number.isFinite(people) && people >= 1 &&
+           Number.isFinite(meals) && meals >= 1;
   }
 
   function formatBudget(profile){
-    const labels={low:'Limited budget',medium:'Moderate budget',high:'Flexible budget'};
-    const level=labels[profile?.budget]||'Not set';
-    if(profile?.budgetAmount){
-      return level+' • '+clean(profile.budgetAmount,40)+(profile?.budgetPeriod?' / '+clean(profile.budgetPeriod,20):'');
+    const labels={
+      limited:'Limited budget',
+      low:'Limited budget',
+      moderate:'Moderate budget',
+      medium:'Moderate budget',
+      flexible:'Flexible budget',
+      high:'Flexible budget'
+    };
+
+    const level=String(profile?.budgetLevel || '').toLowerCase();
+    let text=labels[level] || 'Not set';
+
+    if(profile?.foodBudget !== null && profile?.foodBudget !== undefined && profile?.foodBudget !== ''){
+      text += ' • ' + clean(profile.foodBudget,40);
+      if(profile?.budgetPeriod) text += ' / ' + clean(profile.budgetPeriod,20);
     }
-    return level;
+
+    return text;
   }
 
   function formatGoal(goal){
@@ -524,43 +640,83 @@ body.dark .account-signin{background:#2a2140;color:#decaff!important}
       'save-money':'Save money and gas',
       'convenience':'Convenience and simple cooking'
     };
-    return labels[goal]||'Not set';
+    return labels[goal] || clean(goal,60) || 'Not set';
+  }
+
+  function renderMissingProfile(){
+    currentProfile=null;
+
+    if(profileConnectedCard){
+      profileConnectedCard.style.display='block';
+      profileConnectedCard.innerHTML=`
+        <div class="profile-connected-top">
+          <div class="profile-connected-icon">👨‍🍳</div>
+          <div>
+            <div class="section-eyebrow">MY COOKING PROFILE</div>
+            <h3>${currentUser ? 'Your Cooking Profile has not been found' : 'Sign in to use your saved Cooking Profile'}</h3>
+            <p id="profileConnectedText">
+              ${currentUser
+                ? 'Make sure this is the same account you used when you saved your Cooking Profile. The Meal Planner reads that saved profile automatically.'
+                : 'Your saved Cooking Profile is an account feature. Sign in to the account that contains your profile, then return here and your saved details will load automatically.'}
+            </p>
+          </div>
+        </div>
+        <div class="no-profile-card" style="margin-top:14px;">
+          <p style="margin:0 0 10px;color:#657083;line-height:1.65;font-size:12px;">
+            ${currentUser
+              ? 'The Meal Planner does not ask you to fill out your cooking details again. It reads them directly from My Cooking Profile.'
+              : 'The Meal Planner does not ask you to fill out your cooking details again. Sign in first so it can read your saved Cooking Profile.'}
+          </p>
+          <a href="${currentUser ? 'cooking-profile.html' : 'login.html?returnTo=meal-planner.html'}">${currentUser ? 'Open My Cooking Profile →' : 'Sign In to Continue →'}</a>
+        </div>
+      `;
+    }
   }
 
   function renderProfileSummary(profile){
-    if(!profile){
-      peopleSummary.textContent='—';
-      mealsSummary.textContent='—';
-      budgetSummary.textContent='—';
-      goalSummary.textContent='—';
-      foodChips.innerHTML='<span class="food-summary-chip">No profile saved yet</span>';
-      avoidWrap.style.display='none';
-      profileConnectedText.textContent='Create and save your Cooking Profile first. Your saved profile will supply the details for your 7-day meal plan.';
-      return;
+    currentProfile=profile || null;
+
+    if(!profile || !profileHasCoreData(profile)){
+      renderMissingProfile();
+      return false;
     }
 
-    const people=Number(profile.people)||0;
-    const meals=Number(profile.meals)||0;
-    const foods=splitFoods(profile.foods);
+    profileConnectedCard.style.display='block';
 
-    peopleSummary.textContent=people ? (people+' person'+(people===1?'':'s')) : 'Not set';
-    mealsSummary.textContent=meals ? (meals+' meal'+(meals===1?'':'s')) : 'Not set';
-    budgetSummary.textContent=formatBudget(profile);
-    goalSummary.textContent=formatGoal(profile.goal);
+    const people=Number(profile.peopleCount);
+    const meals=Number(profile.mealsPerDay);
+    const foods=uniqueFoods([
+      ...profile.commonFoods,
+      ...profile.customFoods
+    ]);
+
+    peopleSummary.textContent =
+      people + ' person' + (people===1?'':'s');
+
+    mealsSummary.textContent =
+      meals + ' meal' + (meals===1?'':'s');
+
+    budgetSummary.textContent =
+      formatBudget(profile);
+
+    goalSummary.textContent =
+      formatGoal(profile.cookingGoal);
 
     foodChips.innerHTML='';
-    if(foods.length){
-      foods.forEach(food=>{
-        const chip=document.createElement('span');
-        chip.className='food-summary-chip';
-        chip.textContent=food;
-        foodChips.appendChild(chip);
-      });
-    }else{
-      foodChips.innerHTML='<span class="food-summary-chip">No foods entered in profile</span>';
+
+    foods.forEach(function(food){
+      const chip=document.createElement('span');
+      chip.className='food-summary-chip';
+      chip.textContent=food;
+      foodChips.appendChild(chip);
+    });
+
+    if(!foods.length){
+      foodChips.innerHTML='<span class="food-summary-chip">No foods entered</span>';
     }
 
-    const avoid=clean(profile.avoid,600);
+    const avoid=clean(profile.foodsToAvoid,600);
+
     if(avoid){
       avoidWrap.style.display='block';
       avoidText.textContent=avoid;
@@ -568,76 +724,98 @@ body.dark .account-signin{background:#2a2140;color:#decaff!important}
       avoidWrap.style.display='none';
     }
 
-    profileConnectedText.textContent='Your household size, meals per day, budget, cooking habits, foods and food preferences will be used automatically. You only need to tell us how you want the meals created.';
+    profileConnectedText.textContent =
+      'Your household size, meals per day, budget, cooking habits, foods and food preferences will be used automatically. You only need to tell us how you want the meals created.';
+
+    return true;
   }
 
   function loadSavedPlan(){
     if(!currentUser) return;
 
-    const profile=getCookingProfile();
-    renderProfileSummary(profile);
-
     try{
-      const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
-      if(!saved || (saved.userId && saved.userId!==currentUser.uid)) return;
+      const saved=JSON.parse(
+        localStorage.getItem(STORAGE_KEY) || 'null'
+      );
 
-      prefsEl.value=saved.preferences||'';
+      if(!saved) return;
+
+      if(
+        saved.userId &&
+        saved.userId !== currentUser.uid
+      ) return;
+
+      prefsEl.value=saved.preferences || '';
+
       if(saved.plan){
         renderPlan(saved.plan,saved);
       }
-    }catch(e){
-      console.warn('Meal Planner data could not be loaded:',e);
+    }catch(error){
+      console.warn('Meal Planner data could not be loaded:',error);
     }
-  }
-
-  function getProfileFoods(profile){
-    return splitFoods(profile?.foods||'');
   }
 
   function buildRequest(){
     const profile=getCookingProfile();
     const prefs=clean(prefsEl.value,1200);
 
-    if(!profile){
-      return {profile:null,prefs,prompt:''};
+    if(!profile || !profileHasCoreData(profile)){
+      return {
+        profile:null,
+        prefs,
+        prompt:''
+      };
     }
 
-    const people=Math.max(1,Number(profile.people)||1);
-    const meals=Math.max(1,Math.min(3,Number(profile.meals)||2));
-    const foods=getProfileFoods(profile);
+    const people=Math.max(
+      1,
+      Number(profile.peopleCount) || 1
+    );
 
-    const prompt=`Create a personalized 7-day meal plan using the user's saved Cooking Profile.
+    const meals=Math.max(
+      1,
+      Math.min(3,Number(profile.mealsPerDay) || 1)
+    );
 
-SAVED COOKING PROFILE
+    const profileFoods=uniqueFoods([
+      ...profile.commonFoods,
+      ...profile.customFoods
+    ]);
+
+    const prompt=`Create a personalized 7-day meal plan using the user's SAVED COOKING PROFILE.
+
+SAVED COOKING PROFILE:
 ${JSON.stringify(profile,null,2)}
 
-USER'S SAVED FOODS
-${foods.length ? foods.map(x=>'- '+x).join('\n') : '- No foods entered'}
+FOODS THE USER PERSONALLY ENTERED OR SELECTED:
+${profileFoods.map(x=>'- '+x).join('\n')}
 
-USER'S EXTRA MEAL-PLANNING INSTRUCTIONS
-${prefs || '- No extra instructions'}
+FOODS TO AVOID:
+${clean(profile.foodsToAvoid,600) || 'None stated'}
 
-IMPORTANT RULES:
-- The saved Cooking Profile is the foundation of the meal plan.
-- Use the household size and meals-per-day from the profile.
-- Respect the saved food budget.
-- Respect foods the user says they avoid, dislike or are uncomfortable eating.
-- Foods personally entered by the user in the Cooking Profile MUST be used in the 7-day plan whenever reasonably practical. Do not ignore them.
-- Do not replace the user's saved foods with unrelated foods simply to create variety.
-- Treat the user's extra instructions as hard constraints.
-- Do not introduce expensive or luxury ingredients when the user asks for affordable meals.
-- Keep meals practical, familiar and realistic for the user's household.
-- Consider the cooking habits, cooking duration and cooking goal in the profile.
-- Consider gas conservation when the profile's goal or the user's instructions call for it.
+USER'S EXTRA MEAL-PLANNING INSTRUCTIONS:
+${prefs || 'None. Use the saved Cooking Profile as the guide.'}
+
+MANDATORY RULES:
+- The saved Cooking Profile is the source of household size, meals per day, budget, cooking habits, cooking time, cooking goal, foods and foods to avoid.
+- The foods personally entered by the user in customFoods MUST be used in the 7-day plan whenever reasonably practical.
+- The user's commonFoods and customFoods together are the main food pool.
+- Do not ignore user-added foods.
+- Do not replace the user's foods with unrelated foods simply to create variety.
+- Never include a food explicitly listed under foodsToAvoid.
+- Follow the user's extra meal-planning instructions as hard constraints.
+- Do not introduce expensive or luxury ingredients when the profile or instructions call for affordable meals.
+- Keep meals familiar, practical and comfortable for the user.
+- Consider the user's cooking time, cooking habits and gas goal.
+- When gas saving is important, favor efficient cooking and practical batch preparation.
 - Do not invent exact food prices or promise exact gas consumption.
-- Produce exactly 7 days: Monday through Sunday.
+- Produce exactly 7 days, Monday through Sunday.
 - Produce exactly ${meals} meal items per day.
-- If a saved food is not practical for one meal, use it at another point in the week rather than silently dropping it.
 
-RETURN ONLY valid JSON in this structure:
+Return ONLY valid JSON:
 {
   "title":"Personalized 7-day meal plan",
-  "summary":"One short sentence explaining how the saved Cooking Profile and user's instructions were followed.",
+  "summary":"One short sentence explaining how the saved Cooking Profile and user instructions were respected.",
   "days":[
     {
       "name":"Monday",
@@ -646,70 +824,105 @@ RETURN ONLY valid JSON in this structure:
       ]
     }
   ]
-}
+}`;
 
-There must be exactly 7 day objects in order Monday through Sunday.
-There must be exactly ${meals} meal objects inside each day.`;
-
-    return {profile,prefs,prompt,people,meals,foods};
+    return {
+      profile,
+      prefs,
+      people,
+      meals,
+      profileFoods,
+      prompt
+    };
   }
 
   function parseJson(answer){
-    const text=String(answer||'').trim();
+    const text=String(answer || '').trim();
     const fenced=text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
-    if(fenced){try{return JSON.parse(fenced[1]);}catch(e){}}
+    if(fenced){ try{return JSON.parse(fenced[1]);}catch(e){} }
+
     try{return JSON.parse(text);}catch(e){}
-    const a=text.indexOf('{');
-    const b=text.lastIndexOf('}');
-    if(a>=0 && b>a){try{return JSON.parse(text.slice(a,b+1));}catch(e){}}
+
+    const first=text.indexOf('{');
+    const last=text.lastIndexOf('}');
+
+    if(first>=0 && last>first){
+      try{return JSON.parse(text.slice(first,last+1));}catch(e){}
+    }
+
     return null;
   }
 
   function validatePlan(data, requestedMeals){
-    if(!data || !Array.isArray(data.days) || data.days.length!==7) return null;
+    if(!data || !Array.isArray(data.days) || data.days.length!==7){
+      return null;
+    }
 
-    const days=data.days.map(day=>{
+    const days=data.days.map(function(day){
       if(!day) return null;
+
       const name=clean(day.name,40);
-      const meals=Array.isArray(day.meals) ? day.meals.slice(0,requestedMeals).map(meal=>{
-        if(!meal) return null;
-        const type=clean(meal.type,30);
-        const name=clean(meal.name,160);
-        if(!type||!name) return null;
-        return {type,name,note:clean(meal.note,220)};
-      }).filter(Boolean) : [];
+      const meals=Array.isArray(day.meals)
+        ? day.meals.slice(0,requestedMeals).map(function(meal){
+            if(!meal) return null;
+
+            const type=clean(meal.type,30);
+            const mealName=clean(meal.name,160);
+            const note=clean(meal.note,220);
+
+            if(!type || !mealName) return null;
+            return {type,name:mealName,note};
+          }).filter(Boolean)
+        : [];
+
       if(!name || meals.length!==requestedMeals) return null;
       return {name,meals};
     });
 
     if(days.some(x=>!x)) return null;
+
     return {
-      title:clean(data.title||'Personalized 7-day meal plan',120),
-      summary:clean(data.summary||'',400),
+      title:clean(data.title || 'Personalized 7-day meal plan',120),
+      summary:clean(data.summary || '',400),
       days
     };
   }
 
   function renderPlan(plan,state){
-    let html='<div class="budget-badge">🍲 Built from My Cooking Profile</div>';
+    let html='<div class="budget-badge">🍲 Built from your Cooking Profile</div>';
+
     html+='<h3>'+escapeHtml(plan.title)+'</h3>';
-    html+='<p class="plan-summary">'+escapeHtml(plan.summary || ('Built from your saved Cooking Profile.'))+'</p>';
+
+    html+='<p class="plan-summary">'+escapeHtml(
+      plan.summary || 'Built from your saved Cooking Profile and meal instructions.'
+    )+'</p>';
+
     html+='<div class="meal-days">';
 
-    plan.days.forEach(day=>{
+    plan.days.forEach(function(day){
       html+='<article class="meal-day"><h4>'+escapeHtml(day.name)+'</h4>';
-      day.meals.forEach(meal=>{
+
+      day.meals.forEach(function(meal){
         html+='<div class="meal-row">';
         html+='<strong>'+escapeHtml(meal.type)+'</strong>';
         html+='<span>'+escapeHtml(meal.name)+'</span>';
-        if(meal.note) html+='<div class="meal-meta">'+escapeHtml(meal.note)+'</div>';
+
+        if(meal.note){
+          html+='<div class="meal-meta">'+escapeHtml(meal.note)+'</div>';
+        }
+
         html+='</div>';
       });
+
       html+='</article>';
     });
 
     html+='</div>';
-    html+='<div class="planner-tip">💡 <strong>Your Cooking Profile is driving this plan.</strong> The planner used the foods you entered in your profile, your household details and your saved preferences, together with any instructions you added above.</div>';
+
+    html+=`<div class="planner-tip">
+      💡 <strong>Personalized plan:</strong> This timetable was created from your saved Cooking Profile. Your own foods, budget, cooking preferences and foods to avoid were included in the request.
+    </div>`;
+
     resultEl.innerHTML=html;
     resultEl.classList.add('show');
   }
@@ -717,7 +930,9 @@ There must be exactly ${meals} meal objects inside each day.`;
   function setLoading(isLoading){
     createBtn.disabled=isLoading;
     resetBtn.disabled=isLoading;
-    createBtn.textContent=isLoading?'⏳ Creating your plan...':'🍲 Create my 7-day plan';
+    createBtn.textContent=isLoading
+      ? '⏳ Creating your plan...'
+      : '🍲 Create my 7-day plan';
   }
 
   async function createPlan(){
@@ -729,101 +944,166 @@ There must be exactly ${meals} meal objects inside each day.`;
     const state=buildRequest();
 
     if(!state.profile){
-      resultEl.innerHTML='<div class="error-box">Please create and save your Cooking Profile first. Your 7-day meal plan is built from that profile.</div>';
-      resultEl.classList.add('show');
-      return;
-    }
-
-    if(!getProfileFoods(state.profile).length){
-      resultEl.innerHTML='<div class="error-box">Your Cooking Profile does not have any foods entered yet. Please add the foods you normally eat in My Cooking Profile, save it, and then return here.</div>';
-      resultEl.classList.add('show');
+      renderProfileSummary(null);
+      resultEl.classList.remove('show');
+      resultEl.innerHTML='';
       return;
     }
 
     setLoading(true);
+
     resultEl.classList.add('show');
-    resultEl.innerHTML='<div class="loading-box">🍲 <strong>Creating your personalized plan...</strong><br>We are using your saved Cooking Profile and the instructions you gave us.</div>';
-    resultEl.scrollIntoView({behavior:'smooth',block:'start'});
+    resultEl.innerHTML=
+      '<div class="loading-box">🍲 <strong>Creating your personalized plan...</strong><br>Using your saved Cooking Profile and the instructions you gave us.</div>';
 
     try{
-      const response=await fetch(ENDPOINT,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          question:state.prompt,
-          profile:{
-            cookingProfile:state.profile,
-            householdSize:state.people,
-            mealsPerDay:state.meals,
-            foodsFromCookingProfile:state.foods,
-            specialInstructions:state.prefs
-          },
-          language:'English'
-        })
-      });
+      const response=await fetch(
+        ENDPOINT,
+        {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({
+            question:state.prompt,
+            profile:{
+              cookingProfile:state.profile,
+              savedFoods:state.profileFoods,
+              customFoods:[...state.profile.customFoods],
+              specialInstructions:state.prefs,
+              householdSize:state.people,
+              mealsPerDay:state.meals,
+              foodBudgetLevel:state.profile.budgetLevel,
+              foodBudget:state.profile.foodBudget,
+              budgetPeriod:state.profile.budgetPeriod,
+              gasGoal:state.profile.gasGoal,
+              cookingTimePerMeal:state.profile.cookingTimePerMeal,
+              cookingGoal:state.profile.cookingGoal,
+              foodsToAvoid:state.profile.foodsToAvoid
+            },
+            language:'English'
+          })
+        }
+      );
 
       const data=await response.json().catch(()=>({}));
+
       if(!response.ok || !data.answer){
-        throw new Error(data.error || 'The meal planner could not create your plan.');
+        throw new Error(
+          data.error || 'The meal planner could not create your plan.'
+        );
       }
 
-      const plan=validatePlan(parseJson(data.answer),state.meals);
+      const plan=validatePlan(
+        parseJson(data.answer),
+        state.meals
+      );
+
       if(!plan){
-        throw new Error('The AI returned an invalid meal plan. Please try again.');
+        throw new Error(
+          'The AI returned an invalid meal plan. Please try again.'
+        );
       }
 
       renderPlan(plan,state);
 
-      localStorage.setItem(STORAGE_KEY,JSON.stringify({
-        userId:currentUser.uid,
-        profile:state.profile,
-        foods:state.foods,
-        preferences:state.prefs,
-        plan,
-        createdAt:new Date().toISOString()
-      }));
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          userId:currentUser.uid,
+          preferences:state.prefs,
+          profileSnapshot:state.profile,
+          foods:state.profileFoods,
+          customFoods:state.profile.customFoods,
+          plan,
+          createdAt:new Date().toISOString()
+        })
+      );
 
     }catch(error){
       console.error('Meal Planner error:',error);
-      resultEl.innerHTML='<div class="error-box">The personalized planner could not create a plan right now. Please try again. Your Cooking Profile and instructions are still saved.</div>';
+
+      resultEl.innerHTML=
+        '<div class="error-box">The personalized meal planner could not create a plan right now. Please try again. Your Cooking Profile is safe.</div>';
+
       resultEl.classList.add('show');
+
     }finally{
       setLoading(false);
     }
   }
 
   function resetPlanner(){
+    /* Only reset Meal Planner instructions and generated plan. */
     prefsEl.value='';
     resultEl.innerHTML='';
     resultEl.classList.remove('show');
-    localStorage.removeItem(STORAGE_KEY);
+
+    try{
+      localStorage.removeItem(STORAGE_KEY);
+    }catch(e){}
   }
+
+  function showAccountRequired(){
+    if(!overlay){
+      window.location.href='login.html?returnTo=meal-planner.html';
+      return;
+    }
+
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+
+  function closeAccountRequired(){
+    if(!overlay) return;
+    overlay.classList.remove('show');
+    overlay.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+
+  $('accountClose')?.addEventListener('click',closeAccountRequired);
+
+  overlay?.addEventListener('click',function(event){
+    if(event.target===overlay) closeAccountRequired();
+  });
+
+  document.addEventListener('keydown',function(event){
+    if(event.key==='Escape') closeAccountRequired();
+  });
 
   createBtn.addEventListener('click',createPlan);
   resetBtn.addEventListener('click',resetPlanner);
 
-  /* Theme */
   const themeBtn=$('themeToggle');
+
   function applyTheme(){
     const dark=localStorage.getItem('cgtTheme')==='dark';
     document.body.classList.toggle('dark',dark);
     themeBtn.textContent=dark?'☀️':'🌙';
   }
-  themeBtn.addEventListener('click',()=>{
+
+  themeBtn.addEventListener('click',function(){
     const dark=!document.body.classList.contains('dark');
     localStorage.setItem('cgtTheme',dark?'dark':'light');
     applyTheme();
   });
+
   applyTheme();
 
-  auth.onAuthStateChanged(user=>{
-    currentUser=user||null;
-    if(currentUser){
-      loadSavedPlan();
-    }else{
-      renderProfileSummary(null);
+  auth.onAuthStateChanged(function(user){
+    currentUser=user || null;
+
+    if(!currentUser){
+      currentProfile=null;
+      renderMissingProfile();
+      resultEl.classList.remove('show');
+      return;
     }
+
+    const profile=getCookingProfile();
+    renderProfileSummary(profile);
+    loadSavedPlan();
   });
+
 })();
 </script>
 
